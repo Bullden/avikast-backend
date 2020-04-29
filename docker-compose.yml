@@ -1,0 +1,32 @@
+version: '3.7'
+services:
+  db:
+    image: postgres:12.1
+    networks:
+      backend:
+        aliases:
+          - db-testing
+    ports:
+      - 5432:5432
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: Avikast
+  backend:
+    image: avikast-backend
+    build: .
+    networks:
+      - backend
+    depends_on:
+      - db
+    ports:
+      - 3080:3080
+      - 3443:3443
+    environment:
+      NODE_ENV: testing
+volumes:
+  db:
+networks:
+  backend:

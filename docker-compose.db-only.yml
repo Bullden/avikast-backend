@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres:12.1
+    ports:
+      - 5432:5432
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: Avikast
+volumes:
+  db:
