@@ -17,7 +17,7 @@ build:
   variables:
     CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:$CI_BUILD_TAG
   only:
-    - /^(\w+\.\w+)-(sprint\d+)(?>-((?>dev|fix|hotfix)\d+))?$/i
+    - /^(\w+.\w+\.\w+)-(sprint\d+)(?>-((?>dev|fix|hotfix)\d+))?$/i
   services:
     - docker:19.03.8-dind
   before_script:
