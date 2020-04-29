@@ -8,7 +8,7 @@ compile:
     paths:
       - node_modules/
   script:
-    - yarn install
+    - yarn install --frozen-lock
     - yarn compile
     - yarn lint
 build:
@@ -19,7 +19,7 @@ build:
     CONTAINER_CACHE_BUILD_IMAGE: $CI_REGISTRY_IMAGE/cache:build
     CONTAINER_CACHE_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/cache:release
   only:
-    - /^(\w+\.\w+)-(sprint\d+)(?>-((?>dev|fix|hotfix)\d+))?$/i
+    - /^(\w+.\w+\.\w+)-(sprint\d+)(?>-((?>dev|fix|hotfix)\d+))?$/i
   services:
     - docker:19.03.8-dind
   before_script:
