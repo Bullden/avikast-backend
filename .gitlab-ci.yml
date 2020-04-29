@@ -16,12 +16,19 @@ build:
   stage: build
   variables:
     CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:$CI_BUILD_TAG
+    CONTAINER_CACHE_BUILD_IMAGE: $CI_REGISTRY_IMAGE/cache:build
+    CONTAINER_CACHE_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/cache:release
   only:
-    - /^(\w+.\w+\.\w+)-(sprint\d+)(?>-((?>dev|fix|hotfix)\d+))?$/i
+    - /^(\w+\.\w+)-(sprint\d+)(?>-((?>dev|fix|hotfix)\d+))?$/i
   services:
     - docker:19.03.8-dind
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker pull $CONTAINER_CACHE_BUILD_IMAGE || true
+    - docker pull $CONTAINER_CACHE_RELEASE_IMAGE || true
   script:
-    - docker build ./ -t $CONTAINER_RELEASE_IMAGE
+    - docker build --target build --cache-from $CONTAINER_CACHE_BUILD_IMAGE --tag $CONTAINER_CACHE_BUILD_IMAGE .
+    - docker push $CONTAINER_CACHE_BUILD_IMAGE
+    - docker build --cache-from $CONTAINER_CACHE_RELEASE_IMAGE --cache-from $CONTAINER_CACHE_BUILD_IMAGE --tag $CONTAINER_RELEASE_IMAGE --tag $CONTAINER_CACHE_RELEASE_IMAGE .
+    - docker push $CONTAINER_CACHE_RELEASE_IMAGE
     - docker push $CONTAINER_RELEASE_IMAGE

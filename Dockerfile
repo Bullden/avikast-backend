@@ -12,10 +12,5 @@ COPY package.json yarn.lock ./
 RUN yarn install --prod
 COPY --from=build /app/dist dist
 COPY resources resources
-COPY certificates certificates
-COPY config/gcloud config/gcloud
-COPY config/firebase config/firebase
-COPY email email
-ENV GOOGLE_APPLICATION_CREDENTIALS=./config/gcloud/application_default_credentials.json
-COPY .env .env.development .env.prod .env.staging .env.testing ./
+COPY .env* ./
 CMD ["yarn", "start:prod"]
