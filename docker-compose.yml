@@ -1,19 +1,19 @@
 version: '3.7'
 services:
   db:
-    image: postgres:12.1
+    image: mongo
     networks:
       backend:
         aliases:
           - db-testing
     ports:
-      - 5432:5432
+      - 8081:8081
     volumes:
-      - db:/var/lib/postgresql/data
+      - db:/my/own/datadir:/data/db
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin
-      POSTGRES_DB: Avikast
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      ME_CONFIG_MONGODB_SERVER: avikast
   backend:
     image: avikast-backend
     build: .
@@ -25,7 +25,9 @@ services:
       - 3080:3080
       - 3443:3443
     environment:
-      NODE_ENV: testing
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      ME_CONFIG_MONGODB_SERVER: avikast
 volumes:
   db:
 networks:
