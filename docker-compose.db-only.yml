@@ -4,12 +4,11 @@ services:
   db:
     image: mongo
     ports:
-      - 5432:5432
+      - 27017:27017
     volumes:
       - db:/data/db
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-      ME_CONFIG_MONGODB_SERVER: avikast
+      MONGO_INITDB_ROOT_USERNAME: avikast
+      MONGO_INITDB_ROOT_PASSWORD: admin
 volumes:
   db:
