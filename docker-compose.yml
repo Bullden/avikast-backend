@@ -7,13 +7,12 @@ services:
         aliases:
           - db-testing
     ports:
-      - 27017
+      - 27017:27017
     volumes:
-      - db:/my/own/datadir:/data/db
+      - db:/data/db
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-      ME_CONFIG_MONGODB_SERVER: avikast
+      MONGO_INITDB_ROOT_USERNAME: avikast
+      MONGO_INITDB_ROOT_PASSWORD: admin
   backend:
     image: avikast-backend
     build: .
