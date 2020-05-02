@@ -26,7 +26,6 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
-      ME_CONFIG_MONGODB_SERVER: avikast
 volumes:
   db:
 networks:
