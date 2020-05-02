@@ -8,7 +8,7 @@ const entities: never[] = [
 ];
 
 const options = (configService: IConfigService): TypeOrmModuleOptions => ({
-  type: 'postgres',
+  type: 'mongodb',
   host: configService.get('DATABASE_HOST'),
   port: configService.getNumber('DATABASE_PORT'),
   username: configService.get('DATABASE_USERNAME'),
