@@ -5,9 +5,7 @@ import GQLAdditionalUserInfo from './user/AdditionalUserInfo';
 import Account from '../../entities/Account';
 import GQLAccount from './account/Account';
 import Preferences from 'entities/Preferences';
-import Client from '../../entities/Client';
-import GQLClient from 'graphql/entities/user/Client';
-import ErrorHandler from '../../ErrorHandler';
+import AvikastError from '../../AvikastError';
 
 export const mapAdditionalUserInfoToGQL = (
   additionalInfo: AdditionalUserInfo,
@@ -21,7 +19,7 @@ export const mapUserToGQL = (
 ): GQLUser => {
   const additionalInfo = user.additionalUserInfo;
   if (addAdditionalInfo && !additionalInfo)
-    throw new ErrorHandler('Additional info should be provided');
+    throw new AvikastError('Additional info should be provided');
   return {
     id: user.id,
     name: user.name,
@@ -42,11 +40,3 @@ export const mapAccountToGQL = (account: Account): GQLAccount => ({
   info: mapAdditionalUserInfoToGQL(account.info),
   preferences: mapPreferencesToGQL(account.preferences),
 });
-
-export const mapClientToGQL = (client: Client): GQLClient => ({
-  id: client.id,
-  user: mapUserToGQL(client.user, true),
-});
-
-export const mapClientsToGQL = (clients: Client[]): GQLClient[] =>
-  clients.map(mapClientToGQL);

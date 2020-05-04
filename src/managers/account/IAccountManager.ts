@@ -12,9 +12,4 @@ export default abstract class IAccountManager {
       email: string;
     },
   ): Promise<Account>;
-
-  abstract updateAccountPreferences(
-    userId: string,
-    allowNotifications: boolean,
-  ): Promise<Account>;
 }

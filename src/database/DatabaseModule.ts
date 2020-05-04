@@ -3,11 +3,6 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import IConfigService from 'services/config/IConfigService';
 import { ConfigModule } from 'services/config/ConfigModule';
 
-// todo: remove type from variable
-const entities: never[] = [
-  //
-];
-
 const options = (configService: IConfigService): TypeOrmModuleOptions => ({
   type: 'mongodb',
   host: configService.get('DATABASE_HOST'),
@@ -18,7 +13,6 @@ const options = (configService: IConfigService): TypeOrmModuleOptions => ({
   synchronize: configService.getBoolean('DATABASE_SYNCHRONIZE', false),
   logging: 'all',
   useUnifiedTopology: true,
-  entities,
 });
 
 @Module({
@@ -29,7 +23,7 @@ const options = (configService: IConfigService): TypeOrmModuleOptions => ({
       inject: [IConfigService],
       useFactory: options,
     }),
-    TypeOrmModule.forFeature(entities),
+    TypeOrmModule.forFeature(),
   ],
   exports: [
     //

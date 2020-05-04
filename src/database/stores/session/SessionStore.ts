@@ -2,7 +2,7 @@ import ISessionStore from './ISessionStore';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, IsNull, Not, Repository } from 'typeorm';
 import Session from '../../entities/Session';
-import ErrorHandler from 'ErrorHandler';
+import AvikastError from 'AvikastError';
 import { ID } from 'entities/Common';
 import { FindConditions } from 'typeorm/find-options/FindConditions';
 
@@ -36,7 +36,7 @@ export default class SessionStore extends ISessionStore {
 
   async getSessionOrFail(sessionId: ID) {
     const session = await this.getSession({ id: sessionId });
-    if (!session) throw new ErrorHandler('Session not exists');
+    if (!session) throw new AvikastError('Session not exists');
     return session;
   }
 
@@ -51,7 +51,7 @@ export default class SessionStore extends ISessionStore {
 
   async getSessionByTokenOrThrow(token: string) {
     const session = await this.getSessionByToken(token);
-    if (!session) throw new ErrorHandler('Session not found');
+    if (!session) throw new AvikastError('Session not found');
     return session;
   }
 

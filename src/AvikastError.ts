@@ -1,4 +1,4 @@
-export enum AuthErrorType {
+export enum AvikastErrorType {
   TokenExpired,
   AuthFailed,
   RefreshFailed,
@@ -7,7 +7,7 @@ export enum AuthErrorType {
   JwtPayloadMalformed,
 }
 
-export default class ErrorHandler extends Error {
+export default class AvikastError extends Error {
   constructor(public readonly message: string) {
     super(message);
   }

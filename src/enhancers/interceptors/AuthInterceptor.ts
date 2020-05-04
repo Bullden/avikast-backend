@@ -12,7 +12,7 @@ import {
   getRequest,
 } from '../RequestExtractors';
 import Session from '../../entities/Session';
-import ErrorHandler from 'ErrorHandler';
+import AvikastError from 'AvikastError';
 import AppType from 'entities/AppType';
 import { processError } from '../utils/ErrorUtils';
 import { IgnoreElement, Role } from 'entities/Common';
@@ -58,10 +58,10 @@ export class AuthInterceptor implements NestInterceptor {
 
       if (session) {
         if (!ignoreAppType && (!appType || session.appType !== appType)) {
-          throw new ErrorHandler('appType malformed');
+          throw new AvikastError('appType malformed');
         }
         if (!ignorePlatform && (!platform || session.platform !== platform)) {
-          throw new ErrorHandler('platform malformed');
+          throw new AvikastError('platform malformed');
         }
       }
 
@@ -101,11 +101,11 @@ export class AuthInterceptor implements NestInterceptor {
   private static extractAppTypeFromContext(context: ExecutionContext): AppType {
     const app = extractAppFromContext(context);
     if (!app) {
-      throw new ErrorHandler('app header is not provided');
+      throw new AvikastError('app header is not provided');
     }
     const appType = AppType[app as AppType];
     if (!appType) {
-      throw new ErrorHandler('app header contains unknown value');
+      throw new AvikastError('app header contains unknown value');
     }
     return appType;
   }
@@ -115,11 +115,11 @@ export class AuthInterceptor implements NestInterceptor {
   ): Platform {
     const platformHeader = extractPlatformHeaderFromContext(context);
     if (!platformHeader) {
-      throw new ErrorHandler('platform header is not provided');
+      throw new AvikastError('platform header is not provided');
     }
     const platform = Platform[platformHeader as Platform];
     if (!platform) {
-      throw new ErrorHandler('platform header contains unknown value');
+      throw new AvikastError('platform header contains unknown value');
     }
     return platform;
   }
@@ -150,7 +150,7 @@ export class AuthInterceptor implements NestInterceptor {
 
   static checkRoles(appType: AppType, roles: Role[]) {
     if (!roles.includes(appType)) {
-      throw new ErrorHandler(
+      throw new AvikastError(
         `Execution of this method denied for the role '${appType}'`,
       );
     }
