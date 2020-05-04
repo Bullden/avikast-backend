@@ -1,4 +1,4 @@
-import * as morgan from 'morgan';
+import morgan from 'morgan';
 
 export const httpLogger = () => {
   return morgan
