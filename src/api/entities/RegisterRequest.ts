@@ -1,11 +1,9 @@
-import { IsDate, IsNotEmpty, IsString } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export default class RegisterRequest {
-  constructor(name: string, email: string, birthday: Date, password: string) {
+  constructor(name: string, email: string, password: string) {
     this.name = name;
     this.email = email;
-    this.birthday = birthday;
     this.password = password;
   }
 
@@ -15,11 +13,6 @@ export default class RegisterRequest {
 
   @IsNotEmpty()
   email: string;
-
-  @IsNotEmpty()
-  @Type(() => Date)
-  @IsDate()
-  birthday: Date;
 
   @IsNotEmpty()
   @IsString()

@@ -2,8 +2,10 @@ import { Module } from '@nestjs/common';
 import { DatabaseModule } from '../DatabaseModule';
 import ILoginStore from './login/ILoginStore';
 import LoginStore from './login/LoginStore';
-import ISessionStore from './session/ISessionStore';
-import SessionStore from './session/SessionStore';
+import ISessionStore from 'database/stores/session/ISessionStore';
+import SessionStore from 'database/stores/session/SessionStore';
+import IUserStore from './user/IUserStore';
+import UserStore from './user/UserStore';
 
 @Module({
   imports: [
@@ -19,7 +21,11 @@ import SessionStore from './session/SessionStore';
       provide: ILoginStore,
       useClass: LoginStore,
     },
+    {
+      provide: IUserStore,
+      useClass: UserStore,
+    },
   ],
-  exports: [ISessionStore, ILoginStore],
+  exports: [ISessionStore, ILoginStore, IUserStore],
 })
 export class StoresModule {}

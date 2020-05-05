@@ -6,12 +6,10 @@ export default class User {
   constructor(
     id: string,
     name: string,
-    birthday: Date,
     additionalUserInfo: AdditionalUserInfo | undefined,
   ) {
     this.id = id;
     this.name = name;
-    this.birthday = birthday;
     this.additionalUserInfo = additionalUserInfo;
   }
 
@@ -19,8 +17,6 @@ export default class User {
 
   @IsString()
   name: string;
-
-  birthday: Date;
 
   additionalUserInfo: AdditionalUserInfo | undefined;
 }

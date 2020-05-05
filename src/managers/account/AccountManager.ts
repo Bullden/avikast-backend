@@ -18,7 +18,6 @@ export default class AccountManager implements IAccountManager {
     myUserId: string,
     user: {
       name: string;
-      birthday: Date;
       email: string;
     },
   ) {

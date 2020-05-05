@@ -31,7 +31,6 @@ export class AuthController {
         request.email,
         request.password,
         request.name,
-        request.birthday,
       ),
     );
   }

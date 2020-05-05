@@ -13,7 +13,6 @@ export default abstract class IUserStore {
     userId: ID,
     data: {
       name: string;
-      birthday: Date;
       email: string;
     },
   ): Promise<void>;

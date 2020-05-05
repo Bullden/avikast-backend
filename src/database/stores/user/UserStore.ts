@@ -40,7 +40,6 @@ export default class UserStore implements IUserStore {
     userId: string,
     data: {
       name: string;
-      birthday: Date;
       email: string;
       phoneNumber: string;
       allowNotifications: boolean;

@@ -5,6 +5,8 @@ import Session from '../../entities/Session';
 import AvikastError from 'AvikastError';
 import { ID } from 'entities/Common';
 import { FindConditions } from 'typeorm/find-options/FindConditions';
+import AppType from 'entities/AppType';
+import { Platform } from 'entities/Platform';
 
 export default class SessionStore extends ISessionStore {
   constructor(
@@ -18,11 +20,15 @@ export default class SessionStore extends ISessionStore {
     user: { id: string },
     token: string,
     refreshToken: string,
+    appType: AppType,
+    platform: Platform,
   ) {
     const session = await this.repository.create({
       user,
       refreshToken,
       token,
+      appType,
+      platform,
     });
     await this.repository.insert(session);
     return session;

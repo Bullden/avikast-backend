@@ -19,7 +19,6 @@ export const mapUserFromDb = (
 ): User => ({
   id: user.id,
   name: user.name,
-  birthday: user.birthday,
   additionalUserInfo: addAdditionalInfo
     ? mapAdditionalUserInfoFromDb(user)
     : undefined,

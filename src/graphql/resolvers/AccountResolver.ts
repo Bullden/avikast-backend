@@ -26,7 +26,6 @@ export class AccountResolver {
     return mapAccountToGQL(
       await this.accountManager.updateAccount(userId, {
         name: userInput.name,
-        birthday: userInput.birthday,
         email: userInput.email,
       }),
     );

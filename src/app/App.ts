@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { AppModule } from './AppModule';
 import express from 'express';
-import * as http from 'http';
+import http from 'http';
 import { getNodeEnv } from 'services/config/ConfigUtils';
 import { createConfigService } from 'services/config/ConfigServiceFactory';
 import { httpLogger } from './AppUtils';

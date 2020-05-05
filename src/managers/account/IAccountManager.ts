@@ -8,7 +8,6 @@ export default abstract class IAccountManager {
     myUserId: ID,
     data: {
       name: string;
-      birthday: Date;
       email: string;
     },
   ): Promise<Account>;

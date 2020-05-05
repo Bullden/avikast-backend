@@ -23,7 +23,6 @@ export const mapUserToGQL = (
   return {
     id: user.id,
     name: user.name,
-    birthday: user.birthday,
     additionalUserInfo:
       user.additionalUserInfo && addAdditionalInfo
         ? mapAdditionalUserInfoToGQL(user.additionalUserInfo)
