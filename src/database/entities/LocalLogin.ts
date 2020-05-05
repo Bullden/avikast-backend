@@ -3,7 +3,7 @@ import {
   Entity,
   JoinColumn,
   OneToOne,
-  PrimaryGeneratedColumn,
+  ObjectIdColumn,
   Unique,
 } from 'typeorm';
 import User from './User';
@@ -11,7 +11,7 @@ import User from './User';
 @Entity()
 @Unique((l: LocalLogin) => [l.email])
 export default class LocalLogin {
-  @PrimaryGeneratedColumn('uuid')
+  @ObjectIdColumn()
   id: string;
 
   constructor(id: string, user: User, email: string, passwordHash: string) {

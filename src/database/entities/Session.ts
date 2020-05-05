@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, ObjectIdColumn } from 'typeorm';
 import User from './User';
 import AppType from 'entities/AppType';
 import { Platform } from 'entities/Platform';
@@ -25,7 +25,7 @@ export default class Session {
     this.firebaseRegistrationId = firebaseRegistrationId;
   }
 
-  @PrimaryGeneratedColumn('uuid')
+  @ObjectIdColumn()
   id: string;
 
   @Column()
