@@ -128,7 +128,7 @@ export default class AuthManager extends IAuthManager {
     platform: Platform,
   ): Promise<AuthResponse> {
     switch (appType) {
-      case AppType.Web: {
+      case AppType.Client: {
         await this.userStore.createUserIfNotExists(user.id);
         break;
       }

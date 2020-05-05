@@ -1,5 +1,5 @@
 enum AppType {
-  Web = 'Web',
+  Client = 'Client',
 }
 
 export default AppType;
