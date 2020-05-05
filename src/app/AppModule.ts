@@ -1,11 +1,14 @@
 import { Module } from '@nestjs/common';
-import { DatabaseModule } from 'database/DatabaseModule';
-import { ApiModule } from '../api/ApiModule';
+
+import { GraphqlModule } from 'graphql/GraphqlModule';
+import { ManagerModule } from 'managers/ManagerModule';
+import { ApiModule } from 'api/ApiModule';
 @Module({
   imports: [
     //
-    DatabaseModule, // todo: remove this line
+    GraphqlModule,
     ApiModule,
+    ManagerModule,
   ],
 })
 export class AppModule {}

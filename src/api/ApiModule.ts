@@ -13,8 +13,8 @@ import { HealthController } from 'api/HealthController';
 @Module({
   imports: [
     //
-    ManagerModule,
     EnhancersModule,
+    ManagerModule,
     MulterModule.registerAsync({
       useFactory: () => ({
         storage: memoryStorage(),

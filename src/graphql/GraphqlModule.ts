@@ -15,10 +15,10 @@ import { RouterModule } from 'router/RouterModule';
       context: (context) => context,
       useGlobalPrefix: true,
     }),
-    StoresModule,
     ManagerModule,
     EnhancersModule,
     RouterModule,
+    StoresModule,
   ],
   providers: [
     {

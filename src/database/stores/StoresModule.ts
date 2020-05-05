@@ -14,16 +14,16 @@ import UserStore from './user/UserStore';
   ],
   providers: [
     {
-      provide: ISessionStore,
-      useClass: SessionStore,
+      provide: IUserStore,
+      useClass: UserStore,
     },
     {
       provide: ILoginStore,
       useClass: LoginStore,
     },
     {
-      provide: IUserStore,
-      useClass: UserStore,
+      provide: ISessionStore,
+      useClass: SessionStore,
     },
   ],
   exports: [ISessionStore, ILoginStore, IUserStore],
