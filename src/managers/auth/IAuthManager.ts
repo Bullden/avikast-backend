@@ -38,6 +38,4 @@ export default abstract class IAuthManager {
     token: string,
     registrationId: string,
   ): Promise<void>;
-
-  abstract checkAdminIsEnabled(userId: ID): Promise<void>;
 }

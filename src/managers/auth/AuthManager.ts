@@ -132,10 +132,6 @@ export default class AuthManager extends IAuthManager {
         await this.userStore.createUserIfNotExists(user.id);
         break;
       }
-      case AppType.Admin: {
-        await this.userStore.createAdminIfNotExists(user.id);
-        break;
-      }
     }
 
     return this.createSessionInfo(
@@ -302,13 +298,5 @@ export default class AuthManager extends IAuthManager {
   async updateFirebaseToken(token: string, registrationId: string) {
     const session = await this.sessionStore.getSessionByTokenOrThrow(token);
     await this.sessionStore.updateFirebaseToken(session, registrationId);
-  }
-
-  async checkAdminIsEnabled(userId: ID) {
-    const admin = await this.userStore.getAdminByUserId(userId);
-    if (!admin?.isEnabled)
-      throw new AvikastError(
-        'You do not have permissions to enter this window',
-      );
   }
 }

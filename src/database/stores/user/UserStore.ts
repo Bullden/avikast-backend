@@ -5,7 +5,6 @@ import IUserStore from './IUserStore';
 import User from '../../entities/User';
 import { ID } from 'entities/Common';
 import AvikastError from 'AvikastError';
-import Admin from 'database/entities/Admin';
 
 @Injectable()
 export default class UserStore implements IUserStore {
@@ -14,8 +13,6 @@ export default class UserStore implements IUserStore {
     private connection: Connection,
     @InjectRepository(User)
     private readonly repository: Repository<User>,
-    @InjectRepository(Admin)
-    private readonly adminRepository: Repository<Admin>,
   ) {}
 
   async getUser(userId: ID) {
@@ -63,43 +60,5 @@ export default class UserStore implements IUserStore {
       await this.repository.insert(newUser);
       return newUser;
     }
-  }
-
-  async createAdminIfNotExists(userId: ID) {
-    const user = { id: userId };
-    const admin = await this.adminRepository.findOne(
-      { user },
-      {
-        loadRelationIds: true,
-      },
-    );
-    if (admin) return admin;
-
-    {
-      const admin = this.adminRepository.create({ user });
-      await this.adminRepository.insert(admin);
-      return admin;
-    }
-  }
-
-  async getAdmins() {
-    return this.adminRepository.find({ relations: ['user'] });
-  }
-
-  async getEnabledAdmins() {
-    return this.adminRepository.find({
-      where: { isEnabled: true },
-      relations: ['user'],
-    });
-  }
-
-  async getAdminByUserId(userId: ID) {
-    const user = { id: userId };
-    return this.adminRepository.findOne(
-      { user },
-      {
-        loadRelationIds: true,
-      },
-    );
   }
 }

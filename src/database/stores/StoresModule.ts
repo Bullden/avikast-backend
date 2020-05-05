@@ -26,6 +26,11 @@ import UserStore from './user/UserStore';
       useClass: SessionStore,
     },
   ],
-  exports: [ISessionStore, ILoginStore, IUserStore],
+  exports: [
+    //
+    ISessionStore,
+    ILoginStore,
+    IUserStore,
+  ],
 })
 export class StoresModule {}

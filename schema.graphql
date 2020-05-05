@@ -1,0 +1,36 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AdditionalUserInfo {
+  email: String!
+}
+
+type User {
+  id: ID!
+  name: String!
+  additionalUserInfo: AdditionalUserInfo
+}
+
+type Preferences {
+  allowNotifications: Boolean!
+}
+
+type Account {
+  user: User!
+  info: AdditionalUserInfo!
+  preferences: Preferences!
+}
+
+type Query {
+  myAccount: Account!
+}
+
+type Mutation {
+  updateMyAccount(user: UserUpdateRequest!): Account!
+}
+
+input UserUpdateRequest {
+  name: String!
+  email: String!
+}

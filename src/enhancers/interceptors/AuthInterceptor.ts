@@ -88,10 +88,6 @@ export class AuthInterceptor implements NestInterceptor {
         injectRequestData(request);
       }
 
-      if (session && appType === AppType.Admin) {
-        await this.authManager.checkAdminIsEnabled(session.userId);
-      }
-
       return next.handle();
     } catch (e) {
       processError(e);

@@ -3,9 +3,6 @@ import DbUser from './User';
 import Account from '../../entities/Account';
 import AdditionalUserInfo from '../../entities/AdditionalUserInfo';
 import Preferences from '../../entities/Preferences';
-import DbAdmin from './Admin';
-import Admin from '../../entities/Admin';
-import AvikastError from '../../AvikastError';
 
 export const mapAdditionalUserInfoFromDb = (
   user: DbUser,
@@ -33,15 +30,3 @@ export const mapAccountFromDB = (account: DbUser): Account => ({
   info: mapAdditionalUserInfoFromDb(account),
   preferences: mapPreferencesFromDB(account),
 });
-
-export const mapAdminFromDb = (admin: DbAdmin): Admin => {
-  if (!admin.user) throw new AvikastError('Admin user data not exist');
-
-  return {
-    id: admin.id,
-    user: mapUserFromDb(admin.user),
-  };
-};
-
-export const mapAdminsFromDb = (admins: DbAdmin[]): Admin[] =>
-  admins.map(mapAdminFromDb);

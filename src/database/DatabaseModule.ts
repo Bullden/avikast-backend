@@ -6,14 +6,12 @@ import { ConfigModule } from 'services/config/ConfigModule';
 import LocalLogin from './entities/LocalLogin';
 import Session from './entities/Session';
 import User from './entities/User';
-import Admin from './entities/Admin';
 
-const entities = [
+const entities: any = [
   //
   User,
   LocalLogin,
   Session,
-  Admin,
 ];
 
 const options = (configService: IConfigService): TypeOrmModuleOptions => ({
@@ -23,10 +21,11 @@ const options = (configService: IConfigService): TypeOrmModuleOptions => ({
   username: configService.get('DATABASE_USERNAME'),
   password: configService.get('DATABASE_PASSWORD'),
   database: configService.get('DATABASE_NAME'),
-  synchronize: configService.getBoolean('DATABASE_SYNCHRONIZE', false),
+  // synchronize: configService.getBoolean('DATABASE_SYNCHRONIZE', false),
   logging: 'all',
   useUnifiedTopology: true,
   entities,
+  useNewUrlParser: true,
 });
 
 @Module({

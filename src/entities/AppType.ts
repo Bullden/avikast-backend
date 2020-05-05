@@ -1,5 +1,4 @@
 enum AppType {
-  Admin = 'Admin',
   Web = 'Web',
 }
 

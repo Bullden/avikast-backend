@@ -10,5 +10,6 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: avikast
       MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_DATABASE: avikast
 volumes:
   db:
