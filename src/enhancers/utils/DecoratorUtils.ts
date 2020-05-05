@@ -1,16 +1,12 @@
-import { createParamDecorator as nestCreateParamDecorator } from '@nestjs/common';
+import {
+  createParamDecorator as nestCreateParamDecorator,
+  ExecutionContext,
+} from '@nestjs/common';
 import { Request } from 'express';
-
-export const extractRequest = (request: any) => {
-  if (Array.isArray(request)) {
-    const [, , { req }] = request;
-    return req;
-  }
-  return request;
-};
+import { getRequest } from '../RequestExtractors';
 
 export const createParamDecorator = (func: (request: Request | any) => any) => {
-  return nestCreateParamDecorator((data, request) => {
-    return func(extractRequest(request));
+  return nestCreateParamDecorator((data, context: ExecutionContext) => {
+    return func(getRequest(context));
   });
 };
