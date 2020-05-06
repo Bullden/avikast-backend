@@ -2,6 +2,7 @@ import {Module} from '@nestjs/common';
 import {MongooseModule, MongooseModuleOptions} from '@nestjs/mongoose';
 import IConfigService from 'services/config/IConfigService';
 import {ConfigModule} from 'services/config/ConfigModule';
+import {userModelName, UserSchema} from './models/UserModel';
 
 const options = (configService: IConfigService): MongooseModuleOptions => {
   const host = configService.get('DATABASE_HOST');
@@ -27,6 +28,10 @@ const options = (configService: IConfigService): MongooseModuleOptions => {
       inject: [IConfigService],
       useFactory: options,
     }),
+    MongooseModule.forFeature([
+      //
+      {name: userModelName, schema: UserSchema},
+    ]),
   ],
   exports: [
     //

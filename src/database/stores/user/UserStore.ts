@@ -2,10 +2,13 @@ import {Injectable} from '@nestjs/common';
 import IUserStore from './IUserStore';
 import User from '../../entities/User';
 import {ID} from 'entities/Common';
+import {InjectModel} from '@nestjs/mongoose';
+import {Model} from 'mongoose';
+import UserModel, {userModelName} from '../../models/UserModel';
 
 @Injectable()
 export default class UserStore implements IUserStore {
-  constructor() {} // private readonly repository: Repository<User>, // @InjectRepository(User) // private connection: Connection, // @InjectConnection()
+  constructor(@InjectModel(userModelName) private catModel: Model<UserModel>) {}
 
   // @ts-ignore // todo: remove
   async getUser(userId: ID) {
