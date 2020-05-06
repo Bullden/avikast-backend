@@ -36,19 +36,21 @@ export default class AuthManager extends IAuthManager {
     email: string,
     password: string,
     name: string,
+    // @ts-ignore
   ): Promise<AuthResponse> {
-    if (await this.loginStore.findLocalLoginByEmail(email)) {
-      throw new AvikastError('User with the same email already exists');
-    }
+    // if (await this.loginStore.findLocalLoginByEmail(email)) {
+    //   throw new AvikastError('User with the same email already exists');
+    // }
 
     const user = await this.userStore.createUser({
       name,
       email,
       allowNotifications: true,
     });
-
-    const login = await this.createLocalLogin(user, email, password);
-    return this.createSession(login.user, appType, platform);
+    // @ts-ignore
+    console.log(user);
+    // const login = await this.createLocalLogin(user, email, password);
+    // return this.createSession(login.user, appType, platform);
   }
 
   async login(appType: AppType, platform: Platform, email: string, password: string) {

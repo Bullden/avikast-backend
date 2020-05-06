@@ -4,11 +4,11 @@ import User from '../../entities/User';
 import {ID} from 'entities/Common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model} from 'mongoose';
-import UserModel, {UserSchema} from '../../models/UserModel';
+import UserModel, {userModelName} from '../../models/UserModel';
 
 @Injectable()
 export default class UserStore implements IUserStore {
-  constructor(@InjectModel(UserSchema.name) private catModel: Model<UserModel>) {}
+  constructor(@InjectModel(userModelName) private userModel: Model<UserModel>) {}
 
   // @ts-ignore // todo: remove
   async getUser(userId: ID) {
@@ -28,10 +28,9 @@ export default class UserStore implements IUserStore {
 
   // @ts-ignore // todo: remove
   async createUser(user: Partial<User>) {
-    // const newUser = this.repository.create({...user});
-    // await this.repository.insert(newUser);
-    // return newUser;
-    throw new Error('Not implemented'); // todo: implement
+    const newUser = await this.userModel.create(user);
+    console.log(newUser);
+    return newUser.save();
   }
 
   // @ts-ignore // todo: remove
