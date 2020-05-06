@@ -47,10 +47,8 @@ export default class AuthManager extends IAuthManager {
       email,
       allowNotifications: true,
     });
-    // @ts-ignore
-    console.log(user);
-    // const login = await this.createLocalLogin(user, email, password);
-    // return this.createSession(login.user, appType, platform);
+    const login = await this.createLocalLogin(user, email, password);
+    return this.createSession(login.user, appType, platform);
   }
 
   async login(appType: AppType, platform: Platform, email: string, password: string) {

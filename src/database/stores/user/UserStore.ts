@@ -30,7 +30,6 @@ export default class UserStore implements IUserStore {
   // @ts-ignore // todo: remove
   async createUser(user: Partial<User>) {
     const newUser = await this.userModel.create(mapUserToModel(user));
-    console.log(newUser);
     return mapUserFromModel(await newUser.save());
   }
 
