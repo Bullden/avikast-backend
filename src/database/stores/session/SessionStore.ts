@@ -3,10 +3,15 @@ import Session from '../../entities/Session';
 import {ID} from 'entities/Common';
 import AppType from 'entities/AppType';
 import {Platform} from 'entities/Platform';
+import SessionModel, {SessionSchema} from '../../models/SessionModel';
+import {InjectModel} from '@nestjs/mongoose';
+import {Model} from 'mongoose';
+import AvikastError from '../../../AvikastError';
 
 export default class SessionStore extends ISessionStore {
-  constructor() {
-    // private readonly repository: Repository<Session>, // @InjectRepository(Session)
+  constructor(
+    @InjectModel(SessionSchema.name) private SessionModel: Model<SessionModel>,
+  ) {
     super();
   }
 
@@ -18,61 +23,53 @@ export default class SessionStore extends ISessionStore {
     appType: AppType,
     platform: Platform,
   ) {
-    // const session = await this.repository.create({
-    //   user,
-    //   refreshToken,
-    //   token,
-    //   appType,
-    //   platform,
-    // });
-    // await this.repository.insert(session);
-    // return session;
+    const newSession = await this.SessionModel.create({
+      user,
+      refreshToken,
+      token,
+      appType,
+      platform,
+    });
+    await newSession.save();
+    return newSession;
+
     throw new Error('Not implemented'); // todo: implement
   }
 
   // @ts-ignore // todo: remove
   async getSession(session: {id: string}) {
-    // return this.repository.findOne(session.id, {
-    //   relations: ['user'],
-    // });
+    return this.SessionModel.findOne({_id: session.id});
+
     throw new Error('Not implemented'); // todo: implement
   }
 
   // @ts-ignore // todo: remove
   async getSessionOrFail(sessionId: ID) {
-    // const session = await this.getSession({id: sessionId});
-    // if (!session) throw new AvikastError('Session not exists');
-    // return session;
-    throw new Error('Not implemented'); // todo: implement
+    const session = await this.SessionModel.findOne({_id: sessionId});
+    if (!session) throw new AvikastError('Session not exists');
+    return session;
   }
 
   // @ts-ignore // todo: remove
   async getSessionByToken(token: string) {
-    // return this.repository.findOne(
-    //   {token},
-    //   {
-    //     relations: ['user'],
-    //   },
-    // );
+    return this.SessionModel.findOne({token});
+
     throw new Error('Not implemented'); // todo: implement
   }
 
   // @ts-ignore // todo: remove
   async getSessionByTokenOrThrow(token: string) {
-    // const session = await this.getSessionByToken(token);
-    // if (!session) throw new AvikastError('Session not found');
-    // return session;
+    const session = this.SessionModel.findOne({token});
+    if (!session) throw new AvikastError('Session not found');
+    return session;
+
     throw new Error('Not implemented'); // todo: implement
   }
 
   // @ts-ignore // todo: remove
   async getSessionByRefreshToken(refreshToken: string) {
-    // return this.repository.findOne(
-    //   {refreshToken},
-    //   {
-    //     relations: ['user'],
-    //   },
-    // );
+    return this.SessionModel.findOne({refreshToken});
+
     throw new Error('Not implemented'); // todo: implement
   }
 
@@ -83,7 +80,9 @@ export default class SessionStore extends ISessionStore {
     refreshToken: string,
   ): Promise<Session> {
     // await this.repository.update(session.id, {token, refreshToken});
+    // await this.SessionModel.update(session.id, {token, refreshToken});
     // return this.getSessionOrFail(session.id);
+    //
     throw new Error('Not implemented'); // todo: implement
   }
 
@@ -92,6 +91,8 @@ export default class SessionStore extends ISessionStore {
     // await this.repository.update(session.id, {
     //   firebaseRegistrationId: registrationId,
     // });
+    // await this.SessionModel.update(session.id, {firebaseRegistrationId: registrationId});
+
     throw new Error('Not implemented'); // todo: implement
   }
 

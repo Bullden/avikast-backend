@@ -13,8 +13,8 @@ export const SessionSchema = createSchema('Session', {
 export default interface Session extends Document {
   token: string;
   refreshToken: string;
-  userId: String;
-  appType: String;
-  platform: String;
+  userId: string;
+  appType: string;
+  platform: string;
   firebaseRegistrationId?: string;
 }
