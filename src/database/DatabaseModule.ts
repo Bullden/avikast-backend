@@ -3,7 +3,8 @@ import {MongooseModule, MongooseModuleOptions} from '@nestjs/mongoose';
 import IConfigService from 'services/config/IConfigService';
 import {ConfigModule} from 'services/config/ConfigModule';
 import {UserSchema} from './models/UserModel';
-import {LocalLoginSchema} from './models/LoginLogin';
+import {LocalLoginSchema} from './models/LoginLoginModel';
+import {SessionSchema} from './models/SessionModel';
 
 const options = (configService: IConfigService): MongooseModuleOptions => {
   const host = configService.get('DATABASE_HOST');
@@ -33,6 +34,7 @@ const options = (configService: IConfigService): MongooseModuleOptions => {
       //
       UserSchema,
       LocalLoginSchema,
+      SessionSchema,
     ]),
   ],
   exports: [

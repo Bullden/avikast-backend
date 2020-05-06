@@ -5,6 +5,7 @@ import {ID} from 'entities/Common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model} from 'mongoose';
 import UserModel, {userModelName} from '../../models/UserModel';
+import {mapFromUserModel, mapToUserModel} from '../../models/Mappers';
 
 @Injectable()
 export default class UserStore implements IUserStore {
@@ -28,9 +29,9 @@ export default class UserStore implements IUserStore {
 
   // @ts-ignore // todo: remove
   async createUser(user: Partial<User>) {
-    const newUser = await this.userModel.create(user);
+    const newUser = await this.userModel.create(mapToUserModel(user));
     console.log(newUser);
-    return newUser.save();
+    return mapFromUserModel(await newUser.save());
   }
 
   // @ts-ignore // todo: remove
