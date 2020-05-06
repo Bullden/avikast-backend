@@ -10,6 +10,7 @@ export default class SessionStore extends ISessionStore {
     super();
   }
 
+  // @ts-ignore // todo: remove
   async createSession(
     user: {id: string},
     token: string,
@@ -29,6 +30,7 @@ export default class SessionStore extends ISessionStore {
     throw new Error('Not implemented'); // todo: implement
   }
 
+  // @ts-ignore // todo: remove
   async getSession(session: {id: string}) {
     // return this.repository.findOne(session.id, {
     //   relations: ['user'],
@@ -36,6 +38,7 @@ export default class SessionStore extends ISessionStore {
     throw new Error('Not implemented'); // todo: implement
   }
 
+  // @ts-ignore // todo: remove
   async getSessionOrFail(sessionId: ID) {
     // const session = await this.getSession({id: sessionId});
     // if (!session) throw new AvikastError('Session not exists');
@@ -43,6 +46,7 @@ export default class SessionStore extends ISessionStore {
     throw new Error('Not implemented'); // todo: implement
   }
 
+  // @ts-ignore // todo: remove
   async getSessionByToken(token: string) {
     // return this.repository.findOne(
     //   {token},
@@ -53,6 +57,7 @@ export default class SessionStore extends ISessionStore {
     throw new Error('Not implemented'); // todo: implement
   }
 
+  // @ts-ignore // todo: remove
   async getSessionByTokenOrThrow(token: string) {
     // const session = await this.getSessionByToken(token);
     // if (!session) throw new AvikastError('Session not found');
@@ -60,6 +65,7 @@ export default class SessionStore extends ISessionStore {
     throw new Error('Not implemented'); // todo: implement
   }
 
+  // @ts-ignore // todo: remove
   async getSessionByRefreshToken(refreshToken: string) {
     // return this.repository.findOne(
     //   {refreshToken},
@@ -70,6 +76,7 @@ export default class SessionStore extends ISessionStore {
     throw new Error('Not implemented'); // todo: implement
   }
 
+  // @ts-ignore // todo: remove
   async updateSession(
     session: {id: string},
     token: string,
@@ -80,6 +87,7 @@ export default class SessionStore extends ISessionStore {
     throw new Error('Not implemented'); // todo: implement
   }
 
+  // @ts-ignore // todo: remove
   async updateFirebaseToken(session: {id: string}, registrationId: string) {
     // await this.repository.update(session.id, {
     //   firebaseRegistrationId: registrationId,
@@ -87,6 +95,7 @@ export default class SessionStore extends ISessionStore {
     throw new Error('Not implemented'); // todo: implement
   }
 
+  // @ts-ignore // todo: remove
   async getUserFirebaseTokens(userId: ID): Promise<string[]> {
     // const where: FindConditions<Session> = {
     //   userId,
@@ -103,6 +112,7 @@ export default class SessionStore extends ISessionStore {
     throw new Error('Not implemented'); // todo: implement
   }
 
+  // @ts-ignore // todo: remove
   async getUsersFirebaseTokens(userIds: ID[]): Promise<string[]> {
     // const where: FindConditions<Session> = {
     //   userId: In(userIds),

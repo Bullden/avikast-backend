@@ -7,6 +7,7 @@ import {ID} from 'entities/Common';
 export default class UserStore implements IUserStore {
   constructor() {} // private readonly repository: Repository<User>, // @InjectRepository(User) // private connection: Connection, // @InjectConnection()
 
+  // @ts-ignore // todo: remove
   async getUser(userId: ID) {
     // return this.repository.findOneOrFail({
     //   where: {id: userId},
@@ -14,6 +15,7 @@ export default class UserStore implements IUserStore {
     throw new Error('Not implemented'); // todo: implement
   }
 
+  // @ts-ignore // todo: remove
   async getUserOrFail(userId: ID) {
     // const user = await this.getUser(userId);
     // if (!user) throw new AvikastError('User not found');
@@ -21,6 +23,7 @@ export default class UserStore implements IUserStore {
     throw new Error('Not implemented'); // todo: implement
   }
 
+  // @ts-ignore // todo: remove
   async createUser(user: Partial<User>) {
     // const newUser = this.repository.create({...user});
     // await this.repository.insert(newUser);
@@ -28,6 +31,7 @@ export default class UserStore implements IUserStore {
     throw new Error('Not implemented'); // todo: implement
   }
 
+  // @ts-ignore // todo: remove
   async updateUser(
     userId: string,
     data: {
@@ -41,6 +45,7 @@ export default class UserStore implements IUserStore {
     throw new Error('Not implemented'); // todo: implement
   }
 
+  // @ts-ignore // todo: remove
   async createUserIfNotExists(userId: string) {
     // const id = {id: userId};
     // if (!id) throw new AvikastError('error');

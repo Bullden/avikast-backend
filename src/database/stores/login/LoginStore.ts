@@ -4,10 +4,10 @@ import {ID} from 'entities/Common';
 
 export default class LoginStore extends ILoginStore {
   constructor() {
-    // private readonly repository: Repository<LocalLogin>, // @InjectRepository(LocalLogin)
     super();
   }
 
+  // @ts-ignore // todo: remove
   async createLocalLogin(user: User, email: string, passwordHash: string) {
     // const login = this.repository.create({
     //   user,
@@ -19,6 +19,7 @@ export default class LoginStore extends ILoginStore {
     throw new Error('Not implemented'); // todo: implement
   }
 
+  // @ts-ignore // todo: remove
   async getLocalLoginByEmail(email: string) {
     // return this.repository
     //   .createQueryBuilder('ll')
@@ -28,11 +29,13 @@ export default class LoginStore extends ILoginStore {
     throw new Error('Not implemented'); // todo: implement
   }
 
+  // @ts-ignore // todo: remove
   getLocalLoginByUser(user: {id: ID}) {
     // return this.repository.findOne({user: {id: user.id}}, {relations: ['user']});
     throw new Error('Not implemented'); // todo: implement
   }
 
+  // @ts-ignore // todo: remove
   async updateLocalLoginPassword(user: {id: string}, passwordHash: string) {
     // await this.repository.update(user.id, {
     //   passwordHash,
@@ -40,6 +43,7 @@ export default class LoginStore extends ILoginStore {
     throw new Error('Not implemented'); // todo: implement
   }
 
+  // @ts-ignore // todo: remove
   findLocalLoginByEmail(email: string) {
     // return this.repository.findOne({where: {email}});
     throw new Error('Not implemented'); // todo: implement
