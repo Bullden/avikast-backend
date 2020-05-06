@@ -1,16 +1,13 @@
-import * as mongoose from 'mongoose';
 import {Document} from 'mongoose';
+import {createSchema} from './Common';
 
-export const UserSchema = new mongoose.Schema({
+export const UserSchema = createSchema('user', {
   name: String,
-  age: Number,
-  breed: String,
+  email: String,
+  allowNotifications: Boolean,
 });
 
-export const userModelName = 'user';
-
 export default interface UserModel extends Document {
-  id: string;
   name: string;
   email: string;
   allowNotifications: boolean;
