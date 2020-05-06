@@ -3,25 +3,21 @@ import {MongooseModule, MongooseModuleOptions} from '@nestjs/mongoose';
 import IConfigService from 'services/config/IConfigService';
 import {ConfigModule} from 'services/config/ConfigModule';
 
-// const entities: any = [
-//   //
-//   User,
-//   LocalLogin,
-//   Session,
-// ];
+const options = (configService: IConfigService): MongooseModuleOptions => {
+  const host = configService.get('DATABASE_HOST');
+  const port = configService.getNumber('DATABASE_PORT');
+  const databaseName = configService.get('DATABASE_NAME');
 
-const options = (configService: IConfigService): MongooseModuleOptions => ({
-  type: 'mongodb',
-  host: configService.get('DATABASE_HOST'),
-  port: configService.getNumber('DATABASE_PORT'),
-  user: configService.get('DATABASE_USERNAME'),
-  pass: configService.get('DATABASE_PASSWORD'),
-  dbName: configService.get('DATABASE_NAME'),
-  // synchronize: configService.getBoolean('DATABASE_SYNCHRONIZE', false),
-  useUnifiedTopology: true,
-  // entities,
-  useNewUrlParser: true,
-});
+  const uri = `mongodb://${host}:${port}/${databaseName}`;
+
+  return {
+    uri,
+    user: configService.get('DATABASE_USERNAME'),
+    pass: configService.get('DATABASE_PASSWORD'),
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+  };
+};
 
 @Module({
   imports: [
