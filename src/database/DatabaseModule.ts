@@ -1,17 +1,14 @@
-import { Module } from '@nestjs/common';
-import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
+import {Module} from '@nestjs/common';
+import {MongooseModule, MongooseModuleOptions} from '@nestjs/mongoose';
 import IConfigService from 'services/config/IConfigService';
-import { ConfigModule } from 'services/config/ConfigModule';
-import LocalLogin from './entities/LocalLogin';
-import Session from './entities/Session';
-import User from './entities/User';
+import {ConfigModule} from 'services/config/ConfigModule';
 
-const entities: any = [
-  //
-  User,
-  LocalLogin,
-  Session,
-];
+// const entities: any = [
+//   //
+//   User,
+//   LocalLogin,
+//   Session,
+// ];
 
 const options = (configService: IConfigService): MongooseModuleOptions => ({
   type: 'mongodb',
@@ -22,7 +19,7 @@ const options = (configService: IConfigService): MongooseModuleOptions => ({
   dbName: configService.get('DATABASE_NAME'),
   // synchronize: configService.getBoolean('DATABASE_SYNCHRONIZE', false),
   useUnifiedTopology: true,
-  entities,
+  // entities,
   useNewUrlParser: true,
 });
 

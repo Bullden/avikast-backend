@@ -71,11 +71,6 @@
     "tsconfig-paths": "^3.9.0",
     "typescript": "^3.7.4"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsc -p ./tsconfig.json --noEmit && lint-staged"
-    }
-  },
   "lint-staged": {
     "*.{ts,tsx}": [
       "eslint"
