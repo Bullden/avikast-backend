@@ -8,7 +8,7 @@ import * as module from 'module';
 
 import ObjectId = module;
 
-export const LocalLoginSchema = createSchema('localLogin', {
+export const SessionSchema = createSchema('Session', {
   id: ObjectId,
   token: String,
   refreshToken: String,
@@ -19,7 +19,7 @@ export const LocalLoginSchema = createSchema('localLogin', {
   firebaseRegistrationId: String,
 });
 
-export default interface LocalLogin extends Document {
+export default interface Session extends Document {
   id: string;
   token: string;
   refreshToken: string;
