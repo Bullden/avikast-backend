@@ -6,34 +6,30 @@ import {InjectModel} from '@nestjs/mongoose';
 import {Model} from 'mongoose';
 import UserModel, {UserSchema} from '../../models/UserModel';
 import {mapUserFromModel, mapUserToModel} from '../../models/Mappers';
+import AvikastError from '../../../AvikastError';
 
 @Injectable()
 export default class UserStore implements IUserStore {
   constructor(@InjectModel(UserSchema.name) private userModel: Model<UserModel>) {}
 
-  // @ts-ignore // todo: remove
   async getUser(userId: ID) {
-    // return this.repository.findOneOrFail({
-    //   where: {id: userId},
-    // });
-    throw new Error('Not implemented'); // todo: implement
+    const user = await this.userModel.findOne({
+      where: {id: userId},
+    });
+    return user ? mapUserFromModel(user) : undefined;
   }
 
-  // @ts-ignore // todo: remove
   async getUserOrFail(userId: ID) {
-    // const user = await this.getUser(userId);
-    // if (!user) throw new AvikastError('User not found');
-    // return user;
-    throw new Error('Not implemented'); // todo: implement
+    const user = await this.getUser(userId);
+    if (!user) throw new AvikastError('User not found');
+    return user;
   }
 
-  // @ts-ignore // todo: remove
   async createUser(user: Partial<User>) {
     const newUser = await this.userModel.create(mapUserToModel(user));
     return mapUserFromModel(await newUser.save());
   }
 
-  // @ts-ignore // todo: remove
   async updateUser(
     userId: string,
     data: {
@@ -43,26 +39,6 @@ export default class UserStore implements IUserStore {
       allowNotifications: boolean;
     },
   ) {
-    // await this.repository.update(userId, data);
-    throw new Error('Not implemented'); // todo: implement
-  }
-
-  // @ts-ignore // todo: remove
-  async createUserIfNotExists(userId: string) {
-    // const id = {id: userId};
-    // if (!id) throw new AvikastError('error');
-    // const user = await this.repository.findOne(
-    //   {id: userId},
-    //   {
-    //     loadRelationIds: true,
-    //   },
-    // );
-    // if (user) return user;
-    // {
-    //   const newUser = this.repository.create();
-    //   await this.repository.insert(newUser);
-    //   return newUser;
-    // }
-    throw new Error('Not implemented'); // todo: implement
+    await this.userModel.update({_id: userId}, data);
   }
 }

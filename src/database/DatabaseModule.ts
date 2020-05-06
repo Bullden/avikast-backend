@@ -19,6 +19,7 @@ const options = (configService: IConfigService): MongooseModuleOptions => {
     pass: configService.get('DATABASE_PASSWORD'),
     useUnifiedTopology: true,
     useNewUrlParser: true,
+    useCreateIndex: true,
   };
 };
 

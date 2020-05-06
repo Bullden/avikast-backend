@@ -111,13 +111,6 @@ export default class AuthManager extends IAuthManager {
     appType: AppType,
     platform: Platform,
   ): Promise<AuthResponse> {
-    switch (appType) {
-      case AppType.Client: {
-        await this.userStore.createUserIfNotExists(user.id);
-        break;
-      }
-    }
-
     return this.createSessionInfo(appType, platform, user, (token, refreshToken) =>
       this.sessionStore.createSession(user, token, refreshToken, appType, platform),
     );

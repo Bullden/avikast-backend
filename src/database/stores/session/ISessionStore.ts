@@ -32,8 +32,4 @@ export default abstract class ISessionStore {
     session: {id: string},
     registrationId: string,
   ): Promise<void>;
-
-  abstract getUserFirebaseTokens(userId: ID, appTypes: AppType[]): Promise<string[]>;
-
-  abstract getUsersFirebaseTokens(userId: ID[], appTypes: AppType[]): Promise<string[]>;
 }

@@ -13,6 +13,4 @@ export default abstract class IUserStore {
   ): Promise<void>;
 
   abstract getUser(userId: ID): Promise<User | undefined>;
-
-  abstract createUserIfNotExists(userId: ID): Promise<User>;
 }
