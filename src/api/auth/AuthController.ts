@@ -1,6 +1,6 @@
-import { Body, Controller, Post, Put, UseGuards } from '@nestjs/common';
+import {Body, Controller, Post, Put, UseGuards} from '@nestjs/common';
 import RegisterRequest from '../entities/RegisterRequest';
-import { mapAuthResponseToApi } from '../entities/Mappers';
+import {mapAuthResponseToApi} from '../entities/Mappers';
 import IAuthManager from '../../managers/auth/IAuthManager';
 import LoginRequest from '../entities/LoginRequest';
 import AuthResponse from '../../entities/AuthResponse';
@@ -10,7 +10,7 @@ import ChangePasswordRequest from '../entities/ChangePasswordRequest';
 import Session from '../../entities/Session';
 import AuthGuard from 'enhancers/guards/AuthGuard';
 import Ignore from 'enhancers/decorators/Ignore';
-import HttpRequest, { HttpRequestInfo } from 'enhancers/decorators/HttpRequest';
+import HttpRequest, {HttpRequestInfo} from 'enhancers/decorators/HttpRequest';
 import CurrentSession from 'enhancers/decorators/CurrentSession';
 import FirebaseTokenRequest from 'api/entities/FirebaseTokenRequest';
 
@@ -22,7 +22,7 @@ export class AuthController {
   @Ignore('Authorization')
   async register(
     @Body() request: RegisterRequest,
-    @HttpRequest() { appType, platform }: HttpRequestInfo,
+    @HttpRequest() {appType, platform}: HttpRequestInfo,
   ): Promise<AuthResponse> {
     return mapAuthResponseToApi(
       await this.authManager.register(
@@ -39,15 +39,10 @@ export class AuthController {
   @Ignore('Authorization')
   async login(
     @Body() request: LoginRequest,
-    @HttpRequest() { appType, platform }: HttpRequestInfo,
+    @HttpRequest() {appType, platform}: HttpRequestInfo,
   ): Promise<AuthResponse> {
     return mapAuthResponseToApi(
-      await this.authManager.login(
-        appType,
-        platform,
-        request.email,
-        request.password,
-      ),
+      await this.authManager.login(appType, platform, request.email, request.password),
     );
   }
 
@@ -82,9 +77,6 @@ export class AuthController {
     @Body() request: FirebaseTokenRequest,
     @CurrentSession() session: Session,
   ): Promise<void> {
-    await this.authManager.updateFirebaseToken(
-      session.token,
-      request.registrationId,
-    );
+    await this.authManager.updateFirebaseToken(session.token, request.registrationId);
   }
 }

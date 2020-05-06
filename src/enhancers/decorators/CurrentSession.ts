@@ -1,3 +1,3 @@
-import { createParamDecorator } from '../utils/DecoratorUtils';
+import {createParamDecorator} from '../utils/DecoratorUtils';
 
 export default createParamDecorator((request) => request.session);

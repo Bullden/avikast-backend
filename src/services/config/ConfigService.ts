@@ -1,9 +1,9 @@
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
 import IConfigService from 'services/config/IConfigService';
-import { Logger } from '@nestjs/common';
+import {Logger} from '@nestjs/common';
 
-type Dictionary = { [key: string]: string | undefined };
+type Dictionary = {[key: string]: string | undefined};
 
 export default class ConfigService implements IConfigService {
   private readonly config: Dictionary;
@@ -26,11 +26,7 @@ export default class ConfigService implements IConfigService {
   }
 
   getNumber(key: string, defaultValue?: number): number {
-    return ConfigService.requireValue(
-      key,
-      this.getNumberOptional(key),
-      defaultValue,
-    );
+    return ConfigService.requireValue(key, this.getNumberOptional(key), defaultValue);
   }
 
   getNumberOptional(key: string): number | undefined {
@@ -43,11 +39,7 @@ export default class ConfigService implements IConfigService {
   }
 
   getBoolean(key: string, defaultValue?: boolean): boolean {
-    return ConfigService.requireValue(
-      key,
-      this.getBooleanOptional(key),
-      defaultValue,
-    );
+    return ConfigService.requireValue(key, this.getBooleanOptional(key), defaultValue);
   }
 
   getBooleanOptional(key: string): boolean | undefined {

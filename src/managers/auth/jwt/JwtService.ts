@@ -1,7 +1,7 @@
-import { IJwtService } from './IJwtService';
-import { JwtPayload } from './JwtPayload';
-import { JwtService as NestJwtService } from '@nestjs/jwt';
-import { Injectable } from '@nestjs/common';
+import {IJwtService} from './IJwtService';
+import {JwtPayload} from './JwtPayload';
+import {JwtService as NestJwtService} from '@nestjs/jwt';
+import {Injectable} from '@nestjs/common';
 
 @Injectable()
 export class JwtService extends IJwtService {

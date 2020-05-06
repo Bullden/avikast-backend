@@ -13,10 +13,7 @@ export const mapAdditionalUserInfoToGQL = (
   email: additionalInfo.email,
 });
 
-export const mapUserToGQL = (
-  user: User,
-  addAdditionalInfo: boolean = false,
-): GQLUser => {
+export const mapUserToGQL = (user: User, addAdditionalInfo: boolean = false): GQLUser => {
   const additionalInfo = user.additionalUserInfo;
   if (addAdditionalInfo && !additionalInfo)
     throw new AvikastError('Additional info should be provided');

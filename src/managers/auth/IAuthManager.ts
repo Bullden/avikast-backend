@@ -1,8 +1,8 @@
 import AuthResponse from '../../entities/AuthResponse';
 import Session from '../../entities/Session';
-import { ID } from 'entities/Common';
+import {ID} from 'entities/Common';
 import AppType from 'entities/AppType';
-import { Platform } from 'entities/Platform';
+import {Platform} from 'entities/Platform';
 
 export default abstract class IAuthManager {
   abstract register(
@@ -34,8 +34,5 @@ export default abstract class IAuthManager {
     password: string,
   ): Promise<void>;
 
-  abstract updateFirebaseToken(
-    token: string,
-    registrationId: string,
-  ): Promise<void>;
+  abstract updateFirebaseToken(token: string, registrationId: string): Promise<void>;
 }

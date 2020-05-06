@@ -1,4 +1,4 @@
-import { initApplication } from './App';
+import {initApplication} from './App';
 
 export {
   //

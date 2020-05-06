@@ -1,3 +1,3 @@
-import { initApplication } from 'app';
+import {initApplication} from 'app';
 
 initApplication().then();

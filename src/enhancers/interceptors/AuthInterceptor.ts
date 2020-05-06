@@ -1,9 +1,4 @@
-import {
-  CallHandler,
-  ExecutionContext,
-  Injectable,
-  NestInterceptor,
-} from '@nestjs/common';
+import {CallHandler, ExecutionContext, Injectable, NestInterceptor} from '@nestjs/common';
 import IAuthManager from '../../managers/auth/IAuthManager';
 import {
   extractAppFromContext,
@@ -14,10 +9,10 @@ import {
 import Session from '../../entities/Session';
 import AvikastError from 'AvikastError';
 import AppType from 'entities/AppType';
-import { processError } from '../utils/ErrorUtils';
-import { IgnoreElement, Role } from 'entities/Common';
-import { Reflector } from '@nestjs/core';
-import { Platform } from 'entities/Platform';
+import {processError} from '../utils/ErrorUtils';
+import {IgnoreElement, Role} from 'entities/Common';
+import {Reflector} from '@nestjs/core';
+import {Platform} from 'entities/Platform';
 
 @Injectable()
 export class AuthInterceptor implements NestInterceptor {
@@ -30,10 +25,8 @@ export class AuthInterceptor implements NestInterceptor {
   public async intercept(context: ExecutionContext, next: CallHandler) {
     try {
       const ignoreElements = this.getIgnoreElements(context);
-      const ignoreAppType =
-        ignoreElements && ignoreElements.includes('AppType');
-      const ignorePlatform =
-        ignoreElements && ignoreElements.includes('Platform');
+      const ignoreAppType = ignoreElements && ignoreElements.includes('AppType');
+      const ignorePlatform = ignoreElements && ignoreElements.includes('Platform');
       const ignoreAuthorization =
         ignoreElements && ignoreElements.includes('Authorization');
 
@@ -106,9 +99,7 @@ export class AuthInterceptor implements NestInterceptor {
     return appType;
   }
 
-  private static extractPlatformFromContext(
-    context: ExecutionContext,
-  ): Platform {
+  private static extractPlatformFromContext(context: ExecutionContext): Platform {
     const platformHeader = extractPlatformHeaderFromContext(context);
     if (!platformHeader) {
       throw new AvikastError('platform header is not provided');
@@ -146,9 +137,7 @@ export class AuthInterceptor implements NestInterceptor {
 
   static checkRoles(appType: AppType, roles: Role[]) {
     if (!roles.includes(appType)) {
-      throw new AvikastError(
-        `Execution of this method denied for the role '${appType}'`,
-      );
+      throw new AvikastError(`Execution of this method denied for the role '${appType}'`);
     }
   }
 }

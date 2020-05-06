@@ -4,9 +4,7 @@ import Account from '../../entities/Account';
 import AdditionalUserInfo from '../../entities/AdditionalUserInfo';
 import Preferences from '../../entities/Preferences';
 
-export const mapAdditionalUserInfoFromDb = (
-  user: DbUser,
-): AdditionalUserInfo => ({
+export const mapAdditionalUserInfoFromDb = (user: DbUser): AdditionalUserInfo => ({
   email: user.email,
 });
 
@@ -16,9 +14,7 @@ export const mapUserFromDb = (
 ): User => ({
   id: user.id,
   name: user.name,
-  additionalUserInfo: addAdditionalInfo
-    ? mapAdditionalUserInfoFromDb(user)
-    : undefined,
+  additionalUserInfo: addAdditionalInfo ? mapAdditionalUserInfoFromDb(user) : undefined,
 });
 
 export const mapPreferencesFromDB = (user: DbUser): Preferences => ({

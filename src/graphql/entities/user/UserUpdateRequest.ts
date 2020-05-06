@@ -1,6 +1,6 @@
-import { Field, InputType } from '@nestjs/graphql';
+import {Field, InputType} from '@nestjs/graphql';
 
-import { IsEmail, IsString, Length } from 'class-validator';
+import {IsEmail, IsString, Length} from 'class-validator';
 
 @InputType()
 export default class UserUpdateRequest {

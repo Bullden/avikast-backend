@@ -1,8 +1,8 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {CanActivate, ExecutionContext, Injectable} from '@nestjs/common';
 import IAuthManager from '../../managers/auth/IAuthManager';
 import AvikastError from '../../AvikastError';
-import { extractJwtFromContext } from '../RequestExtractors';
-import { processError } from '../utils/ErrorUtils';
+import {extractJwtFromContext} from '../RequestExtractors';
+import {processError} from '../utils/ErrorUtils';
 
 @Injectable()
 export default class AuthGuard implements CanActivate {

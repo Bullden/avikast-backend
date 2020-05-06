@@ -1,5 +1,5 @@
-import { Module } from '@nestjs/common';
-import { DatabaseModule } from '../DatabaseModule';
+import {Module} from '@nestjs/common';
+import {DatabaseModule} from '../DatabaseModule';
 import ILoginStore from './login/ILoginStore';
 import LoginStore from './login/LoginStore';
 import ISessionStore from 'database/stores/session/ISessionStore';

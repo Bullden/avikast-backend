@@ -1,11 +1,11 @@
-import { NestFactory } from '@nestjs/core';
-import { ExpressAdapter } from '@nestjs/platform-express';
-import { AppModule } from './AppModule';
+import {NestFactory} from '@nestjs/core';
+import {ExpressAdapter} from '@nestjs/platform-express';
+import {AppModule} from './AppModule';
 import express from 'express';
 import http from 'http';
-import { getNodeEnv } from 'services/config/ConfigUtils';
-import { createConfigService } from 'services/config/ConfigServiceFactory';
-import { httpLogger } from './AppUtils';
+import {getNodeEnv} from 'services/config/ConfigUtils';
+import {createConfigService} from 'services/config/ConfigServiceFactory';
+import {httpLogger} from './AppUtils';
 
 export async function initApplication() {
   const configService = createConfigService(getNodeEnv());

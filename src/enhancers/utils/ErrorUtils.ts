@@ -1,9 +1,7 @@
-import { ObservableInput } from 'rxjs';
-import { BadRequestException, UnauthorizedException } from '@nestjs/common';
+import {ObservableInput} from 'rxjs';
+import {BadRequestException, UnauthorizedException} from '@nestjs/common';
 import AvikastError from 'AvikastError';
-import AvikastAuthError, {
-  AvikastErrorType,
-} from 'managers/auth/AvikastAuthError';
+import AvikastAuthError, {AvikastErrorType} from 'managers/auth/AvikastAuthError';
 
 function processAuthError(error: AvikastAuthError) {
   switch (error.type) {

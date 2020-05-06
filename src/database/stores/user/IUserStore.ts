@@ -1,5 +1,5 @@
 import User from '../../entities/User';
-import { ID } from 'entities/Common';
+import {ID} from 'entities/Common';
 
 export default abstract class IUserStore {
   abstract createUser(user: Partial<User>): Promise<User>;

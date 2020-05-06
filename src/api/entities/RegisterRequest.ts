@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import {IsNotEmpty, IsString} from 'class-validator';
 
 export default class RegisterRequest {
   constructor(name: string, email: string, password: string) {

@@ -1,6 +1,6 @@
-import { createParamDecorator } from '../utils/DecoratorUtils';
+import {createParamDecorator} from '../utils/DecoratorUtils';
 import AppType from 'entities/AppType';
-import { Platform } from 'entities/Platform';
+import {Platform} from 'entities/Platform';
 
 export interface HttpRequestInfo {
   baseUrl: string;

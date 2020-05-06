@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
+import {Module} from '@nestjs/common';
 import IRouter from './IRouter';
 import Router from './Router';
-import { ConfigModule } from 'services/config/ConfigModule';
+import {ConfigModule} from 'services/config/ConfigModule';
 
 @Module({
   imports: [

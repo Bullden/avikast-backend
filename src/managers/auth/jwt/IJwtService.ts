@@ -1,4 +1,4 @@
-import { JwtPayload } from './JwtPayload';
+import {JwtPayload} from './JwtPayload';
 
 export abstract class IJwtService {
   abstract sign(payload: JwtPayload): Promise<string>;

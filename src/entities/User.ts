@@ -1,5 +1,5 @@
-import { ID } from './Common';
-import { IsString } from 'class-validator';
+import {ID} from './Common';
+import {IsString} from 'class-validator';
 import AdditionalUserInfo from 'entities/AdditionalUserInfo';
 
 export default class User {

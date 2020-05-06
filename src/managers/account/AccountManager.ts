@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import IUserStore from '../../database/stores/user/IUserStore';
 import IAccountManager from './IAccountManager';
-import { mapAccountFromDB } from '../../database/entities/Mappers';
+import {mapAccountFromDB} from '../../database/entities/Mappers';
 import AvikastError from '../../AvikastError';
 
 @Injectable()

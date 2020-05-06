@@ -1,6 +1,6 @@
-import { ExecutionContext } from '@nestjs/common';
-import { Request } from 'express';
-import { GqlExecutionContext } from '@nestjs/graphql';
+import {ExecutionContext} from '@nestjs/common';
+import {Request} from 'express';
+import {GqlExecutionContext} from '@nestjs/graphql';
 
 const AuthorizationHeader = 'Authorization';
 const AppHeader = 'App';
@@ -22,15 +22,11 @@ function getHeader(context: ExecutionContext, header: string) {
   return request.header(header);
 }
 
-export function extractJwtFromContext(
-  context: ExecutionContext,
-): string | undefined {
+export function extractJwtFromContext(context: ExecutionContext): string | undefined {
   return getHeader(context, AuthorizationHeader);
 }
 
-export function extractAppFromContext(
-  context: ExecutionContext,
-): string | undefined {
+export function extractAppFromContext(context: ExecutionContext): string | undefined {
   return getHeader(context, AppHeader);
 }
 

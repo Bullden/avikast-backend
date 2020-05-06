@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
+import {Module} from '@nestjs/common';
 import IConfigService from 'services/config/IConfigService';
-import { getNodeEnv } from 'services/config/ConfigUtils';
-import { createConfigService } from 'services/config/ConfigServiceFactory';
+import {getNodeEnv} from 'services/config/ConfigUtils';
+import {createConfigService} from 'services/config/ConfigServiceFactory';
 
 @Module({
   providers: [

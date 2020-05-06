@@ -1,23 +1,23 @@
 import IAuthManager from './IAuthManager';
 import AuthResponse from '../../entities/AuthResponse';
 import IUserStore from '../../database/stores/user/IUserStore';
-import { Injectable } from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import ILoginStore from '../../database/stores/login/ILoginStore';
 import * as bcrypt from 'bcrypt';
 import DbUser from '../../database/entities/User';
 import AvikastError from '../../AvikastError';
 import LocalLogin from '../../database/entities/LocalLogin';
 import ISessionStore from '../../database/stores/session/ISessionStore';
-import { IJwtService } from './jwt/IJwtService';
-import { JwtPayload } from './jwt/JwtPayload';
-import { pbkdf2Sync, randomBytes } from 'crypto';
+import {IJwtService} from './jwt/IJwtService';
+import {JwtPayload} from './jwt/JwtPayload';
+import {pbkdf2Sync, randomBytes} from 'crypto';
 import Session from '../../database/entities/Session';
 import AppSession from 'entities/Session';
-import AvikastAuthError, { AvikastErrorType } from './AvikastAuthError';
-import { generate as generatePassword } from 'generate-password';
-import { ID } from 'entities/Common';
+import AvikastAuthError, {AvikastErrorType} from './AvikastAuthError';
+import {generate as generatePassword} from 'generate-password';
+import {ID} from 'entities/Common';
 import AppType from 'entities/AppType';
-import { Platform } from 'entities/Platform';
+import {Platform} from 'entities/Platform';
 
 @Injectable()
 export default class AuthManager extends IAuthManager {
@@ -51,22 +51,10 @@ export default class AuthManager extends IAuthManager {
     return this.createSession(login.user, appType, platform);
   }
 
-  async login(
-    appType: AppType,
-    platform: Platform,
-    email: string,
-    password: string,
-  ) {
-    const login = await this.findLoginOrThrow(
-      { email },
-      AvikastErrorType.AuthFailed,
-    );
+  async login(appType: AppType, platform: Platform, email: string, password: string) {
+    const login = await this.findLoginOrThrow({email}, AvikastErrorType.AuthFailed);
 
-    await AuthManager.checkPasswordOrThrow(
-      login,
-      password,
-      AvikastErrorType.AuthFailed,
-    );
+    await AuthManager.checkPasswordOrThrow(login, password, AvikastErrorType.AuthFailed);
     return this.createSession(login.user, appType, platform);
   }
 
@@ -81,14 +69,14 @@ export default class AuthManager extends IAuthManager {
   }
 
   private async findLoginOrThrow(
-    user: { email?: string; id?: ID },
+    user: {email?: string; id?: ID},
     errorType: AvikastErrorType,
   ): Promise<LocalLogin> {
     let login;
     if (user.email) {
       login = await this.loginStore.getLocalLoginByEmail(user.email);
     } else if (user.id) {
-      login = await this.loginStore.getLocalLoginByUser({ id: user.id });
+      login = await this.loginStore.getLocalLoginByUser({id: user.id});
     }
 
     if (!login) {
@@ -98,11 +86,7 @@ export default class AuthManager extends IAuthManager {
     return login;
   }
 
-  private async createLocalLogin(
-    user: DbUser,
-    email: string,
-    password: string,
-  ) {
+  private async createLocalLogin(user: DbUser, email: string, password: string) {
     const passwordHash = await AuthManager.createPasswordHash(password);
 
     return this.loginStore.createLocalLogin(user, email, passwordHash);
@@ -134,30 +118,15 @@ export default class AuthManager extends IAuthManager {
       }
     }
 
-    return this.createSessionInfo(
-      appType,
-      platform,
-      user,
-      (token, refreshToken) =>
-        this.sessionStore.createSession(
-          user,
-          token,
-          refreshToken,
-          appType,
-          platform,
-        ),
+    return this.createSessionInfo(appType, platform, user, (token, refreshToken) =>
+      this.sessionStore.createSession(user, token, refreshToken, appType, platform),
     );
   }
 
   public async refresh(refreshToken: string) {
-    const session = await this.sessionStore.getSessionByRefreshToken(
-      refreshToken,
-    );
+    const session = await this.sessionStore.getSessionByRefreshToken(refreshToken);
     if (!session) {
-      throw new AvikastAuthError(
-        'Session not found',
-        AvikastErrorType.RefreshFailed,
-      );
+      throw new AvikastAuthError('Session not found', AvikastErrorType.RefreshFailed);
     }
     return this.createSessionInfo(
       session.appType,
@@ -172,10 +141,7 @@ export default class AuthManager extends IAuthManager {
     appType: AppType,
     platform: Platform,
     user: DbUser,
-    createOrUpdateSession: (
-      token: string,
-      refreshToken: string,
-    ) => Promise<Session>,
+    createOrUpdateSession: (token: string, refreshToken: string) => Promise<Session>,
   ) {
     const token = AuthManager.createCryptoToken();
     const refreshToken = AuthManager.createCryptoToken();
@@ -190,7 +156,7 @@ export default class AuthManager extends IAuthManager {
       platform: Platform[platform],
     };
     const jwt = await this.jwtService.sign(payload);
-    return { jwt, refreshToken };
+    return {jwt, refreshToken};
   }
 
   async getSessionFromTokenOrThrow(jwt: string) {
@@ -226,10 +192,7 @@ export default class AuthManager extends IAuthManager {
       return session;
     } catch (e) {
       if (e.message === 'jwt expired') {
-        throw new AvikastAuthError(
-          'JWT token expired',
-          AvikastErrorType.TokenExpired,
-        );
+        throw new AvikastAuthError('JWT token expired', AvikastErrorType.TokenExpired);
       }
       throw new AvikastError(e.message);
     }
@@ -240,17 +203,11 @@ export default class AuthManager extends IAuthManager {
 
     const dbSession = await this.sessionStore.getSessionByToken(session.token);
     if (!dbSession)
-      throw new AvikastAuthError(
-        'Session not found',
-        AvikastErrorType.AuthFailed,
-      );
+      throw new AvikastAuthError('Session not found', AvikastErrorType.AuthFailed);
     if (dbSession.user.id !== session.userId)
       throw new AvikastAuthError('User malformed', AvikastErrorType.AuthFailed);
     if (dbSession.appType !== session.appType)
-      throw new AvikastAuthError(
-        'appType malformed',
-        AvikastErrorType.AuthFailed,
-      );
+      throw new AvikastAuthError('appType malformed', AvikastErrorType.AuthFailed);
 
     return session;
   }
@@ -266,7 +223,7 @@ export default class AuthManager extends IAuthManager {
 
   async recoverPassword(email: string) {
     const login = await this.findLoginOrThrow(
-      { email },
+      {email},
       AvikastErrorType.RestorePasswordFailed,
     );
 
@@ -282,7 +239,7 @@ export default class AuthManager extends IAuthManager {
 
   async changePassword(userId: ID, oldPassword: string, password: string) {
     const login = await this.findLoginOrThrow(
-      { id: userId },
+      {id: userId},
       AvikastErrorType.ChangePasswordFailed,
     );
 

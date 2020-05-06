@@ -1,13 +1,9 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import {Field, ID, ObjectType} from '@nestjs/graphql';
 import AdditionalUserInfo from './AdditionalUserInfo';
 
 @ObjectType()
 export default class User {
-  constructor(
-    id: string,
-    name: string,
-    additionalUserInfo?: AdditionalUserInfo,
-  ) {
+  constructor(id: string, name: string, additionalUserInfo?: AdditionalUserInfo) {
     this.id = id;
     this.name = name;
     this.additionalUserInfo = additionalUserInfo;
@@ -19,6 +15,6 @@ export default class User {
   @Field(() => String)
   name: string;
 
-  @Field(() => AdditionalUserInfo, { nullable: true })
+  @Field(() => AdditionalUserInfo, {nullable: true})
   additionalUserInfo: AdditionalUserInfo | undefined;
 }
