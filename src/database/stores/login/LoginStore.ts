@@ -1,22 +1,28 @@
 import ILoginStore from './ILoginStore';
 import User from '../../entities/User';
 import {ID} from 'entities/Common';
+import {InjectModel} from '@nestjs/mongoose';
+import {Model} from 'mongoose';
+import LocalLoginModel, {LocalLoginSchema} from '../../models/LocalLoginModel';
+import {mapLocalLoginFromModel, mapLocalLoginToModel} from '../../models/Mappers';
 
 export default class LoginStore extends ILoginStore {
-  constructor() {
+  constructor(
+    @InjectModel(LocalLoginSchema.name) private localLoginModel: Model<LocalLoginModel>,
+  ) {
     super();
   }
 
   // @ts-ignore // todo: remove
   async createLocalLogin(user: User, email: string, passwordHash: string) {
-    // const login = this.repository.create({
-    //   user,
-    //   email,
-    //   passwordHash,
-    // });
-    // await this.repository.insert(login);
-    // return login;
-    throw new Error('Not implemented'); // todo: implement
+    const login = await this.localLoginModel.create(
+      mapLocalLoginToModel({
+        user,
+        email,
+        passwordHash,
+      }),
+    );
+    return mapLocalLoginFromModel(await login.save(), user);
   }
 
   // @ts-ignore // todo: remove

@@ -7,7 +7,7 @@ export const LocalLoginSchema = createSchema('localLogin', {
   passwordHash: String,
 });
 
-export default interface LocalLogin extends Document {
+export default interface LocalLoginModel extends Document {
   userId: string;
   email: string;
   passwordHash: string;

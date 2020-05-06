@@ -3,7 +3,7 @@ import {MongooseModule, MongooseModuleOptions} from '@nestjs/mongoose';
 import IConfigService from 'services/config/IConfigService';
 import {ConfigModule} from 'services/config/ConfigModule';
 import {UserSchema} from './models/UserModel';
-import {LocalLoginSchema} from './models/LoginLoginModel';
+import {LocalLoginSchema} from './models/LocalLoginModel';
 import {SessionSchema} from './models/SessionModel';
 
 const options = (configService: IConfigService): MongooseModuleOptions => {

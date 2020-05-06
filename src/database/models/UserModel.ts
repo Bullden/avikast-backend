@@ -6,7 +6,7 @@ export const UserSchema = createSchema('user', {
   email: String,
   allowNotifications: Boolean,
 });
-export const userModelName = 'user';
+
 export default interface UserModel extends Document {
   name: string;
   email: string;
