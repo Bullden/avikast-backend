@@ -20,7 +20,8 @@ export async function initApplication() {
   if (globalPrefix) {
     app.setGlobalPrefix(globalPrefix);
   }
-  await app.use(httpLogger()).init();
+  await app.use(httpLogger()).enableCors();
+  await app.init();
 
   const ports = {
     http: httpPort,
