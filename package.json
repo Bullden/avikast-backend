@@ -24,9 +24,11 @@
     "@nestjs/graphql": "^7.3.7",
     "@nestjs/jwt": "^7.0.0",
     "@nestjs/mongoose": "^6.4.0",
-    "@types/mongoose":  "5.7.15",
     "@nestjs/platform-express": "^7.0.9",
+    "@spryrocks/config-node": "^1.0.0-alpha.3",
+    "@types/mongoose": "5.7.15",
     "@types/morgan": "^1.9.0",
+    "apollo-server-express": "^2.13.0",
     "bcrypt": "^4.0.1",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
@@ -41,8 +43,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "7.0.0-beta.0",
-    "uuid": "^8.0.0",
-    "apollo-server-express": "^2.13.0"
+    "uuid": "^8.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.0.0",

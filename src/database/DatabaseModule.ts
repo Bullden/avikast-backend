@@ -1,10 +1,10 @@
 import {Module} from '@nestjs/common';
 import {MongooseModule, MongooseModuleOptions} from '@nestjs/mongoose';
-import IConfigService from 'services/config/IConfigService';
 import {ConfigModule} from 'services/config/ConfigModule';
 import {UserSchema} from './models/UserModel';
 import {LocalLoginSchema} from './models/LocalLoginModel';
 import {SessionSchema} from './models/SessionModel';
+import {IConfigService} from '@spryrocks/config-node';
 
 const options = (configService: IConfigService): MongooseModuleOptions => {
   const host = configService.get('DATABASE_HOST');
