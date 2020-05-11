@@ -1,7 +1,0 @@
-jsxBracketSameLine: false
-singleQuote: true
-trailingComma: 'all'
-arrowParens: 'always'
-bracketSpacing: false
-printWidth: 90
-quoteProps: consistent
