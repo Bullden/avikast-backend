@@ -3,12 +3,11 @@ import {ExpressAdapter} from '@nestjs/platform-express';
 import {AppModule} from './AppModule';
 import express from 'express';
 import http from 'http';
-import {getNodeEnv} from 'services/config/ConfigUtils';
 import {httpLogger} from './AppUtils';
-import {createConfigService} from '@spryrocks/config-node';
+import {createConfigService, getConfigEnv} from '@spryrocks/config-node';
 
 export async function initApplication() {
-  const configService = createConfigService(getNodeEnv(), undefined);
+  const configService = createConfigService(getConfigEnv(), undefined);
 
   const server = express().set('trust proxy', true);
 

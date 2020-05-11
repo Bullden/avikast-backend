@@ -25,7 +25,7 @@
     "@nestjs/jwt": "^7.0.0",
     "@nestjs/mongoose": "^6.4.0",
     "@nestjs/platform-express": "^7.0.9",
-    "@spryrocks/config-node": "^1.0.0-alpha.3",
+    "@spryrocks/config-node": "^1.0.0-alpha.5",
     "@types/mongoose": "5.7.15",
     "@types/morgan": "^1.9.0",
     "apollo-server-express": "^2.13.0",

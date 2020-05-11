@@ -1,12 +1,11 @@
 import {Module} from '@nestjs/common';
-import {getNodeEnv} from 'services/config/ConfigUtils';
-import {createConfigService, IConfigService} from '@spryrocks/config-node';
+import {createConfigService, getConfigEnv, IConfigService} from '@spryrocks/config-node';
 
 @Module({
   providers: [
     {
       provide: IConfigService,
-      useValue: createConfigService(getNodeEnv(), undefined),
+      useValue: createConfigService(getConfigEnv(), undefined),
     },
   ],
   exports: [IConfigService],
