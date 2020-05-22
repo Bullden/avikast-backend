@@ -14,7 +14,7 @@ export const mapUserToModel = (user: Partial<User>): Partial<UserModel> => ({
 });
 
 export const mapUserFromModel = (user: UserModel): User => ({
-  id: user.id,
+  id: user._id,
   name: user.name,
   email: user.email,
   country: user.country,
