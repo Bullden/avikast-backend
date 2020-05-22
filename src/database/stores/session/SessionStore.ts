@@ -23,12 +23,10 @@ export default class SessionStore extends ISessionStore {
     appType: AppType,
     platform: Platform,
   ) {
-    console.log(user);
-    let newSession = await this.sessionModel.create(
+    const newSession = await this.sessionModel.create(
       mapSessionToModel(user.id, refreshToken, token, appType, platform),
     );
-    newSession = await newSession.populate('user');
-    return mapSessionFromModel(newSession);
+    return mapSessionFromModel(await newSession.populate('user').execPopulate());
   }
 
   async getSession(session: {id: string}) {

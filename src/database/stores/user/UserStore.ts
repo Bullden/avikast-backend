@@ -7,6 +7,7 @@ import {Model} from 'mongoose';
 import UserModel, {UserSchema} from '../../models/UserModel';
 import {mapUserFromModel, mapUserToModel} from '../../models/Mappers';
 import AvikastError from '../../../AvikastError';
+import {log} from 'util';
 
 @Injectable()
 export default class UserStore implements IUserStore {

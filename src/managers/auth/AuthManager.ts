@@ -45,10 +45,10 @@ export default class AuthManager extends IAuthManager {
       name,
       email,
       allowNotifications: true,
-      country: '',
-      city: '',
+      country: '1',
+      city: '1',
       dateOfBirth: new Date(),
-      avatarUrl: '',
+      avatarUrl: '1',
       tags: [],
       skills: [],
     });
@@ -202,6 +202,7 @@ export default class AuthManager extends IAuthManager {
     const dbSession = await this.sessionStore.getSessionByToken(session.token);
     if (!dbSession)
       throw new AvikastAuthError('Session not found', AvikastErrorType.AuthFailed);
+    console.log(dbSession, session);
     if (dbSession.user.id !== session.userId) {
       throw new AvikastAuthError('User malformed', AvikastErrorType.AuthFailed);
     }

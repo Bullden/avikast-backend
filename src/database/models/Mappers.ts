@@ -10,11 +10,17 @@ import {Platform} from '../../entities/Platform';
 export const mapUserToModel = (user: Partial<User>): Partial<UserModel> => ({
   name: user.name,
   email: user.email,
+  country: user.country,
+  city: user.city,
+  dateOfBirth: user.dateOfBirth,
+  avatarUrl: user.avatarUrl,
+  tags: user.tags,
+  skills: user.skills,
   allowNotifications: user.allowNotifications,
 });
 
 export const mapUserFromModel = (user: UserModel): User => ({
-  id: user._id,
+  id: user._id.toString(),
   name: user.name,
   email: user.email,
   country: user.country,
