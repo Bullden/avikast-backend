@@ -4,7 +4,6 @@ import {EnhancersModule} from 'enhancers/EnhancersModule';
 import {ManagerModule} from 'managers/ManagerModule';
 import {AuthController} from './auth/AuthController';
 import {MulterModule} from '@nestjs/platform-express';
-// @ts-ignore
 import {memoryStorage} from 'multer';
 import {ApiExceptionInterceptor} from 'enhancers/interceptors/ApiExceptionInterceptor';
 import {RouterModule} from 'router/RouterModule';

@@ -17,6 +17,12 @@ export const mapUserFromModel = (user: UserModel): User => ({
   id: user.id,
   name: user.name,
   email: user.email,
+  country: user.country,
+  city: user.city,
+  dateOfBirth: user.dateOfBirth,
+  avatarUrl: user.avatarUrl,
+  tags: user.tags,
+  skills: user.skills,
   allowNotifications: user.allowNotifications,
 });
 

@@ -36,7 +36,6 @@ export default class AuthManager extends IAuthManager {
     email: string,
     password: string,
     name: string,
-    // @ts-ignore
   ): Promise<AuthResponse> {
     // if (await this.loginStore.findLocalLoginByEmail(email)) {
     //   throw new AvikastError('User with the same email already exists');
@@ -46,6 +45,12 @@ export default class AuthManager extends IAuthManager {
       name,
       email,
       allowNotifications: true,
+      country: '',
+      city: '',
+      dateOfBirth: new Date(),
+      avatarUrl: '',
+      tags: [],
+      skills: [],
     });
     const login = await this.createLocalLogin(user, email, password);
     return this.createSession(login.user, appType, platform);

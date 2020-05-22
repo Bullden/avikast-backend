@@ -2,14 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type AdditionalUserInfo {
-  email: String!
-}
-
 type User {
   id: ID!
   name: String!
-  additionalUserInfo: AdditionalUserInfo
+  email: String!
+  country: String!
+  city: String!
+  dateOfBirth: String!
+  avatarUrl: String!
+  tags: String!
+  skills: String!
 }
 
 type Preferences {
@@ -18,7 +20,6 @@ type Preferences {
 
 type Account {
   user: User!
-  info: AdditionalUserInfo!
   preferences: Preferences!
 }
 

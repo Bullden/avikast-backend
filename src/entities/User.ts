@@ -1,22 +1,43 @@
 import {ID} from './Common';
-import {IsString} from 'class-validator';
-import AdditionalUserInfo from 'entities/AdditionalUserInfo';
 
 export default class User {
   constructor(
     id: string,
     name: string,
-    additionalUserInfo: AdditionalUserInfo | undefined,
+    email: string,
+    country: string,
+    city: string,
+    dateOfBirth: Date,
+    avatarUrl: string,
+    tags: string[],
+    skills: string[],
   ) {
     this.id = id;
     this.name = name;
-    this.additionalUserInfo = additionalUserInfo;
+    this.email = email;
+    this.country = country;
+    this.city = city;
+    this.dateOfBirth = dateOfBirth;
+    this.avatarUrl = avatarUrl;
+    this.tags = tags;
+    this.skills = skills;
   }
 
   id: ID;
 
-  @IsString()
   name: string;
 
-  additionalUserInfo: AdditionalUserInfo | undefined;
+  email: string;
+
+  country: string;
+
+  city: string;
+
+  dateOfBirth: Date;
+
+  avatarUrl: string;
+
+  tags: string[];
+
+  skills: string[];
 }
