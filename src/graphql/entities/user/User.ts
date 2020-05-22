@@ -45,9 +45,9 @@ export default class User {
   @Field(() => String)
   avatarUrl: string;
 
-  @Field(() => String)
+  @Field(() => [String])
   tags: string[];
 
-  @Field(() => String)
+  @Field(() => [String])
   skills: string[];
 }

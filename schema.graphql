@@ -10,8 +10,8 @@ type User {
   city: String!
   dateOfBirth: String!
   avatarUrl: String!
-  tags: String!
-  skills: String!
+  tags: [String!]!
+  skills: [String!]!
 }
 
 type Preferences {
