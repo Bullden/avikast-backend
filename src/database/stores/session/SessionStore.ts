@@ -31,29 +31,31 @@ export default class SessionStore extends ISessionStore {
   }
 
   async getSession(session: {id: string}) {
-    const newSession = await this.sessionModel.findOne({_id: session.id});
+    const newSession = await this.sessionModel
+      .findOne({_id: session.id})
+      .populate('user');
     return newSession ? mapSessionFromModel(newSession) : undefined;
   }
 
   async getSessionOrFail(sessionId: ID) {
-    const session = await this.sessionModel.findOne({_id: sessionId});
+    const session = await this.sessionModel.findOne({_id: sessionId}).populate('user');
     if (!session) throw new AvikastError('Session not exists');
     return mapSessionFromModel(session);
   }
 
   async getSessionByToken(token: string) {
-    const session = await this.sessionModel.findOne({token});
+    const session = await this.sessionModel.findOne({token}).populate('user');
     return session ? mapSessionFromModel(session) : undefined;
   }
 
   async getSessionByTokenOrThrow(token: string) {
-    const session = await this.sessionModel.findOne({token});
+    const session = await this.sessionModel.findOne({token}).populate('user');
     if (!session) throw new AvikastError('Session not found');
     return mapSessionFromModel(session);
   }
 
   async getSessionByRefreshToken(refreshToken: string) {
-    const session = await this.sessionModel.findOne({refreshToken});
+    const session = await this.sessionModel.findOne({refreshToken}).populate('user');
     return session ? mapSessionFromModel(session) : undefined;
   }
 

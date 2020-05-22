@@ -13,9 +13,7 @@ export default class UserStore implements IUserStore {
   constructor(@InjectModel(UserSchema.name) private userModel: Model<UserModel>) {}
 
   async getUser(userId: ID) {
-    const user = await this.userModel.findOne({
-      where: {id: userId},
-    });
+    const user = await this.userModel.findOne({_id: userId});
     return user ? mapUserFromModel(user) : undefined;
   }
 
