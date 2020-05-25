@@ -19,6 +19,11 @@ export default class AccountManager implements IAccountManager {
     user: {
       name: string;
       email: string;
+      country: string;
+      city: string;
+      dateOfBirth: Date;
+      tags: string[];
+      skills: string[];
     },
   ) {
     await this.userStore.updateUser(myUserId, user);

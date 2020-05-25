@@ -1,3 +1,1 @@
-export default interface Preferences {
-  allowNotifications: boolean;
-}
+export default interface Preferences {}

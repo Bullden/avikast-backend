@@ -2,6 +2,7 @@ import User from '../../entities/User';
 import GQLUser from './user/User';
 import Account from '../../entities/Account';
 import GQLAccount from './account/Account';
+import GQLPreferences from './user/Preferences';
 import Preferences from 'entities/Preferences';
 
 export const mapUserToGQL = (user: User): GQLUser => {
@@ -18,8 +19,9 @@ export const mapUserToGQL = (user: User): GQLUser => {
   };
 };
 
-export const mapPreferencesToGQL = (preferences: Preferences) => ({
-  allowNotifications: preferences.allowNotifications,
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const mapPreferencesToGQL = (preferences: Preferences): GQLPreferences => ({
+  allowNotifications: false,
 });
 
 export const mapAccountToGQL = (account: Account): GQLAccount => ({

@@ -9,6 +9,11 @@ export default abstract class IUserStore {
     data: {
       name: string;
       email: string;
+      country: string;
+      city: string;
+      dateOfBirth: Date;
+      tags: string[];
+      skills: string[];
     },
   ): Promise<void>;
 

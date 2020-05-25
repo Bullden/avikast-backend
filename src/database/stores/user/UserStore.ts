@@ -7,7 +7,6 @@ import {Model} from 'mongoose';
 import UserModel, {UserSchema} from '../../models/UserModel';
 import {mapUserFromModel, mapUserToModel} from '../../models/Mappers';
 import AvikastError from '../../../AvikastError';
-import {log} from 'util';
 
 @Injectable()
 export default class UserStore implements IUserStore {
@@ -34,8 +33,11 @@ export default class UserStore implements IUserStore {
     data: {
       name: string;
       email: string;
-      phoneNumber: string;
-      allowNotifications: boolean;
+      country: string;
+      city: string;
+      dateOfBirth: Date;
+      tags: string[];
+      skills: string[];
     },
   ) {
     await this.userModel.update({_id: userId}, data);

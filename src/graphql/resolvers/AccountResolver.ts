@@ -27,6 +27,11 @@ export class AccountResolver {
       await this.accountManager.updateAccount(userId, {
         name: userInput.name,
         email: userInput.email,
+        country: userInput.country,
+        city: userInput.city,
+        dateOfBirth: userInput.dateOfBirth,
+        tags: userInput.tags,
+        skills: userInput.skills,
       }),
     );
   }
