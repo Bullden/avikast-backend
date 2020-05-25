@@ -4,6 +4,8 @@ import IAccountManager from './account/IAccountManager';
 import AccountManager from './account/AccountManager';
 import {AuthModule} from './auth/AuthModule';
 import {ServicesModule} from 'services/ServicesModule';
+import ITestManager from './test/ITestManager';
+import TestManager from './test/TestManager';
 import {MediasoupModule} from "./mediasoup/MediasoupModule";
 
 @Module({
@@ -19,7 +21,17 @@ import {MediasoupModule} from "./mediasoup/MediasoupModule";
       provide: IAccountManager,
       useClass: AccountManager,
     },
+    {
+      provide: ITestManager,
+      useClass: TestManager,
+    },
   ],
-  exports: [IAccountManager, AuthModule, MediasoupModule],
+  exports: [
+    //
+    IAccountManager,
+    AuthModule,
+    ITestManager,
+    MediasoupModule
+  ],
 })
 export class ManagerModule {}

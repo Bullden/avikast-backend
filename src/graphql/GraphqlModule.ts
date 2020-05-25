@@ -6,6 +6,7 @@ import {ManagerModule} from 'managers/ManagerModule';
 import {EnhancersModule} from 'enhancers/EnhancersModule';
 import {APP_PIPE} from '@nestjs/core';
 import {RouterModule} from 'router/RouterModule';
+import TestResolvers from './resolvers/TestResolvers';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import {RouterModule} from 'router/RouterModule';
       useClass: ValidationPipe,
     },
     AccountResolver,
+    TestResolvers,
   ],
 })
 export class GraphqlModule {}

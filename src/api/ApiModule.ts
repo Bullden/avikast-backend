@@ -8,7 +8,6 @@ import {memoryStorage} from 'multer';
 import {ApiExceptionInterceptor} from 'enhancers/interceptors/ApiExceptionInterceptor';
 import {RouterModule} from 'router/RouterModule';
 import {HealthController} from 'api/HealthController';
-import {ClientsModule, Transport} from '@nestjs/microservices';
 
 @Module({
   imports: [
@@ -21,16 +20,6 @@ import {ClientsModule, Transport} from '@nestjs/microservices';
       }),
     }),
     RouterModule,
-    ClientsModule.register([
-      {
-        name: 'MATH_SERVICE',
-        transport: Transport.TCP,
-        options: {
-          host: 'localhost',
-          port: 401,
-        },
-      },
-    ]),
   ],
   providers: [
     {
