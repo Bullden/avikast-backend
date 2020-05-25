@@ -13,6 +13,7 @@ import {processError} from '../utils/ErrorUtils';
 import {IgnoreElement, Role} from 'entities/Common';
 import {Reflector} from '@nestjs/core';
 import {Platform} from 'entities/Platform';
+import {Request} from '../entities/Request';
 
 @Injectable()
 export class AuthInterceptor implements NestInterceptor {
@@ -21,7 +22,6 @@ export class AuthInterceptor implements NestInterceptor {
     private readonly reflector: Reflector,
   ) {}
 
-  // @ts-ignore
   public async intercept(context: ExecutionContext, next: CallHandler) {
     try {
       const ignoreElements = this.getIgnoreElements(context);
@@ -64,7 +64,7 @@ export class AuthInterceptor implements NestInterceptor {
         AuthInterceptor.checkRoles(appType, roles);
       }
 
-      const injectRequestData = (request: any) => {
+      const injectRequestData = (request: Request) => {
         if (!ignoreAuthorization) {
           request.session = session;
         }
@@ -83,7 +83,7 @@ export class AuthInterceptor implements NestInterceptor {
 
       return next.handle();
     } catch (e) {
-      processError(e);
+      return processError(e);
     }
   }
 

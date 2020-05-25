@@ -12,6 +12,7 @@ function processAuthError(error: AvikastAuthError) {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function processError(error: any): ObservableInput<any> {
   if (error instanceof AvikastError) {
     if (error instanceof AvikastAuthError) {

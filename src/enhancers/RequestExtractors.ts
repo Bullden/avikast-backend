@@ -1,5 +1,5 @@
 import {ExecutionContext} from '@nestjs/common';
-import {Request} from 'express';
+import {Request} from './entities/Request';
 import {GqlExecutionContext} from '@nestjs/graphql';
 
 const AuthorizationHeader = 'Authorization';

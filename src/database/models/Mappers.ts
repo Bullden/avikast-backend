@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import User from '../entities/User';
 import UserModel from './UserModel';
 import LocalLoginModel, {CreateLocalLoginModel} from './LocalLoginModel';

@@ -202,10 +202,8 @@ export default class AuthManager extends IAuthManager {
     const dbSession = await this.sessionStore.getSessionByToken(session.token);
     if (!dbSession)
       throw new AvikastAuthError('Session not found', AvikastErrorType.AuthFailed);
-    console.log(dbSession, session);
-    if (dbSession.user.id !== session.userId) {
+    if (dbSession.user.id !== session.userId)
       throw new AvikastAuthError('User malformed', AvikastErrorType.AuthFailed);
-    }
     if (dbSession.appType !== session.appType)
       throw new AvikastAuthError('appType malformed', AvikastErrorType.AuthFailed);
 
