@@ -6,7 +6,6 @@ import {AuthModule} from './auth/AuthModule';
 import {ServicesModule} from 'services/ServicesModule';
 import ITestManager from './test/ITestManager';
 import TestManager from './test/TestManager';
-import {MediasoupModule} from "./mediasoup/MediasoupModule";
 
 @Module({
   imports: [
@@ -14,7 +13,6 @@ import {MediasoupModule} from "./mediasoup/MediasoupModule";
     StoresModule,
     AuthModule,
     ServicesModule,
-    MediasoupModule
   ],
   providers: [
     {
@@ -31,7 +29,6 @@ import {MediasoupModule} from "./mediasoup/MediasoupModule";
     IAccountManager,
     AuthModule,
     ITestManager,
-    MediasoupModule
   ],
 })
 export class ManagerModule {}
