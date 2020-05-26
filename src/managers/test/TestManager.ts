@@ -8,7 +8,7 @@ export default class TestManager extends ITestManager {
     super();
   }
 
-  add() {
-    return this.mediasoupService.add();
+  createRouter() {
+    return this.mediasoupService.createRouter();
   }
 }

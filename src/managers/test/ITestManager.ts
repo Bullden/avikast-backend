@@ -1,3 +1,3 @@
 export default abstract class ITestManager {
-  abstract add(): Promise<number>;
+  abstract createRouter(): Promise<void>;
 }

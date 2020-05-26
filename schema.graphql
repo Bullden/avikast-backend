@@ -29,7 +29,7 @@ type Query {
 
 type Mutation {
   updateMyAccount(user: UserUpdateRequest!): Account!
-  add: Float!
+  add: Boolean!
 }
 
 input UserUpdateRequest {

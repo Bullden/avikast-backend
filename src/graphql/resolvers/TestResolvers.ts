@@ -6,9 +6,10 @@ import Ignore from '../../enhancers/decorators/Ignore';
 export default class TestResolver {
   constructor(private readonly testManager: ITestManager) {}
 
-  @Mutation(() => Number)
+  @Mutation(() => Boolean)
   @Ignore('Authorization', 'AppType', 'Platform')
   async add() {
-    return this.testManager.add();
+    await this.testManager.createRouter();
+    return true;
   }
 }
