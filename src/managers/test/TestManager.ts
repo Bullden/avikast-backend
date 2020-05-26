@@ -8,7 +8,7 @@ export default class TestManager extends ITestManager {
     super();
   }
 
-  add(...values: number[]) {
-    return this.mediasoupService.add(...values);
+  add() {
+    return this.mediasoupService.add();
   }
 }

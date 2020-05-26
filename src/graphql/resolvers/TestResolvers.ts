@@ -1,4 +1,4 @@
-import {Args, Mutation, Resolver} from '@nestjs/graphql';
+import {Mutation, Resolver} from '@nestjs/graphql';
 import ITestManager from '../../managers/test/ITestManager';
 import Ignore from '../../enhancers/decorators/Ignore';
 
@@ -8,7 +8,7 @@ export default class TestResolver {
 
   @Mutation(() => Number)
   @Ignore('Authorization', 'AppType', 'Platform')
-  async add(@Args('values', {type: () => [Number]}) values: number[]) {
-    return this.testManager.add(...values);
+  async add() {
+    return this.testManager.add();
   }
 }
