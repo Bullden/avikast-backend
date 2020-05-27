@@ -21,13 +21,13 @@ export default class RoomStore extends IRoomStore {
   }
 
   async findRoomByIdOrThrow(id: string) {
-    const room = await this.roomModel.findById(id);
+    const room = await this.roomModel.findById(id).populate('user');
     if (!room) throw new Error('Room not found');
     return mapRoomFromModel(room);
   }
 
   async findRoomByUser(userId: string) {
-    const room = await this.roomModel.findOne({user: userId});
+    const room = await this.roomModel.findOne({user: userId}).populate('user');
     return room ? mapRoomFromModel(room) : null;
   }
 }
