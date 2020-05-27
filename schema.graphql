@@ -30,7 +30,7 @@ type Query {
 
 type Mutation {
   updateMyAccount(user: UserUpdateRequest!): Account!
-  add: Boolean!
+  createRoom(name: String!): Boolean!
 }
 
 input UserUpdateRequest {

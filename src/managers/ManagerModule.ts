@@ -4,8 +4,8 @@ import IAccountManager from './account/IAccountManager';
 import AccountManager from './account/AccountManager';
 import {AuthModule} from './auth/AuthModule';
 import {ServicesModule} from 'services/ServicesModule';
-import ITestManager from './test/ITestManager';
-import TestManager from './test/TestManager';
+import IRoomManager from './room/IRoomManager';
+import TestManager from './room/RoomManager';
 
 @Module({
   imports: [
@@ -20,7 +20,7 @@ import TestManager from './test/TestManager';
       useClass: AccountManager,
     },
     {
-      provide: ITestManager,
+      provide: IRoomManager,
       useClass: TestManager,
     },
   ],
@@ -28,7 +28,7 @@ import TestManager from './test/TestManager';
     //
     IAccountManager,
     AuthModule,
-    ITestManager,
+    IRoomManager,
   ],
 })
 export class ManagerModule {}

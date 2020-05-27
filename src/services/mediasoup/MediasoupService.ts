@@ -16,9 +16,28 @@ export default class MediasoupService extends IMediasoupService {
   }
 
   async createRouter() {
+    const router = await this.sendAsyncRequired<
+      CreateRouterResponse,
+      CreateRouterRequest
+    >({area: 'router', action: 'create'}, {});
+    return router;
+  }
+
+  async createTransport(name: string) {
+    const transport = await this.sendAsyncRequired<
+      CreateRouterResponse,
+      CreateRouterRequest
+    >(
+      {area: 'router', action: 'create'}, // TODO  {area: 'transport', action: 'create'}
+      {name},
+    );
+    return transport;
+  }
+
+  async connectTransport(name: string) {
     await this.sendAsyncRequired<CreateRouterResponse, CreateRouterRequest>(
-      {area: 'router', action: 'create'},
-      {},
+      {area: 'router', action: 'create'}, // TODO  {area: 'transport', action: 'connect'}
+      {name},
     );
   }
 
