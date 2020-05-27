@@ -9,6 +9,11 @@ import {
   CreateRouterRequest,
   CreateRouterResponse,
 } from 'services/mediasoup/entities/CreateRouter';
+import {
+  CreateTransportRequest,
+  CreateTransportResponse,
+} from 'services/mediasoup/entities/CreateTransport';
+import {response} from 'express';
 
 export default class MediasoupService extends IMediasoupService {
   constructor(@Inject(MEDIASOUP_SERVICE) private readonly mediasoupClient: ClientProxy) {
@@ -24,14 +29,14 @@ export default class MediasoupService extends IMediasoupService {
   }
 
   async createTransport(name: string) {
-    const transport = await this.sendAsyncRequired<
-      CreateRouterResponse,
-      CreateRouterRequest
+    const response = await this.sendAsyncRequired<
+      CreateTransportResponse,
+      CreateTransportRequest
     >(
-      {area: 'router', action: 'create'}, // TODO  {area: 'transport', action: 'create'}
+      {area: 'transport', action: 'create'}, // TODO  {area: 'transport', action: 'create'}
       {name},
     );
-    return transport;
+    return response.transportOptions;
   }
 
   async connectTransport(name: string) {

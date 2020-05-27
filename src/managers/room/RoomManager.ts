@@ -19,4 +19,9 @@ export default class RoomManager extends IRoomManager {
     const router = await this.mediasoupService.createRouter();
     return mapRoomFromDB(room, router.rtpCapabilities);
   }
+
+  async createTransport(name: string) {
+    const transportOptions = await this.mediasoupService.createTransport(name);
+    return transportOptions;
+  }
 }

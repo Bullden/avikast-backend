@@ -1,5 +1,5 @@
 export type CreateRouterPattern = {
-  area: 'router';
+  area: 'router' | 'transport';
   action: 'create';
 };
 

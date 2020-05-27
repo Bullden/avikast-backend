@@ -41,6 +41,13 @@ The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://
 """
 scalar JSON
 
+type TransportOptions {
+  id: String!
+  iceCandidates: JSON!
+  iceParameters: JSON!
+  dtlsParameters: JSON!
+}
+
 type Query {
   myAccount: Account!
 }
@@ -48,6 +55,7 @@ type Query {
 type Mutation {
   updateMyAccount(user: UserUpdateRequest!): Account!
   createRoom(type: RoomType!, name: String!): Room!
+  createTransport(name: String!): TransportOptions!
 }
 
 input UserUpdateRequest {

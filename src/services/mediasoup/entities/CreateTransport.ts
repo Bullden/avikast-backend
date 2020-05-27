@@ -1,8 +1,7 @@
-export type ConnectTransportPattern = {
-  area: 'transport';
-  action: 'create';
-};
+import TransportOptions from '../../../entities/TransportOptions';
 
-export interface ConnectTransportRequest {}
+export interface CreateTransportRequest {}
 
-export interface ConnectTransportResponse {}
+export interface CreateTransportResponse {
+  transportOptions: TransportOptions;
+}
