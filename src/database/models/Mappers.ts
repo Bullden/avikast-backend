@@ -7,6 +7,11 @@ import SessionModel, {CreateSessionModel} from './SessionModel';
 import Session from '../entities/Session';
 import AppType from '../../entities/AppType';
 import {Platform} from 'entities/Platform';
+import RoomModel from 'database/models/RoomModel';
+import Room from 'database/entities/Room';
+import {Document} from 'mongoose';
+
+const extractIdFromModel = (model: Document): string => model._id.toString();
 
 export const mapUserToModel = (user: Partial<User>): Partial<UserModel> => ({
   name: user.name,
@@ -25,7 +30,7 @@ export const mapUserFromModel = (user: UserModel): User => {
   if (user.referrer && typeof user.referrer !== 'object')
     throw new Error('referrer should be an object');
   return {
-    id: user._id.toString(),
+    id: extractIdFromModel(user),
     name: user.name,
     email: user.email,
     country: user.country,
@@ -100,5 +105,15 @@ export const mapSessionFromModel = (
     refreshToken: session.refreshToken,
     appType: session.appType,
     platform: session.platform,
+  };
+};
+
+export const mapRoomFromModel = (room: RoomModel): Room => {
+  if (typeof room.user !== 'object') throw new Error('User should be object');
+  return {
+    id: extractIdFromModel(room),
+    name: room.name,
+    type: room.type,
+    user: mapUserFromModel(room.user),
   };
 };

@@ -2,6 +2,8 @@ import User from '../../entities/User';
 import DbUser from './User';
 import Account from '../../entities/Account';
 import Preferences from '../../entities/Preferences';
+import Room from 'entities/Room';
+import DbRoom from './Room';
 
 export const mapUserFromDb = (user: DbUser): User => ({
   id: user.id,
@@ -24,4 +26,11 @@ export const mapPreferencesFromDB = (user: DbUser): Preferences => ({
 export const mapAccountFromDB = (account: DbUser): Account => ({
   user: mapUserFromDb(account),
   preferences: mapPreferencesFromDB(account),
+});
+
+export const mapRoomFromDB = (room: DbRoom, rtpCapabilities: object): Room => ({
+  id: room.id,
+  name: room.name,
+  type: room.type,
+  rtpCapabilities,
 });

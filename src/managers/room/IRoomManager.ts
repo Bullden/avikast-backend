@@ -1,3 +1,5 @@
+import Room, {RoomType} from 'entities/Room';
+
 export default abstract class IRoomManager {
-  abstract createRoom(name: string): void;
+  abstract createRoom(userId: string, name: string, type: RoomType): Promise<Room>;
 }

@@ -1,18 +1,22 @@
 import IRoomManager from './IRoomManager';
 import IMediasoupService from '../../services/mediasoup/IMediasoupService';
 import {Injectable} from '@nestjs/common';
-import Room from '../../entities/Room';
+import IRoomStore from 'database/stores/room/IRoomStore';
+import {RoomType} from 'entities/Room';
+import {mapRoomFromDB} from 'database/entities/Mappers';
 
 @Injectable()
 export default class RoomManager extends IRoomManager {
-  public rooms: Map<string, Room> = new Map();
-
-  constructor(private readonly mediasoupService: IMediasoupService) {
+  constructor(
+    private readonly roomStore: IRoomStore,
+    private readonly mediasoupService: IMediasoupService,
+  ) {
     super();
   }
 
-  async createRoom(name: string) {
-    this.rooms.set(name, {name});
-    await this.mediasoupService.createRouter();
+  async createRoom(userId: string, name: string, type: RoomType) {
+    const room = await this.roomStore.createRoom({name, user: {id: userId}, type});
+    const router = await this.mediasoupService.createRouter();
+    return mapRoomFromDB(room, router.rtpCapabilities);
   }
 }
