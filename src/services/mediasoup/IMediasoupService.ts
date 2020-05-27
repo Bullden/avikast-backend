@@ -1,5 +1,5 @@
-import {RtpCapabilities} from 'mediasoup/lib/types';
+import Router from './entities/Router';
 
 export default abstract class IMediasoupService {
-  abstract createRouter(): Promise<RtpCapabilities>;
+  abstract createRouter(): Promise<Router>;
 }

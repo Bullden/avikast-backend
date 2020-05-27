@@ -5,4 +5,6 @@ export type CreateRouterPattern = {
 
 export interface CreateRouterRequest {}
 
-export interface CreateRouterResponse {}
+export interface CreateRouterResponse {
+  rtpCapabilities: object;
+}

@@ -11,8 +11,8 @@ export default class RoomManager extends IRoomManager {
     super();
   }
 
-  createRoom(name: string) {
+  async createRoom(name: string) {
     this.rooms.set(name, {name});
-    const router = this.mediasoupService.createRouter();
+    await this.mediasoupService.createRouter();
   }
 }

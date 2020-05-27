@@ -16,11 +16,11 @@ export default class MediasoupService extends IMediasoupService {
   }
 
   async createRouter() {
-    const router = await this.sendAsyncRequired<
+    const response = await this.sendAsyncRequired<
       CreateRouterResponse,
       CreateRouterRequest
     >({area: 'router', action: 'create'}, {});
-    return router;
+    return {rtpCapabilities: response.rtpCapabilities};
   }
 
   async createTransport(name: string) {

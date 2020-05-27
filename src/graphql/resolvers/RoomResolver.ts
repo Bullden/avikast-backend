@@ -7,6 +7,7 @@ export default class RoomResolver {
 
   @Mutation(() => Boolean)
   async createRoom(@Args('name') name: string) {
+    console.log('RESOLVER!!!!!!!');
     await this.mediasoupManager.createRoom(name);
   }
 }
