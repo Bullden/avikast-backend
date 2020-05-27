@@ -1,6 +1,5 @@
 import {Field, ID, ObjectType, registerEnumType} from '@nestjs/graphql';
 import {RoomType} from 'entities/Room';
-// noinspection TypeScriptCheckImport
 import graphqlTypeJson from 'graphql-type-json';
 
 registerEnumType(RoomType, {name: 'RoomType'});
