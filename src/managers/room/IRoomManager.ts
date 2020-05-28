@@ -4,5 +4,5 @@ import TransportOptions from '../../entities/TransportOptions';
 export default abstract class IRoomManager {
   abstract createRoom(userId: string, name: string, type: RoomType): Promise<Room>;
 
-  abstract createTransport(name: string): Promise<TransportOptions>;
+  abstract createTransport(userId: string, roomId: string): Promise<TransportOptions>;
 }

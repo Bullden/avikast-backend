@@ -2,10 +2,10 @@ import {Field, ObjectType} from '@nestjs/graphql';
 
 @ObjectType()
 export default class Router {
-  @Field(() => Object)
-  rtpCapabilities: Object;
-
-  constructor(rtpCapabilities: any) {
+  constructor(rtpCapabilities: object) {
     this.rtpCapabilities = rtpCapabilities;
   }
+
+  @Field(() => Object)
+  rtpCapabilities: object;
 }

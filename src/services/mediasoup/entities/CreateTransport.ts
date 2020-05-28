@@ -1,7 +1,15 @@
-import TransportOptions from '../../../entities/TransportOptions';
+export type CreateTransportPattern = {
+  area: 'transport';
+  action: 'create';
+};
 
-export interface CreateTransportRequest {}
+export interface CreateTransportRequest {
+  roomId: string;
+}
 
 export interface CreateTransportResponse {
-  transportOptions: TransportOptions;
+  id: string;
+  iceCandidates: object;
+  iceParameters: object;
+  dtlsParameters: object;
 }

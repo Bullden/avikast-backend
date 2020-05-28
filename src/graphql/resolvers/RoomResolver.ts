@@ -22,9 +22,8 @@ export default class RoomResolver {
   @Mutation(() => TransportOptions)
   async createTransport(
     @CurrentSession() session: Session,
-    @Args('name') name: string,
+    @Args('roomId') roomId: string,
   ): Promise<TransportOptions> {
-    const transportOptions = await this.mediasoupManager.createTransport(name);
-    return transportOptions;
+    return this.mediasoupManager.createTransport(session.userId, roomId);
   }
 }

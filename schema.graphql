@@ -55,7 +55,7 @@ type Query {
 type Mutation {
   updateMyAccount(user: UserUpdateRequest!): Account!
   createRoom(type: RoomType!, name: String!): Room!
-  createTransport(name: String!): TransportOptions!
+  createTransport(roomId: String!): TransportOptions!
 }
 
 input UserUpdateRequest {

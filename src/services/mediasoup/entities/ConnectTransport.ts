@@ -1,6 +1,6 @@
 export type ConnectTransportPattern = {
   area: 'transport';
-  action: 'create';
+  action: 'connect';
 };
 
 export interface ConnectTransportRequest {}

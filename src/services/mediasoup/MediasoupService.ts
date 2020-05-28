@@ -13,51 +13,58 @@ import {
   CreateTransportRequest,
   CreateTransportResponse,
 } from 'services/mediasoup/entities/CreateTransport';
-import {response} from 'express';
+import {
+  ConnectTransportRequest,
+  ConnectTransportResponse,
+} from 'services/mediasoup/entities/ConnectTransport';
 
 export default class MediasoupService extends IMediasoupService {
   constructor(@Inject(MEDIASOUP_SERVICE) private readonly mediasoupClient: ClientProxy) {
     super();
   }
 
-  async createRouter() {
+  async createRouter(roomId: string) {
     const response = await this.sendAsyncRequired<
-      CreateRouterResponse,
-      CreateRouterRequest
-    >({area: 'router', action: 'create'}, {});
+      CreateRouterRequest,
+      CreateRouterResponse
+    >({area: 'router', action: 'create'}, {roomId});
     return {rtpCapabilities: response.rtpCapabilities};
   }
 
-  async createTransport(name: string) {
+  async createTransport(roomId: string) {
     const response = await this.sendAsyncRequired<
-      CreateTransportResponse,
-      CreateTransportRequest
-    >(
-      {area: 'transport', action: 'create'}, // TODO  {area: 'transport', action: 'create'}
-      {name},
-    );
-    return response.transportOptions;
+      CreateTransportRequest,
+      CreateTransportResponse
+    >({area: 'transport', action: 'create'}, {roomId});
+    return {
+      id: response.id,
+      iceCandidates: response.iceCandidates,
+      iceParameters: response.iceParameters,
+      dtlsParameters: response.dtlsParameters,
+    };
   }
 
-  async connectTransport(name: string) {
-    await this.sendAsyncRequired<CreateRouterResponse, CreateRouterRequest>(
-      {area: 'router', action: 'create'}, // TODO  {area: 'transport', action: 'connect'}
-      {name},
+  async connectTransport() {
+    await this.sendAsyncRequired<ConnectTransportRequest, ConnectTransportResponse>(
+      {area: 'transport', action: 'connect'},
+      {},
     );
   }
 
-  private send<TResult = never, TData = unknown>(
+  // region Helpers
+  private send<TData = unknown, TResult = never>(
     pattern: Pattern,
     payload?: TData,
   ): Observable<TResult> {
     return this.mediasoupClient.send(pattern, payload);
   }
 
-  private sendAsyncRequired<TResult = never, TData = unknown>(
+  private sendAsyncRequired<TData = unknown, TResult = never>(
     pattern: Pattern,
     payload?: TData,
   ): Promise<TResult> {
     const observable: Observable<TResult> = this.send(pattern, payload);
     return observable.toPromise().then(requireResult);
   }
+  // endregion
 }

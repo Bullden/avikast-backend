@@ -16,12 +16,11 @@ export default class RoomManager extends IRoomManager {
 
   async createRoom(userId: string, name: string, type: RoomType) {
     const room = await this.roomStore.createRoom({name, user: {id: userId}, type});
-    const router = await this.mediasoupService.createRouter();
+    const router = await this.mediasoupService.createRouter(room.id);
     return mapRoomFromDB(room, router.rtpCapabilities);
   }
 
-  async createTransport(name: string) {
-    const transportOptions = await this.mediasoupService.createTransport(name);
-    return transportOptions;
+  async createTransport(userId: string, roomId: string) {
+    return this.mediasoupService.createTransport(roomId);
   }
 }

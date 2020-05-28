@@ -3,7 +3,9 @@ export type CreateRouterPattern = {
   action: 'create';
 };
 
-export interface CreateRouterRequest {}
+export interface CreateRouterRequest {
+  roomId: string;
+}
 
 export interface CreateRouterResponse {
   rtpCapabilities: object;
