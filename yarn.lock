@@ -411,10 +411,10 @@
     dotenv "^8.2.0"
     node "^14.2.0"
 
-"@spryrocks/eslint-config@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@spryrocks/eslint-config/-/eslint-config-0.1.1.tgz#097d177c69ec9fc06ca5efa06f7ac6cfc0db58e6"
-  integrity sha512-MWpWzn3Hg15JDt1jeeTVj0jimoU/xBbgGIG5tuf4zwyRS5K/Y6ztP+PK+6Fr1Vz1KgtHwg1joFBJLCHJtGmQjA==
+"@spryrocks/eslint-config@^0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@spryrocks/eslint-config/-/eslint-config-0.1.4.tgz#3bfce3ae2a08ff90e721d756a4804aa20f3d8b52"
+  integrity sha512-UgGl1+0GGLByQBfQIPlY1A1aYWDw68YVrau+w2Rjofmk0RacxnVlYYTlza3gceXVxVtMDcLuljEbahXkaCt6ew==
   dependencies:
     "@spryrocks/prettier-config" "^0.1.1"
     "@typescript-eslint/eslint-plugin" "^2.31.0"

@@ -32,6 +32,7 @@ export class AccountResolver {
         dateOfBirth: userInput.dateOfBirth,
         tags: userInput.tags,
         skills: userInput.skills,
+        referralCode: userInput.referralCode,
       }),
     );
   }

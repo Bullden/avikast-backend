@@ -9,4 +9,6 @@ export default interface User {
   tags: string[];
   skills: string[];
   allowNotifications: boolean;
+  referralCode: string;
+  referrer: User | undefined;
 }

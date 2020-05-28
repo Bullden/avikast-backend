@@ -3,14 +3,13 @@ import {Field, InputType} from '@nestjs/graphql';
 @InputType()
 export default class UserUpdateRequest {
   constructor(
-    name: string,
-    email: string,
-    country: string,
-    city: string,
-    dateOfBirth: Date,
-    avatarUrl: string,
-    tags: string[],
-    skills: string[],
+    name: string | undefined,
+    email: string | undefined,
+    country: string | undefined,
+    city: string | undefined,
+    dateOfBirth: Date | undefined,
+    tags: string[] | undefined,
+    skills: string[] | undefined,
   ) {
     this.name = name;
     this.email = email;
@@ -21,24 +20,27 @@ export default class UserUpdateRequest {
     this.skills = skills;
   }
 
-  @Field(() => String)
-  name: string;
+  @Field(() => String, {nullable: true})
+  name: string | undefined;
 
-  @Field(() => String)
-  email: string;
+  @Field(() => String, {nullable: true})
+  email: string | undefined;
 
-  @Field(() => String)
-  country: string;
+  @Field(() => String, {nullable: true})
+  country: string | undefined;
 
-  @Field(() => String)
-  city: string;
+  @Field(() => String, {nullable: true})
+  city: string | undefined;
 
-  @Field(() => Date)
-  dateOfBirth: Date;
+  @Field(() => Date, {nullable: true})
+  dateOfBirth: Date | undefined;
 
-  @Field(() => [String])
-  tags: string[];
+  @Field(() => [String], {nullable: true})
+  tags: string[] | undefined;
 
-  @Field(() => [String])
-  skills: string[];
+  @Field(() => [String], {nullable: true})
+  skills: string[] | undefined;
+
+  @Field(() => String, {nullable: true})
+  referralCode: string | undefined;
 }

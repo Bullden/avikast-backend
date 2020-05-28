@@ -7,13 +7,14 @@ export default abstract class IAccountManager {
   abstract updateAccount(
     myUserId: ID,
     data: {
-      name: string;
-      email: string;
-      country: string;
-      city: string;
-      dateOfBirth: Date;
-      tags: string[];
-      skills: string[];
+      name: string | undefined;
+      email: string | undefined;
+      country: string | undefined;
+      city: string | undefined;
+      dateOfBirth: Date | undefined;
+      tags: string[] | undefined;
+      skills: string[] | undefined;
+      referralCode: string | undefined;
     },
   ): Promise<Account>;
 }

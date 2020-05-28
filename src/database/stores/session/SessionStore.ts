@@ -16,6 +16,11 @@ export default class SessionStore extends ISessionStore {
     super();
   }
 
+  private populate = {
+    path: 'user',
+    populate: {path: 'referrer'},
+  };
+
   async createSession(
     user: {id: string},
     token: string,
@@ -26,35 +31,39 @@ export default class SessionStore extends ISessionStore {
     const newSession = await this.sessionModel.create(
       mapSessionToModel(user.id, refreshToken, token, appType, platform),
     );
-    return mapSessionFromModel(await newSession.populate('user').execPopulate());
+    return mapSessionFromModel(await newSession.populate(this.populate).execPopulate());
   }
 
   async getSession(session: {id: string}) {
     const newSession = await this.sessionModel
       .findOne({_id: session.id})
-      .populate('user');
+      .populate(this.populate);
     return newSession ? mapSessionFromModel(newSession) : undefined;
   }
 
   async getSessionOrFail(sessionId: ID) {
-    const session = await this.sessionModel.findOne({_id: sessionId}).populate('user');
+    const session = await this.sessionModel
+      .findOne({_id: sessionId})
+      .populate(this.populate);
     if (!session) throw new AvikastError('Session not exists');
     return mapSessionFromModel(session);
   }
 
   async getSessionByToken(token: string) {
-    const session = await this.sessionModel.findOne({token}).populate('user');
+    const session = await this.sessionModel.findOne({token}).populate(this.populate);
     return session ? mapSessionFromModel(session) : undefined;
   }
 
   async getSessionByTokenOrThrow(token: string) {
-    const session = await this.sessionModel.findOne({token}).populate('user');
+    const session = await this.sessionModel.findOne({token}).populate(this.populate);
     if (!session) throw new AvikastError('Session not found');
     return mapSessionFromModel(session);
   }
 
   async getSessionByRefreshToken(refreshToken: string) {
-    const session = await this.sessionModel.findOne({refreshToken}).populate('user');
+    const session = await this.sessionModel
+      .findOne({refreshToken})
+      .populate(this.populate);
     return session ? mapSessionFromModel(session) : undefined;
   }
 

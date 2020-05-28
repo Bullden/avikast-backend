@@ -12,6 +12,7 @@ export default class User {
     avatarUrl: string,
     tags: string[],
     skills: string[],
+    referralCode: string,
   ) {
     this.id = id;
     this.name = name;
@@ -22,6 +23,7 @@ export default class User {
     this.avatarUrl = avatarUrl;
     this.tags = tags;
     this.skills = skills;
+    this.referralCode = referralCode;
   }
 
   @Field(() => ID)
@@ -50,4 +52,7 @@ export default class User {
 
   @Field(() => [String])
   skills: string[];
+
+  @Field(() => String)
+  referralCode: string;
 }

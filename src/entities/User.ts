@@ -2,7 +2,7 @@ import {ID} from './Common';
 
 export default class User {
   constructor(
-    id: string,
+    id: ID,
     name: string,
     email: string,
     country: string,
@@ -11,6 +11,8 @@ export default class User {
     avatarUrl: string,
     tags: string[],
     skills: string[],
+    referralCode: string,
+    referrer: User | undefined,
   ) {
     this.id = id;
     this.name = name;
@@ -21,6 +23,8 @@ export default class User {
     this.avatarUrl = avatarUrl;
     this.tags = tags;
     this.skills = skills;
+    this.referralCode = referralCode;
+    this.referrer = referrer;
   }
 
   id: ID;
@@ -40,4 +44,8 @@ export default class User {
   tags: string[];
 
   skills: string[];
+
+  referralCode: string;
+
+  referrer: User | undefined;
 }

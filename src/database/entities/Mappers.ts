@@ -13,6 +13,8 @@ export const mapUserFromDb = (user: DbUser): User => ({
   avatarUrl: user.avatarUrl,
   tags: user.tags,
   skills: user.skills,
+  referralCode: user.referralCode,
+  referrer: user.referrer ? mapUserFromDb(user.referrer) : undefined,
 });
 
 export const mapPreferencesFromDB = (user: DbUser): Preferences => ({

@@ -59,7 +59,7 @@
     "ts-node": "^8.6.2",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^3.7.4",
-    "@spryrocks/eslint-config": "^0.1.1"
+    "@spryrocks/eslint-config": "^0.1.4"
   },
   "husky": {
     "hooks": {

@@ -12,6 +12,7 @@ type User {
   avatarUrl: String!
   tags: [String!]!
   skills: [String!]!
+  referralCode: String!
 }
 
 type Preferences {
@@ -33,13 +34,14 @@ type Mutation {
 }
 
 input UserUpdateRequest {
-  name: String!
-  email: String!
-  country: String!
-  city: String!
-  dateOfBirth: DateTime!
-  tags: [String!]!
-  skills: [String!]!
+  name: String
+  email: String
+  country: String
+  city: String
+  dateOfBirth: DateTime
+  tags: [String!]
+  skills: [String!]
+  referralCode: String
 }
 
 """

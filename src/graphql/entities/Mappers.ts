@@ -16,6 +16,7 @@ export const mapUserToGQL = (user: User): GQLUser => {
     avatarUrl: user.avatarUrl,
     tags: user.tags,
     skills: user.skills,
+    referralCode: user.referralCode,
   };
 };
 

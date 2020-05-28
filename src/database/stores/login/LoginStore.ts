@@ -13,6 +13,11 @@ export default class LoginStore extends ILoginStore {
     super();
   }
 
+  private populate = {
+    path: 'user',
+    populate: {path: 'referrer'},
+  };
+
   async createLocalLogin(user: User, email: string, passwordHash: string) {
     const login = await this.localLoginModel.create(
       mapLocalLoginToModel(user, email, passwordHash),
@@ -25,12 +30,14 @@ export default class LoginStore extends ILoginStore {
       .findOne({
         email,
       })
-      .populate('user');
+      .populate(this.populate);
     return login ? mapLocalLoginFromModel(login) : undefined;
   }
 
   async getLocalLoginByUser(user: {id: ID}) {
-    const login = await this.localLoginModel.findOne({user: user.id}).populate('user');
+    const login = await this.localLoginModel
+      .findOne({user: user.id})
+      .populate(this.populate);
     return login ? mapLocalLoginFromModel(login) : undefined;
   }
 

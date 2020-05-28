@@ -18,6 +18,7 @@ import {generate as generatePassword} from 'generate-password';
 import {ID} from 'entities/Common';
 import AppType from 'entities/AppType';
 import {Platform} from 'entities/Platform';
+import User from 'entities/User';
 
 @Injectable()
 export default class AuthManager extends IAuthManager {
@@ -36,21 +37,30 @@ export default class AuthManager extends IAuthManager {
     email: string,
     password: string,
     name: string,
+    referralCode: string,
   ): Promise<AuthResponse> {
     // if (await this.loginStore.findLocalLoginByEmail(email)) {
     //   throw new AvikastError('User with the same email already exists');
     // }
 
+    let referrer: User | undefined;
+    if (referralCode) {
+      referrer = await this.userStore.findUserByReferralCode(referralCode);
+    }
+
+    const generatedReferralCode = AuthManager.generateReferralCode();
+
     const user = await this.userStore.createUser({
       name,
       email,
-      allowNotifications: true,
-      country: '1',
-      city: '1',
+      country: ' ',
+      city: ' ',
       dateOfBirth: new Date(),
-      avatarUrl: '1',
+      avatarUrl: ' ',
       tags: [],
       skills: [],
+      referralCode: generatedReferralCode,
+      referrer: referrer ? referrer.id : undefined,
     });
     const login = await this.createLocalLogin(user, email, password);
     return this.createSession(login.user, appType, platform);
@@ -216,6 +226,15 @@ export default class AuthManager extends IAuthManager {
       numbers: true,
       symbols: true,
       uppercase: true,
+    });
+  }
+
+  private static generateReferralCode() {
+    return generatePassword({
+      length: 12,
+      numbers: true,
+      lowercase: false,
+      uppercase: false,
     });
   }
 

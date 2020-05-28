@@ -11,6 +11,7 @@ export default abstract class IAuthManager {
     email: string,
     password: string,
     name: string,
+    referralCode: string,
   ): Promise<AuthResponse>;
 
   abstract login(

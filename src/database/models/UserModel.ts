@@ -1,7 +1,9 @@
 import {Document} from 'mongoose';
 import {createSchema} from './Common';
 
-export const UserSchema = createSchema('user', {
+const schemaName = 'user';
+
+export const UserSchema = createSchema(schemaName, {
   name: {type: String, required: true},
   email: {type: String, required: true},
   country: {type: String, required: true},
@@ -11,6 +13,8 @@ export const UserSchema = createSchema('user', {
   tags: {type: [String], required: true},
   skills: {type: [String], required: true},
   allowNotifications: {type: Boolean, required: true, default: true},
+  referralCode: {type: String, required: true},
+  referrer: {type: String, ref: schemaName},
 });
 
 export default interface UserModel extends Document {
@@ -23,4 +27,6 @@ export default interface UserModel extends Document {
   tags: string[];
   skills: string[];
   allowNotifications: boolean;
+  referralCode: string;
+  referrer: UserModel | string;
 }
