@@ -17,7 +17,6 @@ import {
   ConnectTransportRequest,
   ConnectTransportResponse,
 } from 'services/mediasoup/entities/ConnectTransport';
-import DtlsParameters from '../../entities/DtlsParameters';
 
 export default class MediasoupService extends IMediasoupService {
   constructor(@Inject(MEDIASOUP_SERVICE) private readonly mediasoupClient: ClientProxy) {
@@ -45,14 +44,13 @@ export default class MediasoupService extends IMediasoupService {
     };
   }
 
-  async connectTransport(roomId: string, dtlsParameters: DtlsParameters) {
+  async connectTransport(roomId: string, dtlsParameters: object) {
     await this.sendAsyncRequired<ConnectTransportRequest, ConnectTransportResponse>(
       {area: 'transport', action: 'connect'},
       {roomId, dtlsParameters},
     );
     // eslint-disable-next-line no-console
     console.log('ConnectTransportRequest', dtlsParameters);
-    return true;
   }
 
   // region Helpers

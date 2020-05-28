@@ -56,7 +56,7 @@ type Mutation {
   updateMyAccount(user: UserUpdateRequest!): Account!
   createRoom(type: RoomType!, name: String!): Room!
   createTransport(roomId: String!): TransportOptions!
-  connectTransport(dtlsParameters: DtlsParameters!, roomId: String!): Boolean!
+  connectTransport(dtlsParameters: JSON!, roomId: String!): Boolean!
 }
 
 input UserUpdateRequest {
@@ -74,8 +74,3 @@ input UserUpdateRequest {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
-
-input DtlsParameters {
-  role: JSON!
-  fingerprints: JSON!
-}
