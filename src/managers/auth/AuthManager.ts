@@ -44,8 +44,11 @@ export default class AuthManager extends IAuthManager {
     // }
 
     let referrer: User | undefined;
-    if (referralCode) {
+    if (referralCode && referralCode.length > 0) {
       referrer = await this.userStore.findUserByReferralCode(referralCode);
+      if (!referrer) {
+        throw new AvikastError('This referralCode is not exists');
+      }
     }
 
     const generatedReferralCode = AuthManager.generateReferralCode();
