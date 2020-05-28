@@ -5,6 +5,7 @@ import Session from 'entities/Session';
 import {RoomType} from 'entities/Room';
 import Room from 'graphql/entities/room/Room';
 import TransportOptions from '../entities/Mediasoup/TransportOptions';
+import DtlsParameters from '../entities/Mediasoup/DtlsParameters';
 
 @Resolver()
 export default class RoomResolver {
@@ -25,5 +26,16 @@ export default class RoomResolver {
     @Args('roomId') roomId: string,
   ): Promise<TransportOptions> {
     return this.mediasoupManager.createTransport(session.userId, roomId);
+  }
+
+  @Mutation(() => Boolean)
+  async connectTransport(
+    @CurrentSession() session: Session,
+    @Args('roomId') roomId: string,
+    @Args('dtlsParameters') dtlsParameters: DtlsParameters,
+  ): Promise<boolean> {
+    // eslint-disable-next-line no-console
+    console.log(roomId, dtlsParameters, 'dtlsParameters');
+    return this.mediasoupManager.connectTransport(roomId, dtlsParameters);
   }
 }

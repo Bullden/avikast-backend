@@ -4,6 +4,7 @@ import {Injectable} from '@nestjs/common';
 import IRoomStore from 'database/stores/room/IRoomStore';
 import {RoomType} from 'entities/Room';
 import {mapRoomFromDB} from 'database/entities/Mappers';
+import DtlsParameters from '../../entities/DtlsParameters';
 
 @Injectable()
 export default class RoomManager extends IRoomManager {
@@ -22,5 +23,9 @@ export default class RoomManager extends IRoomManager {
 
   async createTransport(userId: string, roomId: string) {
     return this.mediasoupService.createTransport(roomId);
+  }
+
+  async connectTransport(roomId: string, dtlsParameters: DtlsParameters) {
+    return this.mediasoupService.connectTransport(roomId, dtlsParameters);
   }
 }
