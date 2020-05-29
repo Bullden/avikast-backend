@@ -44,11 +44,10 @@ export default class RoomResolver {
     @CurrentSession() session: Session,
     @Args('transportId') transportId: string,
     @Args('roomId') roomId: string,
-    @Args('kind') kind: string,
     @Args({name: 'rtpParameters', type: () => graphqlTypeJson}) rtpParameters: object,
   ): Promise<boolean> {
     // eslint-disable-next-line no-console
-    await this.mediasoupManager.sendTrack(transportId, roomId, kind, rtpParameters);
+    await this.mediasoupManager.sendTrack(transportId, roomId, rtpParameters);
     return true;
   }
 }

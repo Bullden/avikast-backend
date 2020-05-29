@@ -11,7 +11,6 @@ export default abstract class IMediasoupService {
   abstract sendTrack(
     transportId: string,
     roomId: string,
-    kind: string,
     rtpParameters: object,
   ): Promise<string>;
 }

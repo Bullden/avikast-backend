@@ -6,7 +6,6 @@ export type SendTrackPattern = {
 export interface SendTrackRequest {
   transportId: string;
   roomId: string;
-  kind: string;
   rtpParameters: object;
 }
 

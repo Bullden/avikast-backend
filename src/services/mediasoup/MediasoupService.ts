@@ -54,18 +54,13 @@ export default class MediasoupService extends IMediasoupService {
     console.log('ConnectTransportRequest', dtlsParameters);
   }
 
-  async sendTrack(
-    transportId: string,
-    roomId: string,
-    kind: string,
-    rtpParameters: object,
-  ) {
+  async sendTrack(transportId: string, roomId: string, rtpParameters: object) {
     const response = await this.sendAsyncRequired<SendTrackRequest, SendTrackResponse>(
       {area: 'track', action: 'send'},
-      {transportId, roomId, kind, rtpParameters},
+      {transportId, roomId, rtpParameters},
     );
     // eslint-disable-next-line no-console
-    console.log('sendTrack', transportId, roomId, kind, rtpParameters);
+    console.log('sendTrack', transportId, roomId, rtpParameters);
     return response.producerId;
   }
 
