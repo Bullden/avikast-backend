@@ -7,4 +7,11 @@ export default abstract class IRoomManager {
   abstract createTransport(userId: string, roomId: string): Promise<TransportOptions>;
 
   abstract connectTransport(roomId: string, dtlsParameters: object): Promise<void>;
+
+  abstract sendTrack(
+    transportId: string,
+    roomId: string,
+    kind: string,
+    rtpParameters: object,
+  ): Promise<string>;
 }

@@ -57,6 +57,7 @@ type Mutation {
   createRoom(type: RoomType!, name: String!): Room!
   createTransport(roomId: String!): TransportOptions!
   connectTransport(dtlsParameters: JSON!, roomId: String!): Boolean!
+  sendTrack(rtpParameters: JSON!, kind: String!, roomId: String!, transportId: String!): String!
 }
 
 input UserUpdateRequest {

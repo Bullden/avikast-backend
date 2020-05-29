@@ -27,4 +27,13 @@ export default class RoomManager extends IRoomManager {
   async connectTransport(roomId: string, dtlsParameters: object) {
     await this.mediasoupService.connectTransport(roomId, dtlsParameters);
   }
+
+  async sendTrack(
+    transportId: string,
+    roomId: string,
+    kind: string,
+    rtpParameters: object,
+  ) {
+    return this.mediasoupService.sendTrack(transportId, roomId, kind, rtpParameters);
+  }
 }

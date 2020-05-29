@@ -17,6 +17,7 @@ import {
   ConnectTransportRequest,
   ConnectTransportResponse,
 } from 'services/mediasoup/entities/ConnectTransport';
+import {SendTrackRequest, SendTrackResponse} from 'services/mediasoup/entities/SendTrack';
 
 export default class MediasoupService extends IMediasoupService {
   constructor(@Inject(MEDIASOUP_SERVICE) private readonly mediasoupClient: ClientProxy) {
@@ -51,6 +52,21 @@ export default class MediasoupService extends IMediasoupService {
     );
     // eslint-disable-next-line no-console
     console.log('ConnectTransportRequest', dtlsParameters);
+  }
+
+  async sendTrack(
+    transportId: string,
+    roomId: string,
+    kind: string,
+    rtpParameters: object,
+  ) {
+    const response = await this.sendAsyncRequired<SendTrackRequest, SendTrackResponse>(
+      {area: 'track', action: 'send'},
+      {transportId, roomId, kind, rtpParameters},
+    );
+    // eslint-disable-next-line no-console
+    console.log('sendTrack', transportId, roomId, kind, rtpParameters);
+    return response.producerId;
   }
 
   // region Helpers

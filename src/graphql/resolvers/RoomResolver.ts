@@ -35,8 +35,20 @@ export default class RoomResolver {
     @Args({name: 'dtlsParameters', type: () => graphqlTypeJson}) dtlsParameters: object,
   ): Promise<boolean> {
     // eslint-disable-next-line no-console
-    console.log(roomId, dtlsParameters, 'dtlsParameters');
     await this.mediasoupManager.connectTransport(roomId, dtlsParameters);
+    return true;
+  }
+
+  @Mutation(() => String)
+  async sendTrack(
+    @CurrentSession() session: Session,
+    @Args('transportId') transportId: string,
+    @Args('roomId') roomId: string,
+    @Args('kind') kind: string,
+    @Args({name: 'rtpParameters', type: () => graphqlTypeJson}) rtpParameters: object,
+  ): Promise<boolean> {
+    // eslint-disable-next-line no-console
+    await this.mediasoupManager.sendTrack(transportId, roomId, kind, rtpParameters);
     return true;
   }
 }
