@@ -2,7 +2,7 @@ import {Field, ObjectType} from '@nestjs/graphql';
 import graphqlTypeJson from 'graphql-type-json';
 
 @ObjectType()
-export default class TransportOptions {
+export default class ConsumerOptions {
   constructor(id: string, producerId: string, rtpParameters: object) {
     this.id = id;
     this.producerId = producerId;
