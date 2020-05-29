@@ -45,9 +45,15 @@ export default class RoomResolver {
     @Args('transportId') transportId: string,
     @Args('roomId') roomId: string,
     @Args({name: 'rtpParameters', type: () => graphqlTypeJson}) rtpParameters: object,
-  ): Promise<boolean> {
+  ): Promise<string> {
     // eslint-disable-next-line no-console
-    await this.mediasoupManager.sendTrack(transportId, roomId, rtpParameters);
-    return true;
+    console.log(111, 'PRODUCER', 111);
+    const producer = await this.mediasoupManager.sendTrack(
+      transportId,
+      roomId,
+      rtpParameters,
+    );
+    console.log(producer, 111, 'PRODUCER', 111);
+    return producer;
   }
 }

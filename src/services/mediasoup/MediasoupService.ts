@@ -50,8 +50,6 @@ export default class MediasoupService extends IMediasoupService {
       {area: 'transport', action: 'connect'},
       {roomId, dtlsParameters},
     );
-    // eslint-disable-next-line no-console
-    console.log('ConnectTransportRequest', dtlsParameters);
   }
 
   async sendTrack(transportId: string, roomId: string, rtpParameters: object) {
