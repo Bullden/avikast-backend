@@ -6,6 +6,7 @@ import {RoomType} from 'entities/Room';
 import Room from 'graphql/entities/room/Room';
 import TransportOptions from '../entities/Mediasoup/TransportOptions';
 import graphqlTypeJson from 'graphql-type-json';
+import ConsumerOptions from '../entities/Mediasoup/ConsumerOptions';
 
 @Resolver()
 export default class RoomResolver {
@@ -55,5 +56,22 @@ export default class RoomResolver {
     );
     console.log(producer, 111, 'PRODUCER', 111);
     return producer;
+  }
+
+  @Mutation(() => String)
+  async createConsumer(
+    @CurrentSession() session: Session,
+    @Args('producerId') producerId: string,
+    @Args('roomId') roomId: string,
+    @Args({name: 'rtpCapabilities', type: () => graphqlTypeJson}) rtpCapabilities: object,
+  ): Promise<ConsumerOptions> {
+    // eslint-disable-next-line no-console
+    console.log(111, 'createConsumer', 111);
+    const consumerOptions = await this.mediasoupManager.createConsumer(
+      producerId,
+      roomId,
+      rtpCapabilities,
+    );
+    return consumerOptions;
   }
 }

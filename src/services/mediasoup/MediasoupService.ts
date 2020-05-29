@@ -18,6 +18,10 @@ import {
   ConnectTransportResponse,
 } from 'services/mediasoup/entities/ConnectTransport';
 import {SendTrackRequest, SendTrackResponse} from 'services/mediasoup/entities/SendTrack';
+import {
+  CreateConsumerRequest,
+  CreateConsumerResponse,
+} from 'services/mediasoup/entities/CreateConsumer';
 
 export default class MediasoupService extends IMediasoupService {
   constructor(@Inject(MEDIASOUP_SERVICE) private readonly mediasoupClient: ClientProxy) {
@@ -60,6 +64,20 @@ export default class MediasoupService extends IMediasoupService {
     // eslint-disable-next-line no-console
     console.log('sendTrack', transportId, roomId, rtpParameters);
     return response.producerId;
+  }
+
+  async createConsumer(producerId: string, roomId: string, rtpCapabilities: object) {
+    const response = await this.sendAsyncRequired<
+      CreateConsumerRequest,
+      CreateConsumerResponse
+    >({area: 'consumer', action: 'create'}, {producerId, roomId, rtpCapabilities});
+    // eslint-disable-next-line no-console
+    console.log('createConsumer', producerId, roomId, rtpCapabilities);
+    return {
+      id: response.id,
+      producerId: response.producerId,
+      rtpParameters: response.rtpParameters,
+    };
   }
 
   // region Helpers
