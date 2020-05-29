@@ -23,7 +23,7 @@
     "@nestjs/core": "^7.0.0",
     "@nestjs/graphql": "^7.3.7",
     "@nestjs/jwt": "^7.0.0",
-    "@nestjs/microservices": "^7.1.0",
+    "@nestjs/microservices": "^7.1.1",
     "@nestjs/mongoose": "^6.4.0",
     "@nestjs/platform-express": "^7.0.9",
     "@spryrocks/config-node": "^1.0.0-alpha.5",
