@@ -5,7 +5,9 @@ import GQLAccount from './account/Account';
 import GQLPreferences from './user/Preferences';
 import Preferences from 'entities/Preferences';
 import Router from '../../entities/Router';
-import GQRouter from './Mediasoup/Router';
+import GQLRouter from './Mediasoup/Router';
+import Room from 'entities/Room';
+import GQLRoom from './room/Room';
 
 export const mapUserToGQL = (user: User): GQLUser => {
   return {
@@ -32,6 +34,12 @@ export const mapAccountToGQL = (account: Account): GQLAccount => ({
   preferences: mapPreferencesToGQL(account.preferences),
 });
 
-export const mapRouterToGQL = (router: Router): GQRouter => ({
+export const mapRoomToGQL = (room: Room): GQLRoom => ({
+  id: room.id,
+  name: room.name,
+  type: room.type,
+});
+
+export const mapRouterToGQL = (router: Router): GQLRouter => ({
   rtpCapabilities: router.rtpCapabilities,
 });

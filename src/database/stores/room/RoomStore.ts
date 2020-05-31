@@ -10,11 +10,19 @@ export default class RoomStore extends IRoomStore {
     super();
   }
 
-  async createRoom(room: {name: string; type: RoomType; user: {id: string}}) {
+  async createRoom(room: {
+    name: string;
+    type: RoomType;
+    user: {id: string};
+    passwordProtected: boolean;
+    password: string | undefined;
+  }) {
     const newRoom: CreateRoomModel = {
       name: room.name,
       type: room.type,
       user: room.user.id,
+      passwordProtected: room.passwordProtected,
+      password: room.password,
     };
     const createdRoom = await this.roomModel.create(newRoom);
     return this.findRoomByIdOrThrow(createdRoom.id);

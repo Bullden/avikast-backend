@@ -6,6 +6,8 @@ export default abstract class IRoomStore {
     name: string;
     type: RoomType;
     user: {id: string};
+    passwordProtected: boolean;
+    password: string | undefined;
   }): Promise<Room>;
 
   abstract findRoomByIdOrThrow(id: string): Promise<Room>;

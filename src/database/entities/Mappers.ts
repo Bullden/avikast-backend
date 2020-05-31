@@ -28,9 +28,8 @@ export const mapAccountFromDB = (account: DbUser): Account => ({
   preferences: mapPreferencesFromDB(account),
 });
 
-export const mapRoomFromDB = (room: DbRoom, rtpCapabilities: object): Room => ({
+export const mapRoomFromDB = (room: DbRoom): Room => ({
   id: room.id,
   name: room.name,
   type: room.type,
-  rtpCapabilities,
 });

@@ -115,5 +115,7 @@ export const mapRoomFromModel = (room: RoomModel): Room => {
     name: room.name,
     type: room.type,
     user: mapUserFromModel(room.user),
+    passwordProtected: room.passwordProtected,
+    password: room.password,
   };
 };

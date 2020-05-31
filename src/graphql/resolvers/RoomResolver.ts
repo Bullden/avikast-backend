@@ -8,6 +8,7 @@ import TransportOptions from '../entities/Mediasoup/TransportOptions';
 import graphqlTypeJson from 'graphql-type-json';
 import ConsumerOptions from '../entities/Mediasoup/ConsumerOptions';
 import ProducerOptions from '../entities/Mediasoup/ProducerOptions';
+import {mapRoomToGQL} from 'graphql/entities/Mappers';
 
 @Resolver()
 export default class RoomResolver {
@@ -18,8 +19,19 @@ export default class RoomResolver {
     @CurrentSession() session: Session,
     @Args('name') name: string,
     @Args({name: 'type', type: () => RoomType}) type: RoomType,
+    @Args({name: 'passwordProtected', type: () => Boolean}) passwordProtected: boolean,
+    @Args({name: 'password', type: () => String, nullable: true})
+    password: string | undefined,
   ): Promise<Room> {
-    return this.mediasoupManager.createRoom(session.userId, name, type);
+    return mapRoomToGQL(
+      await this.mediasoupManager.createRoom(
+        session.userId,
+        name,
+        type,
+        passwordProtected,
+        password,
+      ),
+    );
   }
 
   @Mutation(() => TransportOptions)

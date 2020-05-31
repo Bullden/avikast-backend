@@ -7,4 +7,6 @@ export default interface Room {
   name: string;
   type: RoomType;
   user: User;
+  passwordProtected: boolean;
+  password: string | undefined;
 }

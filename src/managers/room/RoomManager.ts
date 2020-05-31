@@ -14,10 +14,22 @@ export default class RoomManager extends IRoomManager {
     super();
   }
 
-  async createRoom(userId: string, name: string, type: RoomType) {
-    const room = await this.roomStore.createRoom({name, user: {id: userId}, type});
-    const router = await this.mediasoupService.createRouter(room.id);
-    return mapRoomFromDB(room, router.rtpCapabilities);
+  async createRoom(
+    userId: string,
+    name: string,
+    type: RoomType,
+    passwordProtected: boolean,
+    password: string | undefined,
+  ) {
+    return mapRoomFromDB(
+      await this.roomStore.createRoom({
+        name,
+        user: {id: userId},
+        type,
+        passwordProtected,
+        password,
+      }),
+    );
   }
 
   async createTransport(userId: string, roomId: string) {
