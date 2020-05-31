@@ -1,3 +1,5 @@
+import Router from '../../../entities/Router';
+
 export type GetRouterCapabilitiesByRoomIdPattern = {
   area: 'router';
   action: 'get';
@@ -8,5 +10,5 @@ export interface GetRouterCapabilitiesByRoomIdRequest {
 }
 
 export interface GetRouterCapabilitiesByRoomIdResponse {
-  rtpCapabilities: object;
+  rtpCapabilities: Router;
 }

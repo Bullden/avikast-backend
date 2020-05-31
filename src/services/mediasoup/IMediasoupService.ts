@@ -24,5 +24,5 @@ export default abstract class IMediasoupService {
 
   abstract findProducerByRoomId(roomId: string): Promise<FindProducerOptions>;
 
-  abstract getRouterCapabilitiesByRoomId(roomId: string): Promise<object>;
+  abstract getRouterCapabilitiesByRoomId(roomId: string): Promise<Router>;
 }

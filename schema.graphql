@@ -60,9 +60,14 @@ type ProducerOptions {
   rtpParameters: JSON!
 }
 
+type GetRouterCapabilitiesByRoomId {
+  rtpCapabilities: JSON!
+}
+
 type Query {
   myAccount: Account!
   findProducerByRoomId(roomId: String!): ProducerOptions!
+  getRouterCapabilitiesByRoomId(roomId: String!): GetRouterCapabilitiesByRoomId!
 }
 
 type Mutation {

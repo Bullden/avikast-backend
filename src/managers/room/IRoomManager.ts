@@ -2,6 +2,7 @@ import Room, {RoomType} from 'entities/Room';
 import TransportOptions from '../../entities/TransportOptions';
 import ConsumerOptions from '../../entities/ConsumerOptions';
 import FindProducerOptions from '../../entities/FindProducerOptions';
+import Router from '../../entities/Router';
 
 export default abstract class IRoomManager {
   abstract createRoom(
@@ -30,5 +31,5 @@ export default abstract class IRoomManager {
 
   abstract findProducerByRoomId(roomId: string): Promise<FindProducerOptions>;
 
-  abstract getRouterCapabilitiesByRoomId(roomId: string): Promise<object>;
+  abstract getRouterCapabilitiesByRoomId(roomId: string): Promise<Router>;
 }
