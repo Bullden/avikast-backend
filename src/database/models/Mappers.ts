@@ -10,6 +10,9 @@ import {Platform} from 'entities/Platform';
 import RoomModel from 'database/models/RoomModel';
 import Room from 'database/entities/Room';
 import {Document} from 'mongoose';
+import BookmarkModel from './BookmarkModel';
+import Bookmark from '../entities/Bookmark';
+import {Document} from 'mongoose';
 
 const extractIdFromModel = (model: Document): string => model._id.toString();
 
@@ -119,3 +122,17 @@ export const mapRoomFromModel = (room: RoomModel): Room => {
     password: room.password,
   };
 };
+
+export const mapBookmarkFromModel = (bookmark: BookmarkModel): Bookmark => {
+  if (typeof bookmark.user !== 'object') throw new Error('Bookmark should be object');
+  return {
+    id: extractIdFromModel(bookmark),
+    date: bookmark.date,
+    topic: bookmark.topic,
+    text: bookmark.text,
+    user: mapUserFromModel(bookmark.user),
+  };
+};
+
+export const mapBookmarksFromModel = (bookmarks: BookmarkModel[]): Bookmark[] =>
+  bookmarks.map(mapBookmarkFromModel);

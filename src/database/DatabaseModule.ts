@@ -6,6 +6,7 @@ import {LocalLoginSchema} from './models/LocalLoginModel';
 import {SessionSchema} from './models/SessionModel';
 import {IConfigService} from '@spryrocks/config-node';
 import {RoomSchema} from 'database/models/RoomModel';
+import {BookmarkSchema} from './models/BookmarkModel';
 
 const options = (configService: IConfigService): MongooseModuleOptions => {
   const host = configService.get('DATABASE_HOST');
@@ -38,6 +39,7 @@ const options = (configService: IConfigService): MongooseModuleOptions => {
       LocalLoginSchema,
       SessionSchema,
       RoomSchema,
+      BookmarkSchema,
     ]),
   ],
   exports: [

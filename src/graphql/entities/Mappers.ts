@@ -6,6 +6,8 @@ import GQLPreferences from './user/Preferences';
 import Preferences from 'entities/Preferences';
 import Room from 'entities/Room';
 import GQLRoom from './room/Room';
+import Bookmark from '../../entities/Bookmark';
+import GQLBookmark from './bookmark/Bookmark';
 
 export const mapUserToGQL = (user: User): GQLUser => {
   return {
@@ -37,3 +39,14 @@ export const mapRoomToGQL = (room: Room): GQLRoom => ({
   name: room.name,
   type: room.type,
 });
+
+export const mapBookmarkToGQL = (bookmark: Bookmark): GQLBookmark => ({
+  id: bookmark.id,
+  date: bookmark.date,
+  topic: bookmark.topic,
+  text: bookmark.text,
+  user: mapUserToGQL(bookmark.user),
+});
+
+export const mapBookmarksToGQL = (bookmarks: Bookmark[]): GQLBookmark[] =>
+  bookmarks.map(mapBookmarkToGQL);

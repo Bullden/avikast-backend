@@ -24,57 +24,27 @@ type Account {
   preferences: Preferences!
 }
 
-type Room {
+type Bookmark {
   id: ID!
-  name: String!
-  type: RoomType!
-}
-
-enum RoomType {
-  Meeting
-  Webinar
-}
-
-type TransportOptions {
-  id: String!
-  iceCandidates: JSON!
-  iceParameters: JSON!
-  dtlsParameters: JSON!
+  date: DateTime!
+  topic: String!
+  text: String!
+  user: String!
 }
 
 """
-The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
-scalar JSON
-
-type ConsumerOptions {
-  id: String!
-  producerId: String!
-  rtpParameters: JSON!
-}
-
-type RouterOptions {
-  rtpCapabilities: JSON!
-}
-
-type ProducerOptions {
-  id: String!
-  kind: String!
-  rtpParameters: JSON!
-}
+scalar DateTime
 
 type Query {
   myAccount: Account!
-  getRouter(roomId: String!): RouterOptions!
+  bookmarks: [Bookmark!]!
 }
 
 type Mutation {
   updateMyAccount(user: UserUpdateRequest!): Account!
-  createRoom(password: String, passwordProtected: Boolean!, type: RoomType!, name: String!): Room!
-  createTransport(direction: String!, roomId: String!): TransportOptions!
-  connectTransport(direction: String!, dtlsParameters: JSON!, roomId: String!): Boolean!
-  createProducer(rtpParameters: JSON!, roomId: String!, transportId: String!): ProducerOptions!
-  createConsumer(rtpCapabilities: JSON!, roomId: String!, producerId: String!): ConsumerOptions!
+  add: Boolean!
 }
 
 input UserUpdateRequest {
@@ -87,8 +57,3 @@ input UserUpdateRequest {
   skills: [String!]
   referralCode: String
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime

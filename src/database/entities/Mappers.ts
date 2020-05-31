@@ -4,6 +4,8 @@ import Account from '../../entities/Account';
 import Preferences from '../../entities/Preferences';
 import Room from 'entities/Room';
 import DbRoom from './Room';
+import BookmarkDB from './Bookmark';
+import Bookmark from 'entities/Bookmark';
 
 export const mapUserFromDb = (user: DbUser): User => ({
   id: user.id,
@@ -33,3 +35,14 @@ export const mapRoomFromDB = (room: DbRoom): Room => ({
   name: room.name,
   type: room.type,
 });
+
+export const mapBookmarkFromDB = (bookmark: BookmarkDB): Bookmark => ({
+  id: bookmark.id,
+  date: bookmark.date,
+  topic: bookmark.topic,
+  text: bookmark.text,
+  user: mapUserFromDb(bookmark.user),
+});
+
+export const mapBookmarksFromDB = (bookmarks: BookmarkDB[]): Bookmark[] =>
+  bookmarks.map(mapBookmarkFromDB);

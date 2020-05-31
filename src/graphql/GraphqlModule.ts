@@ -8,6 +8,8 @@ import {APP_PIPE} from '@nestjs/core';
 import {RouterModule} from 'router/RouterModule';
 import RoomResolver from './resolvers/RoomResolver';
 import MediasoupResolver from 'graphql/resolvers/MediasoupResolver';
+import TestResolvers from './resolvers/TestResolvers';
+import {BookmarkResolver} from './resolvers/BookmarkResolver';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import MediasoupResolver from 'graphql/resolvers/MediasoupResolver';
     AccountResolver,
     RoomResolver,
     MediasoupResolver,
+    TestResolvers,
+    BookmarkResolver,
   ],
 })
 export class GraphqlModule {}

@@ -8,6 +8,8 @@ import IUserStore from './user/IUserStore';
 import UserStore from './user/UserStore';
 import IRoomStore from './room/IRoomStore';
 import RoomStore from './room/RoomStore';
+import IBookmarkStore from './bookmark/IBookmarkStore';
+import BookmarkStore from './bookmark/BookmarkStore';
 
 @Module({
   imports: [
@@ -31,6 +33,10 @@ import RoomStore from './room/RoomStore';
       provide: IRoomStore,
       useClass: RoomStore,
     },
+    {
+      provide: IBookmarkStore,
+      useClass: BookmarkStore,
+    },
   ],
   exports: [
     //
@@ -38,6 +44,7 @@ import RoomStore from './room/RoomStore';
     ILoginStore,
     IUserStore,
     IRoomStore,
+    IBookmarkStore,
   ],
 })
 export class StoresModule {}
