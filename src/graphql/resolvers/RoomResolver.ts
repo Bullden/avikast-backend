@@ -26,7 +26,6 @@ export default class RoomResolver {
     @CurrentSession() session: Session,
     @Args('roomId') roomId: string,
   ): Promise<TransportOptions> {
-    console.log('createTransport');
     return this.mediasoupManager.createTransport(session.userId, roomId);
   }
 
@@ -62,12 +61,6 @@ export default class RoomResolver {
     @Args({name: 'rtpCapabilities', type: () => graphqlTypeJson}) rtpCapabilities: object,
   ): Promise<ConsumerOptions> {
     // eslint-disable-next-line no-console
-    console.log(111, 'createConsumer', 111);
-    const consumerOptions = await this.mediasoupManager.createConsumer(
-      producerId,
-      roomId,
-      rtpCapabilities,
-    );
-    return consumerOptions;
+    return this.mediasoupManager.createConsumer(producerId, roomId, rtpCapabilities);
   }
 }
