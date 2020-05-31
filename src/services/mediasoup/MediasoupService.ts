@@ -22,6 +22,10 @@ import {
   CreateConsumerRequest,
   CreateConsumerResponse,
 } from 'services/mediasoup/entities/CreateConsumer';
+import {
+  FindProducerByRoomIdRequest,
+  FindProducerByRoomIdResponse,
+} from 'services/mediasoup/entities/FindProducerByRoomId';
 
 export default class MediasoupService extends IMediasoupService {
   constructor(@Inject(MEDIASOUP_SERVICE) private readonly mediasoupClient: ClientProxy) {
@@ -76,6 +80,21 @@ export default class MediasoupService extends IMediasoupService {
     return {
       id: response.id,
       producerId: response.producerId,
+      rtpParameters: response.rtpParameters,
+    };
+  }
+
+  async findProducerByRoomId(roomId: string) {
+    const response = await this.sendAsyncRequired<
+      FindProducerByRoomIdRequest,
+      FindProducerByRoomIdResponse
+    >({area: 'producer', action: 'find'}, {roomId});
+    // eslint-disable-next-line no-console
+    console.log('findProducerByRoomIdResponse', roomId);
+    return {
+      producerId: response.producerId,
+      roomId: response.roomId,
+      kind: response.kind,
       rtpParameters: response.rtpParameters,
     };
   }

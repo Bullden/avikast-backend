@@ -1,6 +1,7 @@
 import Room, {RoomType} from 'entities/Room';
 import TransportOptions from '../../entities/TransportOptions';
 import ConsumerOptions from '../../entities/ConsumerOptions';
+import FindProducerOptions from '../../entities/FindProducerOptions';
 
 export default abstract class IRoomManager {
   abstract createRoom(userId: string, name: string, type: RoomType): Promise<Room>;
@@ -20,4 +21,6 @@ export default abstract class IRoomManager {
     roomId: string,
     rtpCapabilities: object,
   ): Promise<ConsumerOptions>;
+
+  abstract findProducerByRoomId(roomId: string): Promise<FindProducerOptions>;
 }

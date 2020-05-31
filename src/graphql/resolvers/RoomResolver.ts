@@ -1,4 +1,4 @@
-import {Args, Mutation, Resolver} from '@nestjs/graphql';
+import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
 import IRoomManager from '../../managers/room/IRoomManager';
 import CurrentSession from 'enhancers/decorators/CurrentSession';
 import Session from 'entities/Session';
@@ -7,6 +7,7 @@ import Room from 'graphql/entities/room/Room';
 import TransportOptions from '../entities/Mediasoup/TransportOptions';
 import graphqlTypeJson from 'graphql-type-json';
 import ConsumerOptions from '../entities/Mediasoup/ConsumerOptions';
+import ProducerOptions from '../entities/Mediasoup/ProducerOptions';
 
 @Resolver()
 export default class RoomResolver {
@@ -62,5 +63,16 @@ export default class RoomResolver {
   ): Promise<ConsumerOptions> {
     // eslint-disable-next-line no-console
     return this.mediasoupManager.createConsumer(producerId, roomId, rtpCapabilities);
+  }
+
+  @Query(() => ProducerOptions)
+  async findProducerByRoomId(
+    @CurrentSession() session: Session,
+    @Args('roomId') roomId: string,
+  ): Promise<ProducerOptions> {
+    // eslint-disable-next-line no-console
+    console.log(111, 'findProducerByRoomId', 111);
+    const producerOptions = await this.mediasoupManager.findProducerByRoomId(roomId);
+    return producerOptions;
   }
 }

@@ -35,4 +35,8 @@ export default class RoomManager extends IRoomManager {
   async createConsumer(producerId: string, roomId: string, rtpCapabilities: object) {
     return this.mediasoupService.createConsumer(producerId, roomId, rtpCapabilities);
   }
+
+  async findProducerByRoomId(roomId: string) {
+    return this.mediasoupService.findProducerByRoomId(roomId);
+  }
 }

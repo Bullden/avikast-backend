@@ -54,8 +54,16 @@ type ConsumerOptions {
   rtpParameters: JSON!
 }
 
+type ProducerOptions {
+  roomId: String!
+  producerId: String!
+  kind: String!
+  rtpParameters: JSON!
+}
+
 type Query {
   myAccount: Account!
+  findProducerByRoomId(roomId: String!): ProducerOptions!
 }
 
 type Mutation {
