@@ -9,7 +9,7 @@ import graphqlTypeJson from 'graphql-type-json';
 import ConsumerOptions from '../entities/mediasoup/ConsumerOptions';
 import ProducerOptions from '../entities/mediasoup/ProducerOptions';
 import {mapRoomToGQL} from 'graphql/entities/Mappers';
-import GetRouterCapabilitiesByRoomId from '../entities/mediasoup/GetRouterCapabilitiesByRoomId';
+import RouterOptions from 'graphql/entities/mediasoup/RouterOptions';
 
 @Resolver()
 export default class RoomResolver {
@@ -88,11 +88,11 @@ export default class RoomResolver {
     return await this.mediasoupManager.findProducerByRoomId(roomId);
   }
 
-  @Query(() => GetRouterCapabilitiesByRoomId)
+  @Query(() => RouterOptions)
   async getRouterCapabilitiesByRoomId(
     @CurrentSession() session: Session,
     @Args('roomId') roomId: string,
-  ): Promise<GetRouterCapabilitiesByRoomId> {
+  ): Promise<RouterOptions> {
     // eslint-disable-next-line no-console
     console.log(111, 'findProducerByRoomId', 111);
     const rtpCapabilities = await this.mediasoupManager.getRouterCapabilitiesByRoomId(
