@@ -26,6 +26,10 @@ import {
   FindProducerByRoomIdRequest,
   FindProducerByRoomIdResponse,
 } from 'services/mediasoup/entities/FindProducerByRoomId';
+import {
+  GetRouterCapabilitiesByRoomIdRequest,
+  GetRouterCapabilitiesByRoomIdResponse,
+} from './entities/GetRouterRtpCapabilities';
 
 export default class MediasoupService extends IMediasoupService {
   constructor(@Inject(MEDIASOUP_SERVICE) private readonly mediasoupClient: ClientProxy) {
@@ -96,6 +100,18 @@ export default class MediasoupService extends IMediasoupService {
       roomId: response.roomId,
       kind: response.kind,
       rtpParameters: response.rtpParameters,
+    };
+  }
+
+  async getRouterCapabilitiesByRoomId(roomId: string) {
+    const response = await this.sendAsyncRequired<
+      GetRouterCapabilitiesByRoomIdRequest,
+      GetRouterCapabilitiesByRoomIdResponse
+    >({area: 'router', action: 'get'}, {roomId});
+    // eslint-disable-next-line no-console
+    console.log('getRouterCapabilitiesByRoomId', roomId);
+    return {
+      rtpCapabilities: response.rtpCapabilities,
     };
   }
 

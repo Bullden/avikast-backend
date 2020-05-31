@@ -4,6 +4,7 @@ import {ConnectTransportPattern} from './ConnectTransport';
 import {SendTrackPattern} from './SendTrack';
 import {CreateConsumerPattern} from './CreateConsumer';
 import {FindProducerByRoomIdPattern} from './FindProducerByRoomId';
+import {GetRouterCapabilitiesByRoomIdPattern} from './GetRouterRtpCapabilities';
 
 export type Pattern =
   | CreateRouterPattern
@@ -11,4 +12,5 @@ export type Pattern =
   | ConnectTransportPattern
   | SendTrackPattern
   | CreateConsumerPattern
-  | FindProducerByRoomIdPattern;
+  | FindProducerByRoomIdPattern
+  | GetRouterCapabilitiesByRoomIdPattern;

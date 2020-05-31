@@ -51,4 +51,8 @@ export default class RoomManager extends IRoomManager {
   async findProducerByRoomId(roomId: string) {
     return this.mediasoupService.findProducerByRoomId(roomId);
   }
+
+  async getRouterCapabilitiesByRoomId(roomId: string) {
+    return this.mediasoupService.getRouterCapabilitiesByRoomId(roomId);
+  }
 }

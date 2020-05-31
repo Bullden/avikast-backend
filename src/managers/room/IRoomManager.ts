@@ -29,4 +29,6 @@ export default abstract class IRoomManager {
   ): Promise<ConsumerOptions>;
 
   abstract findProducerByRoomId(roomId: string): Promise<FindProducerOptions>;
+
+  abstract getRouterCapabilitiesByRoomId(roomId: string): Promise<object>;
 }
