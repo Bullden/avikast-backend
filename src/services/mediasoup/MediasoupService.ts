@@ -96,7 +96,7 @@ export default class MediasoupService extends IMediasoupService {
     // eslint-disable-next-line no-console
     console.log('findProducerByRoomIdResponse', roomId);
     return {
-      producerId: response.producerId,
+      id: response.producerId,
       roomId: response.roomId,
       kind: response.kind,
       rtpParameters: response.rtpParameters,

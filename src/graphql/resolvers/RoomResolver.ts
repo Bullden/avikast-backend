@@ -4,12 +4,12 @@ import CurrentSession from 'enhancers/decorators/CurrentSession';
 import Session from 'entities/Session';
 import {RoomType} from 'entities/Room';
 import Room from 'graphql/entities/room/Room';
-import TransportOptions from '../entities/Mediasoup/TransportOptions';
+import TransportOptions from '../entities/mediasoup/TransportOptions';
 import graphqlTypeJson from 'graphql-type-json';
-import ConsumerOptions from '../entities/Mediasoup/ConsumerOptions';
-import ProducerOptions from '../entities/Mediasoup/ProducerOptions';
+import ConsumerOptions from '../entities/mediasoup/ConsumerOptions';
+import ProducerOptions from '../entities/mediasoup/ProducerOptions';
 import {mapRoomToGQL} from 'graphql/entities/Mappers';
-import GetRouterCapabilitiesByRoomId from '../entities/Mediasoup/GetRouterCapabilitiesByRoomId';
+import GetRouterCapabilitiesByRoomId from '../entities/mediasoup/GetRouterCapabilitiesByRoomId';
 
 @Resolver()
 export default class RoomResolver {
@@ -85,8 +85,7 @@ export default class RoomResolver {
   ): Promise<ProducerOptions> {
     // eslint-disable-next-line no-console
     console.log(111, 'findProducerByRoomId', 111);
-    const producerOptions = await this.mediasoupManager.findProducerByRoomId(roomId);
-    return producerOptions;
+    return await this.mediasoupManager.findProducerByRoomId(roomId);
   }
 
   @Query(() => GetRouterCapabilitiesByRoomId)

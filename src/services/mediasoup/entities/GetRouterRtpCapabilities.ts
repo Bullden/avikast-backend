@@ -1,4 +1,4 @@
-import Router from '../../../entities/Router';
+import {RouterOptions} from 'entities/Mediasoup';
 
 export type GetRouterCapabilitiesByRoomIdPattern = {
   area: 'router';
@@ -10,5 +10,5 @@ export interface GetRouterCapabilitiesByRoomIdRequest {
 }
 
 export interface GetRouterCapabilitiesByRoomIdResponse {
-  rtpCapabilities: Router;
+  rtpCapabilities: RouterOptions;
 }

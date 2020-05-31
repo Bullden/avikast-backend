@@ -54,8 +54,7 @@ type ConsumerOptions {
 }
 
 type ProducerOptions {
-  roomId: String!
-  producerId: String!
+  id: String!
   kind: JSON!
   rtpParameters: JSON!
 }

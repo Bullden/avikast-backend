@@ -1,10 +1,12 @@
-import Router from 'entities/Router';
-import TransportOptions from '../../entities/TransportOptions';
-import ConsumerOptions from '../../entities/ConsumerOptions';
-import FindProducerOptions from '../../entities/FindProducerOptions';
+import {
+  ConsumerOptions,
+  ProducerOptions,
+  RouterOptions,
+  TransportOptions,
+} from 'entities/Mediasoup';
 
 export default abstract class IMediasoupService {
-  abstract createRouter(roomId: string): Promise<Router>;
+  abstract createRouter(roomId: string): Promise<RouterOptions>;
 
   abstract createTransport(roomId: string): Promise<TransportOptions>;
 
@@ -22,7 +24,7 @@ export default abstract class IMediasoupService {
     rtpCapabilities: object,
   ): Promise<ConsumerOptions>;
 
-  abstract findProducerByRoomId(roomId: string): Promise<FindProducerOptions>;
+  abstract findProducerByRoomId(roomId: string): Promise<ProducerOptions>;
 
-  abstract getRouterCapabilitiesByRoomId(roomId: string): Promise<Router>;
+  abstract getRouterCapabilitiesByRoomId(roomId: string): Promise<RouterOptions>;
 }

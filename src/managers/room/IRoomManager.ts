@@ -1,8 +1,10 @@
 import Room, {RoomType} from 'entities/Room';
-import TransportOptions from '../../entities/TransportOptions';
-import ConsumerOptions from '../../entities/ConsumerOptions';
-import FindProducerOptions from '../../entities/FindProducerOptions';
-import Router from '../../entities/Router';
+import {
+  ConsumerOptions,
+  ProducerOptions,
+  TransportOptions,
+  RouterOptions,
+} from 'entities/Mediasoup';
 
 export default abstract class IRoomManager {
   abstract createRoom(
@@ -29,7 +31,7 @@ export default abstract class IRoomManager {
     rtpCapabilities: object,
   ): Promise<ConsumerOptions>;
 
-  abstract findProducerByRoomId(roomId: string): Promise<FindProducerOptions>;
+  abstract findProducerByRoomId(roomId: string): Promise<ProducerOptions>;
 
-  abstract getRouterCapabilitiesByRoomId(roomId: string): Promise<Router>;
+  abstract getRouterCapabilitiesByRoomId(roomId: string): Promise<RouterOptions>;
 }
