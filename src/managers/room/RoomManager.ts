@@ -21,7 +21,7 @@ export default class RoomManager extends IRoomManager {
     passwordProtected: boolean,
     password: string | undefined,
   ) {
-    return mapRoomFromDB(
+    const room = mapRoomFromDB(
       await this.roomStore.createRoom({
         name,
         user: {id: userId},
@@ -30,6 +30,8 @@ export default class RoomManager extends IRoomManager {
         password,
       }),
     );
+    await this.mediasoupService.createRouter(room.id);
+    return room;
   }
 
   async createTransport(userId: string, roomId: string) {
@@ -53,6 +55,7 @@ export default class RoomManager extends IRoomManager {
   }
 
   async getRouterCapabilitiesByRoomId(roomId: string) {
-    return this.mediasoupService.getRouterCapabilitiesByRoomId(roomId);
+    const response = await this.mediasoupService.getRouterCapabilitiesByRoomId(roomId);
+    return response;
   }
 }

@@ -70,7 +70,7 @@ export default class MediasoupService extends IMediasoupService {
       {transportId, roomId, rtpParameters},
     );
     // eslint-disable-next-line no-console
-    console.log('sendTrack', transportId, roomId, rtpParameters);
+    console.log('PRODUCERid', response.producerId);
     return response.producerId;
   }
 
@@ -98,7 +98,7 @@ export default class MediasoupService extends IMediasoupService {
     return {
       id: response.producerId,
       roomId: response.roomId,
-      kind: response.kind,
+      kind: (response.kind as unknown) as object,
       rtpParameters: response.rtpParameters,
     };
   }
@@ -109,7 +109,7 @@ export default class MediasoupService extends IMediasoupService {
       GetRouterCapabilitiesByRoomIdResponse
     >({area: 'router', action: 'get'}, {roomId});
     // eslint-disable-next-line no-console
-    console.log('getRouterCapabilitiesByRoomId', roomId);
+    console.log('getRouterCapabilitiesByRoomId', roomId, response.rtpCapabilities);
     return {
       rtpCapabilities: response.rtpCapabilities,
     };

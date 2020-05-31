@@ -10,6 +10,6 @@ export interface FindProducerByRoomIdRequest {
 export interface FindProducerByRoomIdResponse {
   producerId: string;
   roomId: string;
-  kind: object;
+  kind: string;
   rtpParameters: object;
 }

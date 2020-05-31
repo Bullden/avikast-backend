@@ -95,9 +95,7 @@ export default class RoomResolver {
   ): Promise<RouterOptions> {
     // eslint-disable-next-line no-console
     console.log(111, 'findProducerByRoomId', 111);
-    const rtpCapabilities = await this.mediasoupManager.getRouterCapabilitiesByRoomId(
-      roomId,
-    );
-    return rtpCapabilities;
+    const options = await this.mediasoupManager.getRouterCapabilitiesByRoomId(roomId);
+    return options;
   }
 }
