@@ -34,12 +34,16 @@ export default class RoomManager extends IRoomManager {
     return room;
   }
 
-  async createTransport(userId: string, roomId: string) {
-    return this.mediasoupService.createTransport(roomId);
+  async createTransport(userId: string, roomId: string, direction: 'send' | 'receive') {
+    return this.mediasoupService.createTransport(roomId, direction);
   }
 
-  async connectTransport(roomId: string, dtlsParameters: object) {
-    await this.mediasoupService.connectTransport(roomId, dtlsParameters);
+  async connectTransport(
+    roomId: string,
+    dtlsParameters: object,
+    direction: 'send' | 'receive',
+  ) {
+    await this.mediasoupService.connectTransport(roomId, dtlsParameters, direction);
   }
 
   async sendTrack(transportId: string, roomId: string, rtpParameters: object) {
@@ -48,10 +52,6 @@ export default class RoomManager extends IRoomManager {
 
   async createConsumer(producerId: string, roomId: string, rtpCapabilities: object) {
     return this.mediasoupService.createConsumer(producerId, roomId, rtpCapabilities);
-  }
-
-  async findProducerByRoomId(roomId: string) {
-    return this.mediasoupService.findProducerByRoomId(roomId);
   }
 
   async getRouterCapabilitiesByRoomId(roomId: string) {

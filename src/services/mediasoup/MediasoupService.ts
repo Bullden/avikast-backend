@@ -4,32 +4,21 @@ import {ClientProxy} from '@nestjs/microservices';
 import {MEDIASOUP_SERVICE} from './Constants';
 import {requireResult} from './Utils';
 import {Observable} from 'rxjs';
-import {Pattern} from 'services/mediasoup/entities';
-import {
-  CreateRouterRequest,
-  CreateRouterResponse,
-} from 'services/mediasoup/entities/CreateRouter';
-import {
-  CreateTransportRequest,
-  CreateTransportResponse,
-} from 'services/mediasoup/entities/CreateTransport';
 import {
   ConnectTransportRequest,
   ConnectTransportResponse,
-} from 'services/mediasoup/entities/ConnectTransport';
-import {SendTrackRequest, SendTrackResponse} from 'services/mediasoup/entities/SendTrack';
-import {
   CreateConsumerRequest,
   CreateConsumerResponse,
-} from 'services/mediasoup/entities/CreateConsumer';
-import {
-  FindProducerByRoomIdRequest,
-  FindProducerByRoomIdResponse,
-} from 'services/mediasoup/entities/FindProducerByRoomId';
-import {
-  GetRouterCapabilitiesByRoomIdRequest,
-  GetRouterCapabilitiesByRoomIdResponse,
-} from './entities/GetRouterRtpCapabilities';
+  CreateProducerRequest,
+  CreateProducerResponse,
+  CreateRouterRequest,
+  CreateRouterResponse,
+  CreateTransportRequest,
+  CreateTransportResponse,
+  GetRouterRequest,
+  GetRouterResponse,
+  Pattern,
+} from './entities';
 
 export default class MediasoupService extends IMediasoupService {
   constructor(@Inject(MEDIASOUP_SERVICE) private readonly mediasoupClient: ClientProxy) {
@@ -44,11 +33,11 @@ export default class MediasoupService extends IMediasoupService {
     return {rtpCapabilities: response.rtpCapabilities};
   }
 
-  async createTransport(roomId: string) {
+  async createTransport(roomId: string, direction: 'send' | 'receive') {
     const response = await this.sendAsyncRequired<
       CreateTransportRequest,
       CreateTransportResponse
-    >({area: 'transport', action: 'create'}, {roomId});
+    >({area: 'transport', action: 'create'}, {roomId, direction});
     return {
       id: response.id,
       iceCandidates: response.iceCandidates,
@@ -57,18 +46,22 @@ export default class MediasoupService extends IMediasoupService {
     };
   }
 
-  async connectTransport(roomId: string, dtlsParameters: object) {
-    await this.sendAsyncRequired<ConnectTransportRequest, ConnectTransportResponse>(
+  async connectTransport(
+    roomId: string,
+    dtlsParameters: object,
+    direction: 'send' | 'receive',
+  ) {
+    await this.sendAsync<ConnectTransportRequest, ConnectTransportResponse>(
       {area: 'transport', action: 'connect'},
-      {roomId, dtlsParameters},
+      {roomId, dtlsParameters, direction},
     );
   }
 
   async sendTrack(transportId: string, roomId: string, rtpParameters: object) {
-    const response = await this.sendAsyncRequired<SendTrackRequest, SendTrackResponse>(
-      {area: 'track', action: 'send'},
-      {transportId, roomId, rtpParameters},
-    );
+    const response = await this.sendAsyncRequired<
+      CreateProducerRequest,
+      CreateProducerResponse
+    >({area: 'producer', action: 'create'}, {transportId, roomId, rtpParameters});
     // eslint-disable-next-line no-console
     console.log('PRODUCERid', response.producerId);
     return response.producerId;
@@ -88,26 +81,11 @@ export default class MediasoupService extends IMediasoupService {
     };
   }
 
-  async findProducerByRoomId(roomId: string) {
-    const response = await this.sendAsyncRequired<
-      FindProducerByRoomIdRequest,
-      FindProducerByRoomIdResponse
-    >({area: 'producer', action: 'find'}, {roomId});
-    // eslint-disable-next-line no-console
-    console.log('findProducerByRoomIdResponse', roomId);
-    return {
-      id: response.producerId,
-      roomId: response.roomId,
-      kind: (response.kind as unknown) as object,
-      rtpParameters: response.rtpParameters,
-    };
-  }
-
   async getRouterCapabilitiesByRoomId(roomId: string) {
-    const response = await this.sendAsyncRequired<
-      GetRouterCapabilitiesByRoomIdRequest,
-      GetRouterCapabilitiesByRoomIdResponse
-    >({area: 'router', action: 'get'}, {roomId});
+    const response = await this.sendAsyncRequired<GetRouterRequest, GetRouterResponse>(
+      {area: 'router', action: 'get'},
+      {roomId},
+    );
     // eslint-disable-next-line no-console
     console.log('getRouterCapabilitiesByRoomId', roomId, response.rtpCapabilities);
     return {
@@ -121,6 +99,14 @@ export default class MediasoupService extends IMediasoupService {
     payload?: TData,
   ): Observable<TResult> {
     return this.mediasoupClient.send(pattern, payload);
+  }
+
+  private sendAsync<TData = unknown, TResult = never>(
+    pattern: Pattern,
+    payload?: TData,
+  ): Promise<void> {
+    const observable: Observable<TResult> = this.send(pattern, payload);
+    return observable.toPromise().then();
   }
 
   private sendAsyncRequired<TData = unknown, TResult = never>(

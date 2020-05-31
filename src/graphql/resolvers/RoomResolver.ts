@@ -7,7 +7,6 @@ import Room from 'graphql/entities/room/Room';
 import TransportOptions from '../entities/mediasoup/TransportOptions';
 import graphqlTypeJson from 'graphql-type-json';
 import ConsumerOptions from '../entities/mediasoup/ConsumerOptions';
-import ProducerOptions from '../entities/mediasoup/ProducerOptions';
 import {mapRoomToGQL} from 'graphql/entities/Mappers';
 import RouterOptions from 'graphql/entities/mediasoup/RouterOptions';
 
@@ -39,8 +38,13 @@ export default class RoomResolver {
   async createTransport(
     @CurrentSession() session: Session,
     @Args('roomId') roomId: string,
+    @Args('direction') direction: string,
   ): Promise<TransportOptions> {
-    return this.mediasoupManager.createTransport(session.userId, roomId);
+    return this.mediasoupManager.createTransport(
+      session.userId,
+      roomId,
+      direction as 'send' | 'receive',
+    );
   }
 
   @Mutation(() => Boolean)
@@ -48,10 +52,15 @@ export default class RoomResolver {
     @CurrentSession() session: Session,
     @Args('roomId') roomId: string,
     @Args({name: 'dtlsParameters', type: () => graphqlTypeJson}) dtlsParameters: object,
+    @Args('direction') direction: string,
   ): Promise<boolean> {
     // eslint-disable-next-line no-console
     console.log('connectTransport');
-    await this.mediasoupManager.connectTransport(roomId, dtlsParameters);
+    await this.mediasoupManager.connectTransport(
+      roomId,
+      dtlsParameters,
+      direction as 'send' | 'receive',
+    );
     return true;
   }
 
@@ -76,16 +85,6 @@ export default class RoomResolver {
   ): Promise<ConsumerOptions> {
     // eslint-disable-next-line no-console
     return this.mediasoupManager.createConsumer(producerId, roomId, rtpCapabilities);
-  }
-
-  @Query(() => ProducerOptions)
-  async findProducerByRoomId(
-    @CurrentSession() session: Session,
-    @Args('roomId') roomId: string,
-  ): Promise<ProducerOptions> {
-    // eslint-disable-next-line no-console
-    console.log(111, 'findProducerByRoomId', 111);
-    return await this.mediasoupManager.findProducerByRoomId(roomId);
   }
 
   @Query(() => RouterOptions)

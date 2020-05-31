@@ -1,16 +1,49 @@
-import {CreateRouterPattern} from './CreateRouter';
-import {CreateTransportPattern} from './CreateTransport';
-import {ConnectTransportPattern} from './ConnectTransport';
-import {SendTrackPattern} from './SendTrack';
-import {CreateConsumerPattern} from './CreateConsumer';
-import {FindProducerByRoomIdPattern} from './FindProducerByRoomId';
-import {GetRouterCapabilitiesByRoomIdPattern} from './GetRouterRtpCapabilities';
+import {
+  CreateRouterPattern,
+  CreateRouterRequest,
+  CreateRouterResponse,
+} from './CreateRouter';
+import {
+  CreateTransportPattern,
+  CreateTransportRequest,
+  CreateTransportResponse,
+} from './CreateTransport';
+import {
+  ConnectTransportPattern,
+  ConnectTransportRequest,
+  ConnectTransportResponse,
+} from './ConnectTransport';
+import {
+  CreateProducerPattern,
+  CreateProducerRequest,
+  CreateProducerResponse,
+} from './CreateProducer';
+import {
+  CreateConsumerPattern,
+  CreateConsumerRequest,
+  CreateConsumerResponse,
+} from './CreateConsumer';
+import {GetRouterPattern, GetRouterRequest, GetRouterResponse} from './GetRouter';
 
 export type Pattern =
   | CreateRouterPattern
   | CreateTransportPattern
   | ConnectTransportPattern
-  | SendTrackPattern
+  | CreateProducerPattern
   | CreateConsumerPattern
-  | FindProducerByRoomIdPattern
-  | GetRouterCapabilitiesByRoomIdPattern;
+  | GetRouterPattern;
+
+export {
+  CreateRouterRequest,
+  CreateRouterResponse,
+  CreateTransportRequest,
+  CreateTransportResponse,
+  ConnectTransportRequest,
+  ConnectTransportResponse,
+  CreateProducerRequest,
+  CreateProducerResponse,
+  CreateConsumerRequest,
+  CreateConsumerResponse,
+  GetRouterRequest,
+  GetRouterResponse,
+};

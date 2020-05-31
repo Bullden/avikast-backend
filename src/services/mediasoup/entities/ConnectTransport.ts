@@ -6,6 +6,7 @@ export type ConnectTransportPattern = {
 export interface ConnectTransportRequest {
   roomId: string;
   dtlsParameters: object;
+  direction: 'send' | 'receive';
 }
 
-export interface ConnectTransportResponse {}
+export type ConnectTransportResponse = void;

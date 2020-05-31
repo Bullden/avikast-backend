@@ -53,27 +53,20 @@ type ConsumerOptions {
   rtpParameters: JSON!
 }
 
-type ProducerOptions {
-  id: String!
-  kind: JSON!
-  rtpParameters: JSON!
-}
-
 type RouterOptions {
   rtpCapabilities: JSON!
 }
 
 type Query {
   myAccount: Account!
-  findProducerByRoomId(roomId: String!): ProducerOptions!
   getRouterCapabilitiesByRoomId(roomId: String!): RouterOptions!
 }
 
 type Mutation {
   updateMyAccount(user: UserUpdateRequest!): Account!
   createRoom(password: String, passwordProtected: Boolean!, type: RoomType!, name: String!): Room!
-  createTransport(roomId: String!): TransportOptions!
-  connectTransport(dtlsParameters: JSON!, roomId: String!): Boolean!
+  createTransport(direction: String!, roomId: String!): TransportOptions!
+  connectTransport(direction: String!, dtlsParameters: JSON!, roomId: String!): Boolean!
   sendTrack(rtpParameters: JSON!, roomId: String!, transportId: String!): String!
   createConsumer(rtpCapabilities: JSON!, roomId: String!, producerId: String!): ConsumerOptions!
 }
