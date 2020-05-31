@@ -1,6 +1,6 @@
 export default interface findProducerOptions {
   producerId: string;
   roomId: string;
-  kind: string;
+  kind: object;
   rtpParameters: object;
 }
