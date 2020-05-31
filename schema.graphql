@@ -1,0 +1,84 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  country: String!
+  city: String!
+  dateOfBirth: String!
+  avatarUrl: String!
+  tags: [String!]!
+  skills: [String!]!
+  referralCode: String!
+}
+
+type Preferences {
+  allowNotifications: Boolean!
+}
+
+type Account {
+  user: User!
+  preferences: Preferences!
+}
+
+type Room {
+  id: ID!
+  name: String!
+  type: RoomType!
+  rtpCapabilities: JSON!
+}
+
+enum RoomType {
+  Meeting
+  Webinar
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+type TransportOptions {
+  id: String!
+  iceCandidates: JSON!
+  iceParameters: JSON!
+  dtlsParameters: JSON!
+}
+
+type ConsumerOptions {
+  id: String!
+  producerId: String!
+  rtpParameters: JSON!
+}
+
+type Query {
+  myAccount: Account!
+}
+
+type Mutation {
+  updateMyAccount(user: UserUpdateRequest!): Account!
+  createRoom(type: RoomType!, name: String!): Room!
+  createTransport(roomId: String!): TransportOptions!
+  connectTransport(dtlsParameters: JSON!, roomId: String!): Boolean!
+  sendTrack(rtpParameters: JSON!, roomId: String!, transportId: String!): String!
+  createConsumer(rtpCapabilities: JSON!, roomId: String!, producerId: String!): ConsumerOptions!
+}
+
+input UserUpdateRequest {
+  name: String
+  email: String
+  country: String
+  city: String
+  dateOfBirth: DateTime
+  tags: [String!]
+  skills: [String!]
+  referralCode: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
