@@ -4,6 +4,7 @@ import {Injectable} from '@nestjs/common';
 import IRoomStore from 'database/stores/room/IRoomStore';
 import {RoomType} from 'entities/Room';
 import {mapRoomFromDB} from 'database/entities/Mappers';
+import {ParticipantRole} from 'entities/Participant';
 
 @Injectable()
 export default class RoomManager extends IRoomManager {
@@ -30,6 +31,11 @@ export default class RoomManager extends IRoomManager {
         password,
       }),
     );
+    await this.roomStore.createParticipant({
+      room,
+      user: {id: userId},
+      role: ParticipantRole.Owner,
+    });
     await this.mediasoupService.createRouter(room.id);
     return room;
   }

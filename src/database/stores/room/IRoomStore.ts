@@ -1,5 +1,7 @@
 import {RoomType} from 'entities/Room';
 import Room from 'database/entities/Room';
+import {ParticipantRole} from 'entities/Participant';
+import Participant from 'database/entities/Participant';
 
 export default abstract class IRoomStore {
   abstract createRoom(room: {
@@ -13,4 +15,10 @@ export default abstract class IRoomStore {
   abstract findRoomByIdOrThrow(id: string): Promise<Room>;
 
   abstract findRoomByUser(userId: string): Promise<Room | null>;
+
+  abstract createParticipant(participant: {
+    user: {id: string};
+    room: {id: string};
+    role: ParticipantRole;
+  }): Promise<Participant>;
 }

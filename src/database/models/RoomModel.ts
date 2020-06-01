@@ -6,7 +6,7 @@ import {RoomType} from 'entities/Room';
 export const RoomSchema = createSchema('room', {
   name: {type: String, required: true},
   type: {type: RoomType, enum: RoomType, required: true},
-  user: {type: String, ref: UserSchema.name},
+  user: {type: String, ref: UserSchema.name, required: true},
   passwordProtected: {type: Boolean, required: true},
   password: {type: String},
 });

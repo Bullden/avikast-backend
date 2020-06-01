@@ -12,21 +12,10 @@ import Room from 'database/entities/Room';
 import {Document} from 'mongoose';
 import BookmarkModel from './BookmarkModel';
 import Bookmark from '../entities/Bookmark';
+import ParticipantModel from 'database/models/ParticipantModel';
+import Participant from 'database/entities/Participant';
 
-const extractIdFromModel = (model: Document): string => model._id.toString();
-
-export const mapUserToModel = (user: Partial<User>): Partial<UserModel> => ({
-  name: user.name,
-  email: user.email,
-  country: user.country,
-  city: user.city,
-  dateOfBirth: user.dateOfBirth,
-  avatarUrl: user.avatarUrl,
-  tags: user.tags,
-  skills: user.skills,
-  allowNotifications: user.allowNotifications,
-  referralCode: user.referralCode,
-});
+export const extractIdFromModel = (model: Document): string => model._id.toString();
 
 export const mapUserFromModel = (user: UserModel): User => {
   if (user.referrer && typeof user.referrer !== 'object')
@@ -135,3 +124,14 @@ export const mapBookmarkFromModel = (bookmark: BookmarkModel): Bookmark => {
 
 export const mapBookmarksFromModel = (bookmarks: BookmarkModel[]): Bookmark[] =>
   bookmarks.map(mapBookmarkFromModel);
+
+export const mapParticipantFromModel = (participant: ParticipantModel): Participant => {
+  if (typeof participant.user !== 'object') throw new Error('User should be object');
+  if (typeof participant.room !== 'object') throw new Error('Room should be object');
+  return {
+    id: extractIdFromModel(participant),
+    room: mapRoomFromModel(participant.room),
+    user: mapUserFromModel(participant.user),
+    role: participant.role,
+  };
+};
