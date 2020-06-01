@@ -33,29 +33,4 @@ export default class RoomManager extends IRoomManager {
     await this.mediasoupService.createRouter(room.id);
     return room;
   }
-
-  async createTransport(userId: string, roomId: string, direction: 'send' | 'receive') {
-    return this.mediasoupService.createTransport(roomId, direction);
-  }
-
-  async connectTransport(
-    roomId: string,
-    dtlsParameters: object,
-    direction: 'send' | 'receive',
-  ) {
-    await this.mediasoupService.connectTransport(roomId, dtlsParameters, direction);
-  }
-
-  async createProducer(transportId: string, roomId: string, rtpParameters: object) {
-    return this.mediasoupService.createProducer(transportId, roomId, rtpParameters);
-  }
-
-  async createConsumer(producerId: string, roomId: string, rtpCapabilities: object) {
-    return this.mediasoupService.createConsumer(producerId, roomId, rtpCapabilities);
-  }
-
-  async getRouterCapabilitiesByRoomId(roomId: string) {
-    const response = await this.mediasoupService.getRouterCapabilitiesByRoomId(roomId);
-    return response;
-  }
 }

@@ -65,7 +65,7 @@ type ProducerOptions {
 
 type Query {
   myAccount: Account!
-  getRouterCapabilitiesByRoomId(roomId: String!): RouterOptions!
+  getRouter(roomId: String!): RouterOptions!
 }
 
 type Mutation {

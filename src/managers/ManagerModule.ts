@@ -5,7 +5,9 @@ import AccountManager from './account/AccountManager';
 import {AuthModule} from './auth/AuthModule';
 import {ServicesModule} from 'services/ServicesModule';
 import IRoomManager from './room/IRoomManager';
-import TestManager from './room/RoomManager';
+import RoomManager from './room/RoomManager';
+import IMediasoupManager from 'managers/mediasoup/IMediasoupManager';
+import MediasoupManager from 'managers/mediasoup/MediasoupManager';
 
 @Module({
   imports: [
@@ -21,7 +23,11 @@ import TestManager from './room/RoomManager';
     },
     {
       provide: IRoomManager,
-      useClass: TestManager,
+      useClass: RoomManager,
+    },
+    {
+      provide: IMediasoupManager,
+      useClass: MediasoupManager,
     },
   ],
   exports: [
@@ -29,6 +35,7 @@ import TestManager from './room/RoomManager';
     IAccountManager,
     AuthModule,
     IRoomManager,
+    IMediasoupManager,
   ],
 })
 export class ManagerModule {}

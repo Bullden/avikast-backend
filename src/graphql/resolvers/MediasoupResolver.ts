@@ -1,5 +1,4 @@
 import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
-import IRoomManager from '../../managers/room/IRoomManager';
 import CurrentSession from 'enhancers/decorators/CurrentSession';
 import Session from 'entities/Session';
 import TransportOptions from '../entities/mediasoup/TransportOptions';
@@ -7,10 +6,11 @@ import graphqlTypeJson from 'graphql-type-json';
 import ConsumerOptions from '../entities/mediasoup/ConsumerOptions';
 import RouterOptions from 'graphql/entities/mediasoup/RouterOptions';
 import ProducerOptions from 'graphql/entities/mediasoup/ProducerOptions';
+import IMediasoupManager from 'managers/mediasoup/IMediasoupManager';
 
 @Resolver()
 export default class MediasoupResolver {
-  constructor(private readonly mediasoupManager: IRoomManager) {}
+  constructor(private readonly mediasoupManager: IMediasoupManager) {}
 
   @Mutation(() => TransportOptions)
   async createTransport(
@@ -57,18 +57,14 @@ export default class MediasoupResolver {
     @Args('roomId') roomId: string,
     @Args({name: 'rtpCapabilities', type: () => graphqlTypeJson}) rtpCapabilities: object,
   ): Promise<ConsumerOptions> {
-    // eslint-disable-next-line no-console
     return this.mediasoupManager.createConsumer(producerId, roomId, rtpCapabilities);
   }
 
   @Query(() => RouterOptions)
-  async getRouterCapabilitiesByRoomId(
+  async getRouter(
     @CurrentSession() session: Session,
     @Args('roomId') roomId: string,
   ): Promise<RouterOptions> {
-    // eslint-disable-next-line no-console
-    console.log(111, 'findProducerByRoomId', 111);
-    const options = await this.mediasoupManager.getRouterCapabilitiesByRoomId(roomId);
-    return options;
+    return this.mediasoupManager.getRouter(roomId);
   }
 }
