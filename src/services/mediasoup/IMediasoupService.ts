@@ -31,5 +31,5 @@ export default abstract class IMediasoupService {
     rtpCapabilities: object,
   ): Promise<ConsumerOptions>;
 
-  abstract getRouterCapabilitiesByRoomId(roomId: string): Promise<RouterOptions>;
+  abstract getRouter(roomId: string): Promise<RouterOptions>;
 }

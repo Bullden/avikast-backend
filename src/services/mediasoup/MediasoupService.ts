@@ -62,8 +62,6 @@ export default class MediasoupService extends IMediasoupService {
       CreateProducerRequest,
       CreateProducerResponse
     >({area: 'producer', action: 'create'}, {transportId, roomId, rtpParameters});
-    // eslint-disable-next-line no-console
-    console.log('PRODUCERid', response.producerId);
     return {
       id: response.producerId,
       kind: response.kind,
@@ -76,8 +74,6 @@ export default class MediasoupService extends IMediasoupService {
       CreateConsumerRequest,
       CreateConsumerResponse
     >({area: 'consumer', action: 'create'}, {producerId, roomId, rtpCapabilities});
-    // eslint-disable-next-line no-console
-    console.log('createConsumer', producerId, roomId, rtpCapabilities);
     return {
       id: response.id,
       producerId: response.producerId,
@@ -85,13 +81,11 @@ export default class MediasoupService extends IMediasoupService {
     };
   }
 
-  async getRouterCapabilitiesByRoomId(roomId: string) {
+  async getRouter(roomId: string) {
     const response = await this.sendAsyncRequired<GetRouterRequest, GetRouterResponse>(
       {area: 'router', action: 'get'},
       {roomId},
     );
-    // eslint-disable-next-line no-console
-    console.log('getRouterCapabilitiesByRoomId', roomId, response.rtpCapabilities);
     return {
       rtpCapabilities: response.rtpCapabilities,
     };

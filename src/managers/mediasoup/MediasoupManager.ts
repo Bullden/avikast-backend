@@ -29,6 +29,6 @@ export default class MediasoupManager extends IMediasoupManager {
   }
 
   async getRouter(roomId: string) {
-    return this.mediasoupService.getRouterCapabilitiesByRoomId(roomId);
+    return this.mediasoupService.getRouter(roomId);
   }
 }
