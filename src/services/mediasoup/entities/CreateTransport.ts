@@ -1,3 +1,5 @@
+import {MediaAttributes} from 'entities/Mediasoup';
+
 export type CreateTransportPattern = {
   area: 'transport';
   action: 'create';
@@ -5,7 +7,7 @@ export type CreateTransportPattern = {
 
 export interface CreateTransportRequest {
   roomId: string;
-  direction: 'send' | 'receive';
+  mediaAttributes: MediaAttributes;
 }
 
 export interface CreateTransportResponse {

@@ -1,3 +1,15 @@
+export type Kind = 'video' | 'audio';
+
+export type MediaType = 'camera' | 'screenshare';
+
+export type Direction = 'send' | 'receive';
+
+export interface MediaAttributes {
+  kind: Kind;
+  mediaType: MediaType;
+  direction: Direction;
+}
+
 export interface ConsumerOptions {
   id: string;
   producerId: string;

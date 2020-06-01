@@ -19,6 +19,7 @@ import {
   GetRouterResponse,
   Pattern,
 } from './entities';
+import {MediaAttributes} from 'entities/Mediasoup';
 
 export default class MediasoupService extends IMediasoupService {
   constructor(@Inject(MEDIASOUP_SERVICE) private readonly mediasoupClient: ClientProxy) {
@@ -33,11 +34,11 @@ export default class MediasoupService extends IMediasoupService {
     return {rtpCapabilities: response.rtpCapabilities};
   }
 
-  async createTransport(roomId: string, direction: 'send' | 'receive') {
+  async createTransport(roomId: string, mediaAttributes: MediaAttributes) {
     const response = await this.sendAsyncRequired<
       CreateTransportRequest,
       CreateTransportResponse
-    >({area: 'transport', action: 'create'}, {roomId, direction});
+    >({area: 'transport', action: 'create'}, {roomId, mediaAttributes});
     return {
       id: response.id,
       iceCandidates: response.iceCandidates,
@@ -49,11 +50,11 @@ export default class MediasoupService extends IMediasoupService {
   async connectTransport(
     roomId: string,
     dtlsParameters: object,
-    direction: 'send' | 'receive',
+    mediaAttributes: MediaAttributes,
   ) {
     await this.sendAsync<ConnectTransportRequest, ConnectTransportResponse>(
       {area: 'transport', action: 'connect'},
-      {roomId, dtlsParameters, direction},
+      {roomId, dtlsParameters, mediaAttributes},
     );
   }
 

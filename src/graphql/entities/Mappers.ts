@@ -8,6 +8,8 @@ import Room from 'entities/Room';
 import GQLRoom from './room/Room';
 import Bookmark from '../../entities/Bookmark';
 import GQLBookmark from './bookmark/Bookmark';
+import GQLMediaAttributes from './mediasoup/MediaAttributesOptions';
+import {MediaAttributes} from 'entities/Mediasoup';
 
 export const mapUserToGQL = (user: User): GQLUser => {
   return {
@@ -50,3 +52,11 @@ export const mapBookmarkToGQL = (bookmark: Bookmark): GQLBookmark => ({
 
 export const mapBookmarksToGQL = (bookmarks: Bookmark[]): GQLBookmark[] =>
   bookmarks.map(mapBookmarkToGQL);
+
+export const mapMediaAttributes = (
+  mediaAttributes: GQLMediaAttributes,
+): MediaAttributes => ({
+  direction: mediaAttributes.direction as 'send' | 'receive',
+  kind: mediaAttributes.kind as 'video' | 'audio',
+  mediaType: mediaAttributes.mediaType as 'camera' | 'screenshare',
+});

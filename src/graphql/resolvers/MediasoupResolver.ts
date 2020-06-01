@@ -7,6 +7,9 @@ import ConsumerOptions from '../entities/mediasoup/ConsumerOptions';
 import RouterOptions from 'graphql/entities/mediasoup/RouterOptions';
 import ProducerOptions from 'graphql/entities/mediasoup/ProducerOptions';
 import IMediasoupManager from 'managers/mediasoup/IMediasoupManager';
+import {MediaAttributes} from 'entities/Mediasoup';
+import MediaAttributesOptions from 'graphql/entities/mediasoup/MediaAttributesOptions';
+import {mapMediaAttributes} from '../entities/Mappers';
 
 @Resolver()
 export default class MediasoupResolver {
@@ -16,12 +19,12 @@ export default class MediasoupResolver {
   async createTransport(
     @CurrentSession() session: Session,
     @Args('roomId') roomId: string,
-    @Args('direction') direction: string,
+    @Args('mediaAttributes') mediaAttributes: MediaAttributes,
   ): Promise<TransportOptions> {
     return this.mediasoupManager.createTransport(
       session.userId,
       roomId,
-      direction as 'send' | 'receive',
+      mapMediaAttributes(mediaAttributes),
     );
   }
 
@@ -30,12 +33,12 @@ export default class MediasoupResolver {
     @CurrentSession() session: Session,
     @Args('roomId') roomId: string,
     @Args({name: 'dtlsParameters', type: () => graphqlTypeJson}) dtlsParameters: object,
-    @Args('direction') direction: string,
+    @Args('mediaAttributes') mediaAttributes: MediaAttributesOptions,
   ): Promise<boolean> {
     await this.mediasoupManager.connectTransport(
       roomId,
       dtlsParameters,
-      direction as 'send' | 'receive',
+      mapMediaAttributes(mediaAttributes),
     );
     return true;
   }

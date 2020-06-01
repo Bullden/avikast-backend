@@ -1,6 +1,7 @@
 import IMediasoupManager from './IMediasoupManager';
 import IMediasoupService from 'services/mediasoup/IMediasoupService';
 import {Injectable} from '@nestjs/common';
+import {MediaAttributes} from 'entities/Mediasoup';
 
 @Injectable()
 export default class MediasoupManager extends IMediasoupManager {
@@ -8,16 +9,20 @@ export default class MediasoupManager extends IMediasoupManager {
     super();
   }
 
-  async createTransport(userId: string, roomId: string, direction: 'send' | 'receive') {
-    return this.mediasoupService.createTransport(roomId, direction);
+  async createTransport(
+    userId: string,
+    roomId: string,
+    mediaAttributes: MediaAttributes,
+  ) {
+    return this.mediasoupService.createTransport(roomId, mediaAttributes);
   }
 
   async connectTransport(
     roomId: string,
     dtlsParameters: object,
-    direction: 'send' | 'receive',
+    mediaAttributes: MediaAttributes,
   ) {
-    await this.mediasoupService.connectTransport(roomId, dtlsParameters, direction);
+    await this.mediasoupService.connectTransport(roomId, dtlsParameters, mediaAttributes);
   }
 
   async createProducer(transportId: string, roomId: string, rtpParameters: object) {

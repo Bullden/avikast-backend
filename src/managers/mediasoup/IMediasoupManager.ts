@@ -3,19 +3,20 @@ import {
   TransportOptions,
   RouterOptions,
   ProducerOptions,
+  MediaAttributes,
 } from 'entities/Mediasoup';
 
 export default abstract class IMediasoupManager {
   abstract createTransport(
     userId: string,
     roomId: string,
-    direction: 'send' | 'receive',
+    mediaAttributes: MediaAttributes,
   ): Promise<TransportOptions>;
 
   abstract connectTransport(
     roomId: string,
     dtlsParameters: object,
-    direction: 'send' | 'receive',
+    mediaAttributes: MediaAttributes,
   ): Promise<void>;
 
   abstract createProducer(
