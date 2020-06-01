@@ -8,8 +8,6 @@ import IRoomManager from './room/IRoomManager';
 import RoomManager from './room/RoomManager';
 import IMediasoupManager from 'managers/mediasoup/IMediasoupManager';
 import MediasoupManager from 'managers/mediasoup/MediasoupManager';
-import ITestManager from './test/ITestManager';
-import TestManager from './test/TestManager';
 import IBookmarkManager from './bookmark/IBookmarkManager';
 import BookmarkManager from './bookmark/BookmarkManager';
 
@@ -44,7 +42,6 @@ import BookmarkManager from './bookmark/BookmarkManager';
     AuthModule,
     IRoomManager,
     IMediasoupManager,
-    ITestManager,
     IBookmarkManager,
   ],
 })

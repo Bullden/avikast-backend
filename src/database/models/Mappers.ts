@@ -12,7 +12,6 @@ import Room from 'database/entities/Room';
 import {Document} from 'mongoose';
 import BookmarkModel from './BookmarkModel';
 import Bookmark from '../entities/Bookmark';
-import {Document} from 'mongoose';
 
 const extractIdFromModel = (model: Document): string => model._id.toString();
 
