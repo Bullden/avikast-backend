@@ -7,6 +7,7 @@ import {EnhancersModule} from 'enhancers/EnhancersModule';
 import {APP_PIPE} from '@nestjs/core';
 import {RouterModule} from 'router/RouterModule';
 import RoomResolver from './resolvers/RoomResolver';
+import MediasoupResolver from 'graphql/resolvers/MediasoupResolver';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import RoomResolver from './resolvers/RoomResolver';
     },
     AccountResolver,
     RoomResolver,
+    MediasoupResolver,
   ],
 })
 export class GraphqlModule {}

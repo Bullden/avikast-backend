@@ -10,7 +10,7 @@ export interface RouterOptions {
 
 export interface ProducerOptions {
   id: string;
-  kind: object;
+  kind: 'video' | 'audio';
   rtpParameters: object;
 }
 

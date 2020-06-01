@@ -1,5 +1,10 @@
 import Room, {RoomType} from 'entities/Room';
-import {ConsumerOptions, TransportOptions, RouterOptions} from 'entities/Mediasoup';
+import {
+  ConsumerOptions,
+  TransportOptions,
+  RouterOptions,
+  ProducerOptions,
+} from 'entities/Mediasoup';
 
 export default abstract class IRoomManager {
   abstract createRoom(
@@ -22,11 +27,11 @@ export default abstract class IRoomManager {
     direction: 'send' | 'receive',
   ): Promise<void>;
 
-  abstract sendTrack(
+  abstract createProducer(
     transportId: string,
     roomId: string,
     rtpParameters: object,
-  ): Promise<string>;
+  ): Promise<ProducerOptions>;
 
   abstract createConsumer(
     producerId: string,

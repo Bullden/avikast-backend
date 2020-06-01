@@ -11,4 +11,6 @@ export interface CreateProducerRequest {
 
 export interface CreateProducerResponse {
   producerId: string;
+  kind: 'audio' | 'video';
+  rtpParameters: object;
 }

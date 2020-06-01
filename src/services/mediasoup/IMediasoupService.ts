@@ -19,11 +19,11 @@ export default abstract class IMediasoupService {
     direction: 'send' | 'receive',
   ): Promise<void>;
 
-  abstract sendTrack(
+  abstract createProducer(
     transportId: string,
     roomId: string,
     rtpParameters: object,
-  ): Promise<string>;
+  ): Promise<ProducerOptions>;
 
   abstract createConsumer(
     producerId: string,

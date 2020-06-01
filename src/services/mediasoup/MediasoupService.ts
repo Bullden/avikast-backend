@@ -57,14 +57,18 @@ export default class MediasoupService extends IMediasoupService {
     );
   }
 
-  async sendTrack(transportId: string, roomId: string, rtpParameters: object) {
+  async createProducer(transportId: string, roomId: string, rtpParameters: object) {
     const response = await this.sendAsyncRequired<
       CreateProducerRequest,
       CreateProducerResponse
     >({area: 'producer', action: 'create'}, {transportId, roomId, rtpParameters});
     // eslint-disable-next-line no-console
     console.log('PRODUCERid', response.producerId);
-    return response.producerId;
+    return {
+      id: response.producerId,
+      kind: response.kind,
+      rtpParameters: response.rtpParameters,
+    };
   }
 
   async createConsumer(producerId: string, roomId: string, rtpCapabilities: object) {
