@@ -87,8 +87,8 @@ type Mutation {
   updateMyAccount(user: UserUpdateRequest!): Account!
   createRoom(password: String, passwordProtected: Boolean!, type: RoomType!, name: String!): Room!
   joinRoom(password: String, code: String!): Room!
-  createTransport(direction: String!, roomId: String!): TransportOptions!
-  connectTransport(direction: String!, dtlsParameters: JSON!, roomId: String!): Boolean!
+  createTransport(mediaAttributes: MediaAttributesOptions!, roomId: String!): TransportOptions!
+  connectTransport(mediaAttributes: MediaAttributesOptions!, dtlsParameters: JSON!, roomId: String!): Boolean!
   createProducer(rtpParameters: JSON!, roomId: String!, transportId: String!): ProducerOptions!
   createConsumer(rtpCapabilities: JSON!, roomId: String!, producerId: String!): ConsumerOptions!
 }
@@ -102,4 +102,10 @@ input UserUpdateRequest {
   tags: [String!]
   skills: [String!]
   referralCode: String
+}
+
+input MediaAttributesOptions {
+  kind: String!
+  mediaType: String!
+  direction: String!
 }

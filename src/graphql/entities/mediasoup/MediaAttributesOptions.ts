@@ -1,6 +1,6 @@
-import {Field, ObjectType} from '@nestjs/graphql';
+import {Field, InputType} from '@nestjs/graphql';
 
-@ObjectType()
+@InputType()
 export default class MediaAttributesOptions {
   constructor(kind: string, mediaType: string, direction: string) {
     this.kind = kind;

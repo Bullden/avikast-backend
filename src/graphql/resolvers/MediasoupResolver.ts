@@ -7,7 +7,6 @@ import ConsumerOptions from '../entities/mediasoup/ConsumerOptions';
 import RouterOptions from 'graphql/entities/mediasoup/RouterOptions';
 import ProducerOptions from 'graphql/entities/mediasoup/ProducerOptions';
 import IMediasoupManager from 'managers/mediasoup/IMediasoupManager';
-import {MediaAttributes} from 'entities/Mediasoup';
 import MediaAttributesOptions from 'graphql/entities/mediasoup/MediaAttributesOptions';
 import {mapMediaAttributes} from '../entities/Mappers';
 
@@ -19,7 +18,7 @@ export default class MediasoupResolver {
   async createTransport(
     @CurrentSession() session: Session,
     @Args('roomId') roomId: string,
-    @Args('mediaAttributes') mediaAttributes: MediaAttributes,
+    @Args('mediaAttributes') mediaAttributes: MediaAttributesOptions,
   ): Promise<TransportOptions> {
     return this.mediasoupManager.createTransport(
       session.userId,
