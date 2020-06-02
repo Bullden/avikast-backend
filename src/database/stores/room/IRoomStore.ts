@@ -10,15 +10,23 @@ export default abstract class IRoomStore {
     user: {id: string};
     passwordProtected: boolean;
     password: string | undefined;
+    code: string;
   }): Promise<Room>;
 
   abstract findRoomByIdOrThrow(id: string): Promise<Room>;
 
   abstract findRoomByUser(userId: string): Promise<Room | null>;
 
+  abstract findRoomByCode(code: string): Promise<Room | null>;
+
   abstract createParticipant(participant: {
     user: {id: string};
     room: {id: string};
     role: ParticipantRole;
   }): Promise<Participant>;
+
+  abstract findParticipant(
+    roomId: string,
+    userId: string,
+  ): Promise<Participant | undefined>;
 }

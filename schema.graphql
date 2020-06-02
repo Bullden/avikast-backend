@@ -78,6 +78,7 @@ scalar DateTime
 
 type Query {
   myAccount: Account!
+  roomById(roomId: String!): Room!
   getRouter(roomId: String!): RouterOptions!
   bookmarks: [Bookmark!]!
 }
@@ -85,6 +86,7 @@ type Query {
 type Mutation {
   updateMyAccount(user: UserUpdateRequest!): Account!
   createRoom(password: String, passwordProtected: Boolean!, type: RoomType!, name: String!): Room!
+  joinRoom(password: String, code: String!): Room!
   createTransport(direction: String!, roomId: String!): TransportOptions!
   connectTransport(direction: String!, dtlsParameters: JSON!, roomId: String!): Boolean!
   createProducer(rtpParameters: JSON!, roomId: String!, transportId: String!): ProducerOptions!

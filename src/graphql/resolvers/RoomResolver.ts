@@ -1,4 +1,4 @@
-import {Args, Mutation, Resolver} from '@nestjs/graphql';
+import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
 import IRoomManager from '../../managers/room/IRoomManager';
 import CurrentSession from 'enhancers/decorators/CurrentSession';
 import Session from 'entities/Session';
@@ -28,5 +28,19 @@ export default class RoomResolver {
         password,
       ),
     );
+  }
+
+  @Mutation(() => Room)
+  async joinRoom(
+    @CurrentSession() session: Session,
+    @Args('code') code: string,
+    @Args({name: 'password', type: () => String, nullable: true}) password: string,
+  ) {
+    return mapRoomToGQL(await this.roomManager.joinRoom(session.userId, code, password));
+  }
+
+  @Query(() => Room)
+  async roomById(@CurrentSession() session: Session, @Args('roomId') roomId: string) {
+    return mapRoomToGQL(await this.roomManager.getRoomById(session.userId, roomId));
   }
 }

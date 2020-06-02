@@ -9,4 +9,5 @@ export default interface Room {
   user: User;
   passwordProtected: boolean;
   password: string | undefined;
+  code: string;
 }

@@ -8,4 +8,12 @@ export default abstract class IRoomManager {
     passwordProtected: boolean,
     password: string | undefined,
   ): Promise<Room>;
+
+  abstract joinRoom(
+    userId: string,
+    code: string,
+    password: string | undefined,
+  ): Promise<Room>;
+
+  abstract getRoomById(userId: string, roomId: string): Promise<Room>;
 }

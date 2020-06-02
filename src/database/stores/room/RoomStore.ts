@@ -40,6 +40,7 @@ export default class RoomStore extends IRoomStore {
     user: {id: string};
     passwordProtected: boolean;
     password: string | undefined;
+    code: string;
   }) {
     const newRoom: CreateRoomModel = {
       name: room.name,
@@ -47,6 +48,7 @@ export default class RoomStore extends IRoomStore {
       user: room.user.id,
       passwordProtected: room.passwordProtected,
       password: room.password,
+      code: room.code,
     };
     const createdRoom = await this.roomModel.create(newRoom);
     return mapRoomFromModel(await createdRoom.populate(this.populateRoom).execPopulate());
@@ -77,5 +79,17 @@ export default class RoomStore extends IRoomStore {
     return mapParticipantFromModel(
       await createdParticipant.populate(this.populateParticipant).execPopulate(),
     );
+  }
+
+  async findRoomByCode(code: string) {
+    const room = await this.roomModel.findOne({code}).populate(this.populateRoom);
+    return room ? mapRoomFromModel(room) : null;
+  }
+
+  async findParticipant(roomId: string, userId: string) {
+    const room = await this.participantModel
+      .findOne({room: roomId, user: userId})
+      .populate(this.populateRoom);
+    return room ? mapParticipantFromModel(room) : undefined;
   }
 }
