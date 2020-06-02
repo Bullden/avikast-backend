@@ -1,4 +1,5 @@
 import Room, {RoomType} from 'entities/Room';
+import Participant from 'entities/Participant';
 
 export default abstract class IRoomManager {
   abstract createRoom(
@@ -16,4 +17,6 @@ export default abstract class IRoomManager {
   ): Promise<Room>;
 
   abstract getRoomById(userId: string, roomId: string): Promise<Room>;
+
+  abstract getParticipants(userId: string, roomId: string): Promise<Participant[]>;
 }

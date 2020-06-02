@@ -3,7 +3,11 @@ import {InjectModel} from '@nestjs/mongoose';
 import {Model, QueryPopulateOptions} from 'mongoose';
 import RoomModel, {CreateRoomModel, RoomSchema} from 'database/models/RoomModel';
 import {RoomType} from 'entities/Room';
-import {mapParticipantFromModel, mapRoomFromModel} from 'database/models/Mappers';
+import {
+  mapParticipantFromModel,
+  mapParticipantsFromModel,
+  mapRoomFromModel,
+} from 'database/models/Mappers';
 import ParticipantModel, {
   CreateParticipantModel,
   ParticipantSchema,
@@ -91,5 +95,11 @@ export default class RoomStore extends IRoomStore {
       .findOne({room: roomId, user: userId})
       .populate(this.populateParticipant);
     return room ? mapParticipantFromModel(room) : undefined;
+  }
+
+  async getParticipants(roomId: string) {
+    return mapParticipantsFromModel(
+      await this.participantModel.find({room: roomId}).populate(this.populateParticipant),
+    );
   }
 }

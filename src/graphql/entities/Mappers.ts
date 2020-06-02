@@ -10,6 +10,8 @@ import Bookmark from '../../entities/Bookmark';
 import GQLBookmark from './bookmark/Bookmark';
 import GQLMediaAttributes from './mediasoup/MediaAttributesOptions';
 import {MediaAttributes} from 'entities/Mediasoup';
+import Participant from 'entities/Participant';
+import GQLParticipant from './room/Participant';
 
 export const mapUserToGQL = (user: User): GQLUser => {
   return {
@@ -60,3 +62,13 @@ export const mapMediaAttributes = (
   kind: mediaAttributes.kind as 'video' | 'audio',
   mediaType: mediaAttributes.mediaType as 'camera' | 'screenshare',
 });
+
+export const mapParticipantToGQL = (participant: Participant): GQLParticipant => ({
+  id: participant.id,
+  room: mapRoomToGQL(participant.room),
+  user: mapUserToGQL(participant.user),
+  role: participant.role,
+});
+
+export const mapParticipantsToGQL = (participants: Participant[]): GQLParticipant[] =>
+  participants.map(mapParticipantToGQL);

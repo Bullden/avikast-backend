@@ -3,7 +3,7 @@ import IMediasoupService from '../../services/mediasoup/IMediasoupService';
 import {Injectable} from '@nestjs/common';
 import IRoomStore from 'database/stores/room/IRoomStore';
 import {RoomType} from 'entities/Room';
-import {mapRoomFromDB} from 'database/entities/Mappers';
+import {mapParticipantsFromDB, mapRoomFromDB} from 'database/entities/Mappers';
 import {ParticipantRole} from 'entities/Participant';
 import {generate as generatePassword} from 'generate-password';
 
@@ -76,5 +76,10 @@ export default class RoomManager extends IRoomManager {
       lowercase: true,
       uppercase: false,
     });
+  }
+
+  async getParticipants(userId: string, roomId: string) {
+    // todo: make check of room permissions
+    return mapParticipantsFromDB(await this.roomStore.getParticipants(roomId));
   }
 }

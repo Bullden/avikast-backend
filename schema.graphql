@@ -35,6 +35,18 @@ enum RoomType {
   Webinar
 }
 
+type Participant {
+  id: ID!
+  user: User!
+  room: Room!
+  role: ParticipantRole!
+}
+
+enum ParticipantRole {
+  Owner
+  User
+}
+
 type TransportOptions {
   id: String!
   iceCandidates: JSON!
@@ -79,6 +91,7 @@ scalar DateTime
 type Query {
   myAccount: Account!
   roomById(roomId: String!): Room!
+  participants(roomId: String!): [Participant!]!
   getRouter(roomId: String!): RouterOptions!
   getProducer(roomId: String!): ProducerOptions!
   bookmarks: [Bookmark!]!

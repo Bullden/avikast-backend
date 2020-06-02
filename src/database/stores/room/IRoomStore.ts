@@ -29,4 +29,6 @@ export default abstract class IRoomStore {
     roomId: string,
     userId: string,
   ): Promise<Participant | undefined>;
+
+  abstract getParticipants(roomId: string): Promise<Participant[]>;
 }

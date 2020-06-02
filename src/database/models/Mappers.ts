@@ -136,3 +136,7 @@ export const mapParticipantFromModel = (participant: ParticipantModel): Particip
     role: participant.role,
   };
 };
+
+export const mapParticipantsFromModel = (
+  participants: ParticipantModel[],
+): Participant[] => participants.map(mapParticipantFromModel);
