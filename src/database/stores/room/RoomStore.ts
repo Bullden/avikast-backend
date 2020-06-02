@@ -89,7 +89,7 @@ export default class RoomStore extends IRoomStore {
   async findParticipant(roomId: string, userId: string) {
     const room = await this.participantModel
       .findOne({room: roomId, user: userId})
-      .populate(this.populateRoom);
+      .populate(this.populateParticipant);
     return room ? mapParticipantFromModel(room) : undefined;
   }
 }

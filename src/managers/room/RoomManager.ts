@@ -46,7 +46,7 @@ export default class RoomManager extends IRoomManager {
   async joinRoom(userId: string, code: string, password: string | undefined) {
     const dbRoom = await this.roomStore.findRoomByCode(code);
     if (!dbRoom) throw new Error('Code is not valid');
-    if (dbRoom.user.id === userId) throw new Error('Room creator cannot join his room');
+    // if (dbRoom.user.id === userId) throw new Error('Room creator cannot join his room');
     if (dbRoom.passwordProtected && dbRoom.password !== password)
       throw new Error('Password is not valid');
 
