@@ -99,7 +99,7 @@ export default class MediasoupService extends IMediasoupService {
     };
   }
 
-  async findProducer(roomId: string, userId: string) {
+  async getProducer(userId: string, roomId: string) {
     const response = await this.sendAsyncRequired<
       GetProducerRequest,
       GetProducerResponse

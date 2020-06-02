@@ -80,6 +80,6 @@ export default class MediasoupResolver {
     @CurrentSession() session: Session,
     @Args('roomId') roomId: string,
   ): Promise<ProducerOptions> {
-    return this.mediasoupManager.findProducer(session.userId, roomId);
+    return this.mediasoupManager.getProducer(session.userId, roomId);
   }
 }
