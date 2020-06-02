@@ -76,7 +76,7 @@ export default class MediasoupResolver {
   }
 
   @Query(() => ProducerOptions)
-  async findProducer(
+  async getProducer(
     @CurrentSession() session: Session,
     @Args('roomId') roomId: string,
   ): Promise<ProducerOptions> {
