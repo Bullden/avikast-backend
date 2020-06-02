@@ -52,7 +52,6 @@ export const mapBookmarksFromDB = (bookmarks: BookmarkDB[]): Bookmark[] =>
 export const mapParticipantFromDB = (participant: ParticipantDB): Participant => ({
   id: participant.id,
   user: mapUserFromDb(participant.user),
-  room: mapRoomFromDB(participant.room),
   role: participant.role,
 });
 

@@ -65,7 +65,6 @@ export const mapMediaAttributes = (
 
 export const mapParticipantToGQL = (participant: Participant): GQLParticipant => ({
   id: participant.id,
-  room: mapRoomToGQL(participant.room),
   user: mapUserToGQL(participant.user),
   role: participant.role,
 });

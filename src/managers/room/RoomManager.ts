@@ -79,7 +79,8 @@ export default class RoomManager extends IRoomManager {
   }
 
   async getParticipants(userId: string, roomId: string) {
-    // todo: make check of room permissions
+    if (!(await this.roomStore.findParticipant(roomId, userId)))
+      throw new Error("You don't belong to this room");
     return mapParticipantsFromDB(await this.roomStore.getParticipants(roomId));
   }
 }

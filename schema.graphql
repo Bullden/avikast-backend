@@ -38,7 +38,6 @@ enum RoomType {
 type Participant {
   id: ID!
   user: User!
-  room: Room!
   role: ParticipantRole!
 }
 
