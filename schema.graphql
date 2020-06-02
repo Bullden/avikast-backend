@@ -68,7 +68,7 @@ type Bookmark {
   date: DateTime!
   topic: String!
   text: String!
-  user: String!
+  user: User!
 }
 
 """

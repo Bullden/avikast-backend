@@ -23,6 +23,6 @@ export default class Bookmark {
   @Field(() => String)
   text: string;
 
-  @Field(() => String)
+  @Field(() => User)
   user: User;
 }
