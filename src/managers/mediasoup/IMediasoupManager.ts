@@ -33,5 +33,5 @@ export default abstract class IMediasoupManager {
 
   abstract getRouter(roomId: string): Promise<RouterOptions>;
 
-  abstract findProducer(filter: object): Promise<string>;
+  abstract findProducer(userId: string, roomId: string): Promise<ProducerOptions>;
 }

@@ -22,7 +22,7 @@ export interface RouterOptions {
 
 export interface ProducerOptions {
   id: string;
-  kind: 'video' | 'audio';
+  kind: Kind;
   rtpParameters: object;
 }
 

@@ -1,12 +1,17 @@
+import {Kind} from 'entities/Mediasoup';
+
 export type FindProducerPattern = {
   area: 'producer';
   action: 'find';
 };
 
 export interface FindProducerRequest {
-  filter: object;
+  roomId: string;
+  userId: string;
 }
 
 export interface FindProducerResponse {
-  producerId: string;
+  id: string;
+  kind: Kind;
+  rtpParameters: object;
 }

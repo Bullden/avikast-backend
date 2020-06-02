@@ -80,6 +80,7 @@ type Query {
   myAccount: Account!
   roomById(roomId: String!): Room!
   getRouter(roomId: String!): RouterOptions!
+  findProducer(roomId: String!): ProducerOptions!
   bookmarks: [Bookmark!]!
 }
 

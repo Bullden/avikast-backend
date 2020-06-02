@@ -94,12 +94,16 @@ export default class MediasoupService extends IMediasoupService {
     };
   }
 
-  async findProducer(filter: object) {
+  async findProducer(roomId: string, userId: string) {
     const response = await this.sendAsyncRequired<
       FindProducerRequest,
       FindProducerResponse
-    >({area: 'producer', action: 'find'}, {filter});
-    return response.producerId;
+    >({area: 'producer', action: 'find'}, {roomId, userId});
+    return {
+      id: response.id,
+      kind: response.kind,
+      rtpParameters: response.rtpParameters,
+    };
   }
 
   // region Helpers
