@@ -21,6 +21,7 @@ export default abstract class IMediasoupService {
   ): Promise<void>;
 
   abstract createProducer(
+    userId: string,
     transportId: string,
     roomId: string,
     rtpParameters: object,

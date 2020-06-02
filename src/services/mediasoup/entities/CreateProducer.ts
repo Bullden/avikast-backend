@@ -1,3 +1,5 @@
+import {Kind} from 'entities/Mediasoup';
+
 export type CreateProducerPattern = {
   area: 'producer';
   action: 'create';
@@ -6,11 +8,12 @@ export type CreateProducerPattern = {
 export interface CreateProducerRequest {
   transportId: string;
   roomId: string;
+  userId: string;
   rtpParameters: object;
 }
 
 export interface CreateProducerResponse {
   producerId: string;
-  kind: 'audio' | 'video';
+  kind: Kind;
   rtpParameters: object;
 }

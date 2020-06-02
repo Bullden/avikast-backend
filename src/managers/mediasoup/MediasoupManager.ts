@@ -25,8 +25,18 @@ export default class MediasoupManager extends IMediasoupManager {
     await this.mediasoupService.connectTransport(roomId, dtlsParameters, mediaAttributes);
   }
 
-  async createProducer(transportId: string, roomId: string, rtpParameters: object) {
-    return this.mediasoupService.createProducer(transportId, roomId, rtpParameters);
+  async createProducer(
+    userId: string,
+    transportId: string,
+    roomId: string,
+    rtpParameters: object,
+  ) {
+    return this.mediasoupService.createProducer(
+      userId,
+      transportId,
+      roomId,
+      rtpParameters,
+    );
   }
 
   async createConsumer(producerId: string, roomId: string, rtpCapabilities: object) {

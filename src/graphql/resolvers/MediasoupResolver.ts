@@ -49,7 +49,12 @@ export default class MediasoupResolver {
     @Args('roomId') roomId: string,
     @Args({name: 'rtpParameters', type: () => graphqlTypeJson}) rtpParameters: object,
   ): Promise<ProducerOptions> {
-    return this.mediasoupManager.createProducer(transportId, roomId, rtpParameters);
+    return this.mediasoupManager.createProducer(
+      session.userId,
+      transportId,
+      roomId,
+      rtpParameters,
+    );
   }
 
   @Mutation(() => ConsumerOptions)

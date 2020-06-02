@@ -15,8 +15,8 @@ import {
   CreateRouterResponse,
   CreateTransportRequest,
   CreateTransportResponse,
-  FindProducerRequest,
-  FindProducerResponse,
+  GetProducerRequest,
+  GetProducerResponse,
   GetRouterRequest,
   GetRouterResponse,
   Pattern,
@@ -60,11 +60,16 @@ export default class MediasoupService extends IMediasoupService {
     );
   }
 
-  async createProducer(transportId: string, roomId: string, rtpParameters: object) {
+  async createProducer(
+    userId: string,
+    transportId: string,
+    roomId: string,
+    rtpParameters: object,
+  ) {
     const response = await this.sendAsyncRequired<
       CreateProducerRequest,
       CreateProducerResponse
-    >({area: 'producer', action: 'create'}, {transportId, roomId, rtpParameters});
+    >({area: 'producer', action: 'create'}, {userId, transportId, roomId, rtpParameters});
     return {
       id: response.producerId,
       kind: response.kind,
@@ -96,9 +101,9 @@ export default class MediasoupService extends IMediasoupService {
 
   async findProducer(roomId: string, userId: string) {
     const response = await this.sendAsyncRequired<
-      FindProducerRequest,
-      FindProducerResponse
-    >({area: 'producer', action: 'find'}, {roomId, userId});
+      GetProducerRequest,
+      GetProducerResponse
+    >({area: 'producer', action: 'get'}, {roomId, userId});
     return {
       id: response.id,
       kind: response.kind,
