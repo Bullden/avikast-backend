@@ -9,6 +9,7 @@ import ProducerOptions from 'graphql/entities/mediasoup/ProducerOptions';
 import IMediasoupManager from 'managers/mediasoup/IMediasoupManager';
 import MediaAttributesOptions from 'graphql/entities/mediasoup/MediaAttributesOptions';
 import {mapMediaAttributes} from '../entities/Mappers';
+import FilterOptions from 'graphql/entities/mediasoup/FilterOptions';
 
 @Resolver()
 export default class MediasoupResolver {
@@ -68,5 +69,13 @@ export default class MediasoupResolver {
     @Args('roomId') roomId: string,
   ): Promise<RouterOptions> {
     return this.mediasoupManager.getRouter(roomId);
+  }
+
+  @Query(() => FilterOptions)
+  async findProducer(
+    @CurrentSession() session: Session,
+    @Args('filter') filter: object,
+  ): Promise<FilterOptions> {
+    return this.mediasoupManager.findProducer(filter);
   }
 }

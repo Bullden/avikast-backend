@@ -23,6 +23,11 @@ import {
   CreateConsumerRequest,
   CreateConsumerResponse,
 } from './CreateConsumer';
+import {
+  FindProducerPattern,
+  FindProducerRequest,
+  FindProducerResponse,
+} from './FindProducer';
 import {GetRouterPattern, GetRouterRequest, GetRouterResponse} from './GetRouter';
 
 export type Pattern =
@@ -31,7 +36,8 @@ export type Pattern =
   | ConnectTransportPattern
   | CreateProducerPattern
   | CreateConsumerPattern
-  | GetRouterPattern;
+  | GetRouterPattern
+  | FindProducerPattern;
 
 export {
   CreateRouterRequest,
@@ -46,4 +52,6 @@ export {
   CreateConsumerResponse,
   GetRouterRequest,
   GetRouterResponse,
+  FindProducerRequest,
+  FindProducerResponse,
 };

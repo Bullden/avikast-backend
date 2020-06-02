@@ -15,6 +15,8 @@ import {
   CreateRouterResponse,
   CreateTransportRequest,
   CreateTransportResponse,
+  FindProducerRequest,
+  FindProducerResponse,
   GetRouterRequest,
   GetRouterResponse,
   Pattern,
@@ -90,6 +92,14 @@ export default class MediasoupService extends IMediasoupService {
     return {
       rtpCapabilities: response.rtpCapabilities,
     };
+  }
+
+  async findProducer(filter: object) {
+    const response = await this.sendAsyncRequired<
+      FindProducerRequest,
+      FindProducerResponse
+    >({area: 'producer', action: 'find'}, {filter});
+    return response.producerId;
   }
 
   // region Helpers
