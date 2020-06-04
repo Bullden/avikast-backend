@@ -93,6 +93,7 @@ type Query {
   participants(roomId: String!): [Participant!]!
   getRouter(roomId: String!): RouterOptions!
   getProducer(roomId: String!): ProducerOptions!
+  getProducers(roomId: String!): ProducerOptions!
   bookmarks: [Bookmark!]!
 }
 
@@ -100,10 +101,10 @@ type Mutation {
   updateMyAccount(user: UserUpdateRequest!): Account!
   createRoom(password: String, passwordProtected: Boolean!, type: RoomType!, name: String!): Room!
   joinRoom(password: String, code: String!): Room!
-  createTransport(mediaAttributes: MediaAttributesOptions!, roomId: String!): TransportOptions!
-  connectTransport(mediaAttributes: MediaAttributesOptions!, dtlsParameters: JSON!, roomId: String!): Boolean!
-  createProducer(rtpParameters: JSON!, roomId: String!, transportId: String!): ProducerOptions!
-  createConsumer(rtpCapabilities: JSON!, roomId: String!, producerId: String!): ConsumerOptions!
+  createTransport(clientId: String!, direction: JSON!, roomId: String!): TransportOptions!
+  connectTransport(clientId: String!, direction: JSON!, dtlsParameters: JSON!, roomId: String!): Boolean!
+  createProducer(clientId: String!, rtpParameters: JSON!, roomId: String!, transportId: String!): ProducerOptions!
+  createConsumer(clientId: String!, rtpCapabilities: JSON!, roomId: String!, producerId: String!): ConsumerOptions!
 }
 
 input UserUpdateRequest {
@@ -115,10 +116,4 @@ input UserUpdateRequest {
   tags: [String!]
   skills: [String!]
   referralCode: String
-}
-
-input MediaAttributesOptions {
-  kind: String!
-  mediaType: String!
-  direction: String!
 }

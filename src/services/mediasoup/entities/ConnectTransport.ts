@@ -1,5 +1,3 @@
-import {MediaAttributes} from 'entities/Mediasoup';
-
 export type ConnectTransportPattern = {
   area: 'transport';
   action: 'connect';
@@ -8,7 +6,8 @@ export type ConnectTransportPattern = {
 export interface ConnectTransportRequest {
   roomId: string;
   dtlsParameters: object;
-  mediaAttributes: MediaAttributes;
+  direction: string;
+  clientId: string;
 }
 
 export type ConnectTransportResponse = void;

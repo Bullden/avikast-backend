@@ -10,6 +10,7 @@ export interface CreateProducerRequest {
   roomId: string;
   userId: string;
   rtpParameters: object;
+  clientId: string;
 }
 
 export interface CreateProducerResponse {

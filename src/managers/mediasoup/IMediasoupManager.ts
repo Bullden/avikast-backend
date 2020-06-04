@@ -3,20 +3,22 @@ import {
   TransportOptions,
   RouterOptions,
   ProducerOptions,
-  MediaAttributes,
+  Direction,
 } from 'entities/Mediasoup';
 
 export default abstract class IMediasoupManager {
   abstract createTransport(
     userId: string,
+    clientId: string,
     roomId: string,
-    mediaAttributes: MediaAttributes,
+    direction: Direction,
   ): Promise<TransportOptions>;
 
   abstract connectTransport(
     roomId: string,
     dtlsParameters: object,
-    mediaAttributes: MediaAttributes,
+    direction: Direction,
+    clientId: string,
   ): Promise<void>;
 
   abstract createProducer(
@@ -24,15 +26,20 @@ export default abstract class IMediasoupManager {
     transportId: string,
     roomId: string,
     rtpParameters: object,
+    clientId: string,
   ): Promise<ProducerOptions>;
 
   abstract createConsumer(
-    producerId: string,
     roomId: string,
+    producerId: string,
     rtpCapabilities: object,
+    clientId: string,
+    userId: string,
   ): Promise<ConsumerOptions>;
 
   abstract getRouter(roomId: string): Promise<RouterOptions>;
 
   abstract getProducer(userId: string, roomId: string): Promise<ProducerOptions>;
+
+  abstract getProducers(roomId: string): Promise<ProducerOptions[]>;
 }

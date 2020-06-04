@@ -17,11 +17,13 @@ import {
   CreateTransportResponse,
   GetProducerRequest,
   GetProducerResponse,
+  GetProducersRequest,
+  GetProducersResponse,
   GetRouterRequest,
   GetRouterResponse,
   Pattern,
 } from './entities';
-import {MediaAttributes} from 'entities/Mediasoup';
+import {Direction} from 'entities/Mediasoup';
 
 export default class MediasoupService extends IMediasoupService {
   constructor(@Inject(MEDIASOUP_SERVICE) private readonly mediasoupClient: ClientProxy) {
@@ -36,11 +38,11 @@ export default class MediasoupService extends IMediasoupService {
     return {rtpCapabilities: response.rtpCapabilities};
   }
 
-  async createTransport(roomId: string, mediaAttributes: MediaAttributes) {
+  async createTransport(roomId: string, direction: Direction, clientId: string) {
     const response = await this.sendAsyncRequired<
       CreateTransportRequest,
       CreateTransportResponse
-    >({area: 'transport', action: 'create'}, {roomId, mediaAttributes});
+    >({area: 'transport', action: 'create'}, {roomId, direction, clientId});
     return {
       id: response.id,
       iceCandidates: response.iceCandidates,
@@ -52,11 +54,12 @@ export default class MediasoupService extends IMediasoupService {
   async connectTransport(
     roomId: string,
     dtlsParameters: object,
-    mediaAttributes: MediaAttributes,
+    direction: string,
+    clientId: string,
   ) {
     await this.sendAsync<ConnectTransportRequest, ConnectTransportResponse>(
       {area: 'transport', action: 'connect'},
-      {roomId, dtlsParameters, mediaAttributes},
+      {roomId, dtlsParameters, direction, clientId},
     );
   }
 
@@ -65,11 +68,15 @@ export default class MediasoupService extends IMediasoupService {
     transportId: string,
     roomId: string,
     rtpParameters: object,
+    clientId: string,
   ) {
     const response = await this.sendAsyncRequired<
       CreateProducerRequest,
       CreateProducerResponse
-    >({area: 'producer', action: 'create'}, {userId, transportId, roomId, rtpParameters});
+    >(
+      {area: 'producer', action: 'create'},
+      {userId, transportId, roomId, rtpParameters, clientId},
+    );
     return {
       id: response.producerId,
       kind: response.kind,
@@ -77,11 +84,20 @@ export default class MediasoupService extends IMediasoupService {
     };
   }
 
-  async createConsumer(producerId: string, roomId: string, rtpCapabilities: object) {
+  async createConsumer(
+    producerId: string,
+    roomId: string,
+    rtpCapabilities: object,
+    clientId: string,
+    userId: string,
+  ) {
     const response = await this.sendAsyncRequired<
       CreateConsumerRequest,
       CreateConsumerResponse
-    >({area: 'consumer', action: 'create'}, {producerId, roomId, rtpCapabilities});
+    >(
+      {area: 'consumer', action: 'create'},
+      {producerId, roomId, rtpCapabilities, clientId, userId},
+    );
     return {
       id: response.id,
       producerId: response.producerId,
@@ -109,6 +125,14 @@ export default class MediasoupService extends IMediasoupService {
       kind: response.kind,
       rtpParameters: response.rtpParameters,
     };
+  }
+
+  async getProducers(roomId: string) {
+    const response = await this.sendAsyncRequired<
+      GetProducersRequest,
+      GetProducersResponse
+    >({area: 'producers', action: 'get'}, {roomId});
+    return response.producers;
   }
 
   // region Helpers

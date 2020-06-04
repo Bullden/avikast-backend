@@ -1,6 +1,6 @@
 import {
   ConsumerOptions,
-  MediaAttributes,
+  Direction,
   ProducerOptions,
   RouterOptions,
   TransportOptions,
@@ -11,13 +11,15 @@ export default abstract class IMediasoupService {
 
   abstract createTransport(
     roomId: string,
-    mediaAttributes: MediaAttributes,
+    direction: Direction,
+    clientId: string,
   ): Promise<TransportOptions>;
 
   abstract connectTransport(
     roomId: string,
-    dtlsParam: object,
-    mediaAttributes: MediaAttributes,
+    dtlsParameters: object,
+    direction: Direction,
+    clientId: string,
   ): Promise<void>;
 
   abstract createProducer(
@@ -25,15 +27,20 @@ export default abstract class IMediasoupService {
     transportId: string,
     roomId: string,
     rtpParameters: object,
+    clientId: string,
   ): Promise<ProducerOptions>;
 
   abstract createConsumer(
     producerId: string,
     roomId: string,
     rtpCapabilities: object,
+    clientId: string,
+    userId: string,
   ): Promise<ConsumerOptions>;
 
   abstract getRouter(roomId: string): Promise<RouterOptions>;
 
   abstract getProducer(userId: string, roomId: string): Promise<ProducerOptions>;
+
+  abstract getProducers(roomId: string): Promise<ProducerOptions[]>;
 }
