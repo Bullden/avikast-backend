@@ -121,7 +121,7 @@ export default class MediasoupService extends IMediasoupService {
     };
   }
 
-  async getProducer(userId: string, roomId: string) {
+  async getProducer(roomId: string, userId: string) {
     const response = await this.sendAsyncRequired<
       GetProducerRequest,
       GetProducerResponse
@@ -138,6 +138,7 @@ export default class MediasoupService extends IMediasoupService {
       GetProducersRequest,
       GetProducersResponse
     >({area: 'producers', action: 'get'}, {roomId});
+    console.log('GET PRODUCERS');
     return response.producers;
   }
 

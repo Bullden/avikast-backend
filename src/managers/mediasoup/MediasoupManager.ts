@@ -71,7 +71,7 @@ export default class MediasoupManager extends IMediasoupManager {
   }
 
   async getProducer(roomId: string, userId: string) {
-    return this.mediasoupService.getProducer(userId, roomId);
+    return this.mediasoupService.getProducer(roomId, userId);
   }
 
   async getProducers(roomId: string) {
