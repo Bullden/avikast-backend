@@ -34,8 +34,9 @@ export default class MediasoupManager extends IMediasoupManager {
 
   async createProducer(
     roomId: string,
-    userId: string,
     transportId: string,
+
+    userId: string,
     rtpParameters: object,
     clientId: string,
   ) {

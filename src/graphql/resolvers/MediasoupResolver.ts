@@ -55,8 +55,8 @@ export default class MediasoupResolver {
   ): Promise<ProducerOptions> {
     return this.mediasoupManager.createProducer(
       roomId,
-      session.userId,
       transportId,
+      session.userId,
       rtpParameters,
       clientId,
     );

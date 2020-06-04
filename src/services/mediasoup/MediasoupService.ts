@@ -70,9 +70,9 @@ export default class MediasoupService extends IMediasoupService {
   }
 
   async createProducer(
+    roomId: string,
     userId: string,
     transportId: string,
-    roomId: string,
     rtpParameters: object,
     clientId: string,
   ) {
@@ -102,7 +102,7 @@ export default class MediasoupService extends IMediasoupService {
       CreateConsumerResponse
     >(
       {area: 'consumer', action: 'create'},
-      {producerId, roomId, rtpCapabilities, clientId, userId},
+      {roomId, producerId, rtpCapabilities, clientId, userId},
     );
     return {
       id: response.id,
