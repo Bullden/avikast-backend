@@ -11,6 +11,7 @@ export default abstract class IMediasoupService {
 
   abstract createTransport(
     roomId: string,
+    userId: string,
     direction: Direction,
     clientId: string,
   ): Promise<TransportOptions>;

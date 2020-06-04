@@ -9,8 +9,13 @@ export default class MediasoupManager extends IMediasoupManager {
     super();
   }
 
-  async createTransport(roomId: string, direction: Direction, clientId: string) {
-    return this.mediasoupService.createTransport(roomId, direction, clientId);
+  async createTransport(
+    roomId: string,
+    userId: string,
+    direction: Direction,
+    clientId: string,
+  ) {
+    return this.mediasoupService.createTransport(roomId, userId, direction, clientId);
   }
 
   async connectTransport(
@@ -28,31 +33,32 @@ export default class MediasoupManager extends IMediasoupManager {
   }
 
   async createProducer(
+    roomId: string,
     userId: string,
     transportId: string,
-    roomId: string,
     rtpParameters: object,
     clientId: string,
   ) {
     return this.mediasoupService.createProducer(
+      roomId,
       userId,
       transportId,
-      roomId,
+
       rtpParameters,
       clientId,
     );
   }
 
   async createConsumer(
-    producerId: string,
     roomId: string,
+    producerId: string,
     rtpCapabilities: object,
     clientId: string,
     userId: string,
   ) {
     return this.mediasoupService.createConsumer(
-      producerId,
       roomId,
+      producerId,
       rtpCapabilities,
       clientId,
       userId,
@@ -63,7 +69,7 @@ export default class MediasoupManager extends IMediasoupManager {
     return this.mediasoupService.getRouter(roomId);
   }
 
-  async getProducer(userId: string, roomId: string) {
+  async getProducer(roomId: string, userId: string) {
     return this.mediasoupService.getProducer(userId, roomId);
   }
 

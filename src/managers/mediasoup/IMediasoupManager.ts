@@ -8,10 +8,10 @@ import {
 
 export default abstract class IMediasoupManager {
   abstract createTransport(
-    userId: string,
-    clientId: string,
     roomId: string,
+    userId: string,
     direction: Direction,
+    clientId: string,
   ): Promise<TransportOptions>;
 
   abstract connectTransport(
@@ -22,9 +22,9 @@ export default abstract class IMediasoupManager {
   ): Promise<void>;
 
   abstract createProducer(
+    roomId: string,
     userId: string,
     transportId: string,
-    roomId: string,
     rtpParameters: object,
     clientId: string,
   ): Promise<ProducerOptions>;

@@ -38,11 +38,17 @@ export default class MediasoupService extends IMediasoupService {
     return {rtpCapabilities: response.rtpCapabilities};
   }
 
-  async createTransport(roomId: string, direction: Direction, clientId: string) {
+  async createTransport(
+    roomId: string,
+    userId: string,
+    direction: Direction,
+    clientId: string,
+  ) {
     const response = await this.sendAsyncRequired<
       CreateTransportRequest,
       CreateTransportResponse
-    >({area: 'transport', action: 'create'}, {roomId, direction, clientId});
+    >({area: 'transport', action: 'create'}, {roomId, userId, direction, clientId});
+    console.log('ROOMID BAKCEND', roomId);
     return {
       id: response.id,
       iceCandidates: response.iceCandidates,
@@ -75,7 +81,7 @@ export default class MediasoupService extends IMediasoupService {
       CreateProducerResponse
     >(
       {area: 'producer', action: 'create'},
-      {userId, transportId, roomId, rtpParameters, clientId},
+      {roomId, userId, transportId, rtpParameters, clientId},
     );
     return {
       id: response.producerId,
@@ -85,8 +91,8 @@ export default class MediasoupService extends IMediasoupService {
   }
 
   async createConsumer(
-    producerId: string,
     roomId: string,
+    producerId: string,
     rtpCapabilities: object,
     clientId: string,
     userId: string,

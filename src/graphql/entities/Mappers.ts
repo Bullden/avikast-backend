@@ -9,7 +9,7 @@ import GQLRoom from './room/Room';
 import Bookmark from '../../entities/Bookmark';
 import GQLBookmark from './bookmark/Bookmark';
 import GQLMediaAttributes from './mediasoup/MediaAttributesOptions';
-import {MediaAttributes} from 'entities/Mediasoup';
+import {Direction, MediaAttributes} from 'entities/Mediasoup';
 import Participant from 'entities/Participant';
 import GQLParticipant from './room/Participant';
 
