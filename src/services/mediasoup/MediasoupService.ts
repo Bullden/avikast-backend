@@ -71,10 +71,10 @@ export default class MediasoupService extends IMediasoupService {
 
   async createProducer(
     roomId: string,
-    userId: string,
     transportId: string,
-    rtpParameters: object,
     clientId: string,
+    userId: string,
+    rtpParameters: object,
   ) {
     const response = await this.sendAsyncRequired<
       CreateProducerRequest,

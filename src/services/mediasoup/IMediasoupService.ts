@@ -25,11 +25,10 @@ export default abstract class IMediasoupService {
 
   abstract createProducer(
     roomId: string,
-
-    userId: string,
     transportId: string,
-    rtpParameters: object,
     clientId: string,
+    userId: string,
+    rtpParameters: object,
   ): Promise<ProducerOptions>;
 
   abstract createConsumer(

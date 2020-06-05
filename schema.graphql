@@ -103,7 +103,7 @@ type Mutation {
   joinRoom(password: String, code: String!): Room!
   createTransport(clientId: String!, direction: String!, roomId: String!): TransportOptions!
   connectTransport(clientId: String!, direction: String!, dtlsParameters: JSON!, roomId: String!): Boolean!
-  createProducer(clientId: String!, rtpParameters: JSON!, roomId: String!, transportId: String!): ProducerOptions!
+  createProducer(rtpParameters: JSON!, clientId: String!, roomId: String!, transportId: String!): ProducerOptions!
   createConsumer(clientId: String!, rtpCapabilities: JSON!, roomId: String!, producerId: String!): ConsumerOptions!
 }
 

@@ -50,15 +50,15 @@ export default class MediasoupResolver {
     @CurrentSession() session: Session,
     @Args('transportId') transportId: string,
     @Args('roomId') roomId: string,
-    @Args({name: 'rtpParameters', type: () => graphqlTypeJson}) rtpParameters: object,
     @Args('clientId') clientId: string,
+    @Args({name: 'rtpParameters', type: () => graphqlTypeJson}) rtpParameters: object,
   ): Promise<ProducerOptions> {
     return this.mediasoupManager.createProducer(
       roomId,
       transportId,
+      clientId,
       session.userId,
       rtpParameters,
-      clientId,
     );
   }
 
