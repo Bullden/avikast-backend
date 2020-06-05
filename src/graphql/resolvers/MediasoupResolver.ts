@@ -99,7 +99,8 @@ export default class MediasoupResolver {
 
   @Query(() => [ProducerOptions])
   async getProducers(@Args('roomId') roomId: string): Promise<ProducerOptions[]> {
-    console.log('GET ROOM TRAKS');
-    return this.mediasoupManager.getProducers(roomId);
+    const producers = await this.mediasoupManager.getProducers(roomId);
+    console.log(producers, 'get producers');
+    return producers;
   }
 }
