@@ -93,7 +93,7 @@ type Query {
   participants(roomId: String!): [Participant!]!
   getRouter(roomId: String!): RouterOptions!
   getProducer(roomId: String!): ProducerOptions!
-  getProducers(roomId: String!): ProducerOptions!
+  getProducers(roomId: String!): [ProducerOptions!]!
   bookmarks: [Bookmark!]!
 }
 
