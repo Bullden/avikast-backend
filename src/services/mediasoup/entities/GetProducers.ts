@@ -2,7 +2,7 @@ import {ProducerOptions} from 'entities/Mediasoup';
 
 export type GetProducersPattern = {
   area: 'producers';
-  action: 'receive';
+  action: 'get';
 };
 
 export interface GetProducersRequest {

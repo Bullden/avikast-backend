@@ -137,7 +137,7 @@ export default class MediasoupService extends IMediasoupService {
     const response = await this.sendAsyncRequired<
       GetProducersRequest,
       GetProducersResponse
-    >({area: 'producers', action: 'receive'}, {roomId});
+    >({area: 'producers', action: 'get'}, {roomId});
     return response.producers;
   }
 
