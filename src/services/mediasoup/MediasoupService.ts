@@ -48,7 +48,6 @@ export default class MediasoupService extends IMediasoupService {
       CreateTransportRequest,
       CreateTransportResponse
     >({area: 'transport', action: 'create'}, {roomId, userId, direction, clientId});
-    console.log('ROOMID BAKCEND', roomId);
     return {
       id: response.id,
       iceCandidates: response.iceCandidates,

@@ -92,15 +92,11 @@ export default class MediasoupResolver {
     @CurrentSession() session: Session,
     @Args('roomId') roomId: string,
   ): Promise<ProducerOptions> {
-    const producers = await this.mediasoupManager.getProducer(roomId, session.userId);
-    console.log('GET PRODUCERS', producers);
-    return producers;
+    return this.mediasoupManager.getProducer(roomId, session.userId);
   }
 
   @Query(() => [ProducerOptions])
   async getProducers(@Args('roomId') roomId: string): Promise<ProducerOptions[]> {
-    const producers = await this.mediasoupManager.getProducers(roomId);
-    console.log(producers, 'get producers');
-    return producers;
+    return this.mediasoupManager.getProducers(roomId);
   }
 }
