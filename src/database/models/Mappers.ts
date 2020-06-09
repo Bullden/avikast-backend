@@ -14,6 +14,8 @@ import BookmarkModel from './BookmarkModel';
 import Bookmark from '../entities/Bookmark';
 import ParticipantModel from 'database/models/ParticipantModel';
 import Participant from 'database/entities/Participant';
+import AvikastFileModel from './AvikastFileModel';
+import AvikastFile from '../entities/AvikastFile';
 
 export const extractIdFromModel = (model: Document): string => model._id.toString();
 
@@ -140,3 +142,16 @@ export const mapParticipantFromModel = (participant: ParticipantModel): Particip
 export const mapParticipantsFromModel = (
   participants: ParticipantModel[],
 ): Participant[] => participants.map(mapParticipantFromModel);
+
+export const mapAvikastFileFromModel = (file: AvikastFileModel): AvikastFile => {
+  if (typeof file.user !== 'object') throw new Error('File should be object');
+  return {
+    id: extractIdFromModel(file),
+    name: file.name,
+    type: file.type,
+    user: mapUserFromModel(file.user),
+  };
+};
+
+export const mapAvikastFilesFromModel = (files: AvikastFileModel[]): AvikastFile[] =>
+  files.map(mapAvikastFileFromModel);

@@ -8,10 +8,12 @@ import Room from 'entities/Room';
 import GQLRoom from './room/Room';
 import Bookmark from '../../entities/Bookmark';
 import GQLBookmark from './bookmark/Bookmark';
+import GQLAvikastFile from './avikastFile/AvikastFile';
 import GQLMediaAttributes from './mediasoup/MediaAttributesOptions';
 import {MediaAttributes} from 'entities/Mediasoup';
 import Participant from 'entities/Participant';
 import GQLParticipant from './room/Participant';
+import {AvikastFile} from '../../entities/AvikastFile';
 
 export const mapUserToGQL = (user: User): GQLUser => {
   return {
@@ -71,3 +73,13 @@ export const mapParticipantToGQL = (participant: Participant): GQLParticipant =>
 
 export const mapParticipantsToGQL = (participants: Participant[]): GQLParticipant[] =>
   participants.map(mapParticipantToGQL);
+
+export const mapAvikastFileToGQL = (avikastFile: AvikastFile): GQLAvikastFile => ({
+  id: avikastFile.id,
+  name: avikastFile.name,
+  type: avikastFile.type,
+  user: mapUserToGQL(avikastFile.user),
+});
+
+export const mapAvikastFilesToGQL = (avikastFiles: AvikastFile[]): GQLAvikastFile[] =>
+  avikastFiles.map(mapAvikastFileToGQL);

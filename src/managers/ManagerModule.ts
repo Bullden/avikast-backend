@@ -10,6 +10,8 @@ import IMediasoupManager from 'managers/mediasoup/IMediasoupManager';
 import MediasoupManager from 'managers/mediasoup/MediasoupManager';
 import IBookmarkManager from './bookmark/IBookmarkManager';
 import BookmarkManager from './bookmark/BookmarkManager';
+import IAvikastFileManager from './avikastFile/IAvikastFileManager';
+import AvikastFileManager from './avikastFile/AvikastFileManager';
 
 @Module({
   imports: [
@@ -35,6 +37,10 @@ import BookmarkManager from './bookmark/BookmarkManager';
       provide: IBookmarkManager,
       useClass: BookmarkManager,
     },
+    {
+      provide: IAvikastFileManager,
+      useClass: AvikastFileManager,
+    },
   ],
   exports: [
     //
@@ -43,6 +49,7 @@ import BookmarkManager from './bookmark/BookmarkManager';
     IRoomManager,
     IMediasoupManager,
     IBookmarkManager,
+    IAvikastFileManager,
   ],
 })
 export class ManagerModule {}

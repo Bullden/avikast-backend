@@ -10,6 +10,8 @@ import IRoomStore from './room/IRoomStore';
 import RoomStore from './room/RoomStore';
 import IBookmarkStore from './bookmark/IBookmarkStore';
 import BookmarkStore from './bookmark/BookmarkStore';
+import IAvikastFileStore from './avikastFile/IAvikastFileStore';
+import AvikastFileStore from './avikastFile/AvikastFileStore';
 
 @Module({
   imports: [
@@ -37,6 +39,10 @@ import BookmarkStore from './bookmark/BookmarkStore';
       provide: IBookmarkStore,
       useClass: BookmarkStore,
     },
+    {
+      provide: IAvikastFileStore,
+      useClass: AvikastFileStore,
+    },
   ],
   exports: [
     //
@@ -45,6 +51,7 @@ import BookmarkStore from './bookmark/BookmarkStore';
     IUserStore,
     IRoomStore,
     IBookmarkStore,
+    IAvikastFileStore,
   ],
 })
 export class StoresModule {}

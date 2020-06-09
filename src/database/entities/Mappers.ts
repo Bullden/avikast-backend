@@ -8,6 +8,8 @@ import BookmarkDB from './Bookmark';
 import Bookmark from 'entities/Bookmark';
 import ParticipantDB from './Participant';
 import Participant from 'entities/Participant';
+import AvikastFileDB from './AvikastFile';
+import {AvikastFile} from '../../entities/AvikastFile';
 
 export const mapUserFromDb = (user: DbUser): User => ({
   id: user.id,
@@ -57,3 +59,13 @@ export const mapParticipantFromDB = (participant: ParticipantDB): Participant =>
 
 export const mapParticipantsFromDB = (participants: ParticipantDB[]): Participant[] =>
   participants.map(mapParticipantFromDB);
+
+export const mapAvikastFileFromDB = (avikastFile: AvikastFileDB): AvikastFile => ({
+  id: avikastFile.id,
+  name: avikastFile.name,
+  type: avikastFile.type,
+  user: mapUserFromDb(avikastFile.user),
+});
+
+export const mapAvikastFilesFromDB = (avikastFiles: AvikastFileDB[]): AvikastFile[] =>
+  avikastFiles.map(mapAvikastFileFromDB);
