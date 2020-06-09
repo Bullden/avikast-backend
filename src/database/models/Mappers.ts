@@ -16,8 +16,6 @@ import ParticipantModel from 'database/models/ParticipantModel';
 import Participant from 'database/entities/Participant';
 import AvikastFileModel from './AvikastFileModel';
 import AvikastFile from '../entities/AvikastFile';
-import MessageModel from './MessageModel';
-import Message from '../entities/Message';
 
 export const extractIdFromModel = (model: Document): string => model._id.toString();
 

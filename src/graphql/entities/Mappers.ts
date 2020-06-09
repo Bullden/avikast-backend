@@ -91,6 +91,16 @@ export const mapAvikastFileToGQL = (avikastFile: AvikastFile): GQLAvikastFile =>
 export const mapAvikastFilesToGQL = (avikastFiles: AvikastFile[]): GQLAvikastFile[] =>
   avikastFiles.map(mapAvikastFileToGQL);
 
+export const mapAvikastFileToGQL = (avikastFile: AvikastFile): GQLAvikastFile => ({
+  id: avikastFile.id,
+  name: avikastFile.name,
+  type: avikastFile.type,
+  user: mapUserToGQL(avikastFile.user),
+});
+
+export const mapAvikastFilesToGQL = (avikastFiles: AvikastFile[]): GQLAvikastFile[] =>
+  avikastFiles.map(mapAvikastFileToGQL);
+
 export const mapMessageToGQL = (message: Message): GQLMessage => ({
   id: message.id,
   sender: mapUserToGQL(message.sender),
