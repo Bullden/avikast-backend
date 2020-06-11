@@ -47,6 +47,7 @@ export const mapRoomToGQL = (room: Room): GQLRoom => ({
   id: room.id,
   name: room.name,
   type: room.type,
+  // messages: room.messages,
 });
 
 export const mapBookmarkToGQL = (bookmark: Bookmark): GQLBookmark => ({
@@ -141,3 +142,15 @@ export const mapProducersToGQL = (producers: ProducerOptions[]): GQLProducerOpti
 //   kind: mediaAttributes.kind as 'video' | 'audio',
 //   mediaType: mediaAttributes.mediaType as 'camera' | 'screenshare',
 // });
+
+export const mapMessageToGQL = (message: Message): GQLMessage => ({
+  id: message.id,
+  senderId: message.senderId,
+  chatId: message.chatId,
+  body: message.body,
+  date: message.date,
+  receiverId: message.receiverId,
+});
+
+export const mapMessagesToGQL = (messages: Message[]): GQLMessage[] =>
+  messages.map(mapMessageToGQL);
