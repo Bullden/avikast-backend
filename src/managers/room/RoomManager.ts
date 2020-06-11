@@ -39,7 +39,7 @@ export default class RoomManager extends IRoomManager {
       user: {id: userId},
       role: ParticipantRole.Owner,
     });
-    await this.mediasoupService.createRouter(room.id);
+    // await this.mediasoupService.createRouter(room.id);
     return room;
   }
 
