@@ -9,6 +9,7 @@ import {RoomSchema} from 'database/models/RoomModel';
 import {BookmarkSchema} from './models/BookmarkModel';
 import {ParticipantSchema} from 'database/models/ParticipantModel';
 import {AvikastFileSchema} from './models/AvikastFileModel';
+import {MessageSchema} from './models/MessageModel';
 
 const options = (configService: IConfigService): MongooseModuleOptions => {
   const host = configService.get('DATABASE_HOST');
@@ -44,6 +45,7 @@ const options = (configService: IConfigService): MongooseModuleOptions => {
       BookmarkSchema,
       AvikastFileSchema,
       ParticipantSchema,
+      MessageSchema,
     ]),
   ],
   exports: [

@@ -9,7 +9,9 @@ import Bookmark from 'entities/Bookmark';
 import ParticipantDB from './Participant';
 import Participant from 'entities/Participant';
 import AvikastFileDB from './AvikastFile';
+import MessageDB from './Message';
 import {AvikastFile} from '../../entities/AvikastFile';
+import Message from '../../entities/Message';
 
 export const mapUserFromDb = (user: DbUser): User => ({
   id: user.id,
@@ -34,10 +36,23 @@ export const mapAccountFromDB = (account: DbUser): Account => ({
   preferences: mapPreferencesFromDB(account),
 });
 
+export const mapMessageFromDB = (message: MessageDB): Message => ({
+  id: message.id,
+  senderId: message.senderId,
+  chatId: message.chatId,
+  body: message.body,
+  date: message.date,
+  receiverId: message.receiverId,
+});
+
+export const mapMessagesFromDB = (messages: MessageDB[]): Message[] =>
+  messages.map(mapMessageFromDB);
+
 export const mapRoomFromDB = (room: DbRoom): Room => ({
   id: room.id,
   name: room.name,
   type: room.type,
+  // messages: room.messages ? mapMessagesFromDB(room.messages) : undefined,
 });
 
 export const mapBookmarkFromDB = (bookmark: BookmarkDB): Bookmark => ({

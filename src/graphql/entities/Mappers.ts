@@ -14,6 +14,8 @@ import {MediaAttributes} from 'entities/Mediasoup';
 import Participant from 'entities/Participant';
 import GQLParticipant from './room/Participant';
 import {AvikastFile} from '../../entities/AvikastFile';
+import Message from './message/Message';
+import GQLMessage from '../../entities/Message';
 
 export const mapUserToGQL = (user: User): GQLUser => {
   return {
@@ -44,6 +46,7 @@ export const mapRoomToGQL = (room: Room): GQLRoom => ({
   id: room.id,
   name: room.name,
   type: room.type,
+  // messages: room.messages,
 });
 
 export const mapBookmarkToGQL = (bookmark: Bookmark): GQLBookmark => ({
@@ -83,3 +86,15 @@ export const mapAvikastFileToGQL = (avikastFile: AvikastFile): GQLAvikastFile =>
 
 export const mapAvikastFilesToGQL = (avikastFiles: AvikastFile[]): GQLAvikastFile[] =>
   avikastFiles.map(mapAvikastFileToGQL);
+
+export const mapMessageToGQL = (message: Message): GQLMessage => ({
+  id: message.id,
+  senderId: message.senderId,
+  chatId: message.chatId,
+  body: message.body,
+  date: message.date,
+  receiverId: message.receiverId,
+});
+
+export const mapMessagesToGQL = (messages: Message[]): GQLMessage[] =>
+  messages.map(mapMessageToGQL);

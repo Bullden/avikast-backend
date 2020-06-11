@@ -16,6 +16,8 @@ import ParticipantModel from 'database/models/ParticipantModel';
 import Participant from 'database/entities/Participant';
 import AvikastFileModel from './AvikastFileModel';
 import AvikastFile from '../entities/AvikastFile';
+import MessageModel from './MessageModel';
+import Message from '../entities/Message';
 
 export const extractIdFromModel = (model: Document): string => model._id.toString();
 
@@ -101,6 +103,18 @@ export const mapSessionFromModel = (
   };
 };
 
+export const mapMessageFromModel = (message: MessageModel): Message => ({
+  id: extractIdFromModel(message),
+  senderId: message.senderId,
+  chatId: message.chatId,
+  body: message.body,
+  date: message.date,
+  receiverId: message.receiverId,
+});
+
+export const mapMessagesFromModel = (messages: MessageModel[]): Message[] =>
+  messages.map(mapMessageFromModel);
+
 export const mapRoomFromModel = (room: RoomModel): Room => {
   if (typeof room.user !== 'object') throw new Error('User should be object');
   return {
@@ -111,6 +125,7 @@ export const mapRoomFromModel = (room: RoomModel): Room => {
     passwordProtected: room.passwordProtected,
     password: room.password,
     code: room.code,
+    // messages: room.messages ? mapMessagesFromModel(room.messages) : undefined,
   };
 };
 
