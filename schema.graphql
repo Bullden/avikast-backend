@@ -46,6 +46,15 @@ enum ParticipantRole {
   User
 }
 
+type Message {
+  id: ID!
+  senderId: String!
+  roomId: String!
+  body: String!
+  date: String!
+  receiverId: String!
+}
+
 type TransportOptions {
   id: String!
   iceCandidates: JSON!
@@ -100,6 +109,8 @@ type Query {
   myAccount: Account!
   roomById(roomId: String!): Room!
   participants(roomId: String!): [Participant!]!
+  messagesByRoom(roomId: String!): [Message!]!
+  createTestMessage: Boolean!
   getRouter(roomId: String!): RouterOptions!
   getProducer(roomId: String!): ProducerOptions!
   getProducers(roomId: String!): [ProducerOptions!]!

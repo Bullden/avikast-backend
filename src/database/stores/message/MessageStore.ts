@@ -45,14 +45,14 @@ export default class MessageStore extends IMessageStore {
 
   async createTestMessage() {
     const newMessage: CreateMessageModel = {
-      senderId: '1',
-      roomId: '2',
-      body: 'Test message',
-      date: 'Test date',
-      receiverId: '3',
+      senderId: 'SUPER TEST',
+      roomId: 'SUPER TEST',
+      body: 'SUPER TEST',
+      date: 'SUPER TEST',
+      receiverId: 'SUPER TEST',
     };
-    await this.messageModel.create(newMessage);
-    return true;
+    const createdMessage = await this.messageModel.create(newMessage);
+    return mapMessageFromModel(createdMessage);
   }
 
   async getMessagesByRoom(roomId: string) {

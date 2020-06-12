@@ -6,6 +6,7 @@ import {RoomType} from 'entities/Room';
 import {mapParticipantsFromDB, mapRoomFromDB} from 'database/entities/Mappers';
 import {ParticipantMedia, ParticipantRole} from 'entities/Participant';
 import {
+  mapMessageFromDB,
   mapMessagesFromDB,
   mapParticipantsFromDB,
   mapRoomFromDB,
@@ -153,7 +154,6 @@ export default class RoomManager extends IRoomManager {
   }
 
   async createTestMessage() {
-    await this.messageStore.createTestMessage();
-    return true;
+    return mapMessageFromDB(await this.messageStore.createTestMessage());
   }
 }
