@@ -4,6 +4,7 @@ import {Injectable} from '@nestjs/common';
 import IRoomStore from 'database/stores/room/IRoomStore';
 import {RoomType} from 'entities/Room';
 import {
+  mapMessageFromDB,
   mapMessagesFromDB,
   mapParticipantsFromDB,
   mapRoomFromDB,
@@ -97,7 +98,6 @@ export default class RoomManager extends IRoomManager {
   }
 
   async createTestMessage() {
-    await this.messageStore.createTestMessage();
-    return true;
+    return mapMessageFromDB(await this.messageStore.createTestMessage());
   }
 }

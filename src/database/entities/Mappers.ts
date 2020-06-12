@@ -52,7 +52,6 @@ export const mapRoomFromDB = (room: DbRoom): Room => ({
   id: room.id,
   name: room.name,
   type: room.type,
-  // messages: room.messages ? mapMessagesFromDB(room.messages) : undefined,
 });
 
 export const mapBookmarkFromDB = (bookmark: BookmarkDB): Bookmark => ({

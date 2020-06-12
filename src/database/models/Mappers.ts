@@ -125,7 +125,6 @@ export const mapRoomFromModel = (room: RoomModel): Room => {
     passwordProtected: room.passwordProtected,
     password: room.password,
     code: room.code,
-    // messages: room.messages ? mapMessagesFromModel(room.messages) : undefined,
   };
 };
 

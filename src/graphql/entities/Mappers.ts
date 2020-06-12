@@ -46,7 +46,6 @@ export const mapRoomToGQL = (room: Room): GQLRoom => ({
   id: room.id,
   name: room.name,
   type: room.type,
-  // messages: room.messages,
 });
 
 export const mapBookmarkToGQL = (bookmark: Bookmark): GQLBookmark => ({

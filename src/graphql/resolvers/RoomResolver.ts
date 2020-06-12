@@ -6,6 +6,7 @@ import {RoomType} from 'entities/Room';
 import Room from 'graphql/entities/room/Room';
 import {
   mapMessagesToGQL,
+  mapMessageToGQL,
   mapParticipantsToGQL,
   mapRoomToGQL,
 } from 'graphql/entities/Mappers';
@@ -58,12 +59,12 @@ export default class RoomResolver {
   }
 
   @Query(() => [Message])
-  async messagesByRoom(@Args({name: 'roomId', type: () => String}) roomId: string) {
-    return mapMessagesToGQL(await this.roomManager.getMessagesByRoom(roomId));
+  async messagesByRoom() {
+    return mapMessagesToGQL(await this.roomManager.getMessagesByRoom('2'));
   }
 
-  @Query(() => Boolean)
+  @Mutation(() => Message)
   async createTestMessage() {
-    return this.roomManager.createTestMessage();
+    return mapMessageToGQL(await this.roomManager.createTestMessage());
   }
 }

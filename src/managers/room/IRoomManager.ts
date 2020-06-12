@@ -23,5 +23,5 @@ export default abstract class IRoomManager {
 
   abstract getMessagesByRoom(roomId: string): Promise<Message[]>;
 
-  abstract createTestMessage(): Promise<boolean>;
+  abstract createTestMessage(): Promise<Message>;
 }
