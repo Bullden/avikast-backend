@@ -146,7 +146,7 @@ export const mapProducersToGQL = (producers: ProducerOptions[]): GQLProducerOpti
 export const mapMessageToGQL = (message: Message): GQLMessage => ({
   id: message.id,
   senderId: message.senderId,
-  chatId: message.chatId,
+  roomId: message.roomId,
   body: message.body,
   date: message.date,
   receiverId: message.receiverId,

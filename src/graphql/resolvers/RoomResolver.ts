@@ -5,11 +5,13 @@ import Session from 'entities/Session';
 import {RoomType} from 'entities/Room';
 import Room from 'graphql/entities/room/Room';
 import {
+  mapMessagesToGQL,
   mapParticipantsToGQL,
-  mapParticipantsTracksToGQL,
+ mapParticipantsTracksToGQL,
   mapRoomToGQL,
 } from 'graphql/entities/Mappers';
 import Participant from 'graphql/entities/room/Participant';
+import Message from '../entities/message/Message';
 import ParticipantMedia from 'graphql/entities/room/ParticipantMedia';
 import {PubSub} from 'graphql-subscriptions';
 
@@ -89,4 +91,14 @@ export default class RoomResolver {
   // async me(@Parent() room: Room) {
   //   console.log(room, 'ResolverField');
   // }
+
+  @Query(() => [Message])
+  async messagesByRoom(@Args({name: 'roomId', type: () => String}) roomId: string) {
+    return mapMessagesToGQL(await this.roomManager.getMessagesByRoom(roomId));
+  }
+
+  @Query(() => Boolean)
+  async createTestMessage() {
+    return this.roomManager.createTestMessage();
+  }
 }

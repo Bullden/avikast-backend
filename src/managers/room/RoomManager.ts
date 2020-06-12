@@ -5,13 +5,21 @@ import IRoomStore from 'database/stores/room/IRoomStore';
 import {RoomType} from 'entities/Room';
 import {mapParticipantsFromDB, mapRoomFromDB} from 'database/entities/Mappers';
 import {ParticipantMedia, ParticipantRole} from 'entities/Participant';
+import {
+  mapMessagesFromDB,
+  mapParticipantsFromDB,
+  mapRoomFromDB,
+} from 'database/entities/Mappers';
+import {ParticipantRole} from 'entities/Participant';
 import {generate as generatePassword} from 'generate-password';
+import IMessageStore from '../../database/stores/message/IMessageStore';
 
 @Injectable()
 export default class RoomManager extends IRoomManager {
   constructor(
     private readonly roomStore: IRoomStore,
     private readonly mediasoupService: IMediasoupService,
+    private readonly messageStore: IMessageStore,
   ) {
     super();
   }
@@ -136,5 +144,16 @@ export default class RoomManager extends IRoomManager {
       tracks.push(track);
     });
     return tracks;
+  }
+
+  async getMessagesByRoom(roomId: string) {
+    if (!(await this.messageStore.getMessagesByRoom(roomId)))
+      throw new Error("Message's array is empty");
+    return mapMessagesFromDB(await this.messageStore.getMessagesByRoom(roomId));
+  }
+
+  async createTestMessage() {
+    await this.messageStore.createTestMessage();
+    return true;
   }
 }
