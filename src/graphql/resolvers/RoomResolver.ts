@@ -4,8 +4,13 @@ import CurrentSession from 'enhancers/decorators/CurrentSession';
 import Session from 'entities/Session';
 import {RoomType} from 'entities/Room';
 import Room from 'graphql/entities/room/Room';
-import {mapParticipantsToGQL, mapRoomToGQL} from 'graphql/entities/Mappers';
+import {
+  mapMessagesToGQL,
+  mapParticipantsToGQL,
+  mapRoomToGQL,
+} from 'graphql/entities/Mappers';
 import Participant from 'graphql/entities/room/Participant';
+import Message from '../entities/message/Message';
 
 @Resolver()
 export default class RoomResolver {
@@ -50,5 +55,15 @@ export default class RoomResolver {
     return mapParticipantsToGQL(
       await this.roomManager.getParticipants(session.userId, roomId),
     );
+  }
+
+  @Query(() => [Message])
+  async messagesByRoom(@Args({name: 'roomId', type: () => String}) roomId: string) {
+    return mapMessagesToGQL(await this.roomManager.getMessagesByRoom(roomId));
+  }
+
+  @Query(() => Boolean)
+  async createTestMessage() {
+    return this.roomManager.createTestMessage();
   }
 }

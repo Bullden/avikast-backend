@@ -39,7 +39,7 @@ export const mapAccountFromDB = (account: DbUser): Account => ({
 export const mapMessageFromDB = (message: MessageDB): Message => ({
   id: message.id,
   senderId: message.senderId,
-  chatId: message.chatId,
+  roomId: message.roomId,
   body: message.body,
   date: message.date,
   receiverId: message.receiverId,

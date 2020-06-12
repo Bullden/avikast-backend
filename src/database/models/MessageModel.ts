@@ -5,7 +5,7 @@ const schemaName = 'message';
 
 export const MessageSchema = createSchema(schemaName, {
   senderId: {type: String, required: true},
-  chatId: {type: String, required: true},
+  roomId: {type: String, required: true},
   body: {type: String, required: true},
   date: {type: String, required: true},
   receiverId: {type: String},
@@ -13,7 +13,7 @@ export const MessageSchema = createSchema(schemaName, {
 
 export default interface MessageModel extends Document {
   senderId: string;
-  chatId: string;
+  roomId: string;
   body: string;
   date: string;
   receiverId: string | undefined;
@@ -21,7 +21,7 @@ export default interface MessageModel extends Document {
 
 export interface CreateMessageModel {
   senderId: string;
-  chatId: string;
+  roomId: string;
   body: string;
   date: string;
   receiverId: string | undefined;

@@ -4,14 +4,14 @@ export default class Message {
   constructor(
     id: ID,
     senderId: string,
-    chatId: string,
+    roomId: string,
     body: string,
     date: string,
     receiverId: string | undefined,
   ) {
     this.id = id;
     this.senderId = senderId;
-    this.chatId = chatId;
+    this.roomId = roomId;
     this.body = body;
     this.date = date;
     this.receiverId = receiverId;
@@ -21,7 +21,7 @@ export default class Message {
 
   senderId: string;
 
-  chatId: string;
+  roomId: string;
 
   body: string;
 

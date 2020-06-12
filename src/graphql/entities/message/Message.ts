@@ -5,14 +5,14 @@ export default class Message {
   constructor(
     id: string,
     senderId: string,
-    chatId: string,
+    roomId: string,
     body: string,
     date: string,
     receiverId: string | undefined,
   ) {
     this.id = id;
     this.senderId = senderId;
-    this.chatId = chatId;
+    this.roomId = roomId;
     this.body = body;
     this.date = date;
     this.receiverId = receiverId;
@@ -25,7 +25,7 @@ export default class Message {
   senderId: string;
 
   @Field(() => String)
-  chatId: string;
+  roomId: string;
 
   @Field(() => String)
   body: string;
