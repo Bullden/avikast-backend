@@ -100,4 +100,17 @@ export default class RoomManager extends IRoomManager {
   async createTestMessage() {
     return mapMessageFromDB(await this.messageStore.createTestMessage());
   }
+
+  async createMessage(
+    senderId: string,
+    roomId: string,
+    body: string,
+    receiverId?: string,
+  ) {
+    const currentTime = new Date();
+    const date = `${currentTime.getHours()}:${currentTime.getMinutes()}`;
+    const message = {senderId, roomId, body, date, receiverId};
+    await this.messageStore.createMessage(message);
+    return true;
+  }
 }

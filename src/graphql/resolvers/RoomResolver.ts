@@ -60,11 +60,26 @@ export default class RoomResolver {
 
   @Query(() => [Message])
   async messagesByRoom() {
-    return mapMessagesToGQL(await this.roomManager.getMessagesByRoom('2'));
+    return mapMessagesToGQL(await this.roomManager.getMessagesByRoom('67'));
   }
 
   @Mutation(() => Message)
   async createTestMessage() {
     return mapMessageToGQL(await this.roomManager.createTestMessage());
+  }
+
+  @Mutation(() => Boolean)
+  async createMessage(
+    @CurrentSession() session: Session,
+    @Args({name: 'roomId', type: () => String}) roomId: string,
+    @Args({name: 'messageBody', type: () => String}) messageBody: string,
+    @Args({name: 'receiverId', type: () => String}) receiverId: string,
+  ) {
+    return this.roomManager.createMessage(
+      session.userId,
+      roomId,
+      messageBody,
+      receiverId,
+    );
   }
 }

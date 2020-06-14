@@ -7,7 +7,7 @@ export default abstract class IMessageStore {
     body: string;
     date: string;
     receiverId: string | undefined;
-  }): Promise<Message>;
+  }): Promise<Boolean>;
 
   abstract getMessagesByRoom(roomId: string): Promise<Message[]>;
 

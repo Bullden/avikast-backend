@@ -17,7 +17,7 @@ export default class MessageStore extends IMessageStore {
     roomId: string;
     body: string;
     date: string;
-    receiverId: string | undefined;
+    receiverId?: string;
   }) {
     const newMessage: CreateMessageModel = {
       senderId: message.senderId,
@@ -26,14 +26,14 @@ export default class MessageStore extends IMessageStore {
       date: message.date,
       receiverId: message.receiverId,
     };
-    const createdMessage = await this.messageModel.create(newMessage);
-    return mapMessageFromModel(createdMessage);
+    await this.messageModel.create(newMessage);
+    return true;
   }
 
   async createTestMessage() {
     const newMessage: CreateMessageModel = {
       senderId: 'SUPER TEST',
-      roomId: 'SUPER TEST',
+      roomId: '2',
       body: 'SUPER TEST',
       date: 'SUPER TEST',
       receiverId: 'SUPER TEST',
