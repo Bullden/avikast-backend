@@ -11,7 +11,7 @@ import {
   mapParticipantsFromDB,
   mapRoomFromDB,
 } from 'database/entities/Mappers';
-import {ParticipantRole} from 'entities/Participant';
+import {ParticipantMedia, ParticipantRole} from 'entities/Participant';
 import {generate as generatePassword} from 'generate-password';
 import IMessageStore from '../../database/stores/message/IMessageStore';
 
