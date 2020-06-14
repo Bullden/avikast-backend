@@ -29,4 +29,11 @@ export default abstract class IRoomManager {
     userId: string,
     roomId: string,
   ): Promise<ParticipantMedia[]>;
+
+  abstract createMessage(
+    senderId: string,
+    roomId: string,
+    body: string,
+    receiverId?: string,
+  ): Promise<Boolean>;
 }
