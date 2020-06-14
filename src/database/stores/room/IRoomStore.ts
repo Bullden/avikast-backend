@@ -1,7 +1,8 @@
 import {RoomType} from 'entities/Room';
 import Room from 'database/entities/Room';
-import {ParticipantRole} from 'entities/Participant';
+import {ParticipantMedia, ParticipantRole} from 'entities/Participant';
 import Participant from 'database/entities/Participant';
+import {RenewParticipantMedia} from 'entities/Mediasoup';
 
 export default abstract class IRoomStore {
   abstract createRoom(room: {
@@ -23,6 +24,7 @@ export default abstract class IRoomStore {
     user: {id: string};
     room: {id: string};
     role: ParticipantRole;
+    media: ParticipantMedia;
   }): Promise<Participant>;
 
   abstract findParticipant(
@@ -31,4 +33,22 @@ export default abstract class IRoomStore {
   ): Promise<Participant | undefined>;
 
   abstract getParticipants(roomId: string): Promise<Participant[]>;
+
+  abstract turnOnOffAudio(
+    roomId: string,
+    userId: string,
+    renewParticipantMedia: RenewParticipantMedia,
+  ): Promise<boolean>;
+
+  abstract turnOnOffVideo(
+    roomId: string,
+    userId: string,
+    renewParticipantMedia: RenewParticipantMedia,
+  ): Promise<boolean>;
+
+  abstract turnOnOffScreen(
+    roomId: string,
+    userId: string,
+    renewParticipantMedia: RenewParticipantMedia,
+  ): Promise<boolean>;
 }

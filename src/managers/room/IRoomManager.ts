@@ -1,5 +1,5 @@
 import Room, {RoomType} from 'entities/Room';
-import Participant from 'entities/Participant';
+import Participant, {ParticipantMedia} from 'entities/Participant';
 
 export default abstract class IRoomManager {
   abstract createRoom(
@@ -19,4 +19,9 @@ export default abstract class IRoomManager {
   abstract getRoomById(userId: string, roomId: string): Promise<Room>;
 
   abstract getParticipants(userId: string, roomId: string): Promise<Participant[]>;
+
+  abstract getParticipantsTracks(
+    userId: string,
+    roomId: string,
+  ): Promise<ParticipantMedia[]>;
 }

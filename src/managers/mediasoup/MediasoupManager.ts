@@ -1,11 +1,15 @@
 import IMediasoupManager from './IMediasoupManager';
 import IMediasoupService from 'services/mediasoup/IMediasoupService';
 import {Injectable} from '@nestjs/common';
-import {Direction} from 'entities/Mediasoup';
+import {Direction, MediaKind, MediaType, RenewParticipantMedia} from 'entities/Mediasoup';
+import IRoomStore from 'database/stores/room/IRoomStore';
 
 @Injectable()
 export default class MediasoupManager extends IMediasoupManager {
-  constructor(private readonly mediasoupService: IMediasoupService) {
+  constructor(
+    private readonly mediasoupService: IMediasoupService,
+    private readonly roomStore: IRoomStore,
+  ) {
     super();
   }
 
@@ -38,14 +42,38 @@ export default class MediasoupManager extends IMediasoupManager {
     clientId: string,
     userId: string,
     rtpParameters: object,
+    mediaType: MediaType,
+    mediaKind: MediaKind,
   ) {
-    return this.mediasoupService.createProducer(
+    const producer = await this.mediasoupService.createProducer(
       roomId,
       transportId,
       clientId,
       userId,
       rtpParameters,
+      mediaType,
+      mediaKind,
     );
+    const renewParticipantMedia: RenewParticipantMedia = {
+      enabled: true,
+      options: producer,
+      mediaKind,
+      mediaType,
+    };
+    // todo REFACTOR
+    if (mediaType === 'screen') {
+      await this.turnOnOffScreen(roomId, userId, renewParticipantMedia, clientId);
+      return producer;
+    }
+    if (mediaKind === 'audio') {
+      await this.turnOnOffAudio(roomId, userId, renewParticipantMedia, clientId);
+      return producer;
+    }
+    if (mediaKind === 'video') {
+      await this.turnOnOffVideo(roomId, userId, renewParticipantMedia, clientId);
+      return producer;
+    }
+    return producer;
   }
 
   async createConsumer(
@@ -73,6 +101,40 @@ export default class MediasoupManager extends IMediasoupManager {
   }
 
   async getProducers(roomId: string) {
-    return this.mediasoupService.getProducers(roomId);
+    const producers = await this.mediasoupService.getProducers(roomId);
+    return producers;
+  }
+
+  async turnOnOffAudio(
+    roomId: string,
+    userId: string,
+    renewParticipantMedia: RenewParticipantMedia,
+    clientId: string,
+  ) {
+    // eslint-disable-next-line no-console
+    console.log(clientId);
+    return this.roomStore.turnOnOffAudio(roomId, userId, renewParticipantMedia);
+  }
+
+  async turnOnOffVideo(
+    roomId: string,
+    userId: string,
+    renewParticipantMedia: RenewParticipantMedia,
+    clientId: string,
+  ) {
+    // eslint-disable-next-line no-console
+    console.log(clientId);
+    return this.roomStore.turnOnOffVideo(roomId, userId, renewParticipantMedia);
+  }
+
+  async turnOnOffScreen(
+    roomId: string,
+    userId: string,
+    renewParticipantMedia: RenewParticipantMedia,
+    clientId: string,
+  ) {
+    // eslint-disable-next-line no-console
+    console.log(clientId);
+    return this.roomStore.turnOnOffScreen(roomId, userId, renewParticipantMedia);
   }
 }

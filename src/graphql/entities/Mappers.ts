@@ -9,10 +9,11 @@ import GQLRoom from './room/Room';
 import Bookmark from '../../entities/Bookmark';
 import GQLBookmark from './bookmark/Bookmark';
 import GQLAvikastFile from './avikastFile/AvikastFile';
-import GQLMediaAttributes from './mediasoup/MediaAttributesOptions';
-import {MediaAttributes} from 'entities/Mediasoup';
-import Participant from 'entities/Participant';
+import {ProducerOptions} from 'entities/Mediasoup';
+import Participant, {ParticipantMedia} from 'entities/Participant';
 import GQLParticipant from './room/Participant';
+import GQLProducerOptions from './mediasoup/ProducerOptions';
+import GQLParticipantMedia from './room/ParticipantMedia';
 import {AvikastFile} from '../../entities/AvikastFile';
 import Message from 'entities/Message';
 import GQLMessage from './message/Message';
@@ -59,18 +60,22 @@ export const mapBookmarkToGQL = (bookmark: Bookmark): GQLBookmark => ({
 export const mapBookmarksToGQL = (bookmarks: Bookmark[]): GQLBookmark[] =>
   bookmarks.map(mapBookmarkToGQL);
 
-export const mapMediaAttributes = (
-  mediaAttributes: GQLMediaAttributes,
-): MediaAttributes => ({
-  direction: mediaAttributes.direction as 'send' | 'receive',
-  kind: mediaAttributes.kind as 'video' | 'audio',
-  mediaType: mediaAttributes.mediaType as 'camera' | 'screenshare',
+export const mapParticipantsTrackToGQL = (
+  track: ParticipantMedia,
+): GQLParticipantMedia => ({
+  audio: track.audio,
+  video: track.video,
+  screen: track.screen,
 });
+export const mapParticipantsTracksToGQL = (
+  tracks: ParticipantMedia[],
+): GQLParticipantMedia[] => tracks.map(mapParticipantsTrackToGQL);
 
 export const mapParticipantToGQL = (participant: Participant): GQLParticipant => ({
   id: participant.id,
   user: mapUserToGQL(participant.user),
   role: participant.role,
+  media: mapParticipantsTrackToGQL(participant.media),
 });
 
 export const mapParticipantsToGQL = (participants: Participant[]): GQLParticipant[] =>
@@ -97,3 +102,32 @@ export const mapMessageToGQL = (message: Message): GQLMessage => ({
 
 export const mapMessagesToGQL = (messages: Message[]): GQLMessage[] =>
   messages.map(mapMessageToGQL);
+
+// export const mapMediaSourceToGQL = (
+//   source: RenewParticipantMedia,
+// ): GQLParticipantTrackOptions => ({
+//   enabled: source.enabled,
+//   options: source.options,
+//   mediaKind: source.mediaKind,
+//   mediaType: source.mediaType,
+// });
+
+export const mapProducerToGQL = (producer: ProducerOptions): GQLProducerOptions => ({
+  id: producer.id,
+  kind: producer.kind,
+  rtpParameters: producer.rtpParameters,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
+  clientId: producer.appData.clientId,
+});
+
+export const mapProducersToGQL = (producers: ProducerOptions[]): GQLProducerOptions[] =>
+  producers.map(mapProducerToGQL);
+
+// export const mapMediaAttributes = (
+//     mediaAttributes: GQLMediaAttributes,
+// ): MediaAttributes => ({
+//   direction: mediaAttributes.direction as 'send' | 'receive',
+//   kind: mediaAttributes.kind as 'video' | 'audio',
+//   mediaType: mediaAttributes.mediaType as 'camera' | 'screenshare',
+// });

@@ -4,7 +4,7 @@ import {Injectable} from '@nestjs/common';
 import IRoomStore from 'database/stores/room/IRoomStore';
 import {RoomType} from 'entities/Room';
 import {mapParticipantsFromDB, mapRoomFromDB} from 'database/entities/Mappers';
-import {ParticipantRole} from 'entities/Participant';
+import {ParticipantMedia, ParticipantRole} from 'entities/Participant';
 import {generate as generatePassword} from 'generate-password';
 
 @Injectable()
@@ -38,8 +38,28 @@ export default class RoomManager extends IRoomManager {
       room,
       user: {id: userId},
       role: ParticipantRole.Owner,
+      media: {
+        audio: {
+          enabled: false,
+          options: undefined,
+          mediaKind: undefined,
+          mediaType: undefined,
+        },
+        video: {
+          enabled: false,
+          options: undefined,
+          mediaKind: undefined,
+          mediaType: undefined,
+        },
+        screen: {
+          enabled: false,
+          options: undefined,
+          mediaKind: undefined,
+          mediaType: undefined,
+        },
+      },
     });
-    // await this.mediasoupService.createRouter(room.id);
+    await this.mediasoupService.createRouter(room.id);
     return room;
   }
 
@@ -57,6 +77,26 @@ export default class RoomManager extends IRoomManager {
         user: {id: userId},
         room,
         role: ParticipantRole.User,
+        media: {
+          audio: {
+            enabled: false,
+            options: undefined,
+            mediaKind: undefined,
+            mediaType: undefined,
+          },
+          video: {
+            enabled: false,
+            options: undefined,
+            mediaKind: undefined,
+            mediaType: undefined,
+          },
+          screen: {
+            enabled: false,
+            options: undefined,
+            mediaKind: undefined,
+            mediaType: undefined,
+          },
+        },
       });
     }
 
@@ -82,5 +122,19 @@ export default class RoomManager extends IRoomManager {
     if (!(await this.roomStore.findParticipant(roomId, userId)))
       throw new Error("You don't belong to this room");
     return mapParticipantsFromDB(await this.roomStore.getParticipants(roomId));
+  }
+
+  async getParticipantsTracks(userId: string, roomId: string) {
+    if (!(await this.roomStore.findParticipant(roomId, userId)))
+      throw new Error("You don't belong to this room");
+    const participants = mapParticipantsFromDB(
+      await this.roomStore.getParticipants(roomId),
+    );
+    const tracks: ParticipantMedia[] = [];
+    participants.forEach((participant) => {
+      const track = participant.media;
+      tracks.push(track);
+    });
+    return tracks;
   }
 }

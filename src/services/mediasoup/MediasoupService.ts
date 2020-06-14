@@ -23,7 +23,7 @@ import {
   GetRouterResponse,
   Pattern,
 } from './entities';
-import {Direction} from 'entities/Mediasoup';
+import {Direction, MediaKind, MediaType} from 'entities/Mediasoup';
 
 export default class MediasoupService extends IMediasoupService {
   constructor(@Inject(MEDIASOUP_SERVICE) private readonly mediasoupClient: ClientProxy) {
@@ -74,18 +74,21 @@ export default class MediasoupService extends IMediasoupService {
     clientId: string,
     userId: string,
     rtpParameters: object,
+    mediaType: MediaType,
+    mediaKind: MediaKind,
   ) {
     const response = await this.sendAsyncRequired<
       CreateProducerRequest,
       CreateProducerResponse
     >(
       {area: 'producer', action: 'create'},
-      {roomId, userId, transportId, rtpParameters, clientId},
+      {roomId, userId, transportId, rtpParameters, clientId, mediaType, mediaKind},
     );
     return {
       id: response.producerId,
       kind: response.kind,
       rtpParameters: response.rtpParameters,
+      appData: response.appData,
     };
   }
 
@@ -129,6 +132,7 @@ export default class MediasoupService extends IMediasoupService {
       id: response.id,
       kind: response.kind,
       rtpParameters: response.rtpParameters,
+      appData: response.appData,
     };
   }
 

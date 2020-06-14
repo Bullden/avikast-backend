@@ -1,6 +1,8 @@
 import {
   ConsumerOptions,
   Direction,
+  MediaKind,
+  MediaType,
   ProducerOptions,
   RouterOptions,
   TransportOptions,
@@ -29,11 +31,12 @@ export default abstract class IMediasoupService {
     clientId: string,
     userId: string,
     rtpParameters: object,
+    mediaType: MediaType,
+    mediaKind: MediaKind,
   ): Promise<ProducerOptions>;
 
   abstract createConsumer(
     roomId: string,
-
     producerId: string,
     rtpCapabilities: object,
     clientId: string,
@@ -45,4 +48,8 @@ export default abstract class IMediasoupService {
   abstract getProducer(roomId: string, userId: string): Promise<ProducerOptions>;
 
   abstract getProducers(roomId: string): Promise<ProducerOptions[]>;
+
+  // abstract produceAudio(client: string): Promise<ProducerOptions[]>;
+  // abstract produceVideo(roomId: string): Promise<ProducerOptions[]>;
+  // abstract produceScreen(roomId: string): Promise<ProducerOptions[]>;
 }

@@ -4,8 +4,13 @@ import CurrentSession from 'enhancers/decorators/CurrentSession';
 import Session from 'entities/Session';
 import {RoomType} from 'entities/Room';
 import Room from 'graphql/entities/room/Room';
-import {mapParticipantsToGQL, mapRoomToGQL} from 'graphql/entities/Mappers';
+import {
+  mapParticipantsToGQL,
+  mapParticipantsTracksToGQL,
+  mapRoomToGQL,
+} from 'graphql/entities/Mappers';
 import Participant from 'graphql/entities/room/Participant';
+import ParticipantMedia from 'graphql/entities/room/ParticipantMedia';
 
 @Resolver()
 export default class RoomResolver {
@@ -51,4 +56,18 @@ export default class RoomResolver {
       await this.roomManager.getParticipants(session.userId, roomId),
     );
   }
+
+  @Query(() => [ParticipantMedia])
+  async participantsTracks(
+    @CurrentSession() session: Session,
+    @Args('roomId') roomId: string,
+  ) {
+    const tracks = await this.roomManager.getParticipantsTracks(session.userId, roomId);
+    return mapParticipantsTracksToGQL(tracks);
+  }
+
+  // @ResolveField()
+  // async me(@Parent() room: Room) {
+  //   console.log(room, 'ResolverField');
+  // }
 }

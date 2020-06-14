@@ -69,6 +69,7 @@ export const mapParticipantFromDB = (participant: ParticipantDB): Participant =>
   id: participant.id,
   user: mapUserFromDb(participant.user),
   role: participant.role,
+  media: participant.media,
 });
 
 export const mapParticipantsFromDB = (participants: ParticipantDB[]): Participant[] =>

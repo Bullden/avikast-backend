@@ -1,3 +1,4 @@
+/* eslint-disable */
 import IRoomStore from 'database/stores/room/IRoomStore';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model, QueryPopulateOptions} from 'mongoose';
@@ -12,7 +13,8 @@ import ParticipantModel, {
   CreateParticipantModel,
   ParticipantSchema,
 } from 'database/models/ParticipantModel';
-import {ParticipantRole} from 'entities/Participant';
+import {ParticipantMedia, ParticipantRole} from 'entities/Participant';
+import {RenewParticipantMedia} from 'entities/Mediasoup';
 
 export default class RoomStore extends IRoomStore {
   constructor(
@@ -73,11 +75,13 @@ export default class RoomStore extends IRoomStore {
     user: {id: string};
     room: {id: string};
     role: ParticipantRole;
+    media: ParticipantMedia;
   }) {
     const createParticipant: CreateParticipantModel = {
       room: participant.room.id,
       user: participant.user.id,
       role: participant.role,
+      media: participant.media,
     };
     const createdParticipant = await this.participantModel.create(createParticipant);
     return mapParticipantFromModel(
@@ -101,5 +105,41 @@ export default class RoomStore extends IRoomStore {
     return mapParticipantsFromModel(
       await this.participantModel.find({room: roomId}).populate(this.populateParticipant),
     );
+  }
+
+  async turnOnOffAudio(roomId: string, userId: string, request: RenewParticipantMedia) {
+    const participant = await this.findParticipant(roomId, userId);
+    if (!participant || !participant.media)
+      throw new Error('participant or participant.media doesnt exist');
+    const {video, screen} = participant.media;
+    const updateObject: Partial<ParticipantModel> = {};
+    console.log('enable audio', roomId, request);
+    updateObject.media = {audio: request, video, screen};
+    await this.roomModel.update({_id: roomId, user: userId}, updateObject);
+    return true;
+  }
+
+  async turnOnOffVideo(roomId: string, userId: string, request: RenewParticipantMedia) {
+    const participant = await this.findParticipant(roomId, userId);
+    if (!participant || !participant.media)
+      throw new Error('participant or participant.media doesnt exist');
+    const {audio, screen} = participant.media;
+    const updateObject: Partial<ParticipantModel> = {};
+    console.log('enableVideo in store', roomId, request);
+    updateObject.media = {audio, video: request, screen};
+    await this.roomModel.update({_id: roomId, user: userId}, updateObject);
+    return true;
+  }
+
+  async turnOnOffScreen(roomId: string, userId: string, request: RenewParticipantMedia) {
+    const participant = await this.findParticipant(roomId, userId);
+    if (!participant || !participant.media)
+      throw new Error('participant or participant.media doesnt exist');
+    const {audio, video} = participant.media;
+    const updateObject: Partial<ParticipantModel> = {};
+    updateObject.media = {audio, video, screen: request};
+    console.log('enable screen in store', roomId, request);
+    await this.roomModel.update({_id: roomId, user: userId}, updateObject);
+    return true;
   }
 }

@@ -150,6 +150,7 @@ export const mapParticipantFromModel = (participant: ParticipantModel): Particip
     room: mapRoomFromModel(participant.room),
     user: mapUserFromModel(participant.user),
     role: participant.role,
+    media: participant.media,
   };
 };
 

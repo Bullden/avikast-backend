@@ -7,7 +7,8 @@ import ConsumerOptions from '../entities/mediasoup/ConsumerOptions';
 import RouterOptions from 'graphql/entities/mediasoup/RouterOptions';
 import ProducerOptions from 'graphql/entities/mediasoup/ProducerOptions';
 import IMediasoupManager from 'managers/mediasoup/IMediasoupManager';
-import {Direction} from 'entities/Mediasoup';
+import {Direction, MediaKind, MediaType} from 'entities/Mediasoup';
+import {mapProducersToGQL, mapProducerToGQL} from 'graphql/entities/Mappers';
 
 @Resolver()
 export default class MediasoupResolver {
@@ -52,14 +53,19 @@ export default class MediasoupResolver {
     @Args('roomId') roomId: string,
     @Args('clientId') clientId: string,
     @Args({name: 'rtpParameters', type: () => graphqlTypeJson}) rtpParameters: object,
+    @Args('mediaKind') mediaKind: string,
+    @Args('mediaType') mediaType: string,
   ): Promise<ProducerOptions> {
-    return this.mediasoupManager.createProducer(
+    const producer = await this.mediasoupManager.createProducer(
       roomId,
       transportId,
       clientId,
       session.userId,
       rtpParameters,
+      mediaType as MediaType,
+      mediaKind as MediaKind,
     );
+    return mapProducerToGQL(producer);
   }
 
   @Mutation(() => ConsumerOptions)
@@ -92,11 +98,13 @@ export default class MediasoupResolver {
     @CurrentSession() session: Session,
     @Args('roomId') roomId: string,
   ): Promise<ProducerOptions> {
-    return this.mediasoupManager.getProducer(roomId, session.userId);
+    const producer = await this.mediasoupManager.getProducer(roomId, session.userId);
+    return mapProducerToGQL(producer);
   }
 
   @Query(() => [ProducerOptions])
   async getProducers(@Args('roomId') roomId: string): Promise<ProducerOptions[]> {
-    return this.mediasoupManager.getProducers(roomId);
+    const producers = await this.mediasoupManager.getProducers(roomId);
+    return mapProducersToGQL(producers);
   }
 }
