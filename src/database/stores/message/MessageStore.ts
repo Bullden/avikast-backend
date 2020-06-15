@@ -26,8 +26,8 @@ export default class MessageStore extends IMessageStore {
       date: message.date,
       receiverId: message.receiverId,
     };
-    await this.messageModel.create(newMessage);
-    return true;
+    const createdMessage = await this.messageModel.create(newMessage);
+    return mapMessageFromModel(createdMessage);
   }
 
   async createTestMessage() {

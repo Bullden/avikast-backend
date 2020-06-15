@@ -112,7 +112,7 @@ type Mutation {
   createRoom(password: String, passwordProtected: Boolean!, type: RoomType!, name: String!): Room!
   joinRoom(password: String, code: String!): Room!
   createTestMessage: Message!
-  createMessage(receiverId: String!, messageBody: String!, roomId: String!): Boolean!
+  createMessage(receiverId: String!, messageBody: String!, roomId: String!): Message!
   createTransport(clientId: String!, direction: String!, roomId: String!): TransportOptions!
   connectTransport(clientId: String!, direction: String!, dtlsParameters: JSON!, roomId: String!): Boolean!
   createProducer(rtpParameters: JSON!, clientId: String!, roomId: String!, transportId: String!): ProducerOptions!
