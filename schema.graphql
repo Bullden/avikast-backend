@@ -2,6 +2,18 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type ParticipantTrackOptions {
+  enabled: Boolean!
+  options: JSON
+  mediaKind: String
+  mediaType: String
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
 type User {
   id: ID!
   name: String!
@@ -34,18 +46,6 @@ enum RoomType {
   Meeting
   Webinar
 }
-
-type ParticipantTrackOptions {
-  enabled: Boolean!
-  options: JSON
-  mediaKind: String
-  mediaType: String
-}
-
-"""
-The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
-"""
-scalar JSON
 
 type ParticipantMedia {
   audio: ParticipantTrackOptions!
@@ -155,4 +155,8 @@ input UserUpdateRequest {
   tags: [String!]
   skills: [String!]
   referralCode: String
+}
+
+type Subscription {
+  participantTrackChanged: String!
 }
