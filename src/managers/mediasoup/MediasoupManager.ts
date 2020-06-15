@@ -60,7 +60,6 @@ export default class MediasoupManager extends IMediasoupManager {
       mediaKind,
       mediaType,
     };
-    // todo REFACTOR
     if (mediaType === 'screen') {
       await this.turnOnOffScreen(roomId, userId, renewParticipantMedia, clientId);
       return producer;

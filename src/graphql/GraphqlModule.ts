@@ -15,6 +15,7 @@ import MessageResolver from './resolvers/MessageResolver';
   imports: [
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.graphql',
+      installSubscriptionHandlers: true,
       tracing: true,
       context: (context) => context,
       useGlobalPrefix: true,

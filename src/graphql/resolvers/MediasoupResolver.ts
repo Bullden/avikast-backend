@@ -1,4 +1,4 @@
-import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
+import {Args, Mutation, Query, Resolver, Subscription} from '@nestjs/graphql';
 import CurrentSession from 'enhancers/decorators/CurrentSession';
 import Session from 'entities/Session';
 import TransportOptions from '../entities/mediasoup/TransportOptions';
@@ -9,6 +9,7 @@ import ProducerOptions from 'graphql/entities/mediasoup/ProducerOptions';
 import IMediasoupManager from 'managers/mediasoup/IMediasoupManager';
 import {Direction, MediaKind, MediaType} from 'entities/Mediasoup';
 import {mapProducersToGQL, mapProducerToGQL} from 'graphql/entities/Mappers';
+import {PubSub} from 'graphql-subscriptions';
 
 @Resolver()
 export default class MediasoupResolver {
@@ -56,6 +57,8 @@ export default class MediasoupResolver {
     @Args('mediaKind') mediaKind: string,
     @Args('mediaType') mediaType: string,
   ): Promise<ProducerOptions> {
+    const pubSub = new PubSub();
+    pubSub.asyncIterator('participantTrackChanged');
     const producer = await this.mediasoupManager.createProducer(
       roomId,
       transportId,
@@ -83,6 +86,17 @@ export default class MediasoupResolver {
       clientId,
       session.userId,
     );
+  }
+
+  @Subscription(() => String, {
+    name: 'participantTrackChanged',
+  })
+  // eslint-disable-next-line class-methods-use-this
+  returnTracks() {
+    // eslint-disable-next-line no-console
+    console.log('subscribtion TRIGGERED');
+    const pubSub = new PubSub();
+    return pubSub.asyncIterator('participantTrackChanged');
   }
 
   @Query(() => RouterOptions)

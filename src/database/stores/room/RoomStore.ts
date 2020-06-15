@@ -13,8 +13,11 @@ import ParticipantModel, {
   CreateParticipantModel,
   ParticipantSchema,
 } from 'database/models/ParticipantModel';
-import {ParticipantMedia, ParticipantRole} from 'entities/Participant';
+import Participant, {ParticipantMedia, ParticipantRole} from 'entities/Participant';
 import {RenewParticipantMedia} from 'entities/Mediasoup';
+import * as mongoose from "mongoose";
+import ParticipantTrackOptions from "graphql/entities/room/ParticipantTrackOptions";
+import {log} from "util";
 
 export default class RoomStore extends IRoomStore {
   constructor(
@@ -113,9 +116,9 @@ export default class RoomStore extends IRoomStore {
       throw new Error('participant or participant.media doesnt exist');
     const {video, screen} = participant.media;
     const updateObject: Partial<ParticipantModel> = {};
-    console.log('enable audio', roomId, request);
+    console.log('enable audio', roomId, participant);
     updateObject.media = {audio: request, video, screen};
-    await this.roomModel.update({_id: roomId, user: userId}, updateObject);
+    await this.participantModel.update({room: roomId, user: userId}, updateObject);
     return true;
   }
 
@@ -127,19 +130,19 @@ export default class RoomStore extends IRoomStore {
     const updateObject: Partial<ParticipantModel> = {};
     console.log('enableVideo in store', roomId, request);
     updateObject.media = {audio, video: request, screen};
-    await this.roomModel.update({_id: roomId, user: userId}, updateObject);
+    await this.participantModel.update({room: roomId, user: userId}, updateObject);
     return true;
   }
 
   async turnOnOffScreen(roomId: string, userId: string, request: RenewParticipantMedia) {
+    console.log(roomId, "roomId", userId, 'userID')
     const participant = await this.findParticipant(roomId, userId);
     if (!participant || !participant.media)
       throw new Error('participant or participant.media doesnt exist');
     const {audio, video} = participant.media;
     const updateObject: Partial<ParticipantModel> = {};
     updateObject.media = {audio, video, screen: request};
-    console.log('enable screen in store', roomId, request);
-    await this.roomModel.update({_id: roomId, user: userId}, updateObject);
+    await this.participantModel.update({room: roomId, user: userId}, updateObject);
     return true;
   }
 }

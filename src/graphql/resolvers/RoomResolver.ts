@@ -1,4 +1,4 @@
-import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
+import {Args, Mutation, Query, Resolver, Subscription} from '@nestjs/graphql';
 import IRoomManager from '../../managers/room/IRoomManager';
 import CurrentSession from 'enhancers/decorators/CurrentSession';
 import Session from 'entities/Session';
@@ -11,6 +11,7 @@ import {
 } from 'graphql/entities/Mappers';
 import Participant from 'graphql/entities/room/Participant';
 import ParticipantMedia from 'graphql/entities/room/ParticipantMedia';
+import {PubSub} from 'graphql-subscriptions';
 
 @Resolver()
 export default class RoomResolver {
@@ -62,8 +63,26 @@ export default class RoomResolver {
     @CurrentSession() session: Session,
     @Args('roomId') roomId: string,
   ) {
+    const pubSub = new PubSub();
     const tracks = await this.roomManager.getParticipantsTracks(session.userId, roomId);
-    return mapParticipantsTracksToGQL(tracks);
+    const mapTracks = mapParticipantsTracksToGQL(tracks);
+    // eslint-disable-next-line no-console
+    console.log('participant tracks', mapTracks, 'participantTracks');
+    await pubSub.publish('participantTrackChanged', {mapTracks});
+    return mapTracks;
+  }
+
+  @Subscription(() => [ParticipantMedia], {
+    name: 'participantTrackChanged',
+  })
+  returnTracks() {
+    const pubSub = new PubSub();
+    pubSub.asyncIterator('participantTrackChanged');
+    // eslint-disable-next-line no-console
+
+    // eslint-disable-next-line no-console
+    console.log('subscribtion TRIGGERED');
+    return this.participantsTracks;
   }
 
   // @ResolveField()
