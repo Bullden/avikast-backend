@@ -94,8 +94,8 @@ export default class RoomResolver {
   // }
 
   @Query(() => [Message])
-  async messagesByRoom() {
-    return mapMessagesToGQL(await this.roomManager.getMessagesByRoom('2'));
+  async messagesByRoom(@Args({name: 'roomId', type: () => String}) roomId: string) {
+    return mapMessagesToGQL(await this.roomManager.getMessagesByRoom(roomId));
   }
 
   @Mutation(() => Message)

@@ -109,7 +109,7 @@ type Query {
   myAccount: Account!
   roomById(roomId: String!): Room!
   participants(roomId: String!): [Participant!]!
-  messagesByRoom: [Message!]!
+  messagesByRoom(roomId: String!): [Message!]!
   getRouter(roomId: String!): RouterOptions!
   getProducer(roomId: String!): ProducerOptions!
   getProducers(roomId: String!): [ProducerOptions!]!
