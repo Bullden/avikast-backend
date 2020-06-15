@@ -166,7 +166,6 @@ export default class RoomManager extends IRoomManager {
     const currentTime = new Date();
     const date = `${currentTime.getHours()}:${currentTime.getMinutes()}`;
     const message = {senderId, roomId, body, date, receiverId};
-    await this.messageStore.createMessage(message);
-    return true;
+    return mapMessageFromDB(await this.messageStore.createMessage(message));
   }
 }

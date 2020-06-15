@@ -95,7 +95,7 @@ export default class RoomResolver {
 
   @Query(() => [Message])
   async messagesByRoom() {
-    return mapMessagesToGQL(await this.roomManager.getMessagesByRoom('67'));
+    return mapMessagesToGQL(await this.roomManager.getMessagesByRoom('2'));
   }
 
   @Mutation(() => Message)
@@ -103,7 +103,7 @@ export default class RoomResolver {
     return mapMessageToGQL(await this.roomManager.createTestMessage());
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => Message)
   async createMessage(
     @CurrentSession() session: Session,
     @Args({name: 'roomId', type: () => String}) roomId: string,

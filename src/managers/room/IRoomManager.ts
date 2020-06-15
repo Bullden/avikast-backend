@@ -35,5 +35,5 @@ export default abstract class IRoomManager {
     roomId: string,
     body: string,
     receiverId?: string,
-  ): Promise<Boolean>;
+  ): Promise<Message>;
 }
