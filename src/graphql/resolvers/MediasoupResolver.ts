@@ -1,4 +1,4 @@
-import {Args, Mutation, Query, Resolver, Subscription} from '@nestjs/graphql';
+import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
 import CurrentSession from 'enhancers/decorators/CurrentSession';
 import Session from 'entities/Session';
 import TransportOptions from '../entities/mediasoup/TransportOptions';
@@ -86,17 +86,6 @@ export default class MediasoupResolver {
       clientId,
       session.userId,
     );
-  }
-
-  @Subscription(() => String, {
-    name: 'participantTrackChanged',
-  })
-  // eslint-disable-next-line class-methods-use-this
-  returnTracks() {
-    // eslint-disable-next-line no-console
-    console.log('subscribtion TRIGGERED');
-    const pubSub = new PubSub();
-    return pubSub.asyncIterator('participantTrackChanged');
   }
 
   @Query(() => RouterOptions)

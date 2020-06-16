@@ -54,6 +54,7 @@ export default class MediasoupManager extends IMediasoupManager {
       mediaType,
       mediaKind,
     );
+
     const renewParticipantMedia: RenewParticipantMedia = {
       enabled: true,
       options: producer,
@@ -131,7 +132,7 @@ export default class MediasoupManager extends IMediasoupManager {
     clientId: string,
   ) {
     // eslint-disable-next-line no-console
-    console.log(clientId);
+    console.log('turn on audio in room', roomId, 'client id ', clientId);
     return this.roomStore.turnOnOffAudio(roomId, userId, renewParticipantMedia);
   }
 
@@ -142,7 +143,7 @@ export default class MediasoupManager extends IMediasoupManager {
     clientId: string,
   ) {
     // eslint-disable-next-line no-console
-    console.log(clientId);
+    console.log('turn on video in room', roomId, 'client id ', clientId);
     return this.roomStore.turnOnOffVideo(roomId, userId, renewParticipantMedia);
   }
 
@@ -153,7 +154,7 @@ export default class MediasoupManager extends IMediasoupManager {
     clientId: string,
   ) {
     // eslint-disable-next-line no-console
-    console.log(clientId);
+    console.log('turn on screen in room', roomId, 'client id ', clientId);
     return this.roomStore.turnOnOffScreen(roomId, userId, renewParticipantMedia);
   }
 }

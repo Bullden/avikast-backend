@@ -110,7 +110,7 @@ export default class RoomStore extends IRoomStore {
     );
   }
 
-  async turnOnOffAudio(roomId: string, userId: string, request: RenewParticipantMedia) {
+  async turnOnOffAudio(roomId: string, userId: string, request: RenewParticipantMedia) { //todo client id for sound
     const participant = await this.findParticipant(roomId, userId);
     if (!participant || !participant.media)
       throw new Error('participant or participant.media doesnt exist');

@@ -6,7 +6,8 @@ import {RoomType} from 'entities/Room';
 import Room from 'graphql/entities/room/Room';
 import {
   mapMessagesToGQL,
-  mapMessageToGQL,mapParticipantsToGQL,
+  mapMessageToGQL,
+  mapParticipantsToGQL,
   mapParticipantsTracksToGQL,
   mapRoomToGQL,
 } from 'graphql/entities/Mappers';
@@ -17,7 +18,11 @@ import {PubSub} from 'graphql-subscriptions';
 
 @Resolver()
 export default class RoomResolver {
-  constructor(private readonly roomManager: IRoomManager) {}
+  private readonly pubSub: PubSub;
+
+  constructor(private readonly roomManager: IRoomManager) {
+    this.pubSub = new PubSub();
+  }
 
   @Mutation(() => Room)
   async createRoom(
@@ -107,7 +112,7 @@ export default class RoomResolver {
     @CurrentSession() session: Session,
     @Args({name: 'roomId', type: () => String}) roomId: string,
     @Args({name: 'messageBody', type: () => String}) messageBody: string,
-    @Args({name: 'receiverId', type: () => String}) receiverId: string,
+    @Args({name: 'receiverId', type: () => String, nullable: true}) receiverId: string,
   ) {
     return this.roomManager.createMessage(
       session.userId,
@@ -122,26 +127,19 @@ export default class RoomResolver {
     @CurrentSession() session: Session,
     @Args('roomId') roomId: string,
   ) {
-    const pubSub = new PubSub();
     const tracks = await this.roomManager.getParticipantsTracks(session.userId, roomId);
     const mapTracks = mapParticipantsTracksToGQL(tracks);
     // eslint-disable-next-line no-console
     console.log('participant tracks', mapTracks, 'participantTracks');
-    await pubSub.publish('participantTrackChanged', {mapTracks});
+    await this.pubSub.publish('participantMediaChanged', mapTracks);
     return mapTracks;
   }
 
-  @Subscription(() => [ParticipantMedia], {
-    name: 'participantTrackChanged',
-  })
-  returnTracks() {
-    const pubSub = new PubSub();
-    pubSub.asyncIterator('participantTrackChanged');
-    // eslint-disable-next-line no-console
-
+  @Subscription(() => [ParticipantMedia])
+  participantMediaChanged() {
     // eslint-disable-next-line no-console
     console.log('subscribtion TRIGGERED');
-    return this.participantsTracks;
+    return this.pubSub.asyncIterator('participantMediaChanged');
   }
 
   // @ResolveField()
