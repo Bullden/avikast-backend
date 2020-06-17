@@ -1,10 +1,11 @@
 import {Document} from 'mongoose';
 import {createSchema} from './Common';
+import UserModel, {UserSchema} from './UserModel';
 
 const schemaName = 'message';
 
 export const MessageSchema = createSchema(schemaName, {
-  senderId: {type: String, required: true},
+  sender: {type: String, ref: UserSchema.name, required: true},
   roomId: {type: String, required: true},
   body: {type: String, required: true},
   date: {type: String, required: true},
@@ -12,7 +13,7 @@ export const MessageSchema = createSchema(schemaName, {
 });
 
 export default interface MessageModel extends Document {
-  senderId: string;
+  sender: UserModel;
   roomId: string;
   body: string;
   date: string;
@@ -20,7 +21,7 @@ export default interface MessageModel extends Document {
 }
 
 export interface CreateMessageModel {
-  senderId: string;
+  sender: string;
   roomId: string;
   body: string;
   date: string;

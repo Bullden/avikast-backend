@@ -2,11 +2,11 @@ import Message from 'database/entities/Message';
 
 export default abstract class IMessageStore {
   abstract createMessage(message: {
-    senderId: string;
+    sender: string;
     roomId: string;
     body: string;
     date: string;
-    receiverId: string | undefined;
+    receiverId?: string | undefined;
   }): Promise<Message>;
 
   abstract getMessagesByRoom(roomId: string): Promise<Message[]>;

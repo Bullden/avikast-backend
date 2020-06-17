@@ -1,6 +1,5 @@
 import Room, {RoomType} from 'entities/Room';
 import Participant from 'entities/Participant';
-import Message from 'entities/Message';
 
 export default abstract class IRoomManager {
   abstract createRoom(
@@ -20,15 +19,4 @@ export default abstract class IRoomManager {
   abstract getRoomById(userId: string, roomId: string): Promise<Room>;
 
   abstract getParticipants(userId: string, roomId: string): Promise<Participant[]>;
-
-  abstract getMessagesByRoom(roomId: string): Promise<Message[]>;
-
-  abstract createTestMessage(): Promise<Message>;
-
-  abstract createMessage(
-    senderId: string,
-    roomId: string,
-    body: string,
-    receiverId?: string,
-  ): Promise<Message>;
 }

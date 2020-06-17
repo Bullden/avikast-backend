@@ -12,6 +12,8 @@ import IBookmarkManager from './bookmark/IBookmarkManager';
 import BookmarkManager from './bookmark/BookmarkManager';
 import IAvikastFileManager from './avikastFile/IAvikastFileManager';
 import AvikastFileManager from './avikastFile/AvikastFileManager';
+import IChatManager from './chat/IChatManager';
+import ChatManager from './chat/ChatManager';
 
 @Module({
   imports: [
@@ -41,6 +43,10 @@ import AvikastFileManager from './avikastFile/AvikastFileManager';
       provide: IAvikastFileManager,
       useClass: AvikastFileManager,
     },
+    {
+      provide: IChatManager,
+      useClass: ChatManager,
+    },
   ],
   exports: [
     //
@@ -50,6 +56,7 @@ import AvikastFileManager from './avikastFile/AvikastFileManager';
     IMediasoupManager,
     IBookmarkManager,
     IAvikastFileManager,
+    IChatManager,
   ],
 })
 export class ManagerModule {}

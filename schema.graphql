@@ -46,15 +46,6 @@ enum ParticipantRole {
   User
 }
 
-type Message {
-  id: ID!
-  senderId: String!
-  roomId: String!
-  body: String!
-  date: String!
-  receiverId: String!
-}
-
 type TransportOptions {
   id: String!
   iceCandidates: JSON!
@@ -96,27 +87,36 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Message {
+  id: ID!
+  sender: User!
+  roomId: String!
+  body: String!
+  date: String!
+  receiverId: String!
+}
+
 type Query {
   myAccount: Account!
   roomById(roomId: String!): Room!
   participants(roomId: String!): [Participant!]!
-  messagesByRoom(roomId: String!): [Message!]!
   getRouter(roomId: String!): RouterOptions!
   getProducer(roomId: String!): ProducerOptions!
   getProducers(roomId: String!): [ProducerOptions!]!
   bookmarks: [Bookmark!]!
+  messagesByRoom(roomId: String!): [Message!]!
 }
 
 type Mutation {
   updateMyAccount(user: UserUpdateRequest!): Account!
   createRoom(password: String, passwordProtected: Boolean!, type: RoomType!, name: String!): Room!
   joinRoom(password: String, code: String!): Room!
-  createTestMessage: Message!
-  createMessage(receiverId: String!, messageBody: String!, roomId: String!): Message!
   createTransport(clientId: String!, direction: String!, roomId: String!): TransportOptions!
   connectTransport(clientId: String!, direction: String!, dtlsParameters: JSON!, roomId: String!): Boolean!
   createProducer(rtpParameters: JSON!, clientId: String!, roomId: String!, transportId: String!): ProducerOptions!
   createConsumer(clientId: String!, rtpCapabilities: JSON!, roomId: String!, producerId: String!): ConsumerOptions!
+  createTestMessage: Message!
+  createMessage(receiverId: String, messageBody: String!, roomId: String!): Message!
 }
 
 input UserUpdateRequest {

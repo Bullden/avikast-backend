@@ -1,17 +1,18 @@
 import {Field, ID, ObjectType} from '@nestjs/graphql';
+import User from '../user/User';
 
 @ObjectType()
 export default class Message {
   constructor(
     id: string,
-    senderId: string,
+    sender: User,
     roomId: string,
     body: string,
     date: string,
     receiverId: string | undefined,
   ) {
     this.id = id;
-    this.senderId = senderId;
+    this.sender = sender;
     this.roomId = roomId;
     this.body = body;
     this.date = date;
@@ -21,8 +22,8 @@ export default class Message {
   @Field(() => ID)
   id: string;
 
-  @Field(() => String)
-  senderId: string;
+  @Field(() => User)
+  sender: User;
 
   @Field(() => String)
   roomId: string;

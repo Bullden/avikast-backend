@@ -4,14 +4,8 @@ import CurrentSession from 'enhancers/decorators/CurrentSession';
 import Session from 'entities/Session';
 import {RoomType} from 'entities/Room';
 import Room from 'graphql/entities/room/Room';
-import {
-  mapMessagesToGQL,
-  mapMessageToGQL,
-  mapParticipantsToGQL,
-  mapRoomToGQL,
-} from 'graphql/entities/Mappers';
+import {mapParticipantsToGQL, mapRoomToGQL} from 'graphql/entities/Mappers';
 import Participant from 'graphql/entities/room/Participant';
-import Message from '../entities/message/Message';
 
 @Resolver()
 export default class RoomResolver {
@@ -55,31 +49,6 @@ export default class RoomResolver {
   async participants(@CurrentSession() session: Session, @Args('roomId') roomId: string) {
     return mapParticipantsToGQL(
       await this.roomManager.getParticipants(session.userId, roomId),
-    );
-  }
-
-  @Query(() => [Message])
-  async messagesByRoom(@Args({name: 'roomId', type: () => String}) roomId: string) {
-    return mapMessagesToGQL(await this.roomManager.getMessagesByRoom(roomId));
-  }
-
-  @Mutation(() => Message)
-  async createTestMessage() {
-    return mapMessageToGQL(await this.roomManager.createTestMessage());
-  }
-
-  @Mutation(() => Message)
-  async createMessage(
-    @CurrentSession() session: Session,
-    @Args({name: 'roomId', type: () => String}) roomId: string,
-    @Args({name: 'messageBody', type: () => String}) messageBody: string,
-    @Args({name: 'receiverId', type: () => String}) receiverId: string,
-  ) {
-    return this.roomManager.createMessage(
-      session.userId,
-      roomId,
-      messageBody,
-      receiverId,
     );
   }
 }

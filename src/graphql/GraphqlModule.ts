@@ -9,6 +9,7 @@ import {RouterModule} from 'router/RouterModule';
 import RoomResolver from './resolvers/RoomResolver';
 import MediasoupResolver from 'graphql/resolvers/MediasoupResolver';
 import {BookmarkResolver} from './resolvers/BookmarkResolver';
+import ChatResolver from './resolvers/ChatResolver';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import {BookmarkResolver} from './resolvers/BookmarkResolver';
     RoomResolver,
     MediasoupResolver,
     BookmarkResolver,
+    ChatResolver,
   ],
 })
 export class GraphqlModule {}

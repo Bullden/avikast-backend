@@ -105,7 +105,7 @@ export const mapSessionFromModel = (
 
 export const mapMessageFromModel = (message: MessageModel): Message => ({
   id: extractIdFromModel(message),
-  senderId: message.senderId,
+  sender: mapUserFromModel(message.sender),
   roomId: message.roomId,
   body: message.body,
   date: message.date,
