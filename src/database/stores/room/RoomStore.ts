@@ -26,6 +26,8 @@ export default class RoomStore extends IRoomStore {
     private participantModel: Model<ParticipantModel>,
   ) {
     super();
+    // eslint-disable-next-line no-console
+    roomModel.watch().on('change', (data) => console.log(data));
   }
 
   private readonly populateRoom: QueryPopulateOptions = {

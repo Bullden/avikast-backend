@@ -22,6 +22,7 @@ const options = (configService: IConfigService): MongooseModuleOptions => {
     uri,
     user: configService.get('DATABASE_USERNAME'),
     pass: configService.get('DATABASE_PASSWORD'),
+    dbName: 'avikast',
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useCreateIndex: true,
