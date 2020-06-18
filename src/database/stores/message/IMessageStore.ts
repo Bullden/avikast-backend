@@ -10,6 +10,4 @@ export default abstract class IMessageStore {
   }): Promise<Message>;
 
   abstract getMessagesByRoom(roomId: string): Promise<Message[]>;
-
-  abstract createTestMessage(): Promise<Message>;
 }

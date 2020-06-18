@@ -115,7 +115,6 @@ type Mutation {
   connectTransport(clientId: String!, direction: String!, dtlsParameters: JSON!, roomId: String!): Boolean!
   createProducer(rtpParameters: JSON!, clientId: String!, roomId: String!, transportId: String!): ProducerOptions!
   createConsumer(clientId: String!, rtpCapabilities: JSON!, roomId: String!, producerId: String!): ConsumerOptions!
-  createTestMessage: Message!
   createMessage(receiverId: String, messageBody: String!, roomId: String!): Message!
 }
 
