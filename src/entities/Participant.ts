@@ -1,5 +1,5 @@
 import User from './User';
-import {ParticipantTrackOptions} from 'entities/Mediasoup';
+import {MediaKind, MediaType, ProducerOptions} from 'entities/Mediasoup';
 
 export enum ParticipantRole {
   Owner = 'Owner',
@@ -10,6 +10,14 @@ export interface ParticipantMedia {
   video: ParticipantTrackOptions;
   screen: ParticipantTrackOptions;
 }
+
+export type ParticipantTrackOptions = {
+  enabled: boolean;
+  clientId: string | undefined;
+  producerOptions: ProducerOptions | undefined;
+  mediaKind: MediaKind | undefined;
+  mediaType: MediaType | undefined;
+};
 
 export default interface Participant {
   id: string;

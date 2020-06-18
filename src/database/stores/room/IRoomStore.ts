@@ -1,8 +1,11 @@
 import {RoomType} from 'entities/Room';
 import Room from 'database/entities/Room';
-import {ParticipantMedia, ParticipantRole} from 'entities/Participant';
+import {
+  ParticipantMedia,
+  ParticipantRole,
+  ParticipantTrackOptions,
+} from 'entities/Participant';
 import Participant from 'database/entities/Participant';
-import {ParticipantTrackOptions} from 'entities/Mediasoup';
 
 export default abstract class IRoomStore {
   abstract createRoom(room: {

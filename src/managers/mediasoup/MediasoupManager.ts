@@ -1,13 +1,9 @@
 import IMediasoupManager from './IMediasoupManager';
 import IMediasoupService from 'services/mediasoup/IMediasoupService';
 import {Injectable} from '@nestjs/common';
-import {
-  Direction,
-  MediaKind,
-  MediaType,
-  ParticipantTrackOptions,
-} from 'entities/Mediasoup';
+import {Direction, MediaKind, MediaType} from 'entities/Mediasoup';
 import IRoomStore from 'database/stores/room/IRoomStore';
+import {ParticipantTrackOptions} from 'entities/Participant';
 
 @Injectable()
 export default class MediasoupManager extends IMediasoupManager {

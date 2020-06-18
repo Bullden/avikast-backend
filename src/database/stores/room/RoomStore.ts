@@ -12,8 +12,11 @@ import ParticipantModel, {
   CreateParticipantModel,
   ParticipantSchema,
 } from 'database/models/ParticipantModel';
-import {ParticipantMedia, ParticipantRole} from 'entities/Participant';
-import {ParticipantTrackOptions} from 'entities/Mediasoup';
+import {
+  ParticipantMedia,
+  ParticipantRole,
+  ParticipantTrackOptions,
+} from 'entities/Participant';
 
 export default class RoomStore extends IRoomStore {
   constructor(

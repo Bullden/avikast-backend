@@ -8,21 +8,7 @@ export enum MediaType {
   screenShare = 'screenShare',
 }
 
-export type ParticipantTrackOptions = {
-  enabled: boolean;
-  clientId: string | undefined;
-  producerOptions: ProducerOptions | undefined;
-  mediaKind: MediaKind | undefined;
-  mediaType: MediaType | undefined;
-};
-
 export type Direction = 'send' | 'receive';
-
-export interface MediaAttributes {
-  kind: MediaKind;
-  mediaType: MediaType;
-  direction: Direction;
-}
 
 export interface ConsumerOptions {
   id: string;
