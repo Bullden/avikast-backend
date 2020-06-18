@@ -9,6 +9,7 @@ import RoomResolver from './resolvers/RoomResolver';
 import MediasoupResolver from 'graphql/resolvers/MediasoupResolver';
 import {BookmarkResolver} from './resolvers/BookmarkResolver';
 import MessageResolver from './resolvers/MessageResolver';
+import {PubSub, PubSubEngine} from 'graphql-subscriptions';
 
 @Module({
   imports: [
@@ -24,6 +25,10 @@ import MessageResolver from './resolvers/MessageResolver';
     StoresModule,
   ],
   providers: [
+    {
+      provide: PubSubEngine,
+      useClass: PubSub,
+    },
     {
       provide: APP_PIPE,
       useClass: ValidationPipe,

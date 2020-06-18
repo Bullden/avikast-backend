@@ -1,4 +1,5 @@
 import Message from 'entities/Message';
+import {Observable} from 'rxjs';
 
 export default abstract class IMessageManager {
   abstract getMessagesByRoom(roomId: string): Promise<Message[]>;
@@ -9,4 +10,6 @@ export default abstract class IMessageManager {
     body: string,
     receiverId?: string,
   ): Promise<Message>;
+
+  abstract watchNewMessage(): Observable<Message>;
 }

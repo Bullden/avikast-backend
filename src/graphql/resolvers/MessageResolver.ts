@@ -4,10 +4,14 @@ import Message from '../entities/message/Message';
 import {mapMessagesToGQL} from '../entities/Mappers';
 import CurrentSession from '../../enhancers/decorators/CurrentSession';
 import IMessageManager from '../../managers/message/IMessageManager';
+import {PubSubEngine} from 'graphql-subscriptions';
 
 @Resolver()
 export default class MessageResolver {
-  constructor(private readonly chatManager: IMessageManager) {}
+  constructor(
+    private readonly chatManager: IMessageManager,
+    private readonly pubSub: PubSubEngine,
+  ) {}
 
   @Query(() => [Message])
   async messagesByRoom(@Args({name: 'roomId', type: () => String}) roomId: string) {
@@ -27,5 +31,12 @@ export default class MessageResolver {
       messageBody,
       receiverId || '',
     );
+  }
+
+  private watchNewMessage() {
+    this.chatManager.watchNewMessage().subscribe((message) => {
+      console.log(message);
+      // call pubsub
+    });
   }
 }
