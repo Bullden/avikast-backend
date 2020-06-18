@@ -4,14 +4,14 @@ export enum MediaKind {
 }
 
 export enum MediaType {
-  camera = 'camera',
+  userMedia = 'userMedia',
   screenShare = 'screenShare',
 }
 
 export type RenewParticipantMedia = {
   enabled: boolean;
   clientId: string | undefined;
-  options: ProducerOptions | undefined;
+  producerOptions: ProducerOptions | undefined;
   mediaKind: MediaKind | undefined;
   mediaType: MediaType | undefined;
 };

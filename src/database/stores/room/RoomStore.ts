@@ -107,7 +107,7 @@ export default class RoomStore extends IRoomStore {
   }
 
   async updateParticipantMedia(
-    type: 'audio' | 'camera' | 'screenShare',
+    type: 'audio' | 'video' | 'screenShare',
     roomId: string,
     userId: string,
     request: RenewParticipantMedia,
@@ -120,7 +120,7 @@ export default class RoomStore extends IRoomStore {
       const {video, screen} = participant.media;
       updateObject.media = {audio: request, video, screen};
     }
-    if (type === 'camera') {
+    if (type === 'video') {
       const {audio, screen} = participant.media;
       updateObject.media = {audio, video: request, screen};
     }

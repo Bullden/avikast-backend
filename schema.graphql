@@ -38,7 +38,7 @@ enum RoomType {
 type ParticipantTrackOptions {
   enabled: Boolean!
   clientId: String
-  options: JSON
+  producerOptions: JSON
   mediaKind: String
   mediaType: String
 }
@@ -146,7 +146,7 @@ input UserUpdateRequest {
 }
 
 enum MediaType {
-  camera
+  userMedia
   screenShare
 }
 

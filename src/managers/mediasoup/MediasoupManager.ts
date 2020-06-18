@@ -57,20 +57,20 @@ export default class MediasoupManager extends IMediasoupManager {
     const renewParticipantMedia: RenewParticipantMedia = {
       enabled: true,
       clientId,
-      options: producer,
+      producerOptions: producer,
       mediaKind,
       mediaType,
     };
-    if (mediaKind === 'audio') {
+    if (mediaType === 'screenShare') {
       await this.roomStore.updateParticipantMedia(
-        mediaKind,
+        mediaType,
         roomId,
         userId,
         renewParticipantMedia,
       );
     } else {
       await this.roomStore.updateParticipantMedia(
-        mediaType,
+        mediaKind,
         roomId,
         userId,
         renewParticipantMedia,

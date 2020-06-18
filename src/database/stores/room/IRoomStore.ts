@@ -35,7 +35,7 @@ export default abstract class IRoomStore {
   abstract getParticipants(roomId: string): Promise<Participant[]>;
 
   abstract updateParticipantMedia(
-    type: 'audio' | 'camera' | 'screenShare',
+    type: 'audio' | 'video' | 'screenShare',
     roomId: string,
     clientId: string,
     renewParticipantMedia: RenewParticipantMedia,

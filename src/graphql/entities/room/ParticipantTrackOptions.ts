@@ -10,13 +10,13 @@ export default class ParticipantTrackOptions {
   constructor(
     enabled: boolean,
     clientId: string | undefined,
-    options: ProducerOptions | undefined,
+    producerOptions: ProducerOptions | undefined,
     mediaKind: MediaKind | undefined,
     mediaType: MediaType | undefined,
   ) {
     this.enabled = enabled;
     this.clientId = clientId;
-    this.options = options;
+    this.producerOptions = producerOptions;
     this.mediaKind = mediaKind;
     this.mediaType = mediaType;
   }
@@ -28,7 +28,7 @@ export default class ParticipantTrackOptions {
   clientId: string | undefined;
 
   @Field(() => graphqlTypeJson, {nullable: true})
-  options: object | undefined;
+  producerOptions: object | undefined;
 
   @Field(() => String, {nullable: true})
   mediaKind: MediaKind | undefined;
