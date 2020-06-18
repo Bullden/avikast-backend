@@ -5,6 +5,7 @@ export enum ParticipantRole {
   Owner = 'Owner',
   User = 'User',
 }
+
 export interface ParticipantMedia {
   audio: ParticipantTrackOptions;
   video: ParticipantTrackOptions;

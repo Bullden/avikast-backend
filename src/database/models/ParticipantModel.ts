@@ -1,7 +1,11 @@
 import {Document} from 'mongoose';
 import {createSchema} from './Common';
 import UserModel, {UserSchema} from './UserModel';
-import {ParticipantMedia, ParticipantRole} from 'entities/Participant';
+import {
+  ParticipantMedia,
+  ParticipantRole,
+  ParticipantTrackOptions,
+} from 'entities/Participant';
 import RoomModel, {RoomSchema} from './RoomModel';
 
 export const ParticipantSchema = createSchema('participant', {
@@ -15,7 +19,11 @@ export default interface ParticipantModel extends Document {
   user: UserModel | string;
   room: RoomModel | string;
   role: ParticipantRole;
-  media: ParticipantMedia;
+  media: {
+    audio: ParticipantTrackOptions;
+    video: ParticipantTrackOptions;
+    screen: ParticipantTrackOptions;
+  };
 }
 
 export interface CreateParticipantModel {
