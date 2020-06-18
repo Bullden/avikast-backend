@@ -1,7 +1,12 @@
 import IMediasoupManager from './IMediasoupManager';
 import IMediasoupService from 'services/mediasoup/IMediasoupService';
 import {Injectable} from '@nestjs/common';
-import {Direction, MediaKind, MediaType, RenewParticipantMedia} from 'entities/Mediasoup';
+import {
+  Direction,
+  MediaKind,
+  MediaType,
+  ParticipantTrackOptions,
+} from 'entities/Mediasoup';
 import IRoomStore from 'database/stores/room/IRoomStore';
 
 @Injectable()
@@ -54,7 +59,7 @@ export default class MediasoupManager extends IMediasoupManager {
       mediaType,
       mediaKind,
     );
-    const renewParticipantMedia: RenewParticipantMedia = {
+    const participantTrackOptions: ParticipantTrackOptions = {
       enabled: true,
       clientId,
       producerOptions: producer,
@@ -66,14 +71,14 @@ export default class MediasoupManager extends IMediasoupManager {
         mediaType,
         roomId,
         userId,
-        renewParticipantMedia,
+        participantTrackOptions,
       );
     } else {
       await this.roomStore.updateParticipantMedia(
         mediaKind,
         roomId,
         userId,
-        renewParticipantMedia,
+        participantTrackOptions,
       );
     }
     return producer;

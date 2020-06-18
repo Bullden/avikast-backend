@@ -8,7 +8,7 @@ export enum MediaType {
   screenShare = 'screenShare',
 }
 
-export type RenewParticipantMedia = {
+export type ParticipantTrackOptions = {
   enabled: boolean;
   clientId: string | undefined;
   producerOptions: ProducerOptions | undefined;

@@ -2,7 +2,7 @@ import {RoomType} from 'entities/Room';
 import Room from 'database/entities/Room';
 import {ParticipantMedia, ParticipantRole} from 'entities/Participant';
 import Participant from 'database/entities/Participant';
-import {RenewParticipantMedia} from 'entities/Mediasoup';
+import {ParticipantTrackOptions} from 'entities/Mediasoup';
 
 export default abstract class IRoomStore {
   abstract createRoom(room: {
@@ -38,6 +38,6 @@ export default abstract class IRoomStore {
     type: 'audio' | 'video' | 'screenShare',
     roomId: string,
     clientId: string,
-    renewParticipantMedia: RenewParticipantMedia,
+    renewParticipantMedia: ParticipantTrackOptions,
   ): Promise<boolean>;
 }

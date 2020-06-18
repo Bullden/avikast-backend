@@ -13,7 +13,7 @@ import ParticipantModel, {
   ParticipantSchema,
 } from 'database/models/ParticipantModel';
 import {ParticipantMedia, ParticipantRole} from 'entities/Participant';
-import {RenewParticipantMedia} from 'entities/Mediasoup';
+import {ParticipantTrackOptions} from 'entities/Mediasoup';
 
 export default class RoomStore extends IRoomStore {
   constructor(
@@ -110,7 +110,7 @@ export default class RoomStore extends IRoomStore {
     type: 'audio' | 'video' | 'screenShare',
     roomId: string,
     userId: string,
-    request: RenewParticipantMedia,
+    request: ParticipantTrackOptions,
   ) {
     const participant = await this.findParticipant(roomId, userId);
     const updateObject: Partial<ParticipantModel> = {};

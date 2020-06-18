@@ -28,7 +28,7 @@ export default class ParticipantTrackOptions {
   clientId: string | undefined;
 
   @Field(() => graphqlTypeJson, {nullable: true})
-  producerOptions: object | undefined;
+  producerOptions: ProducerOptions | undefined;
 
   @Field(() => String, {nullable: true})
   mediaKind: MediaKind | undefined;
