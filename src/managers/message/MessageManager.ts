@@ -1,10 +1,10 @@
 import {Injectable} from '@nestjs/common';
-import IChatManager from './IChatManager';
+import IMessageManager from './IMessageManager';
 import IMessageStore from '../../database/stores/message/IMessageStore';
 import {mapMessageFromDB, mapMessagesFromDB} from '../../database/entities/Mappers';
 
 @Injectable()
-export default class ChatManager extends IChatManager {
+export default class MessageManager extends IMessageManager {
   constructor(private readonly messageStore: IMessageStore) {
     super();
   }

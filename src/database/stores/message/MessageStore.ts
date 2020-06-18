@@ -1,7 +1,7 @@
 import IMessageStore from './IMessageStore';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model, QueryPopulateOptions} from 'mongoose';
-import MessageModel, {CreateMessageModel, MessageSchema} from '../../models/MessageModel';
+import MessageModel, {CreateMessageModel, MessageSchema} from '../../models/ChatModel';
 import {mapMessageFromModel, mapMessagesFromModel} from '../../models/Mappers';
 
 export default class MessageStore extends IMessageStore {

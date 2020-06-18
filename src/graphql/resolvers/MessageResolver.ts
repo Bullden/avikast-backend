@@ -3,11 +3,11 @@ import Session from 'entities/Session';
 import Message from '../entities/message/Message';
 import {mapMessagesToGQL, mapMessageToGQL} from '../entities/Mappers';
 import CurrentSession from '../../enhancers/decorators/CurrentSession';
-import IChatManager from '../../managers/chat/IChatManager';
+import IMessageManager from '../../managers/message/IMessageManager';
 
 @Resolver()
-export default class ChatResolver {
-  constructor(private readonly chatManager: IChatManager) {}
+export default class MessageResolver {
+  constructor(private readonly chatManager: IMessageManager) {}
 
   @Query(() => [Message])
   async messagesByRoom(@Args({name: 'roomId', type: () => String}) roomId: string) {
