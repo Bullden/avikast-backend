@@ -66,15 +66,6 @@ enum ParticipantRole {
   User
 }
 
-type Message {
-  id: ID!
-  sender: User!
-  roomId: String!
-  body: String!
-  date: String!
-  receiverId: String!
-}
-
 type TransportOptions {
   id: String!
   iceCandidates: JSON!
@@ -110,6 +101,15 @@ type Bookmark {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+type Message {
+  id: ID!
+  sender: User!
+  roomId: String!
+  body: String!
+  date: String!
+  receiverId: String!
+}
 
 type Query {
   myAccount: Account!
@@ -153,4 +153,8 @@ enum MediaType {
 enum MediaKind {
   audio
   video
+}
+
+type Subscription {
+  messageAdded: Boolean!
 }
