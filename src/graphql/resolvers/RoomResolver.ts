@@ -1,4 +1,3 @@
-// eslint-disable no-console
 import {Args, Mutation, Query, Resolver, Subscription} from '@nestjs/graphql';
 import IRoomManager from '../../managers/room/IRoomManager';
 import CurrentSession from 'enhancers/decorators/CurrentSession';
@@ -73,7 +72,6 @@ export default class RoomResolver {
     const pubSub = new PubSub();
     const tracks = await this.roomManager.getParticipantsTracks(session.userId, roomId);
     const mapTracks = mapParticipantsTracksToGQL(tracks);
-    // eslint-disable-next-line no-console
     console.log('participant tracks', mapTracks, 'participantTracks');
     await pubSub.publish('participantTrackChanged', {mapTracks});
     return mapTracks;

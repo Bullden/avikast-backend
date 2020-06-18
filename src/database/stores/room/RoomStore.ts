@@ -1,4 +1,3 @@
-/* eslint-disable */
 import IRoomStore from 'database/stores/room/IRoomStore';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model, QueryPopulateOptions} from 'mongoose';
@@ -15,7 +14,6 @@ import ParticipantModel, {
 } from 'database/models/ParticipantModel';
 import {ParticipantMedia, ParticipantRole} from 'entities/Participant';
 import {RenewParticipantMedia} from 'entities/Mediasoup';
-
 
 export default class RoomStore extends IRoomStore {
   constructor(
@@ -108,7 +106,8 @@ export default class RoomStore extends IRoomStore {
     );
   }
 
-  async turnOnOffAudio(roomId: string, userId: string, request: RenewParticipantMedia) { //todo client id for sound
+  async turnOnOffAudio(roomId: string, userId: string, request: RenewParticipantMedia) {
+    // todo client id for sound
     const participant = await this.findParticipant(roomId, userId);
     if (!participant || !participant.media)
       throw new Error('participant or participant.media doesnt exist');
@@ -133,7 +132,7 @@ export default class RoomStore extends IRoomStore {
   }
 
   async turnOnOffScreen(roomId: string, userId: string, request: RenewParticipantMedia) {
-    console.log(roomId, "roomId", userId, 'userID')
+    console.log(roomId, 'roomId', userId, 'userID');
     const participant = await this.findParticipant(roomId, userId);
     if (!participant || !participant.media)
       throw new Error('participant or participant.media doesnt exist');

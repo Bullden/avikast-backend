@@ -126,8 +126,6 @@ export const mapProducerToGQL = (producer: ProducerOptions): GQLProducerOptions 
   id: producer.id,
   kind: producer.kind,
   rtpParameters: producer.rtpParameters,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore
   clientId: producer.appData.clientId,
 });
 

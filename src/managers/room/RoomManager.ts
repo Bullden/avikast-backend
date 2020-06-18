@@ -142,7 +142,6 @@ export default class RoomManager extends IRoomManager {
       const track = participant.media;
       tracks.push(track);
     });
-    // eslint-disable-next-line no-console
     console.log(tracks, 'participant tracks in manager');
     return tracks;
   }
