@@ -3,11 +3,10 @@ import graphqlTypeJson from 'graphql-type-json';
 
 @ObjectType()
 export default class ProducerOptions {
-  constructor(id: string, kind: string, rtpParameters: object, clientId: string) {
+  constructor(id: string, kind: string, rtpParameters: object) {
     this.id = id;
     this.kind = kind;
     this.rtpParameters = rtpParameters;
-    this.clientId = clientId;
   }
 
   @Field(() => String)
@@ -18,7 +17,4 @@ export default class ProducerOptions {
 
   @Field(() => graphqlTypeJson)
   rtpParameters: object;
-
-  @Field(() => String)
-  clientId: string;
 }

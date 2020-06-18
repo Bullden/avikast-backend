@@ -14,7 +14,7 @@ import Participant, {ParticipantMedia} from 'entities/Participant';
 import GQLParticipant from './room/Participant';
 import GQLProducerOptions from './mediasoup/ProducerOptions';
 import GQLParticipantMedia from './room/ParticipantMedia';
-import {AvikastFile} from '../../entities/AvikastFile';
+import {AvikastFile} from 'entities/AvikastFile';
 import Message from 'entities/Message';
 import GQLMessage from './message/Message';
 
@@ -91,16 +91,6 @@ export const mapAvikastFileToGQL = (avikastFile: AvikastFile): GQLAvikastFile =>
 export const mapAvikastFilesToGQL = (avikastFiles: AvikastFile[]): GQLAvikastFile[] =>
   avikastFiles.map(mapAvikastFileToGQL);
 
-export const mapAvikastFileToGQL = (avikastFile: AvikastFile): GQLAvikastFile => ({
-  id: avikastFile.id,
-  name: avikastFile.name,
-  type: avikastFile.type,
-  user: mapUserToGQL(avikastFile.user),
-});
-
-export const mapAvikastFilesToGQL = (avikastFiles: AvikastFile[]): GQLAvikastFile[] =>
-  avikastFiles.map(mapAvikastFileToGQL);
-
 export const mapMessageToGQL = (message: Message): GQLMessage => ({
   id: message.id,
   sender: mapUserToGQL(message.sender),
@@ -113,33 +103,11 @@ export const mapMessageToGQL = (message: Message): GQLMessage => ({
 export const mapMessagesToGQL = (messages: Message[]): GQLMessage[] =>
   messages.map(mapMessageToGQL);
 
-// export const mapMediaSourceToGQL = (
-//   source: RenewParticipantMedia,
-// ): GQLParticipantTrackOptions => ({
-//   enabled: source.enabled,
-//   options: source.options,
-//   mediaKind: source.mediaKind,
-//   mediaType: source.mediaType,
-// });
-
 export const mapProducerToGQL = (producer: ProducerOptions): GQLProducerOptions => ({
   id: producer.id,
   kind: producer.kind,
   rtpParameters: producer.rtpParameters,
-  clientId: producer.appData.clientId,
 });
 
 export const mapProducersToGQL = (producers: ProducerOptions[]): GQLProducerOptions[] =>
   producers.map(mapProducerToGQL);
-
-export const mapMessageToGQL = (message: Message): GQLMessage => ({
-  id: message.id,
-  senderId: message.senderId,
-  roomId: message.roomId,
-  body: message.body,
-  date: message.date,
-  receiverId: message.receiverId,
-});
-
-export const mapMessagesToGQL = (messages: Message[]): GQLMessage[] =>
-  messages.map(mapMessageToGQL);

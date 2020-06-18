@@ -2,18 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type ParticipantTrackOptions {
-  enabled: Boolean!
-  options: JSON
-  mediaKind: String
-  mediaType: String
-}
-
-"""
-The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
-"""
-scalar JSON
-
 type User {
   id: ID!
   name: String!
@@ -47,6 +35,19 @@ enum RoomType {
   Webinar
 }
 
+type ParticipantTrackOptions {
+  enabled: Boolean!
+  clientId: String
+  options: JSON
+  mediaKind: String
+  mediaType: String
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
 type ParticipantMedia {
   audio: ParticipantTrackOptions!
   video: ParticipantTrackOptions!
@@ -67,7 +68,7 @@ enum ParticipantRole {
 
 type Message {
   id: ID!
-  senderId: String!
+  sender: User!
   roomId: String!
   body: String!
   date: String!
@@ -95,7 +96,6 @@ type ProducerOptions {
   id: String!
   kind: String!
   rtpParameters: JSON!
-  clientId: String!
 }
 
 type Bookmark {
@@ -111,39 +111,27 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Message {
-  id: ID!
-  sender: User!
-  roomId: String!
-  body: String!
-  date: String!
-  receiverId: String!
-}
-
 type Query {
   myAccount: Account!
   roomById(roomId: String!): Room!
   participants(roomId: String!): [Participant!]!
-  messagesByRoom(roomId: String!): [Message!]!
   participantsTracks(roomId: String!): [ParticipantMedia!]!
+  messagesByRoom(roomId: String!): [Message!]!
   getRouter(roomId: String!): RouterOptions!
   getProducer(roomId: String!): ProducerOptions!
   getProducers(roomId: String!): [ProducerOptions!]!
   bookmarks: [Bookmark!]!
-  messagesByRoom(roomId: String!): [Message!]!
 }
 
 type Mutation {
   updateMyAccount(user: UserUpdateRequest!): Account!
   createRoom(password: String, passwordProtected: Boolean!, type: RoomType!, name: String!): Room!
   joinRoom(password: String, code: String!): Room!
-  createTestMessage: Message!
-  createMessage(receiverId: String!, messageBody: String!, roomId: String!): Message!
+  createMessage(receiverId: String, messageBody: String!, roomId: String!): Message!
   createTransport(clientId: String!, direction: String!, roomId: String!): TransportOptions!
   connectTransport(clientId: String!, direction: String!, dtlsParameters: JSON!, roomId: String!): Boolean!
-  createProducer(mediaType: String!, mediaKind: String!, rtpParameters: JSON!, clientId: String!, roomId: String!, transportId: String!): ProducerOptions!
+  createProducer(mediaType: MediaType!, mediaKind: MediaKind!, rtpParameters: JSON!, clientId: String!, roomId: String!, transportId: String!): ProducerOptions!
   createConsumer(clientId: String!, rtpCapabilities: JSON!, roomId: String!, producerId: String!): ConsumerOptions!
-  createMessage(receiverId: String, messageBody: String!, roomId: String!): Message!
 }
 
 input UserUpdateRequest {
@@ -157,6 +145,12 @@ input UserUpdateRequest {
   referralCode: String
 }
 
-type Subscription {
-  participantTrackChanged: String!
+enum MediaType {
+  camera
+  screenShare
+}
+
+enum MediaKind {
+  audio
+  video
 }

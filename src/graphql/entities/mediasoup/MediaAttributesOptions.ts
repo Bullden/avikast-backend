@@ -1,18 +1,22 @@
-import {Field, InputType} from '@nestjs/graphql';
+import {Field, InputType, registerEnumType} from '@nestjs/graphql';
+import {MediaKind, MediaType} from 'entities/Mediasoup';
+
+registerEnumType(MediaKind, {name: 'MediaKind'});
+registerEnumType(MediaType, {name: 'MediaType'});
 
 @InputType()
 export default class MediaAttributesOptions {
-  constructor(kind: string, mediaType: string, direction: string) {
+  constructor(kind: MediaKind, mediaType: MediaType, direction: string) {
     this.kind = kind;
     this.mediaType = mediaType;
     this.direction = direction;
   }
 
-  @Field(() => String)
-  kind: string;
+  @Field(() => MediaKind)
+  kind: MediaKind;
 
-  @Field(() => String)
-  mediaType: string;
+  @Field(() => MediaType)
+  mediaType: MediaType;
 
   @Field(() => String)
   direction: string;

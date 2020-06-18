@@ -42,8 +42,8 @@ export default class MediasoupManager extends IMediasoupManager {
     clientId: string,
     userId: string,
     rtpParameters: object,
-    mediaType: MediaType,
     mediaKind: MediaKind,
+    mediaType: MediaType,
   ) {
     const producer = await this.mediasoupService.createProducer(
       roomId,
@@ -56,22 +56,25 @@ export default class MediasoupManager extends IMediasoupManager {
     );
     const renewParticipantMedia: RenewParticipantMedia = {
       enabled: true,
+      clientId,
       options: producer,
       mediaKind,
       mediaType,
     };
-    // todo REFACTOR
-    if (mediaType === 'screen') {
-      await this.turnOnOffScreen(roomId, userId, renewParticipantMedia, clientId);
-      return producer;
-    }
     if (mediaKind === 'audio') {
-      await this.turnOnOffAudio(roomId, userId, renewParticipantMedia, clientId);
-      return producer;
-    }
-    if (mediaKind === 'video') {
-      await this.turnOnOffVideo(roomId, userId, renewParticipantMedia, clientId);
-      return producer;
+      await this.roomStore.updateParticipantMedia(
+        mediaKind,
+        roomId,
+        userId,
+        renewParticipantMedia,
+      );
+    } else {
+      await this.roomStore.updateParticipantMedia(
+        mediaType,
+        roomId,
+        userId,
+        renewParticipantMedia,
+      );
     }
     return producer;
   }
@@ -101,37 +104,6 @@ export default class MediasoupManager extends IMediasoupManager {
   }
 
   async getProducers(roomId: string) {
-    const producers = await this.mediasoupService.getProducers(roomId);
-    return producers;
-  }
-
-  async turnOnOffAudio(
-    roomId: string,
-    userId: string,
-    renewParticipantMedia: RenewParticipantMedia,
-    clientId: string,
-  ) {
-    console.log('turn on audio in room', roomId, 'client id ', clientId);
-    return this.roomStore.turnOnOffAudio(roomId, userId, renewParticipantMedia);
-  }
-
-  async turnOnOffVideo(
-    roomId: string,
-    userId: string,
-    renewParticipantMedia: RenewParticipantMedia,
-    clientId: string,
-  ) {
-    console.log('turn on video in room', roomId, 'client id ', clientId);
-    return this.roomStore.turnOnOffVideo(roomId, userId, renewParticipantMedia);
-  }
-
-  async turnOnOffScreen(
-    roomId: string,
-    userId: string,
-    renewParticipantMedia: RenewParticipantMedia,
-    clientId: string,
-  ) {
-    console.log('turn on screen in room', roomId, 'client id ', clientId);
-    return this.roomStore.turnOnOffScreen(roomId, userId, renewParticipantMedia);
+    return this.mediasoupService.getProducers(roomId);
   }
 }

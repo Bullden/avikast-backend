@@ -106,39 +106,28 @@ export default class RoomStore extends IRoomStore {
     );
   }
 
-  async turnOnOffAudio(roomId: string, userId: string, request: RenewParticipantMedia) {
-    // todo client id for sound
+  async updateParticipantMedia(
+    type: 'audio' | 'camera' | 'screenShare',
+    roomId: string,
+    userId: string,
+    request: RenewParticipantMedia,
+  ) {
     const participant = await this.findParticipant(roomId, userId);
+    const updateObject: Partial<ParticipantModel> = {};
     if (!participant || !participant.media)
       throw new Error('participant or participant.media doesnt exist');
-    const {video, screen} = participant.media;
-    const updateObject: Partial<ParticipantModel> = {};
-    console.log('enable audio', roomId, participant);
-    updateObject.media = {audio: request, video, screen};
-    await this.participantModel.update({room: roomId, user: userId}, updateObject);
-    return true;
-  }
-
-  async turnOnOffVideo(roomId: string, userId: string, request: RenewParticipantMedia) {
-    const participant = await this.findParticipant(roomId, userId);
-    if (!participant || !participant.media)
-      throw new Error('participant or participant.media doesnt exist');
-    const {audio, screen} = participant.media;
-    const updateObject: Partial<ParticipantModel> = {};
-    console.log('enableVideo in store', roomId, request);
-    updateObject.media = {audio, video: request, screen};
-    await this.participantModel.update({room: roomId, user: userId}, updateObject);
-    return true;
-  }
-
-  async turnOnOffScreen(roomId: string, userId: string, request: RenewParticipantMedia) {
-    console.log(roomId, 'roomId', userId, 'userID');
-    const participant = await this.findParticipant(roomId, userId);
-    if (!participant || !participant.media)
-      throw new Error('participant or participant.media doesnt exist');
-    const {audio, video} = participant.media;
-    const updateObject: Partial<ParticipantModel> = {};
-    updateObject.media = {audio, video, screen: request};
+    if (type === 'audio') {
+      const {video, screen} = participant.media;
+      updateObject.media = {audio: request, video, screen};
+    }
+    if (type === 'camera') {
+      const {audio, screen} = participant.media;
+      updateObject.media = {audio, video: request, screen};
+    }
+    if (type === 'screenShare') {
+      const {audio, video} = participant.media;
+      updateObject.media = {audio, video, screen: request};
+    }
     await this.participantModel.update({room: roomId, user: userId}, updateObject);
     return true;
   }

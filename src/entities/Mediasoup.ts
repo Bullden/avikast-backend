@@ -1,9 +1,16 @@
-export type MediaKind = 'audio' | 'video';
+export enum MediaKind {
+  audio = 'audio',
+  video = 'video',
+}
 
-export type MediaType = 'camera' | 'screen';
+export enum MediaType {
+  camera = 'camera',
+  screenShare = 'screenShare',
+}
 
 export type RenewParticipantMedia = {
   enabled: boolean;
+  clientId: string | undefined;
   options: ProducerOptions | undefined;
   mediaKind: MediaKind | undefined;
   mediaType: MediaType | undefined;
@@ -31,7 +38,6 @@ export interface ProducerOptions {
   id: string;
   kind: MediaKind;
   rtpParameters: object;
-  appData: object;
 }
 
 export interface TransportOptions {
@@ -40,19 +46,3 @@ export interface TransportOptions {
   iceParameters: object;
   dtlsParameters: object;
 }
-
-// todo REMOVE
-export type Audio = {
-  type: 'audio';
-  request: string | boolean | undefined;
-};
-
-export type Video = {
-  type: 'video';
-  request: string | boolean | undefined;
-};
-
-export type Screen = {
-  type: 'screen';
-  request: string | boolean | undefined;
-};

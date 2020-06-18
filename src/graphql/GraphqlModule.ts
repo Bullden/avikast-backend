@@ -5,7 +5,6 @@ import {AccountResolver} from './resolvers/AccountResolver';
 import {ManagerModule} from 'managers/ManagerModule';
 import {EnhancersModule} from 'enhancers/EnhancersModule';
 import {APP_PIPE} from '@nestjs/core';
-import {RouterModule} from 'router/RouterModule';
 import RoomResolver from './resolvers/RoomResolver';
 import MediasoupResolver from 'graphql/resolvers/MediasoupResolver';
 import {BookmarkResolver} from './resolvers/BookmarkResolver';
@@ -22,7 +21,6 @@ import MessageResolver from './resolvers/MessageResolver';
     }),
     ManagerModule,
     EnhancersModule,
-    RouterModule,
     StoresModule,
   ],
   providers: [

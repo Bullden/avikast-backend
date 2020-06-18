@@ -1,4 +1,4 @@
-import {Args, Mutation, Query, Resolver, Subscription} from '@nestjs/graphql';
+import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
 import IRoomManager from '../../managers/room/IRoomManager';
 import CurrentSession from 'enhancers/decorators/CurrentSession';
 import Session from 'entities/Session';
@@ -17,11 +17,7 @@ import {PubSub} from 'graphql-subscriptions';
 
 @Resolver()
 export default class RoomResolver {
-  private readonly pubSub: PubSub;
-
-  constructor(private readonly roomManager: IRoomManager) {
-    this.pubSub = new PubSub();
-  }
+  constructor(private readonly roomManager: IRoomManager) {}
 
   @Mutation(() => Room)
   async createRoom(
@@ -72,18 +68,8 @@ export default class RoomResolver {
     const pubSub = new PubSub();
     const tracks = await this.roomManager.getParticipantsTracks(session.userId, roomId);
     const mapTracks = mapParticipantsTracksToGQL(tracks);
-    console.log('participant tracks', mapTracks, 'participantTracks');
     await pubSub.publish('participantTrackChanged', {mapTracks});
     return mapTracks;
-  }
-
-  @Subscription(() => [ParticipantMedia], {
-    name: 'participantTrackChanged',
-  })
-  returnTracks() {
-    const pubSub = new PubSub();
-    pubSub.asyncIterator('participantTrackChanged');
-    return this.participantsTracks;
   }
 
   @Query(() => [Message])
@@ -104,12 +90,5 @@ export default class RoomResolver {
       messageBody,
       receiverId,
     );
-  }
-
-  @Subscription(() => [ParticipantMedia])
-  participantMediaChanged() {
-    // eslint-disable-next-line no-console
-    console.log('participantMediaChanged');
-    return this.pubSub.asyncIterator('participantMediaChanged');
   }
 }

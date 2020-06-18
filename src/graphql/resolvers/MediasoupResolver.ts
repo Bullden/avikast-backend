@@ -54,8 +54,8 @@ export default class MediasoupResolver {
     @Args('roomId') roomId: string,
     @Args('clientId') clientId: string,
     @Args({name: 'rtpParameters', type: () => graphqlTypeJson}) rtpParameters: object,
-    @Args('mediaKind') mediaKind: string,
-    @Args('mediaType') mediaType: string,
+    @Args({name: 'mediaKind', type: () => MediaKind}) mediaKind: MediaKind,
+    @Args({name: 'mediaType', type: () => MediaType}) mediaType: MediaType,
   ): Promise<ProducerOptions> {
     const pubSub = new PubSub();
     pubSub.asyncIterator('participantTrackChanged');
@@ -65,8 +65,8 @@ export default class MediasoupResolver {
       clientId,
       session.userId,
       rtpParameters,
-      mediaType as MediaType,
-      mediaKind as MediaKind,
+      mediaKind,
+      mediaType,
     );
     return mapProducerToGQL(producer);
   }

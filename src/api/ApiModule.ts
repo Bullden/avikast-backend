@@ -6,7 +6,6 @@ import {AuthController} from './auth/AuthController';
 import {MulterModule} from '@nestjs/platform-express';
 import {memoryStorage} from 'multer';
 import {ApiExceptionInterceptor} from 'enhancers/interceptors/ApiExceptionInterceptor';
-import {RouterModule} from 'router/RouterModule';
 import {HealthController} from 'api/HealthController';
 
 @Module({
@@ -19,7 +18,6 @@ import {HealthController} from 'api/HealthController';
         storage: memoryStorage(),
       }),
     }),
-    RouterModule,
   ],
   providers: [
     {

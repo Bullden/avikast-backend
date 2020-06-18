@@ -6,7 +6,6 @@ import {
   Direction,
   MediaKind,
   MediaType,
-  RenewParticipantMedia,
 } from 'entities/Mediasoup';
 
 export default abstract class IMediasoupManager {
@@ -30,8 +29,8 @@ export default abstract class IMediasoupManager {
     clientId: string,
     userId: string,
     rtpParameters: object,
-    mediaType: MediaType,
     mediaKind: MediaKind,
+    mediaType: MediaType,
   ): Promise<ProducerOptions>;
 
   abstract createConsumer(
@@ -47,25 +46,4 @@ export default abstract class IMediasoupManager {
   abstract getProducer(userId: string, roomId: string): Promise<ProducerOptions>;
 
   abstract getProducers(roomId: string): Promise<ProducerOptions[]>;
-
-  abstract turnOnOffAudio(
-    roomId: string,
-    userId: string,
-    renewParticipantMedia: RenewParticipantMedia,
-    clientId: string,
-  ): Promise<boolean>;
-
-  abstract turnOnOffVideo(
-    roomId: string,
-    userId: string,
-    renewParticipantMedia: RenewParticipantMedia,
-    clientId: string,
-  ): Promise<boolean>;
-
-  abstract turnOnOffScreen(
-    roomId: string,
-    userId: string,
-    renewParticipantMedia: RenewParticipantMedia,
-    clientId: string,
-  ): Promise<boolean>;
 }

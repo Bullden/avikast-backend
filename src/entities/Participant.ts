@@ -11,13 +11,6 @@ export interface ParticipantMedia {
   screen: RenewParticipantMedia;
 }
 
-export interface ParticipantTrack {
-  clientId: string;
-  audio: RenewParticipantMedia;
-  video: RenewParticipantMedia;
-  screen: RenewParticipantMedia;
-}
-
 export default interface Participant {
   id: string;
   user: User;

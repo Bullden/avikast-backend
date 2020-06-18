@@ -11,3 +11,15 @@ export const httpLogger = () => {
     ':headers:\n:protocol :host :method :url :status :res[content-length] - :response-time ms',
   );
 };
+
+export const storeLogger = (message: string, subject: string) => {
+  return `${message} ${subject}`;
+};
+
+export const managerLogger = (message: string, subject: string) => {
+  return `${message} ${subject}`;
+};
+
+export const graphQlLogger = (message: string, subject: string) => {
+  return `${message} ${subject}`;
+};

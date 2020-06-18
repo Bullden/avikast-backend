@@ -42,21 +42,4 @@ export default class MessageStore extends IMessageStore {
       .populate(this.populateMessage);
     return mapMessagesFromModel(messages);
   }
-
-  async createTestMessage() {
-    const newMessage: CreateMessageModel = {
-      senderId: 'SUPER TEST',
-      roomId: '2',
-      body: 'SUPER TEST',
-      date: 'SUPER TEST',
-      receiverId: 'SUPER TEST',
-    };
-    const createdMessage = await this.messageModel.create(newMessage);
-    return mapMessageFromModel(createdMessage);
-  }
-
-  async getMessagesByRoom(roomId: string) {
-    const messages = await this.messageModel.find({roomId});
-    return mapMessagesFromModel(messages);
-  }
 }

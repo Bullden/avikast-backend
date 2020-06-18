@@ -34,21 +34,10 @@ export default abstract class IRoomStore {
 
   abstract getParticipants(roomId: string): Promise<Participant[]>;
 
-  abstract turnOnOffAudio(
+  abstract updateParticipantMedia(
+    type: 'audio' | 'camera' | 'screenShare',
     roomId: string,
-    userId: string,
-    renewParticipantMedia: RenewParticipantMedia,
-  ): Promise<boolean>;
-
-  abstract turnOnOffVideo(
-    roomId: string,
-    userId: string,
-    renewParticipantMedia: RenewParticipantMedia,
-  ): Promise<boolean>;
-
-  abstract turnOnOffScreen(
-    roomId: string,
-    userId: string,
+    clientId: string,
     renewParticipantMedia: RenewParticipantMedia,
   ): Promise<boolean>;
 }

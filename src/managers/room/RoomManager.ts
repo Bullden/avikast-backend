@@ -48,18 +48,21 @@ export default class RoomManager extends IRoomManager {
       media: {
         audio: {
           enabled: false,
+          clientId: undefined,
           options: undefined,
           mediaKind: undefined,
           mediaType: undefined,
         },
         video: {
           enabled: false,
+          clientId: undefined,
           options: undefined,
           mediaKind: undefined,
           mediaType: undefined,
         },
         screen: {
           enabled: false,
+          clientId: undefined,
           options: undefined,
           mediaKind: undefined,
           mediaType: undefined,
@@ -80,6 +83,7 @@ export default class RoomManager extends IRoomManager {
     const room = mapRoomFromDB(dbRoom);
     const participant = await this.roomStore.findParticipant(room.id, userId);
     if (!participant) {
+      // todo set participant media params from joinRoom popup
       await this.roomStore.createParticipant({
         user: {id: userId},
         room,
@@ -87,18 +91,21 @@ export default class RoomManager extends IRoomManager {
         media: {
           audio: {
             enabled: false,
+            clientId: undefined,
             options: undefined,
             mediaKind: undefined,
             mediaType: undefined,
           },
           video: {
             enabled: false,
+            clientId: undefined,
             options: undefined,
             mediaKind: undefined,
             mediaType: undefined,
           },
           screen: {
             enabled: false,
+            clientId: undefined,
             options: undefined,
             mediaKind: undefined,
             mediaType: undefined,
@@ -142,7 +149,6 @@ export default class RoomManager extends IRoomManager {
       const track = participant.media;
       tracks.push(track);
     });
-    console.log(tracks, 'participant tracks in manager');
     return tracks;
   }
 
@@ -152,15 +158,10 @@ export default class RoomManager extends IRoomManager {
     return mapMessagesFromDB(await this.messageStore.getMessagesByRoom(roomId));
   }
 
-  async createMessage(
-    senderId: string,
-    roomId: string,
-    body: string,
-    receiverId?: string,
-  ) {
+  async createMessage(sender: string, roomId: string, body: string, receiverId?: string) {
     const currentTime = new Date();
     const date = `${currentTime.getHours()}:${currentTime.getMinutes()}`;
-    const message = {senderId, roomId, body, date, receiverId};
+    const message = {sender, roomId, body, date, receiverId};
     return mapMessageFromDB(await this.messageStore.createMessage(message));
   }
 }
