@@ -1,3 +1,4 @@
+// eslint-disable no-console
 import {Args, Mutation, Query, Resolver, Subscription} from '@nestjs/graphql';
 import IRoomManager from '../../managers/room/IRoomManager';
 import CurrentSession from 'enhancers/decorators/CurrentSession';
@@ -6,7 +7,6 @@ import {RoomType} from 'entities/Room';
 import Room from 'graphql/entities/room/Room';
 import {
   mapMessagesToGQL,
-  mapMessageToGQL,
   mapParticipantsToGQL,
   mapParticipantsTracksToGQL,
   mapRoomToGQL,
@@ -85,26 +85,12 @@ export default class RoomResolver {
   returnTracks() {
     const pubSub = new PubSub();
     pubSub.asyncIterator('participantTrackChanged');
-    // eslint-disable-next-line no-console
-
-    // eslint-disable-next-line no-console
-    console.log('subscribtion TRIGGERED');
     return this.participantsTracks;
   }
-
-  // @ResolveField()
-  // async me(@Parent() room: Room) {
-  //   console.log(room, 'ResolverField');
-  // }
 
   @Query(() => [Message])
   async messagesByRoom(@Args({name: 'roomId', type: () => String}) roomId: string) {
     return mapMessagesToGQL(await this.roomManager.getMessagesByRoom(roomId));
-  }
-
-  @Mutation(() => Message)
-  async createTestMessage() {
-    return mapMessageToGQL(await this.roomManager.createTestMessage());
   }
 
   @Mutation(() => Message)
@@ -122,28 +108,10 @@ export default class RoomResolver {
     );
   }
 
-  @Query(() => [ParticipantMedia])
-  async participantsTracks(
-    @CurrentSession() session: Session,
-    @Args('roomId') roomId: string,
-  ) {
-    const tracks = await this.roomManager.getParticipantsTracks(session.userId, roomId);
-    const mapTracks = mapParticipantsTracksToGQL(tracks);
-    // eslint-disable-next-line no-console
-    console.log('participant tracks', mapTracks, 'participantTracks');
-    await this.pubSub.publish('participantMediaChanged', mapTracks);
-    return mapTracks;
-  }
-
   @Subscription(() => [ParticipantMedia])
   participantMediaChanged() {
     // eslint-disable-next-line no-console
-    console.log('subscribtion TRIGGERED');
+    console.log('participantMediaChanged');
     return this.pubSub.asyncIterator('participantMediaChanged');
   }
-
-  // @ResolveField()
-  // async me(@Parent() room: Room) {
-  //   console.log(room, 'ResolverField');
-  // }
 }

@@ -13,11 +13,9 @@ import ParticipantModel, {
   CreateParticipantModel,
   ParticipantSchema,
 } from 'database/models/ParticipantModel';
-import Participant, {ParticipantMedia, ParticipantRole} from 'entities/Participant';
+import {ParticipantMedia, ParticipantRole} from 'entities/Participant';
 import {RenewParticipantMedia} from 'entities/Mediasoup';
-import * as mongoose from "mongoose";
-import ParticipantTrackOptions from "graphql/entities/room/ParticipantTrackOptions";
-import {log} from "util";
+
 
 export default class RoomStore extends IRoomStore {
   constructor(

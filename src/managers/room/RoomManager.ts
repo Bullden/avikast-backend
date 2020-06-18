@@ -3,7 +3,6 @@ import IMediasoupService from '../../services/mediasoup/IMediasoupService';
 import {Injectable} from '@nestjs/common';
 import IRoomStore from 'database/stores/room/IRoomStore';
 import {RoomType} from 'entities/Room';
-import {mapParticipantsFromDB, mapRoomFromDB} from 'database/entities/Mappers';
 import {ParticipantMedia, ParticipantRole} from 'entities/Participant';
 import {
   mapMessageFromDB,
@@ -11,7 +10,6 @@ import {
   mapParticipantsFromDB,
   mapRoomFromDB,
 } from 'database/entities/Mappers';
-import {ParticipantMedia, ParticipantRole} from 'entities/Participant';
 import {generate as generatePassword} from 'generate-password';
 import IMessageStore from '../../database/stores/message/IMessageStore';
 
@@ -153,10 +151,6 @@ export default class RoomManager extends IRoomManager {
     if (!(await this.messageStore.getMessagesByRoom(roomId)))
       throw new Error("Message's array is empty");
     return mapMessagesFromDB(await this.messageStore.getMessagesByRoom(roomId));
-  }
-
-  async createTestMessage() {
-    return mapMessageFromDB(await this.messageStore.createTestMessage());
   }
 
   async createMessage(

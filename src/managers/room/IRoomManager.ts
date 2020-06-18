@@ -28,13 +28,6 @@ export default abstract class IRoomManager {
 
   abstract getMessagesByRoom(roomId: string): Promise<Message[]>;
 
-  abstract createTestMessage(): Promise<Message>;
-
-  abstract getParticipantsTracks(
-    userId: string,
-    roomId: string,
-  ): Promise<ParticipantMedia[]>;
-
   abstract createMessage(
     senderId: string,
     roomId: string,

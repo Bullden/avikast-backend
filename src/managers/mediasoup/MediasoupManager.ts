@@ -54,26 +54,6 @@ export default class MediasoupManager extends IMediasoupManager {
       mediaType,
       mediaKind,
     );
-
-    const renewParticipantMedia: RenewParticipantMedia = {
-      enabled: true,
-      options: producer,
-      mediaKind,
-      mediaType,
-    };
-    if (mediaType === 'screen') {
-      await this.turnOnOffScreen(roomId, userId, renewParticipantMedia, clientId);
-      return producer;
-    }
-    if (mediaKind === 'audio') {
-      await this.turnOnOffAudio(roomId, userId, renewParticipantMedia, clientId);
-      return producer;
-    }
-    if (mediaKind === 'video') {
-      await this.turnOnOffVideo(roomId, userId, renewParticipantMedia, clientId);
-      return producer;
-    }
-    return producer;
     const renewParticipantMedia: RenewParticipantMedia = {
       enabled: true,
       options: producer,

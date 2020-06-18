@@ -134,14 +134,6 @@ export const mapProducerToGQL = (producer: ProducerOptions): GQLProducerOptions 
 export const mapProducersToGQL = (producers: ProducerOptions[]): GQLProducerOptions[] =>
   producers.map(mapProducerToGQL);
 
-// export const mapMediaAttributes = (
-//     mediaAttributes: GQLMediaAttributes,
-// ): MediaAttributes => ({
-//   direction: mediaAttributes.direction as 'send' | 'receive',
-//   kind: mediaAttributes.kind as 'video' | 'audio',
-//   mediaType: mediaAttributes.mediaType as 'camera' | 'screenshare',
-// });
-
 export const mapMessageToGQL = (message: Message): GQLMessage => ({
   id: message.id,
   senderId: message.senderId,
@@ -153,32 +145,3 @@ export const mapMessageToGQL = (message: Message): GQLMessage => ({
 
 export const mapMessagesToGQL = (messages: Message[]): GQLMessage[] =>
   messages.map(mapMessageToGQL);
-
-// export const mapMediaSourceToGQL = (
-//   source: RenewParticipantMedia,
-// ): GQLParticipantTrackOptions => ({
-//   enabled: source.enabled,
-//   options: source.options,
-//   mediaKind: source.mediaKind,
-//   mediaType: source.mediaType,
-// });
-
-export const mapProducerToGQL = (producer: ProducerOptions): GQLProducerOptions => ({
-  id: producer.id,
-  kind: producer.kind,
-  rtpParameters: producer.rtpParameters,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore
-  clientId: producer.appData.clientId,
-});
-
-export const mapProducersToGQL = (producers: ProducerOptions[]): GQLProducerOptions[] =>
-  producers.map(mapProducerToGQL);
-
-// export const mapMediaAttributes = (
-//     mediaAttributes: GQLMediaAttributes,
-// ): MediaAttributes => ({
-//   direction: mediaAttributes.direction as 'send' | 'receive',
-//   kind: mediaAttributes.kind as 'video' | 'audio',
-//   mediaType: mediaAttributes.mediaType as 'camera' | 'screenshare',
-// });
