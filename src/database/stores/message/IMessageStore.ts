@@ -6,7 +6,6 @@ export default abstract class IMessageStore {
     sender: string;
     roomId: string;
     body: string;
-    date: string;
     receiverId?: string | undefined;
   }): Promise<Message>;
 

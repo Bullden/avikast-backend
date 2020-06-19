@@ -5,13 +5,11 @@ import Session from 'entities/Session';
 import {RoomType} from 'entities/Room';
 import Room from 'graphql/entities/room/Room';
 import {
-  mapMessagesToGQL,
   mapParticipantsToGQL,
   mapParticipantsTracksToGQL,
   mapRoomToGQL,
 } from 'graphql/entities/Mappers';
 import Participant from 'graphql/entities/room/Participant';
-import Message from '../entities/message/Message';
 import ParticipantMedia from 'graphql/entities/room/ParticipantMedia';
 import {PubSub} from 'graphql-subscriptions';
 
@@ -70,25 +68,5 @@ export default class RoomResolver {
     const mapTracks = mapParticipantsTracksToGQL(tracks);
     await pubSub.publish('participantTrackChanged', {mapTracks});
     return mapTracks;
-  }
-
-  @Query(() => [Message])
-  async messagesByRoom(@Args({name: 'roomId', type: () => String}) roomId: string) {
-    return mapMessagesToGQL(await this.roomManager.getMessagesByRoom(roomId));
-  }
-
-  @Mutation(() => Message)
-  async createMessage(
-    @CurrentSession() session: Session,
-    @Args({name: 'roomId', type: () => String}) roomId: string,
-    @Args({name: 'messageBody', type: () => String}) messageBody: string,
-    @Args({name: 'receiverId', type: () => String, nullable: true}) receiverId: string,
-  ) {
-    return this.roomManager.createMessage(
-      session.userId,
-      roomId,
-      messageBody,
-      receiverId,
-    );
   }
 }

@@ -22,14 +22,12 @@ export default class MessageStore extends IMessageStore {
     sender: string;
     roomId: string;
     body: string;
-    date: string;
     receiverId?: string;
   }) {
     const newMessage: CreateMessageModel = {
       sender: message.sender,
       roomId: message.roomId,
       body: message.body,
-      date: message.date,
       receiverId: message.receiverId,
     };
     const createdMessage = await this.messageModel.create(newMessage);

@@ -8,7 +8,7 @@ export default class Message {
     sender: User,
     roomId: string,
     body: string,
-    date: string,
+    date: Date,
     receiverId: string | undefined,
   ) {
     this.id = id;
@@ -31,8 +31,8 @@ export default class Message {
   @Field(() => String)
   body: string;
 
-  @Field(() => String)
-  date: string;
+  @Field(() => Date)
+  date: Date;
 
   @Field(() => String)
   receiverId: string | undefined;

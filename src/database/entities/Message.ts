@@ -6,6 +6,6 @@ export default interface Message {
   sender: User;
   roomId: string;
   body: string;
-  date: string;
+  date: Date;
   receiverId: string | undefined;
 }

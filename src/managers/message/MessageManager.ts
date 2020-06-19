@@ -27,10 +27,7 @@ export default class MessageManager extends IMessageManager {
   }
 
   async createMessage(sender: string, roomId: string, body: string, receiverId?: string) {
-    const currentTime = new Date();
-    const hours = currentTime.getHours();
-    const minutes = currentTime.getMinutes();
-    const date = `${hours}:${minutes}`;
+    const date = new Date();
     const message = {sender, roomId, body, date, receiverId};
     return mapMessageFromDB(await this.messageStore.createMessage(message));
   }
