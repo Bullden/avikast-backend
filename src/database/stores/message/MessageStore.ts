@@ -57,7 +57,10 @@ export default class MessageStore extends IMessageStore {
       this.messageModel.watch().on('change', async (doc) => {
         if (doc.operationType === 'insert') {
           const newMessage = await this.getMessageById(doc.documentKey._id);
-          subscriber.next(newMessage || undefined);
+          if (!newMessage) {
+            throw new Error('Message does not exist');
+          }
+          subscriber.next(newMessage);
         }
       });
     });

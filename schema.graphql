@@ -66,6 +66,15 @@ enum ParticipantRole {
   User
 }
 
+type Message {
+  id: ID!
+  sender: User!
+  roomId: String!
+  body: String!
+  date: String!
+  receiverId: String!
+}
+
 type TransportOptions {
   id: String!
   iceCandidates: JSON!
@@ -102,15 +111,6 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Message {
-  id: ID!
-  sender: User!
-  roomId: String!
-  body: String!
-  date: String!
-  receiverId: String!
-}
-
 type Query {
   myAccount: Account!
   roomById(roomId: String!): Room!
@@ -121,7 +121,6 @@ type Query {
   getProducer(roomId: String!): ProducerOptions!
   getProducers(roomId: String!): [ProducerOptions!]!
   bookmarks: [Bookmark!]!
-  messagesByRoom(roomId: String!): [Message!]!
   messageById(messageId: String!): Message!
 }
 

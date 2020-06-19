@@ -19,7 +19,6 @@ import {PubSub, PubSubEngine} from 'graphql-subscriptions';
       tracing: true,
       context: (context) => context,
       useGlobalPrefix: true,
-      installSubscriptionHandlers: true,
     }),
     ManagerModule,
     EnhancersModule,
