@@ -17,7 +17,6 @@ export async function initApplication() {
   if (globalPrefix) {
     app.setGlobalPrefix(globalPrefix);
   }
-  await app.use(httpLogger()).enableCors();
-  await app.init();
+  app.use(httpLogger()).enableCors();
   await app.listen(httpPort);
 }

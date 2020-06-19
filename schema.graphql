@@ -121,6 +121,8 @@ type Query {
   getProducer(roomId: String!): ProducerOptions!
   getProducers(roomId: String!): [ProducerOptions!]!
   bookmarks: [Bookmark!]!
+  messagesByRoom(roomId: String!): [Message!]!
+  messageById(messageId: String!): Message!
 }
 
 type Mutation {
@@ -156,5 +158,5 @@ enum MediaKind {
 }
 
 type Subscription {
-  messageAdded: Boolean!
+  messageAdded: Message!
 }

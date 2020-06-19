@@ -3,8 +3,8 @@ import {InjectModel} from '@nestjs/mongoose';
 import {Model, QueryPopulateOptions} from 'mongoose';
 import MessageModel, {CreateMessageModel, MessageSchema} from '../../models/MessageModel';
 import {mapMessageFromModel, mapMessagesFromModel} from '../../models/Mappers';
-// import {Observable} from 'rxjs';
-// import Message from 'database/entities/Message';
+import {Observable} from 'rxjs';
+import Message from 'database/entities/Message';
 
 export default class MessageStore extends IMessageStore {
   constructor(
@@ -45,14 +45,21 @@ export default class MessageStore extends IMessageStore {
     return mapMessagesFromModel(messages);
   }
 
-  // watchNewMessage() {
-  //   return new Observable<Message>((subscriber) => {
-  //     // console.log('stream');
-  //     const stream = this.messageModel.watch().on('change', async (doc) => {
-  //       // console.log(doc);
-  //       // receive message from db by id (using another method in this class)
-  //       // call subscriber.next(...) with new message object
-  //     });
-  //   });
-  // }
+  async getMessageById(messageId: unknown) {
+    const message = await this.messageModel
+      .findOne({_id: messageId})
+      .populate(this.populateMessage);
+    return message ? mapMessageFromModel(message) : message;
+  }
+
+  watchNewMessage() {
+    return new Observable<Message>((subscriber) => {
+      this.messageModel.watch().on('change', async (doc) => {
+        if (doc.operationType === 'insert') {
+          const newMessage = await this.getMessageById(doc.documentKey._id);
+          subscriber.next(newMessage || undefined);
+        }
+      });
+    });
+  }
 }

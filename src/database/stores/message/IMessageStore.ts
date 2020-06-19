@@ -1,4 +1,4 @@
-// import {Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import Message from 'database/entities/Message';
 
 export default abstract class IMessageStore {
@@ -12,5 +12,7 @@ export default abstract class IMessageStore {
 
   abstract getMessagesByRoom(roomId: string): Promise<Message[]>;
 
-  // abstract watchNewMessage(): Observable<Message>;
+  abstract getMessageById(messageId: unknown): Promise<Message | null>;
+
+  abstract watchNewMessage(): Observable<Message>;
 }
