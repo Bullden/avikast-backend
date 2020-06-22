@@ -19,13 +19,23 @@ export default class MessageResolver {
   }
 
   @Query(() => [Message])
-  async messagesByRoom(@Args({name: 'roomId', type: () => String}) roomId: string) {
-    return mapMessagesToGQL(await this.chatManager.getMessagesByRoom(roomId));
+  async messagesByRoom(
+    @CurrentSession() session: Session,
+    @Args({name: 'roomId', type: () => String}) roomId: string,
+  ) {
+    return mapMessagesToGQL(
+      await this.chatManager.getMessagesByRoom(roomId, session.userId),
+    );
   }
 
   @Query(() => Message)
-  async messageById(@Args({name: 'messageId', type: () => String}) messageId: string) {
-    return mapMessageToGQL(await this.chatManager.getMessageById(messageId));
+  async messageById(
+    @CurrentSession() session: Session,
+    @Args({name: 'messageId', type: () => String}) messageId: string,
+  ) {
+    return mapMessageToGQL(
+      await this.chatManager.getMessageById(messageId, session.userId),
+    );
   }
 
   @Mutation(() => Message)

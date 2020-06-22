@@ -100,6 +100,7 @@ export const mapMessageToGQL = (message: Message): GQLMessage => ({
   body: message.body,
   date: message.date,
   receiverId: message.receiverId,
+  isMe: message.isMe,
 });
 
 export const mapMessagesToGQL = (messages: Message[]): GQLMessage[] =>

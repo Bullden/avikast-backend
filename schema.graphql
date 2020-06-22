@@ -109,6 +109,7 @@ type Message {
   body: String!
   date: DateTime!
   receiverId: String!
+  isMe: Boolean
 }
 
 type Record {

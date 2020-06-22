@@ -2,7 +2,7 @@ import Message from 'entities/Message';
 import {Observable} from 'rxjs';
 
 export default abstract class IMessageManager {
-  abstract getMessagesByRoom(roomId: string): Promise<Message[]>;
+  abstract getMessagesByRoom(roomId: string, userId: string): Promise<Message[]>;
 
   abstract createMessage(
     sender: string,
@@ -11,7 +11,7 @@ export default abstract class IMessageManager {
     receiverId?: string,
   ): Promise<Message>;
 
-  abstract getMessageById(messageId: string): Promise<Message>;
+  abstract getMessageById(messageId: string, userId: string): Promise<Message>;
 
   abstract watchNewMessage(): Observable<Message>;
 }

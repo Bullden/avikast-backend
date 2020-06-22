@@ -12,24 +12,24 @@ export default class MessageManager extends IMessageManager {
     this.watchNewMessage();
   }
 
-  async getMessagesByRoom(roomId: string) {
+  async getMessagesByRoom(roomId: string, userId: string) {
     const message = await this.messageStore.getMessagesByRoom(roomId);
     if (!message) throw new Error("Message's array is empty");
-    return mapMessagesFromDB(message);
+    return mapMessagesFromDB(message, userId);
   }
 
-  async getMessageById(messageId: string) {
+  async getMessageById(messageId: string, userId: string) {
     const message = await this.messageStore.getMessageById(messageId);
+    const isMe = message?.sender.id === userId;
     if (!message) {
       throw new Error(`Message with id: ${messageId} does not exist`);
     }
-    return mapMessageFromDB(message);
+    return mapMessageFromDB(message, isMe);
   }
 
   async createMessage(sender: string, roomId: string, body: string, receiverId?: string) {
-    const date = new Date();
-    const message = {sender, roomId, body, date, receiverId};
-    return mapMessageFromDB(await this.messageStore.createMessage(message));
+    const message = {sender, roomId, body, receiverId};
+    return mapMessageFromDB(await this.messageStore.createMessage(message), true);
   }
 
   watchNewMessage(): Observable<Message> {
