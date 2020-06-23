@@ -111,6 +111,13 @@ type Message {
   receiverId: String!
 }
 
+type Record {
+  id: String!
+  name: String!
+  date: DateTime!
+  time: String!
+}
+
 type Query {
   myAccount: Account!
   roomById(roomId: String!): Room!
@@ -122,6 +129,7 @@ type Query {
   bookmarks: [Bookmark!]!
   messagesByRoom(roomId: String!): [Message!]!
   messageById(messageId: String!): Message!
+  records: [Record!]!
 }
 
 type Mutation {

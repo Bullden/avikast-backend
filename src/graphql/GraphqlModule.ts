@@ -10,6 +10,7 @@ import MediasoupResolver from 'graphql/resolvers/MediasoupResolver';
 import {BookmarkResolver} from './resolvers/BookmarkResolver';
 import MessageResolver from './resolvers/MessageResolver';
 import {PubSub, PubSubEngine} from 'graphql-subscriptions';
+import {RecordResolver} from 'graphql/resolvers/RecordResolver';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import {PubSub, PubSubEngine} from 'graphql-subscriptions';
     MediasoupResolver,
     BookmarkResolver,
     MessageResolver,
+    RecordResolver,
   ],
 })
 export class GraphqlModule {}

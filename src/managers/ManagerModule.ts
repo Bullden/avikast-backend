@@ -14,6 +14,8 @@ import IAvikastFileManager from './avikastFile/IAvikastFileManager';
 import AvikastFileManager from './avikastFile/AvikastFileManager';
 import MessageManager from 'managers/message/MessageManager';
 import IMessageManager from 'managers/message/IMessageManager';
+import IRecordManager from 'managers/record/IRecordManager';
+import RecordManager from 'managers/record/RecordManager';
 
 @Module({
   imports: [
@@ -51,6 +53,10 @@ import IMessageManager from 'managers/message/IMessageManager';
       provide: IMessageManager,
       useClass: MessageManager,
     },
+    {
+      provide: IRecordManager,
+      useClass: RecordManager,
+    },
   ],
   exports: [
     //
@@ -61,6 +67,7 @@ import IMessageManager from 'managers/message/IMessageManager';
     IBookmarkManager,
     IAvikastFileManager,
     IMessageManager,
+    IRecordManager,
   ],
 })
 export class ManagerModule {}

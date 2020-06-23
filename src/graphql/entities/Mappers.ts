@@ -17,6 +17,8 @@ import GQLParticipantMedia from './room/ParticipantMedia';
 import {AvikastFile} from 'entities/AvikastFile';
 import Message from 'entities/Message';
 import GQLMessage from './message/Message';
+import GQLRecord from './record/Record';
+import Record from 'entities/Record';
 
 export const mapUserToGQL = (user: User): GQLUser => {
   return {
@@ -111,3 +113,13 @@ export const mapProducerToGQL = (producer: ProducerOptions): GQLProducerOptions 
 
 export const mapProducersToGQL = (producers: ProducerOptions[]): GQLProducerOptions[] =>
   producers.map(mapProducerToGQL);
+
+export const mapRecordToGQL = (record: Record): GQLRecord => ({
+  id: record.id,
+  name: record.name,
+  date: record.date,
+  time: record.time,
+});
+
+export const mapRecordsToGQL = (records: Record[]): GQLRecord[] =>
+  records.map(mapRecordToGQL);

@@ -14,6 +14,8 @@ import IAvikastFileStore from './avikastFile/IAvikastFileStore';
 import AvikastFileStore from './avikastFile/AvikastFileStore';
 import IMessageStore from './message/IMessageStore';
 import MessageStore from './message/MessageStore';
+import IRecordStore from 'database/stores/record/IRecordStore';
+import RecordStore from 'database/stores/record/RecordStore';
 
 @Module({
   imports: [
@@ -49,6 +51,10 @@ import MessageStore from './message/MessageStore';
       provide: IMessageStore,
       useClass: MessageStore,
     },
+    {
+      provide: IRecordStore,
+      useClass: RecordStore,
+    },
   ],
   exports: [
     //
@@ -59,6 +65,7 @@ import MessageStore from './message/MessageStore';
     IBookmarkStore,
     IAvikastFileStore,
     IMessageStore,
+    IRecordStore,
   ],
 })
 export class StoresModule {}
