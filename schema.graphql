@@ -166,5 +166,5 @@ enum MediaKind {
 }
 
 type Subscription {
-  messageAdded: Message!
+  messageAdded(roomId: String!): Message!
 }

@@ -3,7 +3,7 @@ import IMessageManager from './IMessageManager';
 import IMessageStore from '../../database/stores/message/IMessageStore';
 import {mapMessageFromDB, mapMessagesFromDB} from 'database/entities/Mappers';
 import {Observable} from 'rxjs';
-import Message from 'entities/Message';
+import Message from 'database/entities/Message';
 
 @Injectable()
 export default class MessageManager extends IMessageManager {

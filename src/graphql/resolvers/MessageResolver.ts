@@ -14,9 +14,7 @@ export default class MessageResolver {
   constructor(
     private readonly chatManager: IMessageManager,
     private readonly pubSub: PubSubEngine,
-  ) {
-    this.watchMessage();
-  }
+  ) {}
 
   @Query(() => [Message])
   async messagesByRoom(
@@ -55,13 +53,18 @@ export default class MessageResolver {
 
   @Ignore('AppType', 'Platform')
   @Subscription(() => Message)
-  messageAdded() {
+  async messageAdded(@Args({name: 'roomId', type: () => String}) roomId: string) {
+    this.watchMessage(roomId);
     return this.pubSub.asyncIterator(EVENT_NEW_MESSAGE);
   }
 
-  private watchMessage() {
+  private watchMessage(roomId: string) {
     this.chatManager.watchNewMessage().subscribe(async (newMessage) => {
-      await this.pubSub.publish(EVENT_NEW_MESSAGE, {messageAdded: newMessage});
+      if (roomId === newMessage.roomId) {
+        await this.pubSub.publish(EVENT_NEW_MESSAGE, {
+          messageAdded: {...newMessage, isMe: true},
+        });
+      }
     });
   }
 }
