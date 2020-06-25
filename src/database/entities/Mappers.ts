@@ -11,7 +11,7 @@ import Participant from 'entities/Participant';
 import AvikastFileDB from './AvikastFile';
 import MessageDB from './Message';
 import {AvikastFile} from 'entities/AvikastFile';
-import Message from '../../entities/Message';
+import Message from 'entities/Message';
 
 export const mapUserFromDb = (user: DbUser): User => ({
   id: user.id,
