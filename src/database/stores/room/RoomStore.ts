@@ -17,6 +17,7 @@ import {
   ParticipantRole,
   ParticipantTrackOptions,
 } from 'entities/Participant';
+import UserModel, {UserSchema} from 'database/models/UserModel';
 
 export default class RoomStore extends IRoomStore {
   constructor(
@@ -24,6 +25,8 @@ export default class RoomStore extends IRoomStore {
     private roomModel: Model<RoomModel>,
     @InjectModel(ParticipantSchema.name)
     private participantModel: Model<ParticipantModel>,
+    @InjectModel(UserSchema.name)
+    private userModel: Model<UserModel>,
   ) {
     super();
   }
@@ -121,15 +124,30 @@ export default class RoomStore extends IRoomStore {
       throw new Error('participant or participant.media doesnt exist');
     if (type === 'audio') {
       const {video, screen} = participant.media;
-      updateObject.media = {audio: request, video, screen};
+      updateObject.media = {
+        userName: participant.user.name,
+        audio: request,
+        video,
+        screen,
+      };
     }
     if (type === 'video') {
       const {audio, screen} = participant.media;
-      updateObject.media = {audio, video: request, screen};
+      updateObject.media = {
+        userName: participant.user.name,
+        audio,
+        video: request,
+        screen,
+      };
     }
     if (type === 'screenShare') {
       const {audio, video} = participant.media;
-      updateObject.media = {audio, video, screen: request};
+      updateObject.media = {
+        userName: participant.user.name,
+        audio,
+        video,
+        screen: request,
+      };
     }
     await this.participantModel.update({room: roomId, user: userId}, updateObject);
     return true;

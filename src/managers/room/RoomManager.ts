@@ -6,12 +6,14 @@ import {RoomType} from 'entities/Room';
 import {ParticipantMedia, ParticipantRole} from 'entities/Participant';
 import {mapParticipantsFromDB, mapRoomFromDB} from 'database/entities/Mappers';
 import {generate as generatePassword} from 'generate-password';
+import IUserStore from 'database/stores/user/IUserStore';
 
 @Injectable()
 export default class RoomManager extends IRoomManager {
   constructor(
     private readonly roomStore: IRoomStore,
     private readonly mediasoupService: IMediasoupService,
+    private readonly userStore: IUserStore,
   ) {
     super();
   }
@@ -24,6 +26,7 @@ export default class RoomManager extends IRoomManager {
     password: string | undefined,
   ) {
     const code = RoomManager.generateCode();
+    const userName = await this.userStore.getUserName(userId);
     const room = mapRoomFromDB(
       await this.roomStore.createRoom({
         name,
@@ -39,6 +42,7 @@ export default class RoomManager extends IRoomManager {
       user: {id: userId},
       role: ParticipantRole.Owner,
       media: {
+        userName,
         audio: {
           enabled: false,
           clientId: undefined,
@@ -68,6 +72,7 @@ export default class RoomManager extends IRoomManager {
 
   async joinRoom(userId: string, code: string, password: string | undefined) {
     const dbRoom = await this.roomStore.findRoomByCode(code);
+    const userName = await this.userStore.getUserName(userId);
     if (!dbRoom) throw new Error('Code is not valid');
     if (dbRoom.user.id === userId) throw new Error('Room creator cannot join his room');
     if (dbRoom.passwordProtected && dbRoom.password !== password)
@@ -82,6 +87,7 @@ export default class RoomManager extends IRoomManager {
         room,
         role: ParticipantRole.User,
         media: {
+          userName,
           audio: {
             enabled: false,
             clientId: undefined,

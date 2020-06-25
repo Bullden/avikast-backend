@@ -7,6 +7,7 @@ export enum ParticipantRole {
 }
 
 export interface ParticipantMedia {
+  userName: string;
   audio: ParticipantTrackOptions;
   video: ParticipantTrackOptions;
   screen: ParticipantTrackOptions;

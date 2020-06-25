@@ -65,6 +65,7 @@ export const mapBookmarksToGQL = (bookmarks: Bookmark[]): GQLBookmark[] =>
 export const mapParticipantsTrackToGQL = (
   track: ParticipantMedia,
 ): GQLParticipantMedia => ({
+  userName: track.userName,
   audio: track.audio,
   video: track.video,
   screen: track.screen,

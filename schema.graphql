@@ -49,6 +49,7 @@ The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://
 scalar JSON
 
 type ParticipantMedia {
+  userName: String!
   audio: ParticipantTrackOptions!
   video: ParticipantTrackOptions!
   screen: ParticipantTrackOptions!

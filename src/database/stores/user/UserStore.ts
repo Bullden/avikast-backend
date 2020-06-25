@@ -64,6 +64,12 @@ export default class UserStore implements IUserStore {
     return mapUserFromModel(user);
   }
 
+  async getUserName(id: string) {
+    const user = await this.findUserByIdOrThrow(id);
+    if (!user) return 'unknown';
+    return user.name;
+  }
+
   async findUserByReferralCode(referralCode: string) {
     const user = await this.userModel.findOne({referralCode}).populate(this.populate);
     return user ? mapUserFromModel(user) : undefined;

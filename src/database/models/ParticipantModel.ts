@@ -20,6 +20,7 @@ export default interface ParticipantModel extends Document {
   room: RoomModel | string;
   role: ParticipantRole;
   media: {
+    userName: string;
     audio: ParticipantTrackOptions;
     video: ParticipantTrackOptions;
     screen: ParticipantTrackOptions;
