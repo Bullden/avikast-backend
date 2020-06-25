@@ -10,7 +10,7 @@ import ParticipantDB from './Participant';
 import Participant from 'entities/Participant';
 import AvikastFileDB from './AvikastFile';
 import MessageDB from './Message';
-import {AvikastFile} from '../../entities/AvikastFile';
+import {AvikastFile} from 'entities/AvikastFile';
 import Message from '../../entities/Message';
 
 export const mapUserFromDb = (user: DbUser): User => ({
@@ -36,7 +36,7 @@ export const mapAccountFromDB = (account: DbUser): Account => ({
   preferences: mapPreferencesFromDB(account),
 });
 
-export const mapMessageFromDB = (message: MessageDB, isMe?: boolean): Message => ({
+export const mapMessageFromDB = (message: MessageDB, isMe: boolean): Message => ({
   id: message.id,
   sender: mapUserFromDb(message.sender),
   roomId: message.roomId,

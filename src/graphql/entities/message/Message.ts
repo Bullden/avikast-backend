@@ -10,7 +10,7 @@ export default class Message {
     body: string,
     date: Date,
     receiverId: string | undefined,
-    isMe: boolean | undefined,
+    isMe: boolean,
   ) {
     this.id = id;
     this.sender = sender;
@@ -39,6 +39,6 @@ export default class Message {
   @Field(() => String)
   receiverId: string | undefined;
 
-  @Field(() => Boolean, {nullable: true})
-  isMe?: boolean;
+  @Field(() => Boolean)
+  isMe: boolean;
 }
