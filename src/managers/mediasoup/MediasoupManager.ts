@@ -55,6 +55,7 @@ export default class MediasoupManager extends IMediasoupManager {
       mediaType,
       mediaKind,
     );
+    console.log('Producer created', producer.kind, producer.id);
     const participantTrackOptions: ParticipantTrackOptions = {
       enabled: true,
       clientId,
