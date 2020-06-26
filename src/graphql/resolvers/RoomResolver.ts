@@ -26,7 +26,7 @@ export default class RoomResolver {
     @Args({name: 'password', type: () => String, nullable: true})
     password: string | undefined,
   ): Promise<Room> {
-    return mapRoomToGQL(
+    const room = await mapRoomToGQL(
       await this.roomManager.createRoom(
         session.userId,
         name,
@@ -35,15 +35,19 @@ export default class RoomResolver {
         password,
       ),
     );
+    console.log(room);
+    return room;
   }
 
   @Mutation(() => Room)
   async joinRoom(
     @CurrentSession() session: Session,
-    @Args('code') code: string,
+    @Args('inviteLink') inviteLink: string,
     @Args({name: 'password', type: () => String, nullable: true}) password: string,
   ) {
-    return mapRoomToGQL(await this.roomManager.joinRoom(session.userId, code, password));
+    return mapRoomToGQL(
+      await this.roomManager.joinRoom(session.userId, inviteLink, password),
+    );
   }
 
   @Query(() => Room)
@@ -68,5 +72,10 @@ export default class RoomResolver {
     const mapTracks = mapParticipantsTracksToGQL(tracks);
     await pubSub.publish('participantTrackChanged', {mapTracks});
     return mapTracks;
+  }
+
+  @Query(() => String)
+  async inviteLinkByRoomById(@Args('roomId') roomId: string) {
+    return this.roomManager.getInviteLink(roomId);
   }
 }

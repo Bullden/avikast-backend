@@ -5,9 +5,10 @@ registerEnumType(RoomType, {name: 'RoomType'});
 
 @ObjectType()
 export default class Room {
-  constructor(id: string, name: string, type: RoomType) {
+  constructor(id: string, name: string, inviteLink: string, type: RoomType) {
     this.id = id;
     this.name = name;
+    this.inviteLink = inviteLink;
     this.type = type;
   }
 
@@ -16,6 +17,9 @@ export default class Room {
 
   @Field(() => String)
   name: string;
+
+  @Field(() => String)
+  inviteLink: string;
 
   @Field(() => RoomType)
   type: RoomType;

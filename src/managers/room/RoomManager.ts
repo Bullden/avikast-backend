@@ -25,7 +25,7 @@ export default class RoomManager extends IRoomManager {
     passwordProtected: boolean,
     password: string | undefined,
   ) {
-    const code = RoomManager.generateCode();
+    const inviteLink = RoomManager.generateCode();
     const userName = await this.userStore.getUserName(userId);
     const room = mapRoomFromDB(
       await this.roomStore.createRoom({
@@ -34,7 +34,7 @@ export default class RoomManager extends IRoomManager {
         type,
         passwordProtected,
         password,
-        code,
+        inviteLink,
       }),
     );
     await this.roomStore.createParticipant({
@@ -70,10 +70,10 @@ export default class RoomManager extends IRoomManager {
     return room;
   }
 
-  async joinRoom(userId: string, code: string, password: string | undefined) {
-    const dbRoom = await this.roomStore.findRoomByCode(code);
+  async joinRoom(userId: string, inviteLink: string, password: string | undefined) {
+    const dbRoom = await this.roomStore.findRoomByCode(inviteLink);
     const userName = await this.userStore.getUserName(userId);
-    if (!dbRoom) throw new Error('Code is not valid');
+    if (!dbRoom) throw new Error('inviteLink is not valid');
     if (dbRoom.user.id === userId) throw new Error('Room creator cannot join his room');
     if (dbRoom.passwordProtected && dbRoom.password !== password)
       throw new Error('Password is not valid');
@@ -149,5 +149,9 @@ export default class RoomManager extends IRoomManager {
       tracks.push(track);
     });
     return tracks;
+  }
+
+  async getInviteLink(roomId: string) {
+    return this.roomStore.getInviteLink(roomId);
   }
 }

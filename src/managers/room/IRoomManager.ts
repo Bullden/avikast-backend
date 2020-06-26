@@ -12,7 +12,7 @@ export default abstract class IRoomManager {
 
   abstract joinRoom(
     userId: string,
-    code: string,
+    inviteLink: string,
     password: string | undefined,
   ): Promise<Room>;
 
@@ -24,4 +24,6 @@ export default abstract class IRoomManager {
     userId: string,
     roomId: string,
   ): Promise<ParticipantMedia[]>;
+
+  abstract getInviteLink(roomId: string): Promise<string>;
 }

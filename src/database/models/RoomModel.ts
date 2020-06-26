@@ -9,7 +9,7 @@ export const RoomSchema = createSchema('room', {
   user: {type: String, ref: UserSchema.name, required: true},
   passwordProtected: {type: Boolean, required: true},
   password: {type: String},
-  code: {type: String, required: true},
+  inviteLink: {type: String, required: true},
 });
 
 export default interface RoomModel extends Document {
@@ -18,7 +18,7 @@ export default interface RoomModel extends Document {
   user: UserModel | string;
   passwordProtected: boolean;
   password: string | undefined;
-  code: string;
+  inviteLink: string;
 }
 
 export interface CreateRoomModel {
@@ -27,5 +27,5 @@ export interface CreateRoomModel {
   user: string;
   passwordProtected: boolean;
   password: string | undefined;
-  code: string;
+  inviteLink: string;
 }

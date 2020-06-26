@@ -27,6 +27,7 @@ type Account {
 type Room {
   id: ID!
   name: String!
+  inviteLink: String!
   type: RoomType!
 }
 
@@ -125,6 +126,7 @@ type Query {
   roomById(roomId: String!): Room!
   participants(roomId: String!): [Participant!]!
   participantsTracks(roomId: String!): [ParticipantMedia!]!
+  inviteLinkByRoomById(roomId: String!): String!
   getRouter(roomId: String!): RouterOptions!
   getProducer(roomId: String!): ProducerOptions!
   getProducers(roomId: String!): [ProducerOptions!]!
@@ -137,7 +139,7 @@ type Query {
 type Mutation {
   updateMyAccount(user: UserUpdateRequest!): Account!
   createRoom(password: String, passwordProtected: Boolean!, type: RoomType!, name: String!): Room!
-  joinRoom(password: String, code: String!): Room!
+  joinRoom(password: String, inviteLink: String!): Room!
   createTransport(clientId: String!, direction: String!, roomId: String!): TransportOptions!
   connectTransport(clientId: String!, direction: String!, dtlsParameters: JSON!, roomId: String!): Boolean!
   createProducer(mediaType: MediaType!, mediaKind: MediaKind!, rtpParameters: JSON!, clientId: String!, roomId: String!, transportId: String!): ProducerOptions!

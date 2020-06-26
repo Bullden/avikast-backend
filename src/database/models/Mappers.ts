@@ -123,7 +123,7 @@ export const mapRoomFromModel = (room: RoomModel): Room => {
     user: mapUserFromModel(room.user),
     passwordProtected: room.passwordProtected,
     password: room.password,
-    code: room.code,
+    inviteLink: room.inviteLink,
   };
 };
 

@@ -51,7 +51,7 @@ export default class RoomStore extends IRoomStore {
     user: {id: string};
     passwordProtected: boolean;
     password: string | undefined;
-    code: string;
+    inviteLink: string;
   }) {
     const newRoom: CreateRoomModel = {
       name: room.name,
@@ -59,7 +59,7 @@ export default class RoomStore extends IRoomStore {
       user: room.user.id,
       passwordProtected: room.passwordProtected,
       password: room.password,
-      code: room.code,
+      inviteLink: room.inviteLink,
     };
     const createdRoom = await this.roomModel.create(newRoom);
     return mapRoomFromModel(await createdRoom.populate(this.populateRoom).execPopulate());
@@ -74,6 +74,11 @@ export default class RoomStore extends IRoomStore {
   async findRoomByUser(userId: string) {
     const room = await this.roomModel.findOne({user: userId}).populate(this.populateRoom);
     return room ? mapRoomFromModel(room) : null;
+  }
+
+  async findCodeByRoomId(roomId: string) {
+    const inviteLink = await this.roomModel.findById(roomId).populate(this.populateRoom);
+    return inviteLink || null;
   }
 
   async createParticipant(participant: {
@@ -94,8 +99,8 @@ export default class RoomStore extends IRoomStore {
     );
   }
 
-  async findRoomByCode(code: string) {
-    const room = await this.roomModel.findOne({code}).populate(this.populateRoom);
+  async findRoomByCode(inviteLink: string) {
+    const room = await this.roomModel.findOne({inviteLink}).populate(this.populateRoom);
     return room ? mapRoomFromModel(room) : null;
   }
 
@@ -151,5 +156,11 @@ export default class RoomStore extends IRoomStore {
     }
     await this.participantModel.update({room: roomId, user: userId}, updateObject);
     return true;
+  }
+
+  async getInviteLink(roomId: string) {
+    const inviteLink = await this.findCodeByRoomId(roomId);
+    if (!inviteLink) throw new Error('Invite Link not found');
+    return inviteLink.toString();
   }
 }

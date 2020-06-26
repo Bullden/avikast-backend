@@ -6,5 +6,6 @@ export enum RoomType {
 export default interface Room {
   id: string;
   name: string;
+  inviteLink: string;
   type: RoomType;
 }
