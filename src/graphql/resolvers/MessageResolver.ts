@@ -53,16 +53,19 @@ export default class MessageResolver {
 
   @Ignore('AppType', 'Platform')
   @Subscription(() => Message)
-  async messageAdded(@Args({name: 'roomId', type: () => String}) roomId: string) {
-    this.watchMessage(roomId);
+  async messageAdded(
+    @Args({name: 'roomId', type: () => String}) roomId: string,
+    @Args({name: 'userId', type: () => String}) userId: string,
+  ) {
+    this.watchMessage(roomId, userId);
     return this.pubSub.asyncIterator(EVENT_NEW_MESSAGE);
   }
 
-  private watchMessage(roomId: string) {
+  private watchMessage(roomId: string, userId: string) {
     this.chatManager.watchNewMessage().subscribe(async (newMessage) => {
       if (roomId === newMessage.roomId) {
         await this.pubSub.publish(EVENT_NEW_MESSAGE, {
-          messageAdded: {...newMessage, isMe: true},
+          messageAdded: {...newMessage, isMe: userId === newMessage.sender.id},
         });
       }
     });
