@@ -24,8 +24,8 @@ services:
     depends_on:
       - db
     ports:
-      - 3080:3080
-      - 3443:3443
+      - 80:3080
+      - 443:3443
     environment:
       NODE_ENV: testing
       DATABASE_HOST: db

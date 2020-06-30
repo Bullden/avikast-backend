@@ -1,6 +1,5 @@
-FROM node:14.0.0-alpine3.11 as build
+FROM node:14.0.0 as build
 WORKDIR /app
-RUN apk --no-cache --virtual build-dependencies add python make gcc g++
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lock
 COPY tsconfig.json tsconfig.build.json ./
