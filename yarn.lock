@@ -397,17 +397,17 @@
     "@angular-devkit/core" "9.1.4"
     "@angular-devkit/schematics" "9.1.4"
 
-"@spryrocks/config-core@^1.0.0-alpha.5":
-  version "1.0.0-alpha.5"
-  resolved "https://registry.yarnpkg.com/@spryrocks/config-core/-/config-core-1.0.0-alpha.5.tgz#e098d067bb834adbab69aaa636c45b5f36088e51"
-  integrity sha512-/1lrIb2XFInXtVcBFg2Q3pGo54qr7ce8x31h3XHNq5p2a9v85VYdwMAUAdtB2GywlFIMVMEEgkm6etb6UEcoGA==
+"@spryrocks/config-core@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@spryrocks/config-core/-/config-core-1.0.2.tgz#20f206051534a937052007578b322d414298486c"
+  integrity sha512-6N0QlamZ4ZMz1SjLyxT+1O0ey9VQ65ogcgAm4N9fdjpQg4N464esqlySK9wcq5bvRecrdS+z8XrSQFlMgcJiHA==
 
-"@spryrocks/config-node@^1.0.0-alpha.5":
-  version "1.0.0-alpha.5"
-  resolved "https://registry.yarnpkg.com/@spryrocks/config-node/-/config-node-1.0.0-alpha.5.tgz#61b53914d804ce572b614ec53d30adc5f427ae7e"
-  integrity sha512-Fc0XtQ95FLrRK94VKp4MJX6K4RZNK8cawGKBz2vDgKumyjxyqeynr6aiu9eB3W1YKF+HJmhSq5IvEuuW/r3GSQ==
+"@spryrocks/config-node@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@spryrocks/config-node/-/config-node-1.0.2.tgz#e26fdbcb22f71bd9813ae6e0c408a925e64d5dbd"
+  integrity sha512-sFicMOYRXhyaoJDpbKCS2ypi4lcgc1BMtyUDVAostptZ5agZ/13nsMB3y51wzAuzApcpnkNAso1haf5TshmBeQ==
   dependencies:
-    "@spryrocks/config-core" "^1.0.0-alpha.5"
+    "@spryrocks/config-core" "^1.0.2"
     dotenv "^8.2.0"
     node "^14.2.0"
 

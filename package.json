@@ -26,7 +26,7 @@
     "@nestjs/microservices": "^7.1.1",
     "@nestjs/mongoose": "^6.4.0",
     "@nestjs/platform-express": "^7.0.9",
-    "@spryrocks/config-node": "^1.0.0-alpha.5",
+    "@spryrocks/config-node": "1.0.2",
     "@types/mongoose": "5.7.15",
     "@types/morgan": "^1.9.0",
     "apollo-server-express": "^2.13.0",

@@ -1,18 +1,21 @@
 version: '3.7'
 services:
   db:
-    image: mongo
-    networks:
-      backend:
-        aliases:
-          - db-testing
+    image: bitnami/mongodb:4.2.8
     ports:
       - 27017:27017
     volumes:
-      - db:/data/db
+      - db:/bitnami/mongodbс
+    networks:
+      - backend
     environment:
-      MONGO_INITDB_ROOT_USERNAME: avikast
-      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGODB_ROOT_PASSWORD: admin
+      MONGODB_USERNAME: avikast
+      MONGODB_PASSWORD: admin
+      MONGODB_DATABASE: avikast
+      MONGODB_REPLICA_SET_MODE: primary
+      MONGODB_ADVERTISED_HOSTNAME: db
+      MONGODB_REPLICA_SET_KEY: avikastrs0
   backend:
     image: avikast-backend
     build: .
@@ -25,6 +28,11 @@ services:
       - 3443:3443
     environment:
       NODE_ENV: testing
+      DATABASE_HOST: db
+      DATABASE_PORT: 27017
+      DATABASE_USERNAME: avikast
+      DATABASE_PASSWORD: admin
+      DATABASE_NAME: avikast
 volumes:
   db:
 networks:
