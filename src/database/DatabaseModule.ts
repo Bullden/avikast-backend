@@ -26,6 +26,7 @@ const options = (configService: IConfigService): MongooseModuleOptions => {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useCreateIndex: true,
+    poolSize: 100,
   };
 };
 
