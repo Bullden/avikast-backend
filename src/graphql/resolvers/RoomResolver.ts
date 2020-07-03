@@ -26,7 +26,7 @@ export default class RoomResolver {
     @Args({name: 'password', type: () => String, nullable: true})
     password: string | undefined,
   ): Promise<Room> {
-    const room = await mapRoomToGQL(
+    return mapRoomToGQL(
       await this.roomManager.createRoom(
         session.userId,
         name,
@@ -35,8 +35,6 @@ export default class RoomResolver {
         password,
       ),
     );
-    console.log(room);
-    return room;
   }
 
   @Mutation(() => Room)
