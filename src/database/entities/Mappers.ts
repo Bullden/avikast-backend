@@ -7,7 +7,7 @@ import DbRoom from './Room';
 import BookmarkDB from './Bookmark';
 import Bookmark from 'entities/Bookmark';
 import ParticipantDB from './Participant';
-import Participant from 'entities/Participant';
+import Participant, {WebinarOwner} from 'entities/Participant';
 import AvikastFileDB from './AvikastFile';
 import MessageDB from './Message';
 import {AvikastFile} from 'entities/AvikastFile';
@@ -72,6 +72,7 @@ export const mapParticipantFromDB = (participant: ParticipantDB): Participant =>
   user: mapUserFromDb(participant.user),
   role: participant.role,
   media: participant.media,
+  webinarOptions: participant.webinarOptions,
 });
 
 export const mapParticipantsFromDB = (participants: ParticipantDB[]): Participant[] =>

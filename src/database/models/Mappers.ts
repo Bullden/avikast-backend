@@ -150,6 +150,20 @@ export const mapParticipantFromModel = (participant: ParticipantModel): Particip
     user: mapUserFromModel(participant.user),
     role: participant.role,
     media: participant.media,
+    webinarOptions: participant.webinarOptions,
+  };
+};
+
+export const mapWebinarOwnerFromModel = (participant: ParticipantModel): Participant => {
+  if (typeof participant.user !== 'object') throw new Error('User should be object');
+  if (typeof participant.room !== 'object') throw new Error('Room should be object');
+  return {
+    id: extractIdFromModel(participant),
+    room: mapRoomFromModel(participant.room),
+    user: mapUserFromModel(participant.user),
+    role: participant.role,
+    media: participant.media,
+    webinarOptions: participant.webinarOptions,
   };
 };
 

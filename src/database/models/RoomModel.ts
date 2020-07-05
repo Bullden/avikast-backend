@@ -28,4 +28,24 @@ export interface CreateRoomModel {
   passwordProtected: boolean;
   password: string | undefined;
   inviteLink: string;
+  webinarOptions: WebinarOptions | undefined;
+}
+
+export interface WebinarOptions {
+  webinarOwner: string;
+  viewMode: ViewModeEnum;
+  viewModeScale: ViewModeScale;
+}
+
+export enum ViewModeEnum {
+  CameraAndScreen = 'CameraAndScreen',
+  CameraMain = 'CameraMain',
+  ScreenMain = 'ScreenMain',
+  None = 'None',
+}
+
+export enum ViewModeScale {
+  oneX = '1x',
+  twoX = '2x',
+  threeX = '3x',
 }

@@ -1,5 +1,8 @@
 import {Field, ID, ObjectType, registerEnumType} from '@nestjs/graphql';
 import {RoomType} from 'entities/Room';
+import graphqlTypeJson from 'graphql-type-json';
+import {MediaType} from 'entities/Mediasoup';
+import WebinarOptions from 'graphql/entities/room/WebinarOptions';
 
 registerEnumType(RoomType, {name: 'RoomType'});
 

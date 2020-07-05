@@ -7,6 +7,7 @@ import Room from 'graphql/entities/room/Room';
 import {
   mapParticipantsToGQL,
   mapParticipantsTracksToGQL,
+  mapParticipantToGQL,
   mapRoomToGQL,
 } from 'graphql/entities/Mappers';
 import Participant from 'graphql/entities/room/Participant';
@@ -72,6 +73,22 @@ export default class RoomResolver {
     await pubSub.publish('participantTrackChanged', {mapTracks});
     return mapTracks;
   }
+
+  @Query(() => Participant)
+  async webinarOwner(@CurrentSession() session: Session, @Args('roomId') roomId: string) {
+    const webinarOwner = await this.roomManager.getWebinarOwner(session.userId, roomId);
+    return mapParticipantToGQL(webinarOwner);
+  }
+
+  // @Query(() => Boolean)
+  // async webinarViewMode(
+  //   @CurrentSession() session: Session,
+  //   @Args('roomId') roomId: string,
+  //   @Args({name: 'viewModeee', type: () => ViewModeEnum}) viewModeee: ViewModeEnum,
+  // ) {
+  //   await this.roomManager.setWebinarViewMode(session.userId, roomId, viewModeee);
+  //   return true;
+  // }
 
   @Query(() => String)
   async inviteLinkByRoomById(@Args('roomId') roomId: string) {

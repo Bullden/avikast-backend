@@ -71,6 +71,7 @@ export const mapParticipantsTrackToGQL = (
   video: track.video,
   screen: track.screen,
 });
+
 export const mapParticipantsTracksToGQL = (
   tracks: ParticipantMedia[],
 ): GQLParticipantMedia[] => tracks.map(mapParticipantsTrackToGQL);
@@ -80,6 +81,7 @@ export const mapParticipantToGQL = (participant: Participant): GQLParticipant =>
   user: mapUserToGQL(participant.user),
   role: participant.role,
   media: mapParticipantsTrackToGQL(participant.media),
+  webinarOptions: participant.webinarOptions,
 });
 
 export const mapParticipantsToGQL = (participants: Participant[]): GQLParticipant[] =>

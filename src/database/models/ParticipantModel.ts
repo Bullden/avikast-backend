@@ -6,7 +6,7 @@ import {
   ParticipantRole,
   ParticipantTrackOptions,
 } from 'entities/Participant';
-import RoomModel, {RoomSchema} from './RoomModel';
+import RoomModel, {RoomSchema, WebinarOptions} from './RoomModel';
 
 export const ParticipantSchema = createSchema('participant', {
   user: {type: String, ref: UserSchema.name, required: true},
@@ -19,6 +19,7 @@ export default interface ParticipantModel extends Document {
   user: UserModel | string;
   room: RoomModel | string;
   role: ParticipantRole;
+  webinarOptions?: WebinarOptions | undefined;
   media: {
     userName: string;
     audio: ParticipantTrackOptions;

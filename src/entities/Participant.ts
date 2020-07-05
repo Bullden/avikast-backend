@@ -3,7 +3,7 @@ import {MediaKind, MediaType, ProducerOptions} from 'entities/Mediasoup';
 
 export enum ParticipantRole {
   Owner = 'Owner',
-  User = 'User',
+  Participant = 'Participant',
 }
 
 export interface ParticipantMedia {
@@ -26,4 +26,31 @@ export default interface Participant {
   user: User;
   role: ParticipantRole;
   media: ParticipantMedia;
+  webinarOptions: WebinarOptions | undefined;
+}
+
+export interface WebinarOwner {
+  id: string;
+  user: User;
+  role: ParticipantRole;
+  media: ParticipantMedia;
+  webinarOptions: WebinarOptions;
+}
+
+export interface WebinarOptions {
+  viewMode: ViewModeEnum;
+  viewModeScale: ViewModeScale;
+}
+
+export enum ViewModeEnum {
+  CameraAndScreen = 'CameraAndScreen',
+  CameraMain = 'CameraMain',
+  ScreenMain = 'ScreenMain',
+  None = 'None',
+}
+
+export enum ViewModeScale {
+  oneX = '1x',
+  twoX = '2x',
+  threeX = '3x',
 }

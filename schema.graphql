@@ -24,6 +24,11 @@ type Account {
   preferences: Preferences!
 }
 
+type WebinarOptions {
+  viewMode: String!
+  viewModeScale: String!
+}
+
 type Room {
   id: ID!
   name: String!
@@ -61,11 +66,12 @@ type Participant {
   user: User!
   role: ParticipantRole!
   media: ParticipantMedia!
+  webinarOptions: WebinarOptions
 }
 
 enum ParticipantRole {
   Owner
-  User
+  Participant
 }
 
 type TransportOptions {
@@ -126,6 +132,7 @@ type Query {
   roomById(roomId: String!): Room!
   participants(roomId: String!): [Participant!]!
   participantsTracks(roomId: String!): [ParticipantMedia!]!
+  webinarOwner(roomId: String!): Participant!
   inviteLinkByRoomById(roomId: String!): String!
   getRouter(roomId: String!): RouterOptions!
   getProducer(roomId: String!): ProducerOptions!
