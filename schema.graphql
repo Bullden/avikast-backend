@@ -24,16 +24,12 @@ type Account {
   preferences: Preferences!
 }
 
-type WebinarOptions {
-  viewMode: String!
-  viewModeScale: String!
-}
-
 type Room {
   id: ID!
   name: String!
   inviteLink: String!
   type: RoomType!
+  user: User!
 }
 
 enum RoomType {
@@ -66,7 +62,6 @@ type Participant {
   user: User!
   role: ParticipantRole!
   media: ParticipantMedia!
-  webinarOptions: WebinarOptions
 }
 
 enum ParticipantRole {

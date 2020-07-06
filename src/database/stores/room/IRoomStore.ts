@@ -5,7 +5,7 @@ import {
   ParticipantTrackOptions,
 } from 'entities/Participant';
 import Participant from 'database/entities/Participant';
-import {RoomType, ViewModeEnum, WebinarOptions} from 'entities/Room';
+import {RoomType} from 'entities/Room';
 
 export default abstract class IRoomStore {
   abstract createRoom(room: {
@@ -28,7 +28,6 @@ export default abstract class IRoomStore {
     room: {id: string};
     role: ParticipantRole;
     media: ParticipantMedia;
-    webinarOptions?: WebinarOptions;
   }): Promise<Participant>;
 
   abstract findParticipant(
@@ -39,12 +38,6 @@ export default abstract class IRoomStore {
   abstract getParticipants(roomId: string): Promise<Participant[]>;
 
   abstract getWebinarOwner(userId: string, roomId: string): Promise<Participant>;
-
-  abstract setWebinarViewMode(
-    userId: string,
-    roomId: string,
-    viewMode: ViewModeEnum,
-  ): Promise<void>;
 
   abstract updateParticipantMedia(
     type: 'audio' | 'video' | 'screenShare',

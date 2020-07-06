@@ -3,19 +3,16 @@ import IMediasoupService from '../../services/mediasoup/IMediasoupService';
 import {Injectable} from '@nestjs/common';
 import IRoomStore from 'database/stores/room/IRoomStore';
 import {RoomType} from 'entities/Room';
-import {
-  ParticipantMedia,
-  ParticipantRole,
-  ViewModeEnum,
-  ViewModeScale,
-} from 'entities/Participant';
+import {ParticipantMedia, ParticipantRole, ViewModeEnum} from 'entities/Participant';
 import {
   mapParticipantFromDB,
   mapParticipantsFromDB,
   mapRoomFromDB,
+  mapUserFromDb,
 } from 'database/entities/Mappers';
 import {generate as generatePassword} from 'generate-password';
 import IUserStore from 'database/stores/user/IUserStore';
+import {mapUserFromModel} from 'database/models/Mappers';
 
 @Injectable()
 export default class RoomManager extends IRoomManager {
@@ -46,15 +43,6 @@ export default class RoomManager extends IRoomManager {
         inviteLink,
       }),
     );
-    const webinarOptions = () => {
-      if (room.type === RoomType.Webinar) {
-        return {
-          viewMode: ViewModeEnum.CameraMain,
-          viewModeScale: ViewModeScale.oneX,
-        };
-      }
-      return undefined;
-    };
 
     await this.roomStore.createParticipant({
       room,
@@ -84,7 +72,6 @@ export default class RoomManager extends IRoomManager {
           mediaType: undefined,
         },
       },
-      webinarOptions: webinarOptions(),
     });
     await this.mediasoupService.createRouter(room.id);
     return room;
@@ -137,9 +124,12 @@ export default class RoomManager extends IRoomManager {
   }
 
   async getRoomById(userId: string, roomId: string) {
-    const room = await this.roomStore.findRoomByUser(roomId);
+    const room = await this.roomStore.findRoomByUser(userId);
+    const dbUser = await this.userStore.getUser(userId);
+    console.log(room, 11111111111111111111, roomId);
     if (!room) throw new Error('Room is not found');
-    return mapRoomFromDB(room);
+    if (!dbUser) throw new Error('dbUser is not found');
+    return {...mapRoomFromDB(room), user: mapUserFromDb(dbUser)};
   }
 
   private static generateCode() {
@@ -178,12 +168,6 @@ export default class RoomManager extends IRoomManager {
       await this.roomStore.getWebinarOwner(userId, roomId),
     );
     return webinarOwner;
-  }
-
-  async setWebinarViewMode(userId: string, roomId: string, viewMode: ViewModeEnum) {
-    if (!(await this.roomStore.findParticipant(roomId, userId)))
-      throw new Error("You don't belong to this room");
-    await this.roomStore.setWebinarViewMode(userId, roomId, viewMode);
   }
 
   async getInviteLink(roomId: string) {

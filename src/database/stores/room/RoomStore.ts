@@ -58,14 +58,6 @@ export default class RoomStore extends IRoomStore {
     password: string | undefined;
     inviteLink: string;
   }) {
-    const webinarOptions = () => {
-      if (room.type === RoomType.Meeting) return undefined;
-      return {
-        webinarOwner: room.name,
-        viewMode: ViewModeEnum.None,
-        viewModeScale: ViewModeScale.oneX,
-      };
-    };
     const newRoom: CreateRoomModel = {
       name: room.name,
       type: room.type,
@@ -73,7 +65,6 @@ export default class RoomStore extends IRoomStore {
       passwordProtected: room.passwordProtected,
       password: room.password,
       inviteLink: room.inviteLink,
-      webinarOptions: webinarOptions(),
     };
     const createdRoom = await this.roomModel.create(newRoom);
     return mapRoomFromModel(await createdRoom.populate(this.populateRoom).execPopulate());
@@ -138,15 +129,6 @@ export default class RoomStore extends IRoomStore {
 
     if (!webinarOwner || webinarOwner === null) throw new Error('Webinar does not exist');
     return mapParticipantFromModel(webinarOwner);
-  }
-
-  async setWebinarViewMode(userId: string, roomId: string, viewMode: ViewModeEnum) {
-    const user = await this.findParticipant(roomId, userId);
-    const updateObject: Partial<ParticipantModel> = {};
-    if (!user?.webinarOptions || !updateObject.webinarOptions)
-      throw new Error('room does not contain webinar options');
-    updateObject.webinarOptions.viewMode = viewMode;
-    this.roomModel.update({room: roomId, user: userId}, {updateObject});
   }
 
   async updateParticipantMedia(

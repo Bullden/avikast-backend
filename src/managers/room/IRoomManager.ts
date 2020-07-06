@@ -1,4 +1,4 @@
-import Room, {RoomType, ViewModeEnum} from 'entities/Room';
+import Room, {RoomType} from 'entities/Room';
 import Participant, {ParticipantMedia} from 'entities/Participant';
 
 export default abstract class IRoomManager {
@@ -21,12 +21,6 @@ export default abstract class IRoomManager {
   abstract getParticipants(userId: string, roomId: string): Promise<Participant[]>;
 
   abstract getWebinarOwner(userId: string, roomId: string): Promise<Participant>;
-
-  abstract setWebinarViewMode(
-    userId: string,
-    roomId: string,
-    viewMode: ViewModeEnum,
-  ): Promise<void>;
 
   abstract getParticipantsTracks(
     userId: string,

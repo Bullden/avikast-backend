@@ -28,7 +28,6 @@ export interface CreateRoomModel {
   passwordProtected: boolean;
   password: string | undefined;
   inviteLink: string;
-  webinarOptions: WebinarOptions | undefined;
 }
 
 export interface WebinarOptions {

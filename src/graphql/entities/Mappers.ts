@@ -50,6 +50,7 @@ export const mapRoomToGQL = (room: Room): GQLRoom => ({
   name: room.name,
   inviteLink: room.inviteLink,
   type: room.type,
+  user: mapUserToGQL(room.user),
 });
 
 export const mapBookmarkToGQL = (bookmark: Bookmark): GQLBookmark => ({
@@ -81,7 +82,6 @@ export const mapParticipantToGQL = (participant: Participant): GQLParticipant =>
   user: mapUserToGQL(participant.user),
   role: participant.role,
   media: mapParticipantsTrackToGQL(participant.media),
-  webinarOptions: participant.webinarOptions,
 });
 
 export const mapParticipantsToGQL = (participants: Participant[]): GQLParticipant[] =>

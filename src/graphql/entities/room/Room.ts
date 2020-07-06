@@ -1,18 +1,17 @@
 import {Field, ID, ObjectType, registerEnumType} from '@nestjs/graphql';
 import {RoomType} from 'entities/Room';
-import graphqlTypeJson from 'graphql-type-json';
-import {MediaType} from 'entities/Mediasoup';
-import WebinarOptions from 'graphql/entities/room/WebinarOptions';
+import User from 'graphql/entities/user/User';
 
 registerEnumType(RoomType, {name: 'RoomType'});
 
 @ObjectType()
 export default class Room {
-  constructor(id: string, name: string, inviteLink: string, type: RoomType) {
+  constructor(id: string, name: string, inviteLink: string, type: RoomType, user: User) {
     this.id = id;
     this.name = name;
     this.inviteLink = inviteLink;
     this.type = type;
+    this.user = user;
   }
 
   @Field(() => ID)
@@ -26,4 +25,7 @@ export default class Room {
 
   @Field(() => RoomType)
   type: RoomType;
+
+  @Field(() => User)
+  user: User;
 }
