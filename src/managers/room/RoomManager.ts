@@ -3,7 +3,7 @@ import IMediasoupService from '../../services/mediasoup/IMediasoupService';
 import {Injectable} from '@nestjs/common';
 import IRoomStore from 'database/stores/room/IRoomStore';
 import {RoomType} from 'entities/Room';
-import {ParticipantMedia, ParticipantRole, ViewModeEnum} from 'entities/Participant';
+import {ParticipantMedia, ParticipantRole} from 'entities/Participant';
 import {
   mapParticipantFromDB,
   mapParticipantsFromDB,
@@ -12,7 +12,6 @@ import {
 } from 'database/entities/Mappers';
 import {generate as generatePassword} from 'generate-password';
 import IUserStore from 'database/stores/user/IUserStore';
-import {mapUserFromModel} from 'database/models/Mappers';
 
 @Injectable()
 export default class RoomManager extends IRoomManager {
@@ -126,8 +125,7 @@ export default class RoomManager extends IRoomManager {
   async getRoomById(userId: string, roomId: string) {
     const room = await this.roomStore.findRoomByUser(userId);
     const dbUser = await this.userStore.getUser(userId);
-    console.log(room, 11111111111111111111, roomId);
-    if (!room) throw new Error('Room is not found');
+    if (!room || !roomId) throw new Error('Room is not found');
     if (!dbUser) throw new Error('dbUser is not found');
     return {...mapRoomFromDB(room), user: mapUserFromDb(dbUser)};
   }

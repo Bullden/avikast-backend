@@ -1,12 +1,7 @@
 import IRoomStore from 'database/stores/room/IRoomStore';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model, QueryPopulateOptions} from 'mongoose';
-import RoomModel, {
-  CreateRoomModel,
-  RoomSchema,
-  ViewModeEnum,
-  ViewModeScale,
-} from 'database/models/RoomModel';
+import RoomModel, {CreateRoomModel, RoomSchema} from 'database/models/RoomModel';
 import {RoomType} from 'entities/Room';
 import {
   mapParticipantFromModel,

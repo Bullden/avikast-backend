@@ -80,16 +80,6 @@ export default class RoomResolver {
     return mapParticipantToGQL(webinarOwner);
   }
 
-  // @Query(() => Boolean)
-  // async webinarViewMode(
-  //   @CurrentSession() session: Session,
-  //   @Args('roomId') roomId: string,
-  //   @Args({name: 'viewModeee', type: () => ViewModeEnum}) viewModeee: ViewModeEnum,
-  // ) {
-  //   await this.roomManager.setWebinarViewMode(session.userId, roomId, viewModeee);
-  //   return true;
-  // }
-
   @Query(() => String)
   async inviteLinkByRoomById(@Args('roomId') roomId: string) {
     return this.roomManager.getInviteLink(roomId);
