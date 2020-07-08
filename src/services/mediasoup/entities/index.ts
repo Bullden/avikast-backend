@@ -28,6 +28,16 @@ import {
   GetProducersRequest,
   GetProducersResponse,
 } from './GetProducers';
+import {
+  StartRecordingPattern,
+  StartRecordingRequest,
+  StartRecordingResponse,
+} from './StartRecording';
+import {
+  StopRecordingPattern,
+  StopRecordingRequest,
+  StopRecordingResponse,
+} from './StopRecording';
 import {GetProducerPattern, GetProducerRequest, GetProducerResponse} from './GetProducer';
 import {GetRouterPattern, GetRouterRequest, GetRouterResponse} from './GetRouter';
 
@@ -39,7 +49,9 @@ export type Pattern =
   | CreateConsumerPattern
   | GetRouterPattern
   | GetProducerPattern
-  | GetProducersPattern;
+  | GetProducersPattern
+  | StartRecordingPattern
+  | StopRecordingPattern;
 
 export {
   CreateRouterRequest,
@@ -58,4 +70,8 @@ export {
   GetProducerResponse,
   GetProducersResponse,
   GetProducersRequest,
+  StartRecordingRequest,
+  StartRecordingResponse,
+  StopRecordingRequest,
+  StopRecordingResponse,
 };

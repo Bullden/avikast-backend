@@ -46,4 +46,10 @@ export default abstract class IMediasoupManager {
   abstract getProducer(userId: string, roomId: string): Promise<ProducerOptions>;
 
   abstract getProducers(roomId: string): Promise<ProducerOptions[]>;
+
+  abstract startRecording(
+    roomId: string,
+    userId: string,
+    producerId: string,
+  ): Promise<boolean>;
 }

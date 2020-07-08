@@ -110,4 +110,13 @@ export default class MediasoupResolver {
     const producers = await this.mediasoupManager.getProducers(roomId);
     return mapProducersToGQL(producers);
   }
+
+  @Query(() => Boolean)
+  async startRecording(
+    @Args('roomId') roomId: string,
+    @Args('producerId') producerId: string,
+    @CurrentSession() session: Session,
+  ): Promise<boolean> {
+    return this.mediasoupManager.startRecording(roomId, session.userId, producerId);
+  }
 }

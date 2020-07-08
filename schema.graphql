@@ -132,6 +132,7 @@ type Query {
   getRouter(roomId: String!): RouterOptions!
   getProducer(roomId: String!): ProducerOptions!
   getProducers(roomId: String!): [ProducerOptions!]!
+  startRecording(producerId: String!, roomId: String!): Boolean!
   bookmarks: [Bookmark!]!
   messagesByRoom(roomId: String!): [Message!]!
   messageById(messageId: String!): Message!

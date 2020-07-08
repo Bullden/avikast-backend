@@ -22,6 +22,8 @@ import {
   GetRouterRequest,
   GetRouterResponse,
   Pattern,
+  StartRecordingRequest,
+  StartRecordingResponse,
 } from './entities';
 import {Direction, MediaKind, MediaType} from 'entities/Mediasoup';
 
@@ -142,6 +144,14 @@ export default class MediasoupService extends IMediasoupService {
       GetProducersResponse
     >({area: 'producers', action: 'get'}, {roomId});
     return response.producers;
+  }
+
+  async startRecording(roomId: string, userId: string, producerId: string) {
+    const response = await this.sendAsyncRequired<
+      StartRecordingRequest,
+      StartRecordingResponse
+    >({area: 'recording', action: 'start'}, {roomId, userId, producerId});
+    return response.response;
   }
 
   // region Helpers
