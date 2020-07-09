@@ -24,6 +24,8 @@ import {
   Pattern,
   StartRecordingRequest,
   StartRecordingResponse,
+  StopRecordingRequest,
+  StopRecordingResponse,
 } from './entities';
 import {Direction, MediaKind, MediaType} from 'entities/Mediasoup';
 
@@ -151,6 +153,14 @@ export default class MediasoupService extends IMediasoupService {
       StartRecordingRequest,
       StartRecordingResponse
     >({area: 'recording', action: 'start'}, {roomId, userId, producerId});
+    return response.response;
+  }
+
+  async stopRecording(roomId: string, userId: string, producerId: string) {
+    const response = await this.sendAsyncRequired<
+      StopRecordingRequest,
+      StopRecordingResponse
+    >({area: 'recording', action: 'stop'}, {roomId, userId, producerId});
     return response.response;
   }
 

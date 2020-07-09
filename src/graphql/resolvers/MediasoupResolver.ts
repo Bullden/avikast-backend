@@ -119,4 +119,13 @@ export default class MediasoupResolver {
   ): Promise<boolean> {
     return this.mediasoupManager.startRecording(roomId, session.userId, producerId);
   }
+
+  @Query(() => Boolean)
+  async stopRecording(
+    @Args('roomId') roomId: string,
+    @Args('producerId') producerId: string,
+    @CurrentSession() session: Session,
+  ): Promise<boolean> {
+    return this.mediasoupManager.stopRecording(roomId, session.userId, producerId);
+  }
 }
