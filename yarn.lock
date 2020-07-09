@@ -426,6 +426,13 @@
     eslint-plugin-prettier "^3.1.3"
     typescript "^3.8.3"
 
+"@spryrocks/file-storage@^0.0.1-alpha.3":
+  version "0.0.1-alpha.3"
+  resolved "https://registry.yarnpkg.com/@spryrocks/file-storage/-/file-storage-0.0.1-alpha.3.tgz#9b192f8a6020f20f907f93bd98749d5d383bd125"
+  integrity sha512-ZdoCu5zeG7uO2uAxX8vFDnnYauj1tHG8plbitqRZQvCVLMBrDi0J9WLqETAJ/K4RtR/5rBKKWHwL/w9b3LCoDQ==
+  dependencies:
+    node "^14.2.0"
+
 "@spryrocks/prettier-config@^0.1.1":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@spryrocks/prettier-config/-/prettier-config-0.1.1.tgz#900b6e063951e505f23598d822515cae3f6c2701"
@@ -744,6 +751,11 @@
   integrity sha512-3ZcoyPYHVOCcLpnfZwD47KFLr8W/mpUcgjpf1M4Q78TMJIw7KMAHSjiCLJp1z3ZrBR9pTLbe191O0TldFK5zcw==
   dependencies:
     source-map "^0.6.1"
+
+"@types/uuid@^8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.0.0.tgz#165aae4819ad2174a17476dbe66feebd549556c0"
+  integrity sha512-xSQfNcvOiE5f9dyd4Kzxbof1aTrLobL278pGLKOZI6esGfZ7ts9Ka16CzIN6Y8hFHE1C7jIBZokULhK1bOgjRw==
 
 "@types/validator@13.0.0":
   version "13.0.0"

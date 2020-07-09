@@ -17,6 +17,8 @@ import AvikastFileModel from './AvikastFileModel';
 import AvikastFile from '../entities/AvikastFile';
 import MessageModel from './MessageModel';
 import Message from '../entities/Message';
+import FileModel from 'database/models/FileModel';
+import File from 'database/entities/File';
 
 export const extractIdFromModel = (model: Document): string => model._id.toString();
 
@@ -183,3 +185,10 @@ export const mapAvikastFileFromModel = (file: AvikastFileModel): AvikastFile => 
 
 export const mapAvikastFilesFromModel = (files: AvikastFileModel[]): AvikastFile[] =>
   files.map(mapAvikastFileFromModel);
+
+export const mapFileFromModel = (file: FileModel): File => ({
+  id: extractIdFromModel(file),
+  mediaLink: file.mediaLink,
+  name: file.name,
+  mimeType: file.mimeType,
+});

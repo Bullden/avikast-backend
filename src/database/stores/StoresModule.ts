@@ -16,6 +16,8 @@ import IMessageStore from './message/IMessageStore';
 import MessageStore from './message/MessageStore';
 import IRecordStore from 'database/stores/record/IRecordStore';
 import RecordStore from 'database/stores/record/RecordStore';
+import IFileStore from 'database/stores/file/IFileStore';
+import FileStore from 'database/stores/file/FileStore';
 
 @Module({
   imports: [
@@ -55,6 +57,10 @@ import RecordStore from 'database/stores/record/RecordStore';
       provide: IRecordStore,
       useClass: RecordStore,
     },
+    {
+      provide: IFileStore,
+      useClass: FileStore,
+    },
   ],
   exports: [
     //
@@ -66,6 +72,7 @@ import RecordStore from 'database/stores/record/RecordStore';
     IAvikastFileStore,
     IMessageStore,
     IRecordStore,
+    IFileStore,
   ],
 })
 export class StoresModule {}

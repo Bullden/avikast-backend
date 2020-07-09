@@ -7,6 +7,7 @@ import {MulterModule} from '@nestjs/platform-express';
 import {memoryStorage} from 'multer';
 import {ApiExceptionInterceptor} from 'enhancers/interceptors/ApiExceptionInterceptor';
 import {HealthController} from 'api/HealthController';
+import {FilesController} from './file/FileController';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import {HealthController} from 'api/HealthController';
     //
     AuthController,
     HealthController,
+    FilesController,
   ],
   exports: [],
 })
