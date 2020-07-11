@@ -13,6 +13,7 @@ export const ParticipantSchema = createSchema('participant', {
   room: {type: String, ref: RoomSchema.name, required: true},
   role: {type: ParticipantRole, enum: ParticipantRole, required: true},
   media: {type: Object, required: true},
+  raiseHand: {type: Boolean},
 });
 
 export default interface ParticipantModel extends Document {
@@ -26,6 +27,7 @@ export default interface ParticipantModel extends Document {
     video: ParticipantTrackOptions;
     screen: ParticipantTrackOptions;
   };
+  raiseHand?: boolean;
 }
 
 export interface CreateParticipantModel {
@@ -33,4 +35,5 @@ export interface CreateParticipantModel {
   room: string;
   role: ParticipantRole;
   media: ParticipantMedia;
+  raiseHand: boolean;
 }

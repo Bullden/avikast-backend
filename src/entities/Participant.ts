@@ -27,6 +27,7 @@ export default interface Participant {
   role: ParticipantRole;
   media: ParticipantMedia;
   webinarOptions: WebinarOptions | undefined;
+  raiseHand: boolean | undefined;
 }
 
 export interface WebinarOwner {

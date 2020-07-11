@@ -153,6 +153,7 @@ export const mapParticipantFromModel = (participant: ParticipantModel): Particip
     role: participant.role,
     media: participant.media,
     webinarOptions: participant.webinarOptions,
+    raiseHand: participant.raiseHand,
   };
 };
 
@@ -166,6 +167,7 @@ export const mapWebinarOwnerFromModel = (participant: ParticipantModel): Partici
     role: participant.role,
     media: participant.media,
     webinarOptions: participant.webinarOptions,
+    raiseHand: participant.raiseHand,
   };
 };
 

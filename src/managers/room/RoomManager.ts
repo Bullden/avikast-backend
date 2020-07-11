@@ -123,9 +123,11 @@ export default class RoomManager extends IRoomManager {
   }
 
   async getRoomById(userId: string, roomId: string) {
-    const room = await this.roomStore.findRoomByUser(userId);
+    const room = await this.roomStore.findRoomByIdOrThrow(roomId);
     const dbUser = await this.userStore.getUser(userId);
-    if (!room || !roomId) throw new Error('Room is not found');
+    if (!room || !roomId) {
+      throw new Error('Room is not found');
+    }
     if (!dbUser) throw new Error('dbUser is not found');
     return {...mapRoomFromDB(room), user: mapUserFromDb(dbUser)};
   }
@@ -170,5 +172,9 @@ export default class RoomManager extends IRoomManager {
 
   async getInviteLink(roomId: string) {
     return this.roomStore.getInviteLink(roomId);
+  }
+
+  async raiseHand(roomId: string, userId: string, raiseHand: boolean) {
+    return this.roomStore.updateRaiseHand(roomId, userId, raiseHand);
   }
 }

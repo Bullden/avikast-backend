@@ -7,6 +7,7 @@ export interface StartRecordingRequest {
   roomId: string;
   userId: string;
   producerId: string;
+  audioProducerId?: string;
 }
 
 export interface StartRecordingResponse {

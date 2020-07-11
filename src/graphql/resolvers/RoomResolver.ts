@@ -84,4 +84,13 @@ export default class RoomResolver {
   async inviteLinkByRoomById(@Args('roomId') roomId: string) {
     return this.roomManager.getInviteLink(roomId);
   }
+
+  @Mutation(() => Boolean)
+  async raiseHand(
+    @CurrentSession() session: Session,
+    @Args('roomId') roomId: string,
+    @Args('raiseHand') raiseHand: boolean,
+  ) {
+    return this.roomManager.raiseHand(roomId, session.userId, raiseHand);
+  }
 }

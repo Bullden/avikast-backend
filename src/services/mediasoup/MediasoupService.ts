@@ -148,19 +148,32 @@ export default class MediasoupService extends IMediasoupService {
     return response.producers;
   }
 
-  async startRecording(roomId: string, userId: string, producerId: string) {
+  async startRecording(
+    roomId: string,
+    userId: string,
+    producerId: string,
+    audioProducerId?: string,
+  ) {
     const response = await this.sendAsyncRequired<
       StartRecordingRequest,
       StartRecordingResponse
-    >({area: 'recording', action: 'start'}, {roomId, userId, producerId});
+    >(
+      {area: 'recording', action: 'start'},
+      {roomId, userId, producerId, audioProducerId},
+    );
     return response.response;
   }
 
-  async stopRecording(roomId: string, userId: string, producerId: string) {
+  async stopRecording(
+    roomId: string,
+    userId: string,
+    producerId: string,
+    audioProducerId?: string,
+  ) {
     const response = await this.sendAsyncRequired<
       StopRecordingRequest,
       StopRecordingResponse
-    >({area: 'recording', action: 'stop'}, {roomId, userId, producerId});
+    >({area: 'recording', action: 'stop'}, {roomId, userId, producerId, audioProducerId});
     return response.response;
   }
 

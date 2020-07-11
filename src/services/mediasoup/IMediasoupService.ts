@@ -53,12 +53,14 @@ export default abstract class IMediasoupService {
     roomId: string,
     userId: string,
     producerId: string,
+    audioProducerId?: string,
   ): Promise<boolean>;
 
   abstract stopRecording(
     roomId: string,
     userId: string,
     producerId: string,
+    audioProducerId?: string,
   ): Promise<boolean>;
   // abstract produceAudio(client: string): Promise<ProducerOptions[]>;
   // abstract produceVideo(roomId: string): Promise<ProducerOptions[]>;

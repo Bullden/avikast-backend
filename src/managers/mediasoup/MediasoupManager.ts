@@ -108,11 +108,31 @@ export default class MediasoupManager extends IMediasoupManager {
     return this.mediasoupService.getProducers(roomId);
   }
 
-  async startRecording(roomId: string, userId: string, producerId: string) {
-    return this.mediasoupService.startRecording(roomId, userId, producerId);
+  async startRecording(
+    roomId: string,
+    userId: string,
+    producerId: string,
+    audioProducerId?: string,
+  ) {
+    return this.mediasoupService.startRecording(
+      roomId,
+      userId,
+      producerId,
+      audioProducerId,
+    );
   }
 
-  async stopRecording(roomId: string, userId: string, producerId: string) {
-    return this.mediasoupService.stopRecording(roomId, userId, producerId);
+  async stopRecording(
+    roomId: string,
+    userId: string,
+    producerId: string,
+    audioProducerId?: string,
+  ) {
+    return this.mediasoupService.stopRecording(
+      roomId,
+      userId,
+      producerId,
+      audioProducerId,
+    );
   }
 }

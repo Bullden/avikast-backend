@@ -74,6 +74,7 @@ export const mapParticipantFromDB = (participant: ParticipantDB): Participant =>
   role: participant.role,
   media: participant.media,
   webinarOptions: participant.webinarOptions,
+  raiseHand: participant.raiseHand ?? undefined,
 });
 
 export const mapParticipantsFromDB = (participants: ParticipantDB[]): Participant[] =>

@@ -115,17 +115,31 @@ export default class MediasoupResolver {
   async startRecording(
     @Args('roomId') roomId: string,
     @Args('producerId') producerId: string,
+    @Args({name: 'audioProducerId', type: () => String, nullable: true})
+    audioProducerId: string | undefined,
     @CurrentSession() session: Session,
   ): Promise<boolean> {
-    return this.mediasoupManager.startRecording(roomId, session.userId, producerId);
+    return this.mediasoupManager.startRecording(
+      roomId,
+      session.userId,
+      producerId,
+      audioProducerId,
+    );
   }
 
   @Query(() => Boolean)
   async stopRecording(
     @Args('roomId') roomId: string,
     @Args('producerId') producerId: string,
+    @Args({name: 'audioProducerId', type: () => String, nullable: true})
+    audioProducerId: string | undefined,
     @CurrentSession() session: Session,
   ): Promise<boolean> {
-    return this.mediasoupManager.stopRecording(roomId, session.userId, producerId);
+    return this.mediasoupManager.stopRecording(
+      roomId,
+      session.userId,
+      producerId,
+      audioProducerId,
+    );
   }
 }

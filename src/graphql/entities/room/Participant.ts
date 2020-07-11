@@ -7,11 +7,18 @@ registerEnumType(ParticipantRole, {name: 'ParticipantRole'});
 
 @ObjectType()
 export default class Participant {
-  constructor(id: string, user: User, role: ParticipantRole, media: ParticipantMedia) {
+  constructor(
+    id: string,
+    user: User,
+    role: ParticipantRole,
+    media: ParticipantMedia,
+    raiseHand: boolean | undefined,
+  ) {
     this.id = id;
     this.user = user;
     this.role = role;
     this.media = media;
+    this.raiseHand = raiseHand;
   }
 
   @Field(() => ID)
@@ -25,4 +32,7 @@ export default class Participant {
 
   @Field(() => ParticipantMedia)
   media: ParticipantMedia;
+
+  @Field(() => Boolean, {nullable: true})
+  raiseHand: boolean | undefined;
 }

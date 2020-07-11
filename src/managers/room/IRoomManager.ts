@@ -28,4 +28,10 @@ export default abstract class IRoomManager {
   ): Promise<ParticipantMedia[]>;
 
   abstract getInviteLink(roomId: string): Promise<string>;
+
+  abstract raiseHand(
+    roomId: string,
+    userId: string,
+    raiseHand: boolean,
+  ): Promise<boolean>;
 }

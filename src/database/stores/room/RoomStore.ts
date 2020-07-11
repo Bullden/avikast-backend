@@ -92,6 +92,7 @@ export default class RoomStore extends IRoomStore {
       user: participant.user.id,
       role: participant.role,
       media: participant.media,
+      raiseHand: false,
     };
     const createdParticipant = await this.participantModel.create(createParticipant);
     return mapParticipantFromModel(
@@ -171,5 +172,12 @@ export default class RoomStore extends IRoomStore {
     const inviteLink = await this.findCodeByRoomId(roomId);
     if (!inviteLink) throw new Error('Invite Link not found');
     return inviteLink.toString();
+  }
+
+  async updateRaiseHand(roomId: string, userId: string, raiseHand: boolean) {
+    const updateObject: Partial<ParticipantModel> = {};
+    updateObject.raiseHand = raiseHand;
+    await this.participantModel.update({room: roomId, user: userId}, {raiseHand});
+    return raiseHand;
   }
 }

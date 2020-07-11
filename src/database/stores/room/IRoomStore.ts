@@ -47,4 +47,10 @@ export default abstract class IRoomStore {
   ): Promise<boolean>;
 
   abstract getInviteLink(roomId: string): Promise<string>;
+
+  abstract updateRaiseHand(
+    roomId: string,
+    userId: string,
+    raiseHand: boolean,
+  ): Promise<boolean>;
 }
