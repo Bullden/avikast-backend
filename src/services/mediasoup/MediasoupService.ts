@@ -28,6 +28,11 @@ import {
   StopRecordingResponse,
 } from './entities';
 import {Direction, MediaKind, MediaType} from 'entities/Mediasoup';
+import {
+  CloseRouterRequest,
+  CloseRouterResponse,
+} from 'services/mediasoup/entities/CloseRouter';
+import {LeaveRoomRequest, LeaveRoomResponse} from 'services/mediasoup/entities/LeaveRoom';
 
 export default class MediasoupService extends IMediasoupService {
   constructor(@Inject(MEDIASOUP_SERVICE) private readonly mediasoupClient: ClientProxy) {
@@ -151,7 +156,7 @@ export default class MediasoupService extends IMediasoupService {
   async startRecording(
     roomId: string,
     userId: string,
-    producerId: string,
+    producerId?: string,
     audioProducerId?: string,
   ) {
     const response = await this.sendAsyncRequired<
@@ -167,13 +172,29 @@ export default class MediasoupService extends IMediasoupService {
   async stopRecording(
     roomId: string,
     userId: string,
-    producerId: string,
+    producerId?: string,
     audioProducerId?: string,
   ) {
     const response = await this.sendAsyncRequired<
       StopRecordingRequest,
       StopRecordingResponse
     >({area: 'recording', action: 'stop'}, {roomId, userId, producerId, audioProducerId});
+    return response.response;
+  }
+
+  async leaveRoom(roomId: string, userId: string) {
+    const response = await this.sendAsyncRequired<LeaveRoomRequest, LeaveRoomResponse>(
+      {area: 'router', action: 'leave'},
+      {roomId, userId},
+    );
+    return response.response;
+  }
+
+  async closeRoom(roomId: string) {
+    const response = await this.sendAsyncRequired<
+      CloseRouterRequest,
+      CloseRouterResponse
+    >({area: 'router', action: 'close'}, {roomId});
     return response.response;
   }
 

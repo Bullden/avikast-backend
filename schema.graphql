@@ -133,8 +133,8 @@ type Query {
   getRouter(roomId: String!): RouterOptions!
   getProducer(roomId: String!): ProducerOptions!
   getProducers(roomId: String!): [ProducerOptions!]!
-  startRecording(audioProducerId: String, producerId: String!, roomId: String!): Boolean!
-  stopRecording(audioProducerId: String, producerId: String!, roomId: String!): Boolean!
+  startRecording(audioProducerId: String, producerId: String, roomId: String!): Boolean!
+  stopRecording(audioProducerId: String, producerId: String, roomId: String!): Boolean!
   bookmarks: [Bookmark!]!
   messagesByRoom(roomId: String!): [Message!]!
   messageById(messageId: String!): Message!
@@ -146,6 +146,8 @@ type Mutation {
   createRoom(password: String, passwordProtected: Boolean!, type: RoomType!, name: String!): Room!
   joinRoom(password: String, inviteLink: String!): Room!
   raiseHand(raiseHand: Boolean!, roomId: String!): Boolean!
+  leaveRoom(roomId: String!): Boolean!
+  closeRoom(roomId: String!): Boolean!
   createTransport(clientId: String!, direction: String!, roomId: String!): TransportOptions!
   connectTransport(clientId: String!, direction: String!, dtlsParameters: JSON!, roomId: String!): Boolean!
   createProducer(mediaType: MediaType!, mediaKind: MediaKind!, rtpParameters: JSON!, clientId: String!, roomId: String!, transportId: String!): ProducerOptions!

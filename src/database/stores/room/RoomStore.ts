@@ -180,4 +180,16 @@ export default class RoomStore extends IRoomStore {
     await this.participantModel.update({room: roomId, user: userId}, {raiseHand});
     return raiseHand;
   }
+
+  async leaveRoom(roomId: string, userId: string) {
+    const participants = await this.getParticipants(roomId);
+    const newParticipants = participants.filter((element) => element.user.id !== userId);
+    await this.participantModel.remove({room: roomId}).populate(newParticipants);
+    return true;
+  }
+
+  async closeRoom(roomId: string) {
+    this.roomModel.remove({roomId});
+    return true;
+  }
 }

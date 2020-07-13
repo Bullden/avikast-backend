@@ -93,4 +93,14 @@ export default class RoomResolver {
   ) {
     return this.roomManager.raiseHand(roomId, session.userId, raiseHand);
   }
+
+  @Mutation(() => Boolean)
+  async leaveRoom(@Args('roomId') roomId: string, @CurrentSession() session: Session) {
+    return this.roomManager.leaveRoom(roomId, session.userId);
+  }
+
+  @Mutation(() => Boolean)
+  async closeRoom(@Args('roomId') roomId: string) {
+    return this.roomManager.closeRoom(roomId);
+  }
 }

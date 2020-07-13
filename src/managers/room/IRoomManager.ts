@@ -34,4 +34,8 @@ export default abstract class IRoomManager {
     userId: string,
     raiseHand: boolean,
   ): Promise<boolean>;
+
+  abstract leaveRoom(roomId: string, userId: string): Promise<boolean>;
+
+  abstract closeRoom(roomId: string): Promise<boolean>;
 }

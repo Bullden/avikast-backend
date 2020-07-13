@@ -114,7 +114,8 @@ export default class MediasoupResolver {
   @Query(() => Boolean)
   async startRecording(
     @Args('roomId') roomId: string,
-    @Args('producerId') producerId: string,
+    @Args({name: 'producerId', type: () => String, nullable: true})
+    producerId: string | undefined,
     @Args({name: 'audioProducerId', type: () => String, nullable: true})
     audioProducerId: string | undefined,
     @CurrentSession() session: Session,
@@ -130,7 +131,8 @@ export default class MediasoupResolver {
   @Query(() => Boolean)
   async stopRecording(
     @Args('roomId') roomId: string,
-    @Args('producerId') producerId: string,
+    @Args({name: 'producerId', type: () => String, nullable: true})
+    producerId: string | undefined,
     @Args({name: 'audioProducerId', type: () => String, nullable: true})
     audioProducerId: string | undefined,
     @CurrentSession() session: Session,

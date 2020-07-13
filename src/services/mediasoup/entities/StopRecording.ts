@@ -6,7 +6,7 @@ export type StopRecordingPattern = {
 export interface StopRecordingRequest {
   roomId: string;
   userId: string;
-  producerId: string;
+  producerId?: string;
   audioProducerId?: string;
 }
 

@@ -177,4 +177,14 @@ export default class RoomManager extends IRoomManager {
   async raiseHand(roomId: string, userId: string, raiseHand: boolean) {
     return this.roomStore.updateRaiseHand(roomId, userId, raiseHand);
   }
+
+  async leaveRoom(roomId: string, userId: string) {
+    await this.mediasoupService.leaveRoom(roomId, userId);
+    return this.roomStore.leaveRoom(roomId, userId);
+  }
+
+  async closeRoom(roomId: string) {
+    await this.mediasoupService.closeRoom(roomId);
+    return this.roomStore.closeRoom(roomId);
+  }
 }

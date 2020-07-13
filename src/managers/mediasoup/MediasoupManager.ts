@@ -111,7 +111,7 @@ export default class MediasoupManager extends IMediasoupManager {
   async startRecording(
     roomId: string,
     userId: string,
-    producerId: string,
+    producerId?: string,
     audioProducerId?: string,
   ) {
     return this.mediasoupService.startRecording(
@@ -125,7 +125,7 @@ export default class MediasoupManager extends IMediasoupManager {
   async stopRecording(
     roomId: string,
     userId: string,
-    producerId: string,
+    producerId?: string,
     audioProducerId?: string,
   ) {
     return this.mediasoupService.stopRecording(
