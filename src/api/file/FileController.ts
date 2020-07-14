@@ -31,7 +31,7 @@ export class FilesController {
   }
 
   @Get(':id')
-  @Ignore('Platform', 'AppType')
+  @Ignore('Platform', 'AppType', 'Authorization')
   async getFile(@Param('id') id: ID, @Res() res: Response): Promise<void> {
     const file = await this.fileManager.getFile({id});
     file.stream
