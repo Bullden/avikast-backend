@@ -38,6 +38,6 @@ export class FilesController {
       .on('error', (err) => {
         res.status(400).send(err);
       })
-      .pipe(res);
+      .pipe(res.attachment(file.name));
   }
 }
