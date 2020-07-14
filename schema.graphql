@@ -120,7 +120,19 @@ type Record {
   id: String!
   name: String!
   date: DateTime!
-  time: String!
+  fileId: String!
+}
+
+type AvikastFile {
+  id: ID!
+  name: String!
+  user: User!
+  type: AvikastFileType!
+}
+
+enum AvikastFileType {
+  File
+  Directory
 }
 
 type Query {
@@ -139,6 +151,7 @@ type Query {
   messagesByRoom(roomId: String!): [Message!]!
   messageById(messageId: String!): Message!
   records: [Record!]!
+  AvikastFiles: [AvikastFile!]!
 }
 
 type Mutation {

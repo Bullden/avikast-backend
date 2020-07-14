@@ -52,6 +52,7 @@ export default abstract class IMediasoupService {
   abstract startRecording(
     roomId: string,
     userId: string,
+    recordId: string,
     producerId?: string,
     audioProducerId?: string,
   ): Promise<boolean>;

@@ -19,6 +19,8 @@ import MessageModel from './MessageModel';
 import Message from '../entities/Message';
 import FileModel from 'database/models/FileModel';
 import File from 'database/entities/File';
+import RecordModel from 'database/models/RecordModel';
+import Record from 'database/entities/Record';
 
 export const extractIdFromModel = (model: Document): string => model._id.toString();
 
@@ -126,6 +128,7 @@ export const mapRoomFromModel = (room: RoomModel): Room => {
     passwordProtected: room.passwordProtected,
     password: room.password,
     inviteLink: room.inviteLink,
+    recordingId: room.recordingId,
   };
 };
 
@@ -176,7 +179,7 @@ export const mapParticipantsFromModel = (
 ): Participant[] => participants.map(mapParticipantFromModel);
 
 export const mapAvikastFileFromModel = (file: AvikastFileModel): AvikastFile => {
-  if (typeof file.user !== 'object') throw new Error('File should be object');
+  if (typeof file.user !== 'object') throw new Error('User should be object');
   return {
     id: extractIdFromModel(file),
     name: file.name,
@@ -194,3 +197,18 @@ export const mapFileFromModel = (file: FileModel): File => ({
   name: file.name,
   mimeType: file.mimeType,
 });
+
+export const mapRecordFromModel = (record: RecordModel): Record => {
+  if (typeof record.user !== 'object') throw new Error('User should be object');
+  if (typeof record.file !== 'object') throw new Error('File should be object');
+  return {
+    id: extractIdFromModel(record),
+    date: record.date,
+    fileId: extractIdFromModel(record.file),
+    name: record.name,
+    user: mapUserFromModel(record.user),
+  };
+};
+
+export const mapRecordsFromModel = (record: RecordModel[]): Record[] =>
+  record.map(mapRecordFromModel);

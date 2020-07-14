@@ -192,4 +192,8 @@ export default class RoomStore extends IRoomStore {
     this.roomModel.remove({roomId});
     return true;
   }
+
+  async createRecordId(roomId: string, recordId: string) {
+    await this.roomModel.update({_id: roomId}, {recordingId: recordId});
+  }
 }

@@ -6,6 +6,7 @@ export type StartRecordingPattern = {
 export interface StartRecordingRequest {
   roomId: string;
   userId: string;
+  recordId: string;
   producerId?: string;
   audioProducerId?: string;
 }

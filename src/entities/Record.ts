@@ -1,6 +1,9 @@
+import User from 'entities/User';
+
 export default interface Record {
   id: string;
   name: string;
   date: Date;
-  time: string;
+  fileId: string;
+  user: User;
 }

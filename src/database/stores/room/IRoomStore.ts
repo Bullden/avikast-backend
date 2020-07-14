@@ -57,4 +57,6 @@ export default abstract class IRoomStore {
   abstract leaveRoom(roomId: string, userId: string): Promise<boolean>;
 
   abstract closeRoom(roomId: string): Promise<boolean>;
+
+  abstract createRecordId(roomId: string, recordId: string): Promise<void>;
 }

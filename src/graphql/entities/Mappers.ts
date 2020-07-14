@@ -124,7 +124,7 @@ export const mapRecordToGQL = (record: Record): GQLRecord => ({
   id: record.id,
   name: record.name,
   date: record.date,
-  time: record.time,
+  fileId: record.fileId,
 });
 
 export const mapRecordsToGQL = (records: Record[]): GQLRecord[] =>

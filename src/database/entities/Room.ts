@@ -10,4 +10,5 @@ export default interface Room {
   passwordProtected: boolean;
   password: string | undefined;
   inviteLink: string;
+  recordingId: string | undefined;
 }

@@ -2,11 +2,11 @@ import {Field, ObjectType} from '@nestjs/graphql';
 
 @ObjectType()
 export default class Record {
-  constructor(id: string, name: string, date: Date, time: string) {
+  constructor(id: string, name: string, date: Date, fileId: string) {
     this.id = id;
     this.name = name;
     this.date = date;
-    this.time = time;
+    this.fileId = fileId;
   }
 
   @Field(() => String)
@@ -19,5 +19,5 @@ export default class Record {
   date: Date;
 
   @Field(() => String)
-  time: string;
+  fileId: string;
 }

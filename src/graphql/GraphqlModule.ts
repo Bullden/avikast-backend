@@ -11,6 +11,7 @@ import {BookmarkResolver} from './resolvers/BookmarkResolver';
 import MessageResolver from './resolvers/MessageResolver';
 import {PubSub, PubSubEngine} from 'graphql-subscriptions';
 import {RecordResolver} from 'graphql/resolvers/RecordResolver';
+import {AvikastFileResolver} from 'graphql/resolvers/AvikastFileResolver';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import {RecordResolver} from 'graphql/resolvers/RecordResolver';
       provide: APP_PIPE,
       useClass: ValidationPipe,
     },
+    AvikastFileResolver,
     AccountResolver,
     RoomResolver,
     MediasoupResolver,

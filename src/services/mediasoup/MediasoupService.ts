@@ -156,6 +156,7 @@ export default class MediasoupService extends IMediasoupService {
   async startRecording(
     roomId: string,
     userId: string,
+    recordId: string,
     producerId?: string,
     audioProducerId?: string,
   ) {
@@ -164,7 +165,7 @@ export default class MediasoupService extends IMediasoupService {
       StartRecordingResponse
     >(
       {area: 'recording', action: 'start'},
-      {roomId, userId, producerId, audioProducerId},
+      {roomId, userId, recordId, producerId, audioProducerId},
     );
     return response.response;
   }

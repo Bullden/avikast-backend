@@ -4,12 +4,18 @@ import {Injectable} from '@nestjs/common';
 import {Direction, MediaKind, MediaType} from 'entities/Mediasoup';
 import IRoomStore from 'database/stores/room/IRoomStore';
 import {ParticipantTrackOptions} from 'entities/Participant';
+import IFileStore from 'database/stores/file/IFileStore';
+import {v4 as uuidv4} from 'uuid';
+import {getNameAsDate} from '../../services/mediasoup/Utils';
+import IRecordStore from 'database/stores/record/IRecordStore';
 
 @Injectable()
 export default class MediasoupManager extends IMediasoupManager {
   constructor(
     private readonly mediasoupService: IMediasoupService,
     private readonly roomStore: IRoomStore,
+    private readonly fileStore: IFileStore,
+    private readonly recordStore: IRecordStore,
   ) {
     super();
   }
@@ -114,9 +120,12 @@ export default class MediasoupManager extends IMediasoupManager {
     producerId?: string,
     audioProducerId?: string,
   ) {
+    const recordId = `${uuidv4()}.mp4`;
+    await this.roomStore.createRecordId(roomId, recordId);
     return this.mediasoupService.startRecording(
       roomId,
       userId,
+      recordId,
       producerId,
       audioProducerId,
     );
@@ -128,6 +137,16 @@ export default class MediasoupManager extends IMediasoupManager {
     producerId?: string,
     audioProducerId?: string,
   ) {
+    const room = await this.roomStore.findRoomByIdOrThrow(roomId);
+    const recordName = getNameAsDate();
+    if (room.recordingId) {
+      const file = await this.fileStore.addFile(
+        `${recordName}.mp4`,
+        'video/mp4',
+        room.recordingId,
+      );
+      await this.recordStore.createRecord(userId, recordName, room.recordingId, file.id);
+    }
     return this.mediasoupService.stopRecording(
       roomId,
       userId,

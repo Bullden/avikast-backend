@@ -1,6 +1,7 @@
 import {Injectable} from '@nestjs/common';
 import IRecordManager from 'managers/record/IRecordManager';
 import IRecordStore from 'database/stores/record/IRecordStore';
+import {mapRecordsFromDb} from 'database/entities/Mappers';
 
 @Injectable()
 export default class RecordManager extends IRecordManager {
@@ -9,6 +10,7 @@ export default class RecordManager extends IRecordManager {
   }
 
   async getRecords(userId: string) {
-    return this.recordStore.getRecords(userId);
+    const records = await this.recordStore.getRecords(userId);
+    return mapRecordsFromDb(records);
   }
 }

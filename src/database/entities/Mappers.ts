@@ -12,6 +12,8 @@ import AvikastFileDB from './AvikastFile';
 import MessageDB from './Message';
 import {AvikastFile} from 'entities/AvikastFile';
 import Message from 'entities/Message';
+import RecordDB from './Record';
+import Record from 'entities/Record';
 
 export const mapUserFromDb = (user: DbUser): User => ({
   id: user.id,
@@ -89,3 +91,14 @@ export const mapAvikastFileFromDB = (avikastFile: AvikastFileDB): AvikastFile =>
 
 export const mapAvikastFilesFromDB = (avikastFiles: AvikastFileDB[]): AvikastFile[] =>
   avikastFiles.map(mapAvikastFileFromDB);
+
+export const mapRecordFromDB = (record: RecordDB): Record => ({
+  id: record.id,
+  date: record.date,
+  name: record.name,
+  fileId: record.fileId,
+  user: mapUserFromDb(record.user),
+});
+
+export const mapRecordsFromDb = (records: RecordDB[]): Record[] =>
+  records.map(mapRecordFromDB);

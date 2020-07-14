@@ -1,20 +1,40 @@
-/* eslint-disable class-methods-use-this */
-
 import IRecordStore from 'database/stores/record/IRecordStore';
+import {InjectModel} from '@nestjs/mongoose';
+import {Model, QueryPopulateOptions} from 'mongoose';
+import RecordModel, {CreateRecordModel, RecordSchema} from 'database/models/RecordModel';
+import {mapRecordsFromModel} from 'database/models/Mappers';
 
 export default class RecordStore extends IRecordStore {
-  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
-  constructor() {
+  constructor(
+    @InjectModel(RecordSchema.name)
+    private recordModel: Model<RecordModel>,
+  ) {
     super();
   }
 
+  private readonly populateRecord: QueryPopulateOptions[] = [
+    {path: 'file'},
+    {path: 'user'},
+  ];
+
+  async createRecord(
+    userId: string,
+    recordName: string,
+    recordingId: string,
+    fileId: string,
+  ) {
+    const updateObject: CreateRecordModel = {
+      id: recordingId,
+      name: recordName,
+      date: new Date(),
+      user: userId,
+      file: fileId,
+    };
+    await this.recordModel.create(updateObject);
+  }
+
   async getRecords(userId: string) {
-    const records = [
-      {id: '1', name: 'first record', date: new Date(1592648000002), time: '1h 30m'},
-      {id: '2', name: 'second record', date: new Date(1592648000002), time: '2h 45m'},
-      {id: '3', name: 'third record', date: new Date(1592648000002), time: '1h'},
-      {id: userId, name: 'fourth record', date: new Date(1592648000002), time: '1h 15m'},
-    ];
-    return records;
+    const rec = await this.recordModel.find({user: userId}).populate(this.populateRecord);
+    return mapRecordsFromModel(rec);
   }
 }
