@@ -3,13 +3,13 @@ import IMessageManager from './IMessageManager';
 import IMessageStore from '../../database/stores/message/IMessageStore';
 import {mapMessageFromDB, mapMessagesFromDB} from 'database/entities/Mappers';
 import {Observable} from 'rxjs';
-import Message from 'database/entities/Message';
+import {map} from 'rxjs/operators';
+import Message from 'entities/Message';
 
 @Injectable()
 export default class MessageManager extends IMessageManager {
   constructor(private readonly messageStore: IMessageStore) {
     super();
-    this.watchNewMessage();
   }
 
   async getMessagesByRoom(roomId: string, userId: string) {
@@ -32,7 +32,12 @@ export default class MessageManager extends IMessageManager {
     return mapMessageFromDB(await this.messageStore.createMessage(message), true);
   }
 
-  watchNewMessage(): Observable<Message> {
-    return this.messageStore.watchNewMessage();
+  watchNewMessage(userId: string): Observable<Message> {
+    return this.messageStore.watchMessageCreated().pipe(
+      map((message) => {
+        const isMe = message.sender.id === userId;
+        return mapMessageFromDB(message, isMe);
+      }),
+    );
   }
 }

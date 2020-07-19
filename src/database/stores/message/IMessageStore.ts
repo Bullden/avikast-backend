@@ -13,5 +13,5 @@ export default abstract class IMessageStore {
 
   abstract getMessageById(messageId: unknown): Promise<Message | null>;
 
-  abstract watchNewMessage(): Observable<Message>;
+  abstract watchMessageCreated(): Observable<Message>;
 }

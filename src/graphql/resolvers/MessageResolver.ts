@@ -6,6 +6,7 @@ import CurrentSession from '../../enhancers/decorators/CurrentSession';
 import IMessageManager from '../../managers/message/IMessageManager';
 import {PubSubEngine} from 'graphql-subscriptions';
 import Ignore from '../../enhancers/decorators/Ignore';
+import {Subscription as RxSubscription} from 'rxjs';
 
 const EVENT_NEW_MESSAGE = 'NEW_MESSAGE';
 
@@ -51,23 +52,24 @@ export default class MessageResolver {
     );
   }
 
+  private messageCreatedSubscription: RxSubscription | undefined;
+
   @Ignore('AppType', 'Platform')
-  @Subscription(() => Message)
+  @Subscription(() => Message, {
+    filter: (newMessage, {roomId}) => roomId === newMessage.roomId,
+    resolve: (newMessage) => newMessage,
+  })
   async messageAdded(
     @Args({name: 'roomId', type: () => String}) roomId: string,
     @Args({name: 'userId', type: () => String}) userId: string,
   ) {
-    this.watchMessage(roomId, userId);
+    if (!this.messageCreatedSubscription) {
+      this.messageCreatedSubscription = this.chatManager
+        .watchNewMessage(userId)
+        .subscribe(async (newMessage) =>
+          this.pubSub.publish(EVENT_NEW_MESSAGE, newMessage),
+        );
+    }
     return this.pubSub.asyncIterator(EVENT_NEW_MESSAGE);
-  }
-
-  private watchMessage(roomId: string, userId: string) {
-    this.chatManager.watchNewMessage().subscribe(async (newMessage) => {
-      if (roomId === newMessage.roomId) {
-        await this.pubSub.publish(EVENT_NEW_MESSAGE, {
-          messageAdded: {...newMessage, isMe: userId === newMessage.sender.id},
-        });
-      }
-    });
   }
 }

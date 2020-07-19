@@ -1,6 +1,5 @@
-import Message from 'entities/Message';
 import {Observable} from 'rxjs';
-import MessageDB from 'database/entities/Message';
+import Message from 'entities/Message';
 
 export default abstract class IMessageManager {
   abstract getMessagesByRoom(roomId: string, userId: string): Promise<Message[]>;
@@ -14,5 +13,5 @@ export default abstract class IMessageManager {
 
   abstract getMessageById(messageId: string, userId: string): Promise<Message>;
 
-  abstract watchNewMessage(): Observable<MessageDB>;
+  abstract watchNewMessage(userId: string): Observable<Message>;
 }

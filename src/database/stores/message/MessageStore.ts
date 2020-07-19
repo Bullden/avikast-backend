@@ -1,9 +1,10 @@
 import IMessageStore from './IMessageStore';
 import {InjectModel} from '@nestjs/mongoose';
+import {ChangeStream, ChangeEvent} from 'mongodb';
 import {Model, QueryPopulateOptions} from 'mongoose';
 import MessageModel, {CreateMessageModel, MessageSchema} from '../../models/MessageModel';
 import {mapMessageFromModel, mapMessagesFromModel} from '../../models/Mappers';
-import {Observable} from 'rxjs';
+import {Subject} from 'rxjs';
 import Message from 'database/entities/Message';
 
 export default class MessageStore extends IMessageStore {
@@ -50,17 +51,44 @@ export default class MessageStore extends IMessageStore {
     return message ? mapMessageFromModel(message) : message;
   }
 
-  watchNewMessage() {
-    return new Observable<Message>((subscriber) => {
-      this.messageModel.watch().on('change', async (doc) => {
-        if (doc.operationType === 'insert') {
-          const newMessage = await this.getMessageById(doc.documentKey._id);
-          if (!newMessage) {
-            throw new Error('Message does not exist');
-          }
-          subscriber.next(newMessage);
-        }
-      });
-    });
+  // region Watch
+  private changeStream: ChangeStream | undefined;
+
+  private newMessageSubject: Subject<Message> | undefined;
+
+  private watchInternal() {
+    if (!this.changeStream) {
+      const changeStream = this.messageModel.watch();
+      changeStream.on('change', this.onChangeEventReceived.bind(this));
+      this.changeStream = changeStream;
+    }
+
+    let newMessageSubject: Subject<Message>;
+    if (this.newMessageSubject) {
+      newMessageSubject = this.newMessageSubject;
+    } else {
+      newMessageSubject = new Subject<Message>();
+      this.newMessageSubject = newMessageSubject;
+    }
+
+    return {newMessageSubject};
+  }
+
+  private async onChangeEventReceived(doc: ChangeEvent) {
+    if (doc.operationType === 'insert') {
+      const newMessage = await this.getMessageById(doc.documentKey._id);
+      if (!newMessage) {
+        throw new Error('Message does not exist');
+      }
+      if (this.newMessageSubject !== undefined) {
+        this.newMessageSubject.next(newMessage);
+      }
+    }
+  }
+  // endregion
+
+  watchMessageCreated() {
+    const {newMessageSubject} = this.watchInternal();
+    return newMessageSubject;
   }
 }

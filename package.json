@@ -15,8 +15,8 @@
     "update-localization": "node scripts/update-localization.js",
     "docker:build": "docker-compose build --parallel",
     "docker:start": "docker-compose up --build",
-    "docker:start:db": "docker-compose -f docker-compose.db-only.yml up",
-    "docker:stop:db": "docker-compose -f docker-compose.db-only.yml down"
+    "docker:start:development": "docker-compose -f docker-compose.db-only.yml up",
+    "docker:stop:development": "docker-compose -f docker-compose.db-only.yml down"
   },
   "dependencies": {
     "@nestjs/common": "^7.0.0",
@@ -45,9 +45,10 @@
     "multer": "^1.4.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "7.0.0-beta.0",
+    "rxjs": "^7.0.0-beta.2",
     "uuid": "^8.0.0",
-    "@spryrocks/file-storage": "^0.0.1-alpha.3"
+    "@spryrocks/file-storage": "^0.0.1-alpha.3",
+    "mongodb": "^3.5.9"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.0.0",
