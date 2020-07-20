@@ -12,32 +12,26 @@ export default class MessageManager extends IMessageManager {
     super();
   }
 
-  async getMessagesByRoom(roomId: string, userId: string) {
+  async getMessagesByRoom(roomId: string) {
     const message = await this.messageStore.getMessagesByRoom(roomId);
     if (!message) throw new Error("Message's array is empty");
-    return mapMessagesFromDB(message, userId);
+    return mapMessagesFromDB(message);
   }
 
-  async getMessageById(messageId: string, userId: string) {
+  async getMessageById(messageId: string) {
     const message = await this.messageStore.getMessageById(messageId);
-    const isMe = message?.sender.id === userId;
     if (!message) {
       throw new Error(`Message with id: ${messageId} does not exist`);
     }
-    return mapMessageFromDB(message, isMe);
+    return mapMessageFromDB(message);
   }
 
   async createMessage(sender: string, roomId: string, body: string, receiverId?: string) {
     const message = {sender, roomId, body, receiverId};
-    return mapMessageFromDB(await this.messageStore.createMessage(message), true);
+    return mapMessageFromDB(await this.messageStore.createMessage(message));
   }
 
-  watchNewMessage(userId: string): Observable<Message> {
-    return this.messageStore.watchMessageCreated().pipe(
-      map((message) => {
-        const isMe = message.sender.id === userId;
-        return mapMessageFromDB(message, isMe);
-      }),
-    );
+  messageCreatedObservable(): Observable<Message> {
+    return this.messageStore.watchMessageCreated().pipe(map(mapMessageFromDB));
   }
 }

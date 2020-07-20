@@ -1,6 +1,5 @@
 import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
 import CurrentSession from 'enhancers/decorators/CurrentSession';
-import Session from 'entities/Session';
 import TransportOptions from '../entities/mediasoup/TransportOptions';
 import graphqlTypeJson from 'graphql-type-json';
 import ConsumerOptions from '../entities/mediasoup/ConsumerOptions';
@@ -10,6 +9,7 @@ import IMediasoupManager from 'managers/mediasoup/IMediasoupManager';
 import {Direction, MediaKind, MediaType} from 'entities/Mediasoup';
 import {mapProducersToGQL, mapProducerToGQL} from 'graphql/entities/Mappers';
 import {PubSub} from 'graphql-subscriptions';
+import SessionInfo from 'entities/SessionInfo';
 
 @Resolver()
 export default class MediasoupResolver {
@@ -17,7 +17,7 @@ export default class MediasoupResolver {
 
   @Mutation(() => TransportOptions)
   async createTransport(
-    @CurrentSession() session: Session,
+    @CurrentSession() session: SessionInfo,
     @Args('roomId') roomId: string,
     @Args('direction') direction: string,
     @Args('clientId') clientId: string,
@@ -32,7 +32,7 @@ export default class MediasoupResolver {
 
   @Mutation(() => Boolean)
   async connectTransport(
-    @CurrentSession() session: Session,
+    @CurrentSession() session: SessionInfo,
     @Args('roomId') roomId: string,
     @Args({name: 'dtlsParameters', type: () => graphqlTypeJson}) dtlsParameters: object,
     @Args('direction') direction: string,
@@ -49,7 +49,7 @@ export default class MediasoupResolver {
 
   @Mutation(() => ProducerOptions)
   async createProducer(
-    @CurrentSession() session: Session,
+    @CurrentSession() session: SessionInfo,
     @Args('transportId') transportId: string,
     @Args('roomId') roomId: string,
     @Args('clientId') clientId: string,
@@ -73,7 +73,7 @@ export default class MediasoupResolver {
 
   @Mutation(() => ConsumerOptions)
   async createConsumer(
-    @CurrentSession() session: Session,
+    @CurrentSession() session: SessionInfo,
     @Args('producerId') producerId: string,
     @Args('roomId') roomId: string,
     @Args({name: 'rtpCapabilities', type: () => graphqlTypeJson}) rtpCapabilities: object,
@@ -90,7 +90,7 @@ export default class MediasoupResolver {
 
   @Query(() => RouterOptions)
   async getRouter(
-    @CurrentSession() session: Session,
+    @CurrentSession() session: SessionInfo,
     @Args('roomId') roomId: string,
   ): Promise<RouterOptions> {
     return this.mediasoupManager.getRouter(roomId);
@@ -98,7 +98,7 @@ export default class MediasoupResolver {
 
   @Query(() => ProducerOptions)
   async getProducer(
-    @CurrentSession() session: Session,
+    @CurrentSession() session: SessionInfo,
     @Args('roomId') roomId: string,
   ): Promise<ProducerOptions> {
     const producer = await this.mediasoupManager.getProducer(roomId, session.userId);
@@ -118,7 +118,7 @@ export default class MediasoupResolver {
     producerId: string | undefined,
     @Args({name: 'audioProducerId', type: () => String, nullable: true})
     audioProducerId: string | undefined,
-    @CurrentSession() session: Session,
+    @CurrentSession() session: SessionInfo,
   ): Promise<boolean> {
     return this.mediasoupManager.startRecording(
       roomId,
@@ -135,7 +135,7 @@ export default class MediasoupResolver {
     producerId: string | undefined,
     @Args({name: 'audioProducerId', type: () => String, nullable: true})
     audioProducerId: string | undefined,
-    @CurrentSession() session: Session,
+    @CurrentSession() session: SessionInfo,
   ): Promise<boolean> {
     return this.mediasoupManager.stopRecording(
       roomId,

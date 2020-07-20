@@ -12,13 +12,13 @@ import {IJwtService} from './jwt/IJwtService';
 import {JwtPayload} from './jwt/JwtPayload';
 import {pbkdf2Sync, randomBytes} from 'crypto';
 import Session from '../../database/entities/Session';
-import AppSession from 'entities/Session';
 import AvikastAuthError, {AvikastErrorType} from './AvikastAuthError';
 import {generate as generatePassword} from 'generate-password';
 import {ID} from 'entities/Common';
 import AppType from 'entities/AppType';
 import {Platform} from 'entities/Platform';
 import User from 'entities/User';
+import SessionInfo from 'entities/SessionInfo';
 
 @Injectable()
 export default class AuthManager extends IAuthManager {
@@ -139,21 +139,25 @@ export default class AuthManager extends IAuthManager {
     if (!session) {
       throw new AvikastAuthError('Session not found', AvikastErrorType.RefreshFailed);
     }
-    return this.createSessionInfo(
+    const sessionInfo = await this.createSessionInfo(
       session.appType,
       session.platform,
       session.user,
       (token: string, refreshToken: string) =>
         this.sessionStore.updateSession(session, token, refreshToken),
     );
+    return {
+      jwt: sessionInfo.jwt,
+      refreshToken: sessionInfo.refreshToken,
+    };
   }
 
   private async createSessionInfo(
     appType: AppType,
     platform: Platform,
-    user: DbUser,
+    user: User,
     createOrUpdateSession: (token: string, refreshToken: string) => Promise<Session>,
-  ) {
+  ): Promise<AuthResponse> {
     const token = AuthManager.createCryptoToken();
     const refreshToken = AuthManager.createCryptoToken();
     const session = await createOrUpdateSession(token, refreshToken);
@@ -167,7 +171,7 @@ export default class AuthManager extends IAuthManager {
       platform: Platform[platform],
     };
     const jwt = await this.jwtService.sign(payload);
-    return {jwt, refreshToken};
+    return {jwt, refreshToken, user};
   }
 
   async getSessionFromTokenOrThrow(jwt: string) {
@@ -193,7 +197,7 @@ export default class AuthManager extends IAuthManager {
           AvikastErrorType.JwtPayloadMalformed,
         );
 
-      const session: AppSession = {
+      const session: SessionInfo = {
         token: sessionToken,
         userId,
         appType,

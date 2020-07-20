@@ -1,8 +1,9 @@
-import AuthResponse from '../../entities/AuthResponse';
-import Session from '../../entities/Session';
 import {ID} from 'entities/Common';
 import AppType from 'entities/AppType';
 import {Platform} from 'entities/Platform';
+import SessionInfo from 'entities/SessionInfo';
+import AuthResponse from 'entities/AuthResponse';
+import Session from 'entities/Session';
 
 export default abstract class IAuthManager {
   abstract register(
@@ -21,11 +22,11 @@ export default abstract class IAuthManager {
     password: string,
   ): Promise<AuthResponse>;
 
-  abstract getSessionFromTokenOrThrow(jwt: string): Promise<Session>;
+  abstract getSessionFromTokenOrThrow(jwt: string): Promise<SessionInfo>;
 
-  abstract validateSessionOrThrow(jwt: string): Promise<Session>;
+  abstract validateSessionOrThrow(jwt: string): Promise<SessionInfo>;
 
-  abstract refresh(refreshToken: string): Promise<AuthResponse>;
+  abstract refresh(refreshToken: string): Promise<Session>;
 
   abstract recoverPassword(email: string): Promise<void>;
 

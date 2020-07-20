@@ -1,18 +1,19 @@
 import {Body, Controller, Post, Put, UseGuards} from '@nestjs/common';
 import RegisterRequest from '../entities/RegisterRequest';
-import {mapAuthResponseToApi} from '../entities/Mappers';
+import {mapAuthResponseToApi, mapSessionToApi} from '../entities/Mappers';
 import IAuthManager from '../../managers/auth/IAuthManager';
 import LoginRequest from '../entities/LoginRequest';
-import AuthResponse from '../../entities/AuthResponse';
 import RefreshTokenRequest from '../entities/RefreshTokenRequest';
 import ForgotPasswordRequest from '../entities/RasswordRecoveryRequest';
 import ChangePasswordRequest from '../entities/ChangePasswordRequest';
-import Session from '../../entities/Session';
 import AuthGuard from 'enhancers/guards/AuthGuard';
 import Ignore from 'enhancers/decorators/Ignore';
 import HttpRequest, {HttpRequestInfo} from 'enhancers/decorators/HttpRequest';
 import CurrentSession from 'enhancers/decorators/CurrentSession';
 import FirebaseTokenRequest from 'api/entities/FirebaseTokenRequest';
+import AuthResponse from 'api/entities/AuthResponse';
+import SessionInfo from 'entities/SessionInfo';
+import Session from '../entities/Session';
 
 @Controller('api/auth')
 export class AuthController {
@@ -49,8 +50,8 @@ export class AuthController {
 
   @Post('refresh')
   @Ignore('Authorization')
-  async refresh(@Body() request: RefreshTokenRequest): Promise<AuthResponse> {
-    return this.authManager.refresh(request.refreshToken);
+  async refresh(@Body() request: RefreshTokenRequest): Promise<Session> {
+    return mapSessionToApi(await this.authManager.refresh(request.refreshToken));
   }
 
   @Post('forgotPassword')
@@ -63,7 +64,7 @@ export class AuthController {
   @Put('password')
   async changePassword(
     @Body() request: ChangePasswordRequest,
-    @CurrentSession() session: Session,
+    @CurrentSession() session: SessionInfo,
   ): Promise<void> {
     await this.authManager.changePassword(
       session.userId,
@@ -76,7 +77,7 @@ export class AuthController {
   @UseGuards(AuthGuard)
   async addFirebaseRegistrationToken(
     @Body() request: FirebaseTokenRequest,
-    @CurrentSession() session: Session,
+    @CurrentSession() session: SessionInfo,
   ): Promise<void> {
     await this.authManager.updateFirebaseToken(session.token, request.registrationId);
   }

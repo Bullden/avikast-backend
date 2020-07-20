@@ -6,7 +6,6 @@ import {
   extractPlatformHeaderFromContext,
   getRequest,
 } from '../RequestExtractors';
-import Session from '../../entities/Session';
 import AvikastError from 'AvikastError';
 import AppType from 'entities/AppType';
 import {processError} from '../utils/ErrorUtils';
@@ -14,6 +13,7 @@ import {IgnoreElement, Role} from 'entities/Common';
 import {Reflector} from '@nestjs/core';
 import {Platform} from 'entities/Platform';
 import {Request} from '../entities/Request';
+import SessionInfo from 'entities/SessionInfo';
 
 @Injectable()
 export class AuthInterceptor implements NestInterceptor {
@@ -30,7 +30,7 @@ export class AuthInterceptor implements NestInterceptor {
       const ignoreAuthorization =
         ignoreElements && ignoreElements.includes('Authorization');
 
-      let session: Session | undefined;
+      let session: SessionInfo | undefined;
 
       let appType: AppType | undefined;
       if (!ignoreAppType) {

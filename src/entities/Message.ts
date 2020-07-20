@@ -8,5 +8,4 @@ export default interface Message {
   body: string;
   date: Date;
   receiverId: string | undefined;
-  isMe: boolean;
 }

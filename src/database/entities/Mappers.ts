@@ -38,18 +38,17 @@ export const mapAccountFromDB = (account: DbUser): Account => ({
   preferences: mapPreferencesFromDB(account),
 });
 
-export const mapMessageFromDB = (message: MessageDB, isMe: boolean): Message => ({
+export const mapMessageFromDB = (message: MessageDB): Message => ({
   id: message.id,
   sender: mapUserFromDb(message.sender),
   roomId: message.roomId,
   body: message.body,
   date: message.date,
   receiverId: message.receiverId,
-  isMe,
 });
 
-export const mapMessagesFromDB = (messages: MessageDB[], userId: string): Message[] =>
-  messages.map((item) => mapMessageFromDB(item, item.sender.id === userId));
+export const mapMessagesFromDB = (messages: MessageDB[]): Message[] =>
+  messages.map(mapMessageFromDB);
 
 export const mapRoomFromDB = (room: DbRoom): Room => ({
   id: room.id,

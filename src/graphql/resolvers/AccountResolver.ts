@@ -4,9 +4,9 @@ import Account from '../entities/account/Account';
 import {UseGuards, ValidationPipe} from '@nestjs/common';
 import AuthGuard from '../../enhancers/guards/AuthGuard';
 import CurrentSession from '../../enhancers/decorators/CurrentSession';
-import Session from '../../entities/Session';
 import UserUpdateRequest from '../entities/user/UserUpdateRequest';
 import {mapAccountToGQL} from '../entities/Mappers';
+import SessionInfo from 'entities/SessionInfo';
 
 @Resolver()
 @UseGuards(AuthGuard)
@@ -14,13 +14,13 @@ export class AccountResolver {
   constructor(private readonly accountManager: IAccountManager) {}
 
   @Query(() => Account)
-  async myAccount(@CurrentSession() {userId}: Session) {
+  async myAccount(@CurrentSession() {userId}: SessionInfo) {
     return mapAccountToGQL(await this.accountManager.getMyAccount(userId));
   }
 
   @Mutation(() => Account)
   async updateMyAccount(
-    @CurrentSession() {userId}: Session,
+    @CurrentSession() {userId}: SessionInfo,
     @Args('user', new ValidationPipe()) userInput: UserUpdateRequest, // TODO: remove ValidationPipe?
   ) {
     return mapAccountToGQL(
