@@ -7,7 +7,7 @@ import DbRoom from './Room';
 import BookmarkDB from './Bookmark';
 import Bookmark from 'entities/Bookmark';
 import ParticipantDB from './Participant';
-import Participant from 'entities/Participant';
+import Participant, {ParticipantMedia} from 'entities/Participant';
 import AvikastFileDB from './AvikastFile';
 import MessageDB from './Message';
 import {AvikastFile} from 'entities/AvikastFile';
@@ -77,6 +77,19 @@ export const mapParticipantFromDB = (participant: ParticipantDB): Participant =>
   webinarOptions: participant.webinarOptions,
   raiseHand: participant.raiseHand ?? undefined,
 });
+
+export const mapParticipantTrackFromDB = (
+  participantMedia: ParticipantMedia,
+): ParticipantMedia => ({
+  userName: participantMedia.userName,
+  audio: participantMedia.audio,
+  video: participantMedia.video,
+  screen: participantMedia.screen,
+});
+
+export const mapParticipantsTracksFromDB = (
+  participantMedia: ParticipantMedia[],
+): ParticipantMedia[] => participantMedia.map(mapParticipantTrackFromDB);
 
 export const mapParticipantsFromDB = (participants: ParticipantDB[]): Participant[] =>
   participants.map(mapParticipantFromDB);

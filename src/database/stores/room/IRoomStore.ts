@@ -6,6 +6,7 @@ import {
 } from 'entities/Participant';
 import Participant from 'database/entities/Participant';
 import {RoomType} from 'entities/Room';
+import {Observable} from 'rxjs';
 
 export default abstract class IRoomStore {
   abstract createRoom(room: {
@@ -59,4 +60,8 @@ export default abstract class IRoomStore {
   abstract closeRoom(roomId: string): Promise<boolean>;
 
   abstract createRecordId(roomId: string, recordId: string): Promise<void>;
+
+  abstract watchParticipantCreated(): Observable<ParticipantMedia[]>;
+
+  // abstract watchParticipantUpdated(): Observable<Participant>;
 }

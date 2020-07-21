@@ -189,5 +189,6 @@ enum MediaKind {
 }
 
 type Subscription {
+  participantsTracksSub(userId: String!, roomId: String!): [ParticipantMedia!]!
   messageAdded(userId: String!, roomId: String!): Message!
 }

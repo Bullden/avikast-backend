@@ -1,5 +1,6 @@
 import Room, {RoomType} from 'entities/Room';
 import Participant, {ParticipantMedia} from 'entities/Participant';
+import {Observable} from 'rxjs';
 
 export default abstract class IRoomManager {
   abstract createRoom(
@@ -38,4 +39,10 @@ export default abstract class IRoomManager {
   abstract leaveRoom(roomId: string, userId: string): Promise<boolean>;
 
   abstract closeRoom(roomId: string): Promise<boolean>;
+
+  abstract participantsTracksObservable(): Observable<ParticipantMedia[]>;
+
+  // abstract participantCreatedObservable(): Observable<Participant>;
+  //
+  // abstract participantUpdateObservable(): Observable<Participant>;
 }

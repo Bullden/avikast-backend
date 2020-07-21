@@ -7,11 +7,13 @@ import {ParticipantMedia, ParticipantRole} from 'entities/Participant';
 import {
   mapParticipantFromDB,
   mapParticipantsFromDB,
+  mapParticipantsTracksFromDB,
   mapRoomFromDB,
-  mapUserFromDb,
 } from 'database/entities/Mappers';
 import {generate as generatePassword} from 'generate-password';
 import IUserStore from 'database/stores/user/IUserStore';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export default class RoomManager extends IRoomManager {
@@ -124,12 +126,12 @@ export default class RoomManager extends IRoomManager {
 
   async getRoomById(userId: string, roomId: string) {
     const room = await this.roomStore.findRoomByIdOrThrow(roomId);
-    const dbUser = await this.userStore.getUser(userId);
+    const dbUser = await this.userStore.getUser(room.user.id);
     if (!room || !roomId) {
       throw new Error('Room is not found');
     }
     if (!dbUser) throw new Error('dbUser is not found');
-    return {...mapRoomFromDB(room), user: mapUserFromDb(dbUser)};
+    return {...mapRoomFromDB(room)};
   }
 
   private static generateCode() {
@@ -186,5 +188,11 @@ export default class RoomManager extends IRoomManager {
   async closeRoom(roomId: string) {
     await this.mediasoupService.closeRoom(roomId);
     return this.roomStore.closeRoom(roomId);
+  }
+
+  participantsTracksObservable(): Observable<ParticipantMedia[]> {
+    return this.roomStore
+      .watchParticipantCreated()
+      .pipe(map(mapParticipantsTracksFromDB));
   }
 }

@@ -1,4 +1,4 @@
-import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
+import {Args, Mutation, Query, Resolver, Subscription} from '@nestjs/graphql';
 import IRoomManager from '../../managers/room/IRoomManager';
 import CurrentSession from 'enhancers/decorators/CurrentSession';
 import {RoomType} from 'entities/Room';
@@ -11,12 +11,19 @@ import {
 } from 'graphql/entities/Mappers';
 import Participant from 'graphql/entities/room/Participant';
 import ParticipantMedia from 'graphql/entities/room/ParticipantMedia';
-import {PubSub} from 'graphql-subscriptions';
+import {PubSub, PubSubEngine} from 'graphql-subscriptions';
 import SessionInfo from 'entities/SessionInfo';
+import Ignore from 'enhancers/decorators/Ignore';
+import {Subscription as RxSubscription} from 'rxjs/dist/types/internal/Subscription';
+
+const EVENT_NEW_PARTICIPANT_TRACK = 'NEW_PARTICIPANT_TRACK';
 
 @Resolver()
 export default class RoomResolver {
-  constructor(private readonly roomManager: IRoomManager) {}
+  constructor(
+    private readonly roomManager: IRoomManager,
+    private readonly pubSub: PubSubEngine,
+  ) {}
 
   @Mutation(() => Room)
   async createRoom(
@@ -111,5 +118,34 @@ export default class RoomResolver {
   @Mutation(() => Boolean)
   async closeRoom(@Args('roomId') roomId: string) {
     return this.roomManager.closeRoom(roomId);
+  }
+
+  private trackCreatedSubscription: RxSubscription | undefined;
+
+  // SUB
+  @Ignore('AppType', 'Platform')
+  @Subscription(() => [ParticipantMedia], {
+    resolve: (participantTracks: ParticipantMedia[]) => participantTracks,
+  })
+  async participantsTracksSub(
+    @Args({
+      name: 'roomId',
+      type: () => String,
+    })
+    _roomId: string,
+    @Args({
+      name: 'userId',
+      type: () => String,
+    })
+    _userId: string,
+  ) {
+    if (!this.trackCreatedSubscription) {
+      this.trackCreatedSubscription = this.roomManager
+        .participantsTracksObservable()
+        .subscribe(async (participantTrack) =>
+          this.pubSub.publish(EVENT_NEW_PARTICIPANT_TRACK, participantTrack),
+        );
+    }
+    return this.pubSub.asyncIterator(EVENT_NEW_PARTICIPANT_TRACK);
   }
 }

@@ -18,6 +18,8 @@ import {
   ParticipantTrackOptions,
 } from 'entities/Participant';
 import UserModel, {UserSchema} from 'database/models/UserModel';
+import {ChangeEvent, ChangeStream} from 'mongodb';
+import {Subject} from 'rxjs';
 
 export default class RoomStore extends IRoomStore {
   constructor(
@@ -118,6 +120,18 @@ export default class RoomStore extends IRoomStore {
     );
   }
 
+  async getParticipantsTracks(roomId: string) {
+    const participants = mapParticipantsFromModel(
+      await this.participantModel.find({room: roomId}).populate(this.populateParticipant),
+    );
+    const tracks: ParticipantMedia[] = [];
+    participants.forEach((participant) => {
+      const track = participant.media;
+      tracks.push(track);
+    });
+    return tracks;
+  }
+
   async getWebinarOwner(userId: string, roomId: string) {
     const webinarOwner = await this.participantModel
       .findOne({room: roomId, user: userId, role: ParticipantRole.Owner})
@@ -195,5 +209,57 @@ export default class RoomStore extends IRoomStore {
 
   async createRecordId(roomId: string, recordId: string) {
     await this.roomModel.update({_id: roomId}, {recordingId: recordId});
+  }
+
+  //
+  private changeStream: ChangeStream | undefined;
+
+  private participantTracksSubject: Subject<ParticipantMedia[]> | undefined;
+
+  private updatedParticipantSubject: Subject<ParticipantMedia[]> | undefined;
+
+  private watchInternal() {
+    if (!this.changeStream) {
+      const changeStream = this.participantModel.watch();
+      changeStream.on('change', this.onChangeEventReceived.bind(this));
+      this.changeStream = changeStream;
+    }
+
+    let participantTracks: Subject<ParticipantMedia[]>;
+    if (this.participantTracksSubject) {
+      participantTracks = this.participantTracksSubject;
+    } else {
+      participantTracks = new Subject<ParticipantMedia[]>();
+      this.participantTracksSubject = participantTracks;
+    }
+
+    return {participantTracks};
+  }
+
+  private async onChangeEventReceived(doc: ChangeEvent) {
+    if (doc.operationType === 'insert') {
+      const participantTracks = await this.getParticipantsTracks('roomId');
+      if (!participantTracks) {
+        throw new Error('Message does not exist');
+      }
+      if (this.participantTracksSubject !== undefined) {
+        this.participantTracksSubject.next(participantTracks);
+      }
+    }
+    if (doc.operationType === 'update') {
+      const participantTracks = await this.getParticipantsTracks('roomId');
+      if (!participantTracks) {
+        throw new Error('Message does not exist');
+      }
+      if (this.participantTracksSubject !== undefined) {
+        this.participantTracksSubject.next(participantTracks);
+      }
+    }
+  }
+  // endregion
+
+  watchParticipantCreated() {
+    const {participantTracks} = this.watchInternal();
+    return participantTracks;
   }
 }
