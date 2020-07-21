@@ -256,6 +256,7 @@ export default class RoomStore extends IRoomStore {
       }
     }
   }
+
   // endregion
 
   watchParticipantCreated() {

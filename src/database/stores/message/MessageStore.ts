@@ -85,6 +85,7 @@ export default class MessageStore extends IMessageStore {
       }
     }
   }
+
   // endregion
 
   watchMessageCreated() {
