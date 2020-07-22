@@ -28,12 +28,4 @@ export default class FileManager extends IFileManager {
     const {stream} = await this.fileStorage.getFile(f.mediaLink);
     return {stream, name: f.name};
   }
-
-  public async getFiles(userId: string) {
-    const files = await this.fileStore.getFiles(userId);
-    if (!files) throw new AvikastError('This user have no files');
-    const newArr = files.map(async (file) => this.getFile({id: file.id}));
-    const result = Promise.all(newArr).then((res) => res);
-    return result;
-  }
 }

@@ -29,11 +29,4 @@ export default class FileStore implements IFileStore {
     const result = await this.fileModel.findById(file.id);
     return result ? mapFileFromModel(result) : undefined;
   }
-
-  async getFiles(userId: string) {
-    const files = await this.fileModel.find({user: userId}).populate(this.populateFiles);
-    return files.map((element) => {
-      return mapFileFromModel(element);
-    });
-  }
 }

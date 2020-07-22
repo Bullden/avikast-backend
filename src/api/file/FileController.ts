@@ -40,17 +40,4 @@ export class FilesController {
       })
       .pipe(res.attachment(file.name));
   }
-
-  @Get(':id')
-  @Ignore('Platform', 'AppType', 'Authorization')
-  async getFiles(@Param('userId') userId: ID, @Res() res: Response): Promise<void> {
-    const files = await this.fileManager.getFiles(userId);
-    files.map((file) =>
-      file.stream
-        .on('error', (err) => {
-          res.status(400).send(err);
-        })
-        .pipe(res.attachment(file.name)),
-    );
-  }
 }
