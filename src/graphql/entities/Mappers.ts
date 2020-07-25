@@ -35,6 +35,8 @@ export const mapUserToGQL = (user: User): GQLUser => {
   };
 };
 
+export const mapUsersToGQL = (users: User[]): GQLUser[] => users.map(mapUserToGQL);
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const mapPreferencesToGQL = (preferences: Preferences): GQLPreferences => ({
   allowNotifications: false,
@@ -52,6 +54,8 @@ export const mapRoomToGQL = (room: Room): GQLRoom => ({
   type: room.type,
   user: mapUserToGQL(room.user),
 });
+
+export const mapRoomsToGQL = (rooms: Room[]): GQLRoom[] => rooms.map(mapRoomToGQL);
 
 export const mapBookmarkToGQL = (bookmark: Bookmark): GQLBookmark => ({
   id: bookmark.id,

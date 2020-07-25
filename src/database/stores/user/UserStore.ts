@@ -4,7 +4,7 @@ import {ID} from 'entities/Common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model} from 'mongoose';
 import UserModel, {UserSchema} from '../../models/UserModel';
-import {mapUserFromModel} from '../../models/Mappers';
+import {mapUserFromModel, mapUsersFromModel} from '../../models/Mappers';
 
 @Injectable()
 export default class UserStore implements IUserStore {
@@ -15,6 +15,14 @@ export default class UserStore implements IUserStore {
   async getUser(userId: ID) {
     const user = await this.userModel.findOne({_id: userId}).populate(this.populate);
     return user ? mapUserFromModel(user) : undefined;
+  }
+
+  async getUsers() {
+    return mapUsersFromModel(await this.userModel.find().populate(this.populate));
+  }
+
+  async deleteUsers(userIds: string[]) {
+    await this.userModel.deleteMany({_id: {$in: userIds}});
   }
 
   async createUser(data: {

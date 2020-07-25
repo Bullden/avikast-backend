@@ -43,6 +43,9 @@ export const mapUserFromModel = (user: UserModel): User => {
   };
 };
 
+export const mapUsersFromModel = (users: UserModel[]): User[] =>
+  users.map(mapUserFromModel);
+
 export const mapLocalLoginToModel = (
   user: User,
   email: string,
@@ -131,6 +134,9 @@ export const mapRoomFromModel = (room: RoomModel): Room => {
     recordingId: room.recordingId,
   };
 };
+
+export const mapRoomsFromModel = (rooms: RoomModel[]): Room[] =>
+  rooms.map(mapRoomFromModel);
 
 export const mapBookmarkFromModel = (bookmark: BookmarkModel): Bookmark => {
   if (typeof bookmark.user !== 'object') throw new Error('Bookmark should be object');

@@ -31,6 +31,10 @@ export default abstract class IUserStore {
 
   abstract getUser(userId: ID): Promise<User | undefined>;
 
+  abstract getUsers(): Promise<User[]>;
+
+  abstract deleteUsers(userIds: string[]): Promise<void>;
+
   abstract findUserByReferralCode(referralCode: string): Promise<User | undefined>;
 
   abstract getUserName(userId: ID): Promise<string>;

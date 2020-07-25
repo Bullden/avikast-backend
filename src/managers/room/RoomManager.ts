@@ -9,6 +9,7 @@ import {
   mapParticipantsFromDB,
   mapParticipantsTracksFromDB,
   mapRoomFromDB,
+  mapRoomsFromDB,
 } from 'database/entities/Mappers';
 import {generate as generatePassword} from 'generate-password';
 import IUserStore from 'database/stores/user/IUserStore';
@@ -132,6 +133,16 @@ export default class RoomManager extends IRoomManager {
     }
     if (!dbUser) throw new Error('dbUser is not found');
     return {...mapRoomFromDB(room)};
+  }
+
+  async getRooms() {
+    const rooms = await this.roomStore.getRooms();
+
+    return mapRoomsFromDB(rooms);
+  }
+
+  async deleteRooms(roomIds: string[]) {
+    await this.roomStore.deleteRooms(roomIds);
   }
 
   private static generateCode() {

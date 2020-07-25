@@ -7,6 +7,7 @@ import {
   mapParticipantFromModel,
   mapParticipantsFromModel,
   mapRoomFromModel,
+  mapRoomsFromModel,
 } from 'database/models/Mappers';
 import ParticipantModel, {
   CreateParticipantModel,
@@ -118,6 +119,14 @@ export default class RoomStore extends IRoomStore {
     return mapParticipantsFromModel(
       await this.participantModel.find({room: roomId}).populate(this.populateParticipant),
     );
+  }
+
+  async getRooms() {
+    return mapRoomsFromModel(await this.roomModel.find().populate(this.populateRoom));
+  }
+
+  async deleteRooms(roomIds: string[]) {
+    await this.roomModel.deleteMany({_id: {$in: roomIds}});
   }
 
   async getParticipantsTracks(roomId: string) {

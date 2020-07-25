@@ -136,7 +136,9 @@ enum AvikastFileType {
 
 type Query {
   myAccount: Account!
+  users: [User!]!
   roomById(roomId: String!): Room!
+  rooms: [Room!]!
   participants(roomId: String!): [Participant!]!
   participantsTracks(roomId: String!): [ParticipantMedia!]!
   webinarOwner(roomId: String!): Participant!
@@ -155,7 +157,9 @@ type Query {
 
 type Mutation {
   updateMyAccount(user: UserUpdateRequest!): Account!
+  deleteUsers(userIds: [String!]!): Boolean!
   createRoom(password: String, passwordProtected: Boolean!, type: RoomType!, name: String!): Room!
+  deleteRooms(roomIds: [String!]!): Boolean!
   joinRoom(password: String, inviteLink: String!): Room!
   raiseHand(raiseHand: Boolean!, roomId: String!): Boolean!
   leaveRoom(roomId: String!): Boolean!

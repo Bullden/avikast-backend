@@ -7,6 +7,7 @@ import {
   mapParticipantsToGQL,
   mapParticipantsTracksToGQL,
   mapParticipantToGQL,
+  mapRoomsToGQL,
   mapRoomToGQL,
 } from 'graphql/entities/Mappers';
 import Participant from 'graphql/entities/room/Participant';
@@ -46,6 +47,15 @@ export default class RoomResolver {
     return room;
   }
 
+  @Mutation(() => Boolean)
+  async deleteRooms(
+    @Args({name: 'roomIds', type: () => [String]}) roomIds: string[],
+  ): Promise<Boolean> {
+    await this.roomManager.deleteRooms(roomIds);
+
+    return true;
+  }
+
   @Mutation(() => Room)
   async joinRoom(
     @CurrentSession() session: SessionInfo,
@@ -60,6 +70,11 @@ export default class RoomResolver {
   @Query(() => Room)
   async roomById(@CurrentSession() session: SessionInfo, @Args('roomId') roomId: string) {
     return mapRoomToGQL(await this.roomManager.getRoomById(session.userId, roomId));
+  }
+
+  @Query(() => [Room])
+  async rooms() {
+    return mapRoomsToGQL(await this.roomManager.getRooms());
   }
 
   @Query(() => [Participant])

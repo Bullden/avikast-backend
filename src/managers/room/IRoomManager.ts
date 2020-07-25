@@ -19,6 +19,10 @@ export default abstract class IRoomManager {
 
   abstract getRoomById(userId: string, roomId: string): Promise<Room>;
 
+  abstract getRooms(): Promise<Room[]>;
+
+  abstract deleteRooms(roomIds: string[]): Promise<void>;
+
   abstract getParticipants(userId: string, roomId: string): Promise<Participant[]>;
 
   abstract getWebinarOwner(userId: string, roomId: string): Promise<Participant>;

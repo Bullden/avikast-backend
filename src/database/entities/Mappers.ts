@@ -29,6 +29,8 @@ export const mapUserFromDb = (user: DbUser): User => ({
   referrer: user.referrer ? mapUserFromDb(user.referrer) : undefined,
 });
 
+export const mapUsersFromDB = (users: DbUser[]): User[] => users.map(mapUserFromDb);
+
 export const mapPreferencesFromDB = (user: DbUser): Preferences => ({
   allowNotifications: user.allowNotifications,
 });
@@ -57,6 +59,8 @@ export const mapRoomFromDB = (room: DbRoom): Room => ({
   type: room.type,
   user: mapUserFromDb(room.user),
 });
+
+export const mapRoomsFromDB = (rooms: DbRoom[]): Room[] => rooms.map(mapRoomFromDB);
 
 export const mapBookmarkFromDB = (bookmark: BookmarkDB): Bookmark => ({
   id: bookmark.id,

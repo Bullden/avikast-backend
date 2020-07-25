@@ -38,6 +38,10 @@ export default abstract class IRoomStore {
 
   abstract getParticipants(roomId: string): Promise<Participant[]>;
 
+  abstract getRooms(): Promise<Room[]>;
+
+  abstract deleteRooms(roomIds: string[]): Promise<void>;
+
   abstract getWebinarOwner(userId: string, roomId: string): Promise<Participant>;
 
   abstract updateParticipantMedia(

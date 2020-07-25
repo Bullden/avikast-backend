@@ -1,7 +1,7 @@
 import {Injectable} from '@nestjs/common';
 import IUserStore from '../../database/stores/user/IUserStore';
 import IAccountManager from './IAccountManager';
-import {mapAccountFromDB} from '../../database/entities/Mappers';
+import {mapAccountFromDB, mapUsersFromDB} from '../../database/entities/Mappers';
 import AvikastError from '../../AvikastError';
 
 @Injectable()
@@ -31,5 +31,15 @@ export default class AccountManager implements IAccountManager {
     const dbUser = await this.userStore.getUser(myUserId);
     if (!dbUser) throw new AvikastError('User is not found');
     return mapAccountFromDB(dbUser);
+  }
+
+  async getUsers() {
+    const users = await this.userStore.getUsers();
+
+    return mapUsersFromDB(users);
+  }
+
+  async deleteUsers(userIds: string[]) {
+    await this.userStore.deleteUsers(userIds);
   }
 }
