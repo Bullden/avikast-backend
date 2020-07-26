@@ -42,6 +42,7 @@ import {GetProducerPattern, GetProducerRequest, GetProducerResponse} from './Get
 import {GetRouterPattern, GetRouterRequest, GetRouterResponse} from './GetRouter';
 import {CloseRouterPattern, CloseRouterRequest, CloseRouterResponse} from './CloseRouter';
 import {LeaveRoomPattern, LeaveRoomRequest, LeaveRoomResponse} from './LeaveRoom';
+import {MutePattern, MuteRequest, MuteResponse} from './Mute';
 
 export type Pattern =
   | CreateRouterPattern
@@ -55,8 +56,8 @@ export type Pattern =
   | StartRecordingPattern
   | StopRecordingPattern
   | LeaveRoomPattern
-  | CloseRouterPattern;
-
+  | CloseRouterPattern
+  | MutePattern;
 export {
   CreateRouterRequest,
   CreateRouterResponse,
@@ -82,4 +83,6 @@ export {
   CloseRouterResponse,
   LeaveRoomRequest,
   LeaveRoomResponse,
+  MuteRequest,
+  MuteResponse,
 };

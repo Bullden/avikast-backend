@@ -2,7 +2,7 @@ import IRoomStore from 'database/stores/room/IRoomStore';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model, QueryPopulateOptions} from 'mongoose';
 import RoomModel, {CreateRoomModel, RoomSchema} from 'database/models/RoomModel';
-import {RoomType} from 'entities/Room';
+import {MuteAction, MuteSource, RoomType} from 'entities/Room';
 import {
   mapParticipantFromModel,
   mapParticipantsFromModel,
@@ -121,6 +121,18 @@ export default class RoomStore extends IRoomStore {
     );
   }
 
+  async getParticipantsTracks(roomId: string) {
+    const participants = mapParticipantsFromModel(
+      await this.participantModel.find({room: roomId}).populate(this.populateParticipant),
+    );
+    const tracks: ParticipantMedia[] = [];
+    participants.forEach((participant) => {
+      const track = participant.media;
+      tracks.push(track);
+    });
+    return tracks;
+  }
+
   async getRooms() {
     return mapRoomsFromModel(await this.roomModel.find().populate(this.populateRoom));
   }
@@ -206,13 +218,24 @@ export default class RoomStore extends IRoomStore {
 
   async leaveRoom(roomId: string, userId: string) {
     const participants = await this.getParticipants(roomId);
-    const newParticipants = participants.filter((element) => element.user.id !== userId);
-    await this.participantModel.remove({room: roomId}).populate(newParticipants);
+    if (participants.length === 1) {
+      await this.closeRoom(roomId);
+      return true;
+    }
+    const newParticipantsSubject = participants.filter(
+      (element) => element.user.id !== userId,
+    );
+    await this.participantModel
+      .update({room: roomId}, newParticipantsSubject)
+      .populate(this.populateParticipant);
     return true;
   }
 
   async closeRoom(roomId: string) {
-    this.roomModel.remove({roomId});
+    console.log('CLOSE ROOM', roomId);
+    this.roomModel.deleteOne({_id: {roomId}});
+    this.roomModel.remove({_id: roomId});
+    this.roomModel.deleteMany({_id: {$in: [roomId]}});
     return true;
   }
 
@@ -264,6 +287,89 @@ export default class RoomStore extends IRoomStore {
         this.participantTracksSubject.next(participantTracks);
       }
     }
+  }
+
+  // endregion
+
+  watchParticipantCreated() {
+    const {participantTracks} = this.watchInternal();
+    return participantTracks;
+  }
+
+  // async updateRoomIsActive(roomId: string, isActive: boolean) {
+  //   await this.roomModel.update({_id: roomId}, {isActive});
+  // }
+
+  //
+  private changeStream: ChangeStream | undefined;
+
+  private participantTracksSubject: Subject<ParticipantMedia[]> | undefined;
+
+  private updatedParticipantSubject: Subject<ParticipantMedia[]> | undefined;
+
+  private watchInternal() {
+    if (!this.changeStream) {
+      const changeStream = this.participantModel.watch();
+      changeStream.on('change', this.onChangeEventReceived.bind(this));
+      this.changeStream = changeStream;
+    }
+
+    let participantTracks: Subject<ParticipantMedia[]>;
+    if (this.participantTracksSubject) {
+      participantTracks = this.participantTracksSubject;
+    } else {
+      participantTracks = new Subject<ParticipantMedia[]>();
+      this.participantTracksSubject = participantTracks;
+    }
+
+    return {participantTracks};
+  }
+
+  private async onChangeEventReceived(doc: ChangeEvent) {
+    if (doc.operationType === 'insert') {
+      const participantTracks = await this.getParticipantsTracks('roomId');
+      if (!participantTracks) {
+        throw new Error('Message does not exist');
+      }
+      if (this.participantTracksSubject !== undefined) {
+        this.participantTracksSubject.next(participantTracks);
+      }
+    }
+    if (doc.operationType === 'update') {
+      const participantTracks = await this.getParticipantsTracks('roomId');
+      if (!participantTracks) {
+        throw new Error('Message does not exist');
+      }
+      if (this.participantTracksSubject !== undefined) {
+        this.participantTracksSubject.next(participantTracks);
+      }
+    }
+  }
+
+  async mute(action: MuteAction, source: MuteSource, userId: string, roomId: string) {
+    const updateObject: Partial<ParticipantModel> = {};
+    if (!updateObject)
+      throw new Error('Something went wrong: updateObject.muted is undefined');
+    if (source === MuteSource.Audio) {
+      if (!updateObject.media?.audio.enabled)
+        throw new Error('Something went wrong: updateObject.muted is undefined');
+      if (action === MuteAction.Mute) updateObject.media.audio.enabled = false;
+      else if (action === MuteAction.UnMute) updateObject.media.audio.enabled = true;
+    }
+    if (source === MuteSource.Video) {
+      if (!updateObject.media?.video.enabled)
+        throw new Error('Something went wrong: updateObject.muted is undefined');
+      if (action === MuteAction.Mute) updateObject.media.video.enabled = false;
+      else if (action === MuteAction.UnMute) updateObject.media.video.enabled = true;
+    }
+    if (source === MuteSource.Screen) {
+      if (!updateObject.media?.screen.enabled)
+        throw new Error('Something went wrong: updateObject.muted is undefined');
+      if (action === MuteAction.Mute) updateObject.media.screen.enabled = false;
+      else if (action === MuteAction.UnMute) updateObject.media.screen.enabled = true;
+    }
+    await this.participantModel.update({_id: userId, room: roomId}, {updateObject});
+    return true;
   }
 
   // endregion

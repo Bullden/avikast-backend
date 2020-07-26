@@ -26,6 +26,10 @@ import {
   StartRecordingResponse,
   StopRecordingRequest,
   StopRecordingResponse,
+  MuteRequest,
+  MuteResponse,
+  // UnMuteRequest,
+  // UnMuteResponse,
 } from './entities';
 import {Direction, MediaKind, MediaType} from 'entities/Mediasoup';
 import {
@@ -33,6 +37,7 @@ import {
   CloseRouterResponse,
 } from 'services/mediasoup/entities/CloseRouter';
 import {LeaveRoomRequest, LeaveRoomResponse} from 'services/mediasoup/entities/LeaveRoom';
+import {MuteAction, MuteSource} from 'entities/Room';
 
 export default class MediasoupService extends IMediasoupService {
   constructor(@Inject(MEDIASOUP_SERVICE) private readonly mediasoupClient: ClientProxy) {
@@ -198,6 +203,22 @@ export default class MediasoupService extends IMediasoupService {
     >({area: 'router', action: 'close'}, {roomId});
     return response.response;
   }
+
+  async mute(action: MuteAction, userId: string, roomId: string) {
+    const response = await this.sendAsyncRequired<MuteRequest, MuteResponse>(
+      {area: 'producer', action: 'mute'},
+      {action, userId, roomId},
+    );
+    return response.response;
+  }
+
+  // async unMute(source: MuteSource, userId: string, roomId: string) {
+  //   const response = await this.sendAsyncRequired<UnMuteRequest, UnMuteResponse>(
+  //     {area: 'producer', action: 'unmute'},
+  //     {source, userId, roomId},
+  //   );
+  //   return response.response;
+  // }
 
   // region Helpers
   private send<TData = unknown, TResult = never>(

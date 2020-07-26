@@ -5,7 +5,7 @@ import {
   ParticipantTrackOptions,
 } from 'entities/Participant';
 import Participant from 'database/entities/Participant';
-import {RoomType} from 'entities/Room';
+import {MuteAction, MuteSource, RoomType} from 'entities/Room';
 import {Observable} from 'rxjs';
 
 export default abstract class IRoomStore {
@@ -64,6 +64,18 @@ export default abstract class IRoomStore {
   abstract closeRoom(roomId: string): Promise<boolean>;
 
   abstract createRecordId(roomId: string, recordId: string): Promise<void>;
+
+  abstract watchParticipantCreated(): Observable<ParticipantMedia[]>;
+
+  abstract mute(
+    action: MuteAction,
+    source: MuteSource,
+    userId: string,
+    roomId: string,
+  ): Promise<boolean>;
+
+  // abstract updateRoomIsActive(roomId: string, isActive: boolean): Promise<void>;
+  // abstract watchParticipantUpdated(): Observable<Participant>;
 
   abstract watchParticipantCreated(): Observable<ParticipantMedia[]>;
 

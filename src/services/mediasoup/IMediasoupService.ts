@@ -7,6 +7,7 @@ import {
   RouterOptions,
   TransportOptions,
 } from 'entities/Mediasoup';
+import {MuteAction} from 'entities/Room';
 
 export default abstract class IMediasoupService {
   abstract createRouter(roomId: string): Promise<RouterOptions>;
@@ -67,4 +68,8 @@ export default abstract class IMediasoupService {
   abstract leaveRoom(roomId: string, userId: string): Promise<boolean>;
 
   abstract closeRoom(roomId: string): Promise<boolean>;
+
+  abstract mute(action: MuteAction, roomId: string, userId: string): Promise<boolean>;
+
+  // abstract unMute(roomId: string, userId: string): Promise<boolean>;
 }

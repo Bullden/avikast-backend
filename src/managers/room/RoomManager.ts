@@ -2,7 +2,7 @@ import IRoomManager from './IRoomManager';
 import IMediasoupService from '../../services/mediasoup/IMediasoupService';
 import {Injectable} from '@nestjs/common';
 import IRoomStore from 'database/stores/room/IRoomStore';
-import {RoomType} from 'entities/Room';
+import {MuteAction, MuteSource, RoomType} from 'entities/Room';
 import {ParticipantMedia, ParticipantRole} from 'entities/Participant';
 import {
   mapParticipantFromDB,
@@ -15,13 +15,13 @@ import {generate as generatePassword} from 'generate-password';
 import IUserStore from 'database/stores/user/IUserStore';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-
 @Injectable()
 export default class RoomManager extends IRoomManager {
   constructor(
     private readonly roomStore: IRoomStore,
     private readonly mediasoupService: IMediasoupService,
     private readonly userStore: IUserStore,
+    private readonly mediasoupManager: IMessageManager,
   ) {
     super();
   }
@@ -45,7 +45,11 @@ export default class RoomManager extends IRoomManager {
         inviteLink,
       }),
     );
-
+    setTimeout(async () => {
+      // eslint-disable-next-line no-console
+      console.log('room has been closed by timeout');
+      await this.roomStore.closeRoom(room.id);
+    }, 10000);
     await this.roomStore.createParticipant({
       room,
       user: {id: userId},
@@ -125,6 +129,20 @@ export default class RoomManager extends IRoomManager {
     return room;
   }
 
+  async getRoom(userId: string) {
+    const room = await this.roomStore.findRoomByUser(userId);
+    if (!room) return undefined;
+    return room.id;
+  }
+
+  async getRoomByUserId(userId: string) {
+    const room = await this.roomStore.findRoomByUser(userId);
+    if (!room) {
+      return undefined;
+    }
+    return {...mapRoomFromDB(room)};
+  }
+
   async getRoomById(userId: string, roomId: string) {
     const room = await this.roomStore.findRoomByIdOrThrow(roomId);
     const dbUser = await this.userStore.getUser(room.user.id);
@@ -143,6 +161,7 @@ export default class RoomManager extends IRoomManager {
 
   async deleteRooms(roomIds: string[]) {
     await this.roomStore.deleteRooms(roomIds);
+    return {...mapRoomFromDB(room)};
   }
 
   private static generateCode() {
@@ -199,6 +218,30 @@ export default class RoomManager extends IRoomManager {
   async closeRoom(roomId: string) {
     await this.mediasoupService.closeRoom(roomId);
     return this.roomStore.closeRoom(roomId);
+  }
+
+  async mute(
+    action: MuteAction,
+    source: MuteSource,
+    userId: string,
+    owner: string,
+    roomId: string,
+  ) {
+    const room = await this.roomStore.findRoomByIdOrThrow(roomId);
+    if (room.user.id !== owner) return false;
+    const mediasoupResponse = await this.mediasoupService.mute(action, userId, action);
+    if (!mediasoupResponse) return false;
+    const response = await this.roomStore.mute(action, source, userId, roomId);
+    return response;
+  }
+
+  //   return this.roomStore.updateRoomIsActive(roomId, status);
+  // }
+
+  participantsTracksObservable(): Observable<ParticipantMedia[]> {
+    return this.roomStore
+      .watchParticipantCreated()
+      .pipe(map(mapParticipantsTracksFromDB));
   }
 
   participantsTracksObservable(): Observable<ParticipantMedia[]> {

@@ -1,4 +1,4 @@
-import Room, {RoomType} from 'entities/Room';
+import Room, {MuteAction, MuteSource, RoomType} from 'entities/Room';
 import Participant, {ParticipantMedia} from 'entities/Participant';
 import {Observable} from 'rxjs';
 
@@ -16,6 +16,10 @@ export default abstract class IRoomManager {
     inviteLink: string,
     password: string | undefined,
   ): Promise<Room>;
+
+  abstract getRoom(userId: string): Promise<string | undefined>;
+
+  abstract getRoomByUserId(userId: string): Promise<Room | undefined>;
 
   abstract getRoomById(userId: string, roomId: string): Promise<Room>;
 
@@ -46,7 +50,17 @@ export default abstract class IRoomManager {
 
   abstract participantsTracksObservable(): Observable<ParticipantMedia[]>;
 
+  abstract mute(
+    action: MuteAction,
+    source: MuteSource,
+    userId: string,
+    owner: string,
+    roomId: string,
+  ): Promise<boolean>;
+
   // abstract participantCreatedObservable(): Observable<Participant>;
   //
   // abstract participantUpdateObservable(): Observable<Participant>;
+
+  abstract participantsTracksObservable(): Observable<ParticipantMedia[]>;
 }

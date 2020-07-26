@@ -12,3 +12,13 @@ export default interface Room {
   type: RoomType;
   user: User;
 }
+export enum MuteAction {
+  Mute = 'Mute',
+  UnMute = 'unMute',
+}
+
+export enum MuteSource {
+  Audio = 'Audio',
+  Video = 'Video',
+  Screen = 'Screen',
+}
