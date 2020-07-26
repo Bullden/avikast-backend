@@ -1,5 +1,6 @@
 import User from '../../entities/User';
 import {ID} from 'entities/Common';
+import Ban from 'database/entities/Ban';
 
 export default abstract class IUserStore {
   abstract createUser(data: {
@@ -26,6 +27,7 @@ export default abstract class IUserStore {
       tags: string[] | undefined;
       skills: string[] | undefined;
       referralCode: string | undefined;
+      ban: Ban | undefined;
     },
   ): Promise<void>;
 
@@ -34,6 +36,8 @@ export default abstract class IUserStore {
   abstract getUsers(): Promise<User[]>;
 
   abstract deleteUsers(userIds: string[]): Promise<void>;
+
+  abstract banUsersTemporary(userIds: string[], untilDate: string): Promise<void>;
 
   abstract findUserByReferralCode(referralCode: string): Promise<User | undefined>;
 

@@ -1,4 +1,5 @@
 import {Field, ID, ObjectType} from '@nestjs/graphql';
+import Ban from 'graphql/entities/ban/Ban';
 
 @ObjectType()
 export default class User {
@@ -13,6 +14,7 @@ export default class User {
     tags: string[],
     skills: string[],
     referralCode: string,
+    ban: Ban,
   ) {
     this.id = id;
     this.name = name;
@@ -24,6 +26,7 @@ export default class User {
     this.tags = tags;
     this.skills = skills;
     this.referralCode = referralCode;
+    this.ban = ban;
   }
 
   @Field(() => ID)
@@ -55,4 +58,7 @@ export default class User {
 
   @Field(() => String)
   referralCode: string;
+
+  @Field(() => Ban, {nullable: true})
+  ban?: Ban;
 }

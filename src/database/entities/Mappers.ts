@@ -14,6 +14,14 @@ import {AvikastFile} from 'entities/AvikastFile';
 import Message from 'entities/Message';
 import RecordDB from './Record';
 import Record from 'entities/Record';
+import BanDB from './Ban';
+import Ban from 'entities/Ban';
+
+export const mapBanFromDB = (ban: BanDB): Ban => ({
+  id: ban.id,
+  untilDate: ban.untilDate,
+  isForever: ban.isForever,
+});
 
 export const mapUserFromDb = (user: DbUser): User => ({
   id: user.id,
@@ -27,6 +35,7 @@ export const mapUserFromDb = (user: DbUser): User => ({
   skills: user.skills,
   referralCode: user.referralCode,
   referrer: user.referrer ? mapUserFromDb(user.referrer) : undefined,
+  ban: user.ban ? mapBanFromDB(user.ban) : undefined,
 });
 
 export const mapUsersFromDB = (users: DbUser[]): User[] => users.map(mapUserFromDb);

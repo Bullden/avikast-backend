@@ -21,8 +21,18 @@ import FileModel from 'database/models/FileModel';
 import File from 'database/entities/File';
 import RecordModel from 'database/models/RecordModel';
 import Record from 'database/entities/Record';
+import BanModel from 'database/models/BanModel';
+import Ban from 'database/entities/Ban';
 
 export const extractIdFromModel = (model: Document): string => model._id.toString();
+
+export const mapBanFromModel = (ban: BanModel): Ban => {
+  return {
+    id: ban.id,
+    untilDate: ban.untilDate,
+    isForever: ban.isForever,
+  };
+};
 
 export const mapUserFromModel = (user: UserModel): User => {
   if (user.referrer && typeof user.referrer !== 'object')
@@ -40,6 +50,7 @@ export const mapUserFromModel = (user: UserModel): User => {
     allowNotifications: user.allowNotifications,
     referralCode: user.referralCode,
     referrer: user.referrer ? mapUserFromModel(user.referrer as UserModel) : undefined,
+    ban: user.ban ? mapBanFromModel(user.ban as BanModel) : undefined,
   };
 };
 

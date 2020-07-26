@@ -34,8 +34,19 @@ export class AccountResolver {
         tags: userInput.tags,
         skills: userInput.skills,
         referralCode: userInput.referralCode,
+        ban: userInput.ban,
       }),
     );
+  }
+
+  @Mutation(() => Boolean)
+  async banUsersTemporary(
+    @Args({name: 'userIds', type: () => [String]}) userIds: string[],
+    @Args({name: 'untilDate', type: () => String}) untilDate: string,
+  ) {
+    await this.accountManager.banUsersTemporary(userIds, untilDate);
+
+    return true;
   }
 
   @Query(() => [User])

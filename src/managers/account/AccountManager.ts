@@ -3,6 +3,7 @@ import IUserStore from '../../database/stores/user/IUserStore';
 import IAccountManager from './IAccountManager';
 import {mapAccountFromDB, mapUsersFromDB} from '../../database/entities/Mappers';
 import AvikastError from '../../AvikastError';
+import Ban from 'entities/Ban';
 
 @Injectable()
 export default class AccountManager implements IAccountManager {
@@ -25,6 +26,7 @@ export default class AccountManager implements IAccountManager {
       tags: string[] | undefined;
       skills: string[] | undefined;
       referralCode: string | undefined;
+      ban: Ban | undefined;
     },
   ) {
     await this.userStore.updateUser(myUserId, user);
@@ -41,5 +43,9 @@ export default class AccountManager implements IAccountManager {
 
   async deleteUsers(userIds: string[]) {
     await this.userStore.deleteUsers(userIds);
+  }
+
+  async banUsersTemporary(userIds: string[], untilDate: string) {
+    await this.userStore.banUsersTemporary(userIds, untilDate);
   }
 }

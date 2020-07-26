@@ -1,4 +1,5 @@
 import {ID} from './Common';
+import Ban from 'entities/Ban';
 
 export default class User {
   constructor(
@@ -13,6 +14,7 @@ export default class User {
     skills: string[],
     referralCode: string,
     referrer: User | undefined,
+    ban: Ban | undefined,
   ) {
     this.id = id;
     this.name = name;
@@ -25,6 +27,7 @@ export default class User {
     this.skills = skills;
     this.referralCode = referralCode;
     this.referrer = referrer;
+    this.ban = ban;
   }
 
   id: ID;
@@ -48,4 +51,6 @@ export default class User {
   referralCode: string;
 
   referrer: User | undefined;
+
+  ban: Ban | undefined;
 }

@@ -5,10 +5,19 @@ import {InjectModel} from '@nestjs/mongoose';
 import {Model} from 'mongoose';
 import UserModel, {UserSchema} from '../../models/UserModel';
 import {mapUserFromModel, mapUsersFromModel} from '../../models/Mappers';
+import RoomModel, {RoomSchema} from 'database/models/RoomModel';
+import LocalLoginModel, {LocalLoginSchema} from 'database/models/LocalLoginModel';
+import Ban from 'database/entities/Ban';
+import BanModel, {BanSchema} from 'database/models/BanModel';
 
 @Injectable()
 export default class UserStore implements IUserStore {
-  constructor(@InjectModel(UserSchema.name) private userModel: Model<UserModel>) {}
+  constructor(
+    @InjectModel(UserSchema.name) private userModel: Model<UserModel>,
+    @InjectModel(RoomSchema.name) private roomModel: Model<RoomModel>,
+    @InjectModel(LocalLoginSchema.name) private localLoginModel: Model<LocalLoginModel>,
+    @InjectModel(BanSchema.name) private banModel: Model<BanModel>,
+  ) {}
 
   private populate = 'referrer';
 
@@ -23,6 +32,18 @@ export default class UserStore implements IUserStore {
 
   async deleteUsers(userIds: string[]) {
     await this.userModel.deleteMany({_id: {$in: userIds}});
+    await this.localLoginModel.deleteMany({user: {$in: userIds}});
+    await this.roomModel.deleteMany({user: {$in: userIds}});
+  }
+
+  async banUsersTemporary(userIds: string[], untilDate: string) {
+    const date = new Date(untilDate);
+
+    const bans = userIds.map(() => this.banModel.create({date}));
+
+    bans.map(async (ban, index) => {
+      await this.userModel.update({_id: userIds[index]}, ban);
+    });
   }
 
   async createUser(data: {
@@ -52,6 +73,7 @@ export default class UserStore implements IUserStore {
       tags: string[] | undefined;
       skills: string[] | undefined;
       referralCode: string | undefined;
+      ban: Ban | undefined;
     },
   ) {
     const updateObject: Partial<UserModel> = {};
@@ -63,6 +85,7 @@ export default class UserStore implements IUserStore {
     if (data.tags !== undefined) updateObject.tags = data.tags;
     if (data.skills !== undefined) updateObject.skills = data.skills;
     if (data.referralCode !== undefined) updateObject.referralCode = data.referralCode;
+    if (data.ban !== undefined) updateObject.ban = data.ban;
     await this.userModel.update({_id: userId}, updateObject);
   }
 
