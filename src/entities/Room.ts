@@ -7,6 +7,7 @@ export enum RoomType {
 
 export default interface Room {
   id: string;
+  closed: undefined | Date;
   name: string;
   inviteLink: string;
   type: RoomType;

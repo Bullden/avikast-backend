@@ -15,7 +15,9 @@ export interface ParticipantMedia {
 
 export type ParticipantTrackOptions = {
   enabled: boolean;
+  muted: boolean;
   clientId: string | undefined;
+  userId: string | undefined;
   producerOptions: ProducerOptions | undefined;
   mediaKind: MediaKind | undefined;
   mediaType: MediaType | undefined;

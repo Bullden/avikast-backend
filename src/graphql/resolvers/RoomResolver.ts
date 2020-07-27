@@ -7,12 +7,13 @@ import {
   mapParticipantsToGQL,
   mapParticipantsTracksToGQL,
   mapParticipantToGQL,
+  mapRoomsToGQL,
   mapRoomToGQL,
 } from 'graphql/entities/Mappers';
 import Participant from 'graphql/entities/room/Participant';
 import ParticipantMedia from 'graphql/entities/room/ParticipantMedia';
 import {PubSub, PubSubEngine} from 'graphql-subscriptions';
-import Session from 'entities/Session';
+import SessionInfo from 'entities/SessionInfo';
 import Ignore from 'enhancers/decorators/Ignore';
 import {Subscription as RxSubscription} from 'rxjs/dist/types/internal/Subscription';
 
@@ -27,7 +28,7 @@ export default class RoomResolver {
 
   @Mutation(() => Room)
   async createRoom(
-    @CurrentSession() session: Session,
+    @CurrentSession() session: SessionInfo,
     @Args('name') name: string,
     @Args({name: 'type', type: () => RoomType}) type: RoomType,
     @Args({name: 'passwordProtected', type: () => Boolean}) passwordProtected: boolean,
@@ -46,9 +47,23 @@ export default class RoomResolver {
     return room;
   }
 
+  @Query(() => [Room])
+  async rooms() {
+    return mapRoomsToGQL(await this.roomManager.getRooms());
+  }
+
+  @Mutation(() => Boolean)
+  async deleteRooms(
+    @Args({name: 'roomIds', type: () => [String]}) roomIds: string[],
+  ): Promise<Boolean> {
+    await this.roomManager.deleteRooms(roomIds);
+
+    return true;
+  }
+
   @Mutation(() => Room)
   async joinRoom(
-    @CurrentSession() session: Session,
+    @CurrentSession() session: SessionInfo,
     @Args('inviteLink') inviteLink: string,
     @Args({name: 'password', type: () => String, nullable: true}) password: string,
   ) {
@@ -58,12 +73,12 @@ export default class RoomResolver {
   }
 
   @Query(() => Room)
-  async roomById(@CurrentSession() session: Session, @Args('roomId') roomId: string) {
+  async roomById(@CurrentSession() session: SessionInfo, @Args('roomId') roomId: string) {
     return mapRoomToGQL(await this.roomManager.getRoomById(session.userId, roomId));
   }
 
   @Query(() => Room, {nullable: true})
-  async room(@CurrentSession() session: Session) {
+  async room(@CurrentSession() session: SessionInfo) {
     const roomFromManager = await this.roomManager.getRoomByUserId(session.userId);
     if (roomFromManager === undefined) {
       return undefined;
@@ -73,7 +88,7 @@ export default class RoomResolver {
 
   @Query(() => [Participant])
   async participants(
-    @CurrentSession() session: Session,
+    @CurrentSession() session: SessionInfo,
     @Args('roomId') roomId: string,
   ) {
     return mapParticipantsToGQL(
@@ -83,7 +98,7 @@ export default class RoomResolver {
 
   @Query(() => [ParticipantMedia])
   async participantsTracks(
-    @CurrentSession() session: Session,
+    @CurrentSession() session: SessionInfo,
     @Args('roomId') roomId: string,
   ) {
     const pubSub = new PubSub();
@@ -95,7 +110,7 @@ export default class RoomResolver {
 
   @Query(() => Participant)
   async webinarOwner(
-    @CurrentSession() session: Session,
+    @CurrentSession() session: SessionInfo,
     @Args('roomId') roomId: string,
   ) {
     const webinarOwner = await this.roomManager.getWebinarOwner(session.userId, roomId);
@@ -109,7 +124,7 @@ export default class RoomResolver {
 
   @Mutation(() => Boolean)
   async raiseHand(
-    @CurrentSession() session: Session,
+    @CurrentSession() session: SessionInfo,
     @Args('roomId') roomId: string,
     @Args('raiseHand') raiseHand: boolean,
   ) {
@@ -119,7 +134,7 @@ export default class RoomResolver {
   @Mutation(() => Boolean)
   async leaveRoom(
     @Args('roomId') roomId: string,
-    @CurrentSession() session: Session,
+    @CurrentSession() session: SessionInfo,
   ) {
     return this.roomManager.leaveRoom(roomId, session.userId);
   }
@@ -149,7 +164,6 @@ export default class RoomResolver {
     _userId: string,
   ) {
     if (!this.trackCreatedSubscription) {
-      console.log(_roomId, _userId);
       this.trackCreatedSubscription = this.roomManager
         .participantsTracksObservable()
         .subscribe(async (participantTrack) =>
@@ -161,7 +175,7 @@ export default class RoomResolver {
 
   @Mutation(() => Boolean)
   async mute(
-    @CurrentSession() session: Session,
+    @CurrentSession() session: SessionInfo,
     @Args('action') action: MuteAction,
     @Args('source') source: MuteSource,
     @Args('userId') userId: string,

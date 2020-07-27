@@ -15,13 +15,13 @@ import {generate as generatePassword} from 'generate-password';
 import IUserStore from 'database/stores/user/IUserStore';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
+
 @Injectable()
 export default class RoomManager extends IRoomManager {
   constructor(
     private readonly roomStore: IRoomStore,
     private readonly mediasoupService: IMediasoupService,
     private readonly userStore: IUserStore,
-    private readonly mediasoupManager: IMessageManager,
   ) {
     super();
   }
@@ -45,11 +45,6 @@ export default class RoomManager extends IRoomManager {
         inviteLink,
       }),
     );
-    setTimeout(async () => {
-      // eslint-disable-next-line no-console
-      console.log('room has been closed by timeout');
-      await this.roomStore.closeRoom(room.id);
-    }, 10000);
     await this.roomStore.createParticipant({
       room,
       user: {id: userId},
@@ -58,21 +53,27 @@ export default class RoomManager extends IRoomManager {
         userName,
         audio: {
           enabled: false,
+          muted: false,
           clientId: undefined,
+          userId,
           producerOptions: undefined,
           mediaKind: undefined,
           mediaType: undefined,
         },
         video: {
           enabled: false,
+          muted: false,
           clientId: undefined,
+          userId,
           producerOptions: undefined,
           mediaKind: undefined,
           mediaType: undefined,
         },
         screen: {
           enabled: false,
+          muted: false,
           clientId: undefined,
+          userId,
           producerOptions: undefined,
           mediaKind: undefined,
           mediaType: undefined,
@@ -103,21 +104,27 @@ export default class RoomManager extends IRoomManager {
           userName,
           audio: {
             enabled: false,
+            muted: false,
             clientId: undefined,
+            userId,
             producerOptions: undefined,
             mediaKind: undefined,
             mediaType: undefined,
           },
           video: {
             enabled: false,
+            muted: false,
             clientId: undefined,
+            userId,
             producerOptions: undefined,
             mediaKind: undefined,
             mediaType: undefined,
           },
           screen: {
             enabled: false,
+            muted: false,
             clientId: undefined,
+            userId,
             producerOptions: undefined,
             mediaKind: undefined,
             mediaType: undefined,
@@ -129,10 +136,19 @@ export default class RoomManager extends IRoomManager {
     return room;
   }
 
+  // for guard
   async getRoom(userId: string) {
-    const room = await this.roomStore.findRoomByUser(userId);
-    if (!room) return undefined;
-    return room.id;
+    const roomAsOwner = await this.roomStore.findRoomAsRoomOwnerByUserId(userId);
+    if (roomAsOwner) return roomAsOwner.id;
+    if (!roomAsOwner) {
+      const roomAsParticipant = await this.roomStore.findRoomAsParticipantByUserId(
+        userId,
+      );
+      if (roomAsParticipant) {
+        return roomAsParticipant.id;
+      }
+      return undefined;
+    }
   }
 
   async getRoomByUserId(userId: string) {
@@ -161,7 +177,6 @@ export default class RoomManager extends IRoomManager {
 
   async deleteRooms(roomIds: string[]) {
     await this.roomStore.deleteRooms(roomIds);
-    return {...mapRoomFromDB(room)};
   }
 
   private static generateCode() {
@@ -219,6 +234,10 @@ export default class RoomManager extends IRoomManager {
     await this.mediasoupService.closeRoom(roomId);
     return this.roomStore.closeRoom(roomId);
   }
+  //
+  // async updateRoomIsActive(roomId: string, status: boolean) {
+  //   return this.roomStore.updateRoomIsActive(roomId, status);
+  // }
 
   async mute(
     action: MuteAction,
@@ -228,20 +247,11 @@ export default class RoomManager extends IRoomManager {
     roomId: string,
   ) {
     const room = await this.roomStore.findRoomByIdOrThrow(roomId);
-    if (room.user.id !== owner) return false;
-    const mediasoupResponse = await this.mediasoupService.mute(action, userId, action);
+    // if (room.user.id !== owner) return false;
+    const mediasoupResponse = await this.mediasoupService.mute(action, room.id, userId);
     if (!mediasoupResponse) return false;
-    const response = await this.roomStore.mute(action, source, userId, roomId);
+    const response = await this.roomStore.mute(action, source, userId, room.id);
     return response;
-  }
-
-  //   return this.roomStore.updateRoomIsActive(roomId, status);
-  // }
-
-  participantsTracksObservable(): Observable<ParticipantMedia[]> {
-    return this.roomStore
-      .watchParticipantCreated()
-      .pipe(map(mapParticipantsTracksFromDB));
   }
 
   participantsTracksObservable(): Observable<ParticipantMedia[]> {

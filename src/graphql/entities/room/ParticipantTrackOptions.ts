@@ -9,13 +9,17 @@ registerEnumType(MediaType, {name: 'MediaType'});
 export default class ParticipantTrackOptions {
   constructor(
     enabled: boolean,
+    muted: boolean,
     clientId: string | undefined,
+    userId: string | undefined,
     producerOptions: ProducerOptions | undefined,
     mediaKind: MediaKind | undefined,
     mediaType: MediaType | undefined,
   ) {
     this.enabled = enabled;
+    this.muted = muted;
     this.clientId = clientId;
+    this.userId = userId;
     this.producerOptions = producerOptions;
     this.mediaKind = mediaKind;
     this.mediaType = mediaType;
@@ -24,8 +28,14 @@ export default class ParticipantTrackOptions {
   @Field(() => Boolean)
   enabled: boolean;
 
+  @Field(() => Boolean)
+  muted: boolean;
+
   @Field(() => String, {nullable: true})
   clientId: string | undefined;
+
+  @Field(() => String, {nullable: true})
+  userId: string | undefined;
 
   @Field(() => graphqlTypeJson, {nullable: true})
   producerOptions: ProducerOptions | undefined;

@@ -51,6 +51,7 @@ export const mapAccountToGQL = (account: Account): GQLAccount => ({
 
 export const mapRoomToGQL = (room: Room): GQLRoom => ({
   id: room.id,
+  closed: room.closed,
   name: room.name,
   inviteLink: room.inviteLink,
   type: room.type,

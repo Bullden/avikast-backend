@@ -5,6 +5,7 @@ import {RoomType} from 'entities/Room';
 
 export const RoomSchema = createSchema('room', {
   name: {type: String, required: true},
+  closed: {type: Date},
   type: {type: RoomType, enum: RoomType, required: true},
   user: {type: String, ref: UserSchema.name, required: true},
   passwordProtected: {type: Boolean, required: true},
@@ -15,6 +16,7 @@ export const RoomSchema = createSchema('room', {
 
 export default interface RoomModel extends Document {
   name: string;
+  closed: undefined | Date;
   type: RoomType;
   user: UserModel | string;
   passwordProtected: boolean;
@@ -25,6 +27,7 @@ export default interface RoomModel extends Document {
 
 export interface CreateRoomModel {
   name: string;
+  closed: undefined | Date;
   type: RoomType;
   user: string;
   passwordProtected: boolean;

@@ -33,6 +33,7 @@ type Account {
 
 type Room {
   id: ID!
+  closed: DateTime
   name: String!
   inviteLink: String!
   type: RoomType!
@@ -46,7 +47,9 @@ enum RoomType {
 
 type ParticipantTrackOptions {
   enabled: Boolean!
+  muted: Boolean!
   clientId: String
+  userId: String
   producerOptions: JSON
   mediaKind: String
   mediaType: String
@@ -139,8 +142,9 @@ enum AvikastFileType {
 type Query {
   myAccount: Account!
   users: [User!]!
-  roomById(roomId: String!): Room!
   rooms: [Room!]!
+  roomById(roomId: String!): Room!
+  room: Room
   participants(roomId: String!): [Participant!]!
   participantsTracks(roomId: String!): [ParticipantMedia!]!
   webinarOwner(roomId: String!): Participant!
@@ -169,6 +173,7 @@ type Mutation {
   raiseHand(raiseHand: Boolean!, roomId: String!): Boolean!
   leaveRoom(roomId: String!): Boolean!
   closeRoom(roomId: String!): Boolean!
+  mute(roomId: String!, userId: String!, source: String!, action: String!): Boolean!
   createTransport(clientId: String!, direction: String!, roomId: String!): TransportOptions!
   connectTransport(clientId: String!, direction: String!, dtlsParameters: JSON!, roomId: String!): Boolean!
   createProducer(mediaType: MediaType!, mediaKind: MediaKind!, rtpParameters: JSON!, clientId: String!, roomId: String!, transportId: String!): ProducerOptions!

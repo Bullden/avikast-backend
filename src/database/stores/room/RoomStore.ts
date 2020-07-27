@@ -50,6 +50,7 @@ export default class RoomStore extends IRoomStore {
 
   async createRoom(room: {
     name: string;
+    closed: undefined;
     type: RoomType;
     user: {id: string};
     passwordProtected: boolean;
@@ -58,6 +59,7 @@ export default class RoomStore extends IRoomStore {
   }) {
     const newRoom: CreateRoomModel = {
       name: room.name,
+      closed: room.closed,
       type: room.type,
       user: room.user.id,
       passwordProtected: room.passwordProtected,
@@ -115,22 +117,26 @@ export default class RoomStore extends IRoomStore {
     return room ? mapParticipantFromModel(room) : undefined;
   }
 
+  // for guard
+  async findRoomAsRoomOwnerByUserId(userId: string) {
+    const room = await this.roomModel.findOne({user: userId}).populate(this.populateRoom);
+    return room ? mapRoomFromModel(room) : null;
+  }
+
+  async findRoomAsParticipantByUserId(userId: string) {
+    const participant = await this.participantModel
+      .findOne({user: userId})
+      .populate(this.populateRoom);
+    if (!participant) return null;
+    return this.findRoomByUser(participant._id);
+  }
+
+  // end region
+
   async getParticipants(roomId: string) {
     return mapParticipantsFromModel(
       await this.participantModel.find({room: roomId}).populate(this.populateParticipant),
     );
-  }
-
-  async getParticipantsTracks(roomId: string) {
-    const participants = mapParticipantsFromModel(
-      await this.participantModel.find({room: roomId}).populate(this.populateParticipant),
-    );
-    const tracks: ParticipantMedia[] = [];
-    participants.forEach((participant) => {
-      const track = participant.media;
-      tracks.push(track);
-    });
-    return tracks;
   }
 
   async getRooms() {
@@ -165,6 +171,7 @@ export default class RoomStore extends IRoomStore {
   async updateParticipantMedia(
     type: 'audio' | 'video' | 'screenShare',
     roomId: string,
+    clientId: string,
     userId: string,
     request: ParticipantTrackOptions,
   ) {
@@ -232,10 +239,7 @@ export default class RoomStore extends IRoomStore {
   }
 
   async closeRoom(roomId: string) {
-    console.log('CLOSE ROOM', roomId);
-    this.roomModel.deleteOne({_id: {roomId}});
-    this.roomModel.remove({_id: roomId});
-    this.roomModel.deleteMany({_id: {$in: [roomId]}});
+    await this.roomModel.update({_id: roomId}, {closed: new Date()});
     return true;
   }
 
@@ -300,82 +304,100 @@ export default class RoomStore extends IRoomStore {
   //   await this.roomModel.update({_id: roomId}, {isActive});
   // }
 
-  //
-  private changeStream: ChangeStream | undefined;
-
-  private participantTracksSubject: Subject<ParticipantMedia[]> | undefined;
-
-  private updatedParticipantSubject: Subject<ParticipantMedia[]> | undefined;
-
-  private watchInternal() {
-    if (!this.changeStream) {
-      const changeStream = this.participantModel.watch();
-      changeStream.on('change', this.onChangeEventReceived.bind(this));
-      this.changeStream = changeStream;
-    }
-
-    let participantTracks: Subject<ParticipantMedia[]>;
-    if (this.participantTracksSubject) {
-      participantTracks = this.participantTracksSubject;
-    } else {
-      participantTracks = new Subject<ParticipantMedia[]>();
-      this.participantTracksSubject = participantTracks;
-    }
-
-    return {participantTracks};
-  }
-
-  private async onChangeEventReceived(doc: ChangeEvent) {
-    if (doc.operationType === 'insert') {
-      const participantTracks = await this.getParticipantsTracks('roomId');
-      if (!participantTracks) {
-        throw new Error('Message does not exist');
-      }
-      if (this.participantTracksSubject !== undefined) {
-        this.participantTracksSubject.next(participantTracks);
-      }
-    }
-    if (doc.operationType === 'update') {
-      const participantTracks = await this.getParticipantsTracks('roomId');
-      if (!participantTracks) {
-        throw new Error('Message does not exist');
-      }
-      if (this.participantTracksSubject !== undefined) {
-        this.participantTracksSubject.next(participantTracks);
-      }
-    }
-  }
-
   async mute(action: MuteAction, source: MuteSource, userId: string, roomId: string) {
-    const updateObject: Partial<ParticipantModel> = {};
-    if (!updateObject)
-      throw new Error('Something went wrong: updateObject.muted is undefined');
     if (source === MuteSource.Audio) {
-      if (!updateObject.media?.audio.enabled)
-        throw new Error('Something went wrong: updateObject.muted is undefined');
-      if (action === MuteAction.Mute) updateObject.media.audio.enabled = false;
-      else if (action === MuteAction.UnMute) updateObject.media.audio.enabled = true;
+      return this.muteAudio(action, source, userId, roomId);
     }
     if (source === MuteSource.Video) {
-      if (!updateObject.media?.video.enabled)
-        throw new Error('Something went wrong: updateObject.muted is undefined');
-      if (action === MuteAction.Mute) updateObject.media.video.enabled = false;
-      else if (action === MuteAction.UnMute) updateObject.media.video.enabled = true;
+      return this.muteVideo(action, source, userId, roomId);
     }
     if (source === MuteSource.Screen) {
-      if (!updateObject.media?.screen.enabled)
-        throw new Error('Something went wrong: updateObject.muted is undefined');
-      if (action === MuteAction.Mute) updateObject.media.screen.enabled = false;
-      else if (action === MuteAction.UnMute) updateObject.media.screen.enabled = true;
+      return this.muteScreen(action, source, userId, roomId);
     }
+    return false;
+  }
+
+  async muteAudio(
+    action: MuteAction,
+    source: MuteSource,
+    userId: string,
+    roomId: string,
+  ) {
+    const participant = await this.findParticipant(roomId, userId);
+    const updateObject: Partial<ParticipantModel> = {};
+    if (!participant) throw new Error('now participant');
+    const update = {
+      userName: participant.user.name,
+      audio: {
+        enabled: participant.media.audio.enabled,
+        muted: action !== MuteAction.Mute,
+        clientId: participant.media.audio.clientId,
+        userId: participant.media.audio.userId,
+        producerOptions: participant.media.audio.producerOptions,
+        mediaKind: participant.media.audio.mediaKind,
+        mediaType: participant.media.audio.mediaType,
+      },
+      video: participant.media.video,
+      screen: participant.media.screen,
+    };
+    updateObject.media = update;
     await this.participantModel.update({_id: userId, room: roomId}, {updateObject});
     return true;
   }
 
-  // endregion
+  async muteVideo(
+    action: MuteAction,
+    source: MuteSource,
+    userId: string,
+    roomId: string,
+  ) {
+    const participant = await this.findParticipant(roomId, userId);
+    const updateObject: Partial<ParticipantModel> = {};
+    if (!participant) throw new Error('now participant');
+    const update = {
+      userName: participant.user.name,
+      audio: participant.media.audio,
+      video: {
+        enabled: participant.media.video.enabled,
+        muted: action !== MuteAction.Mute,
+        clientId: participant.media.video.clientId,
+        userId: participant.media.video.userId,
+        producerOptions: participant.media.video.producerOptions,
+        mediaKind: participant.media.video.mediaKind,
+        mediaType: participant.media.video.mediaType,
+      },
+      screen: participant.media.screen,
+    };
+    updateObject.media = update;
+    await this.participantModel.update({_id: userId, room: roomId}, {updateObject});
+    return true;
+  }
 
-  watchParticipantCreated() {
-    const {participantTracks} = this.watchInternal();
-    return participantTracks;
+  async muteScreen(
+    action: MuteAction,
+    source: MuteSource,
+    userId: string,
+    roomId: string,
+  ) {
+    const participant = await this.findParticipant(roomId, userId);
+    const updateObject: Partial<ParticipantModel> = {};
+    if (!participant) throw new Error('now participant');
+    const update = {
+      userName: participant.user.name,
+      audio: participant.media.audio,
+      video: participant.media.video,
+      screen: {
+        enabled: participant.media.screen.enabled,
+        muted: action !== MuteAction.Mute,
+        clientId: participant.media.screen.clientId,
+        userId: participant.media.screen.userId,
+        producerOptions: participant.media.screen.producerOptions,
+        mediaKind: participant.media.screen.mediaKind,
+        mediaType: participant.media.screen.mediaType,
+      },
+    };
+    updateObject.media = update;
+    await this.participantModel.update({_id: userId, room: roomId}, {updateObject});
+    return true;
   }
 }

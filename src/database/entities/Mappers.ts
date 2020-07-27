@@ -56,6 +56,7 @@ export const mapMessagesFromDB = (messages: MessageDB[]): Message[] =>
 
 export const mapRoomFromDB = (room: DbRoom): Room => ({
   id: room.id,
+  closed: room.closed,
   name: room.name,
   inviteLink: room.inviteLink,
   type: room.type,

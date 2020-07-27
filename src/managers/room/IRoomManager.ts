@@ -61,6 +61,4 @@ export default abstract class IRoomManager {
   // abstract participantCreatedObservable(): Observable<Participant>;
   //
   // abstract participantUpdateObservable(): Observable<Participant>;
-
-  abstract participantsTracksObservable(): Observable<ParticipantMedia[]>;
 }

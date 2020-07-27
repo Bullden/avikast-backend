@@ -5,6 +5,7 @@ import {RoomType} from 'entities/Room';
 export default interface Room {
   id: ID;
   name: string;
+  closed: undefined | Date;
   type: RoomType;
   user: User;
   passwordProtected: boolean;

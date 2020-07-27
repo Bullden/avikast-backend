@@ -22,6 +22,10 @@ export default abstract class IRoomStore {
 
   abstract findRoomByUser(userId: string): Promise<Room | null>;
 
+  abstract findRoomAsRoomOwnerByUserId(userId: string): Promise<Room | null>;
+
+  abstract findRoomAsParticipantByUserId(userId: string): Promise<Room | null>;
+
   abstract findRoomByCode(inviteLink: string): Promise<Room | null>;
 
   abstract createParticipant(participant: {
@@ -48,6 +52,7 @@ export default abstract class IRoomStore {
     type: 'audio' | 'video' | 'screenShare',
     roomId: string,
     clientId: string,
+    userId: string,
     renewParticipantMedia: ParticipantTrackOptions,
   ): Promise<boolean>;
 
@@ -74,10 +79,24 @@ export default abstract class IRoomStore {
     roomId: string,
   ): Promise<boolean>;
 
-  // abstract updateRoomIsActive(roomId: string, isActive: boolean): Promise<void>;
-  // abstract watchParticipantUpdated(): Observable<Participant>;
+  abstract muteAudio(
+    action: MuteAction,
+    source: MuteSource,
+    userId: string,
+    roomId: string,
+  ): Promise<boolean>;
 
-  abstract watchParticipantCreated(): Observable<ParticipantMedia[]>;
+  abstract muteVideo(
+    action: MuteAction,
+    source: MuteSource,
+    userId: string,
+    roomId: string,
+  ): Promise<boolean>;
 
-  // abstract watchParticipantUpdated(): Observable<Participant>;
+  abstract muteScreen(
+    action: MuteAction,
+    source: MuteSource,
+    userId: string,
+    roomId: string,
+  ): Promise<boolean>;
 }

@@ -127,6 +127,7 @@ export const mapRoomFromModel = (room: RoomModel): Room => {
   if (typeof room.user !== 'object') throw new Error('User should be object');
   return {
     id: extractIdFromModel(room),
+    closed: room.closed,
     name: room.name,
     type: room.type,
     user: mapUserFromModel(room.user),

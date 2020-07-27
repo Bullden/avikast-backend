@@ -37,7 +37,7 @@ import {
   CloseRouterResponse,
 } from 'services/mediasoup/entities/CloseRouter';
 import {LeaveRoomRequest, LeaveRoomResponse} from 'services/mediasoup/entities/LeaveRoom';
-import {MuteAction, MuteSource} from 'entities/Room';
+import {MuteAction} from 'entities/Room';
 
 export default class MediasoupService extends IMediasoupService {
   constructor(@Inject(MEDIASOUP_SERVICE) private readonly mediasoupClient: ClientProxy) {
@@ -204,10 +204,10 @@ export default class MediasoupService extends IMediasoupService {
     return response.response;
   }
 
-  async mute(action: MuteAction, userId: string, roomId: string) {
+  async mute(action: MuteAction, roomId: string, userId: string) {
     const response = await this.sendAsyncRequired<MuteRequest, MuteResponse>(
       {area: 'producer', action: 'mute'},
-      {action, userId, roomId},
+      {action, roomId, userId},
     );
     return response.response;
   }

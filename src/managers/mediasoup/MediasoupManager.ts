@@ -63,7 +63,9 @@ export default class MediasoupManager extends IMediasoupManager {
     );
     const participantTrackOptions: ParticipantTrackOptions = {
       enabled: true,
+      muted: false,
       clientId,
+      userId,
       producerOptions: producer,
       mediaKind,
       mediaType,
@@ -72,6 +74,7 @@ export default class MediasoupManager extends IMediasoupManager {
       await this.roomStore.updateParticipantMedia(
         mediaType,
         roomId,
+        clientId,
         userId,
         participantTrackOptions,
       );
@@ -79,6 +82,7 @@ export default class MediasoupManager extends IMediasoupManager {
       await this.roomStore.updateParticipantMedia(
         mediaKind,
         roomId,
+        clientId,
         userId,
         participantTrackOptions,
       );
