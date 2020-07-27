@@ -7,8 +7,6 @@ import UserModel, {UserSchema} from '../../models/UserModel';
 import {mapUserFromModel, mapUsersFromModel} from '../../models/Mappers';
 import RoomModel, {RoomSchema} from 'database/models/RoomModel';
 import LocalLoginModel, {LocalLoginSchema} from 'database/models/LocalLoginModel';
-import Ban from 'database/entities/Ban';
-import BanModel, {BanSchema} from 'database/models/BanModel';
 
 @Injectable()
 export default class UserStore implements IUserStore {
@@ -16,7 +14,6 @@ export default class UserStore implements IUserStore {
     @InjectModel(UserSchema.name) private userModel: Model<UserModel>,
     @InjectModel(RoomSchema.name) private roomModel: Model<RoomModel>,
     @InjectModel(LocalLoginSchema.name) private localLoginModel: Model<LocalLoginModel>,
-    @InjectModel(BanSchema.name) private banModel: Model<BanModel>,
   ) {}
 
   private populate = 'referrer';
@@ -39,11 +36,24 @@ export default class UserStore implements IUserStore {
   async banUsersTemporary(userIds: string[], untilDate: string) {
     const date = new Date(untilDate);
 
-    const bans = userIds.map(() => this.banModel.create({date}));
+    await this.userModel.updateMany(
+      {_id: userIds},
+      {banUntilDate: date, banForever: undefined},
+    );
+  }
 
-    bans.map(async (ban, index) => {
-      await this.userModel.update({_id: userIds[index]}, ban);
-    });
+  async banUsersPermanently(userIds: string[]) {
+    await this.userModel.updateMany(
+      {_id: userIds},
+      {banUntilDate: undefined, banForever: true},
+    );
+  }
+
+  async restoreUsers(userIds: string[]) {
+    await this.userModel.updateMany(
+      {_id: userIds},
+      {banUntilDate: undefined, banForever: undefined},
+    );
   }
 
   async createUser(data: {
@@ -73,7 +83,6 @@ export default class UserStore implements IUserStore {
       tags: string[] | undefined;
       skills: string[] | undefined;
       referralCode: string | undefined;
-      ban: Ban | undefined;
     },
   ) {
     const updateObject: Partial<UserModel> = {};
@@ -85,7 +94,6 @@ export default class UserStore implements IUserStore {
     if (data.tags !== undefined) updateObject.tags = data.tags;
     if (data.skills !== undefined) updateObject.skills = data.skills;
     if (data.referralCode !== undefined) updateObject.referralCode = data.referralCode;
-    if (data.ban !== undefined) updateObject.ban = data.ban;
     await this.userModel.update({_id: userId}, updateObject);
   }
 

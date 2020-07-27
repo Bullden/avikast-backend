@@ -1,5 +1,4 @@
 import {Field, ID, ObjectType} from '@nestjs/graphql';
-import Ban from 'graphql/entities/ban/Ban';
 
 @ObjectType()
 export default class User {
@@ -14,7 +13,8 @@ export default class User {
     tags: string[],
     skills: string[],
     referralCode: string,
-    ban: Ban,
+    banUntilDate: Date | undefined,
+    banForever: boolean | undefined,
   ) {
     this.id = id;
     this.name = name;
@@ -26,7 +26,8 @@ export default class User {
     this.tags = tags;
     this.skills = skills;
     this.referralCode = referralCode;
-    this.ban = ban;
+    this.banUntilDate = banUntilDate;
+    this.banForever = banForever;
   }
 
   @Field(() => ID)
@@ -59,6 +60,9 @@ export default class User {
   @Field(() => String)
   referralCode: string;
 
-  @Field(() => Ban, {nullable: true})
-  ban?: Ban;
+  @Field(() => Date, {nullable: true})
+  banUntilDate?: Date;
+
+  @Field(() => Boolean, {nullable: true})
+  banForever?: Boolean;
 }

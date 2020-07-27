@@ -1,5 +1,3 @@
-import Ban from 'database/entities/Ban';
-
 export default interface User {
   id: string;
   name: string;
@@ -13,5 +11,6 @@ export default interface User {
   allowNotifications: boolean;
   referralCode: string;
   referrer: User | undefined;
-  ban: Ban | undefined;
+  banUntilDate: Date | undefined;
+  banForever: boolean | undefined;
 }

@@ -1,7 +1,6 @@
 import Account from '../../entities/Account';
 import {ID} from 'entities/Common';
 import User from 'entities/User';
-import Ban from 'entities/Ban';
 
 export default abstract class IAccountManager {
   abstract getMyAccount(myUserId: string): Promise<Account>;
@@ -17,7 +16,6 @@ export default abstract class IAccountManager {
       tags: string[] | undefined;
       skills: string[] | undefined;
       referralCode: string | undefined;
-      ban: Ban | undefined;
     },
   ): Promise<Account>;
 
@@ -26,4 +24,8 @@ export default abstract class IAccountManager {
   abstract deleteUsers(userIds: string[]): Promise<void>;
 
   abstract banUsersTemporary(userIds: string[], untilDate: string): Promise<void>;
+
+  abstract banUsersPermanently(userIds: string[]): Promise<void>;
+
+  abstract restoreUsers(userIds: string[]): Promise<void>;
 }

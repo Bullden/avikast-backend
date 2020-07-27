@@ -19,16 +19,6 @@ import Message from 'entities/Message';
 import GQLMessage from './message/Message';
 import GQLRecord from './record/Record';
 import Record from 'entities/Record';
-import GQLBan from './ban/Ban';
-import Ban from 'entities/Ban';
-
-export const mapBanToGQL = (ban: Ban): GQLBan => {
-  return {
-    id: ban.id,
-    untilDate: ban.untilDate,
-    isForever: ban.isForever,
-  };
-};
 
 export const mapUserToGQL = (user: User): GQLUser => {
   return {
@@ -42,7 +32,8 @@ export const mapUserToGQL = (user: User): GQLUser => {
     tags: user.tags,
     skills: user.skills,
     referralCode: user.referralCode,
-    ban: user.ban ? mapBanToGQL(user.ban) : undefined,
+    banUntilDate: user.banUntilDate,
+    banForever: user.banForever,
   };
 };
 

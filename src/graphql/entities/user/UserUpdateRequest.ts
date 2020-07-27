@@ -1,5 +1,4 @@
 import {Field, InputType} from '@nestjs/graphql';
-import Ban from 'graphql/entities/ban/Ban';
 
 @InputType()
 export default class UserUpdateRequest {
@@ -11,7 +10,6 @@ export default class UserUpdateRequest {
     dateOfBirth: Date | undefined,
     tags: string[] | undefined,
     skills: string[] | undefined,
-    ban: Ban,
   ) {
     this.name = name;
     this.email = email;
@@ -20,7 +18,6 @@ export default class UserUpdateRequest {
     this.dateOfBirth = dateOfBirth;
     this.tags = tags;
     this.skills = skills;
-    this.ban = ban;
   }
 
   @Field(() => String, {nullable: true})
@@ -46,7 +43,4 @@ export default class UserUpdateRequest {
 
   @Field(() => String, {nullable: true})
   referralCode: string | undefined;
-
-  @Field(() => Ban, {nullable: true})
-  ban?: Ban;
 }

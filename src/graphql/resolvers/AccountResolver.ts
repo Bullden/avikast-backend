@@ -34,7 +34,6 @@ export class AccountResolver {
         tags: userInput.tags,
         skills: userInput.skills,
         referralCode: userInput.referralCode,
-        ban: userInput.ban,
       }),
     );
   }
@@ -45,6 +44,22 @@ export class AccountResolver {
     @Args({name: 'untilDate', type: () => String}) untilDate: string,
   ) {
     await this.accountManager.banUsersTemporary(userIds, untilDate);
+
+    return true;
+  }
+
+  @Mutation(() => Boolean)
+  async banUsersPermanently(
+    @Args({name: 'userIds', type: () => [String]}) userIds: string[],
+  ) {
+    await this.accountManager.banUsersPermanently(userIds);
+
+    return true;
+  }
+
+  @Mutation(() => Boolean)
+  async restoreUsers(@Args({name: 'userIds', type: () => [String]}) userIds: string[]) {
+    await this.accountManager.restoreUsers(userIds);
 
     return true;
   }

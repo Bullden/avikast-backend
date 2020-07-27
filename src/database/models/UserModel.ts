@@ -1,7 +1,5 @@
 import {Document} from 'mongoose';
 import {createSchema} from './Common';
-import {BanSchema} from 'database/models/BanModel';
-import Ban from 'database/entities/Ban';
 
 const schemaName = 'user';
 
@@ -17,7 +15,8 @@ export const UserSchema = createSchema(schemaName, {
   allowNotifications: {type: Boolean, required: true, default: true},
   referralCode: {type: String, required: true},
   referrer: {type: String, ref: schemaName},
-  ban: {type: Object, ref: BanSchema.name},
+  banUntilDate: {type: Date, required: false},
+  banForever: {type: Boolean, required: false},
 });
 
 export default interface UserModel extends Document {
@@ -32,5 +31,6 @@ export default interface UserModel extends Document {
   allowNotifications: boolean;
   referralCode: string;
   referrer: UserModel | string;
-  ban: Ban | undefined;
+  banUntilDate: Date;
+  banForever: boolean;
 }

@@ -2,17 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Ban {
-  id: ID!
-  untilDate: DateTime
-  isForever: Boolean
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type User {
   id: ID!
   name: String!
@@ -24,8 +13,14 @@ type User {
   tags: [String!]!
   skills: [String!]!
   referralCode: String!
-  ban: Ban
+  banUntilDate: DateTime
+  banForever: Boolean
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type Preferences {
   allowNotifications: Boolean!
@@ -141,12 +136,6 @@ enum AvikastFileType {
   Directory
 }
 
-input BanInput {
-  id: ID!
-  untilDate: DateTime
-  isForever: Boolean
-}
-
 type Query {
   myAccount: Account!
   users: [User!]!
@@ -171,6 +160,8 @@ type Query {
 type Mutation {
   updateMyAccount(user: UserUpdateRequest!): Account!
   banUsersTemporary(untilDate: String!, userIds: [String!]!): Boolean!
+  banUsersPermanently(userIds: [String!]!): Boolean!
+  restoreUsers(userIds: [String!]!): Boolean!
   deleteUsers(userIds: [String!]!): Boolean!
   createRoom(password: String, passwordProtected: Boolean!, type: RoomType!, name: String!): Room!
   deleteRooms(roomIds: [String!]!): Boolean!
@@ -194,7 +185,6 @@ input UserUpdateRequest {
   tags: [String!]
   skills: [String!]
   referralCode: String
-  ban: BanInput
 }
 
 enum MediaType {
