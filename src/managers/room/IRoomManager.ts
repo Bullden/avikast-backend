@@ -56,9 +56,6 @@ export default abstract class IRoomManager {
     userId: string,
     owner: string,
     roomId: string,
+    producerId: string,
   ): Promise<boolean>;
-
-  // abstract participantCreatedObservable(): Observable<Participant>;
-  //
-  // abstract participantUpdateObservable(): Observable<Participant>;
 }

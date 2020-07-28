@@ -9,6 +9,7 @@ export interface MuteRequest {
   action: MuteAction;
   userId: string;
   roomId: string;
+  producerId: string;
 }
 
 export interface MuteResponse {

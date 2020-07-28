@@ -69,7 +69,12 @@ export default abstract class IMediasoupService {
 
   abstract closeRoom(roomId: string): Promise<boolean>;
 
-  abstract mute(action: MuteAction, roomId: string, userId: string): Promise<boolean>;
+  abstract mute(
+    action: MuteAction,
+    roomId: string,
+    userId: string,
+    producerId: string,
+  ): Promise<boolean>;
 
   // abstract unMute(roomId: string, userId: string): Promise<boolean>;
 }

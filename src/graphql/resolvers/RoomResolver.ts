@@ -166,9 +166,9 @@ export default class RoomResolver {
     if (!this.trackCreatedSubscription) {
       this.trackCreatedSubscription = this.roomManager
         .participantsTracksObservable()
-        .subscribe(async (participantTrack) =>
-          this.pubSub.publish(EVENT_NEW_PARTICIPANT_TRACK, participantTrack),
-        );
+        .subscribe(async (participantTrack) => {
+          return this.pubSub.publish(EVENT_NEW_PARTICIPANT_TRACK, participantTrack);
+        });
     }
     return this.pubSub.asyncIterator(EVENT_NEW_PARTICIPANT_TRACK);
   }
@@ -180,7 +180,15 @@ export default class RoomResolver {
     @Args('source') source: MuteSource,
     @Args('userId') userId: string,
     @Args('roomId') roomId: string,
+    @Args('producerId') producerId: string,
   ) {
-    return this.roomManager.mute(action, source, userId, session.userId, roomId);
+    return this.roomManager.mute(
+      action,
+      source,
+      userId,
+      session.userId,
+      roomId,
+      producerId,
+    );
   }
 }

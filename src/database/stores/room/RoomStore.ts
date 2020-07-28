@@ -260,7 +260,6 @@ export default class RoomStore extends IRoomStore {
       changeStream.on('change', this.onChangeEventReceived.bind(this));
       this.changeStream = changeStream;
     }
-
     let participantTracks: Subject<ParticipantMedia[]>;
     if (this.participantTracksSubject) {
       participantTracks = this.participantTracksSubject;
@@ -274,7 +273,9 @@ export default class RoomStore extends IRoomStore {
 
   private async onChangeEventReceived(doc: ChangeEvent) {
     if (doc.operationType === 'insert') {
-      const participantTracks = await this.getParticipantsTracks('roomId');
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      const participantTracks = await this.getParticipantsTracks(doc.fullDocument.room);
       if (!participantTracks) {
         throw new Error('Message does not exist');
       }
@@ -283,9 +284,14 @@ export default class RoomStore extends IRoomStore {
       }
     }
     if (doc.operationType === 'update') {
-      const participantTracks = await this.getParticipantsTracks('roomId');
+      const room = await this.participantModel
+        .findOne({_id: doc.documentKey})
+        .populate(this.populateRoom);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      const participantTracks = await this.getParticipantsTracks(room.room);
       if (!participantTracks) {
-        throw new Error('Message does not exist');
+        throw new Error('participantTracks does not exist');
       }
       if (this.participantTracksSubject !== undefined) {
         this.participantTracksSubject.next(participantTracks);
@@ -300,8 +306,9 @@ export default class RoomStore extends IRoomStore {
     return participantTracks;
   }
 
-  // async updateRoomIsActive(roomId: string, isActive: boolean) {
-  //   await this.roomModel.update({_id: roomId}, {isActive});
+  // watchParticipantUpdated() {
+  //   const {participantTracks} = this.watchInternal();
+  //   return participantTracks;
   // }
 
   async mute(action: MuteAction, source: MuteSource, userId: string, roomId: string) {

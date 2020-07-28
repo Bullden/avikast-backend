@@ -204,10 +204,10 @@ export default class MediasoupService extends IMediasoupService {
     return response.response;
   }
 
-  async mute(action: MuteAction, roomId: string, userId: string) {
+  async mute(action: MuteAction, roomId: string, userId: string, producerId: string) {
     const response = await this.sendAsyncRequired<MuteRequest, MuteResponse>(
       {area: 'producer', action: 'mute'},
-      {action, roomId, userId},
+      {action, roomId, userId, producerId},
     );
     return response.response;
   }

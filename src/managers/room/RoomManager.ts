@@ -245,10 +245,16 @@ export default class RoomManager extends IRoomManager {
     userId: string,
     owner: string,
     roomId: string,
+    producerId: string,
   ) {
     const room = await this.roomStore.findRoomByIdOrThrow(roomId);
     // if (room.user.id !== owner) return false;
-    const mediasoupResponse = await this.mediasoupService.mute(action, room.id, userId);
+    const mediasoupResponse = await this.mediasoupService.mute(
+      action,
+      room.id,
+      userId,
+      producerId,
+    );
     if (!mediasoupResponse) return false;
     const response = await this.roomStore.mute(action, source, userId, room.id);
     return response;

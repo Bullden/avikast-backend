@@ -173,7 +173,7 @@ type Mutation {
   raiseHand(raiseHand: Boolean!, roomId: String!): Boolean!
   leaveRoom(roomId: String!): Boolean!
   closeRoom(roomId: String!): Boolean!
-  mute(roomId: String!, userId: String!, source: String!, action: String!): Boolean!
+  mute(producerId: String!, roomId: String!, userId: String!, source: String!, action: String!): Boolean!
   createTransport(clientId: String!, direction: String!, roomId: String!): TransportOptions!
   connectTransport(clientId: String!, direction: String!, dtlsParameters: JSON!, roomId: String!): Boolean!
   createProducer(mediaType: MediaType!, mediaKind: MediaKind!, rtpParameters: JSON!, clientId: String!, roomId: String!, transportId: String!): ProducerOptions!
