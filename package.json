@@ -19,6 +19,7 @@
     "docker:stop:development": "docker-compose -f docker-compose.db-only.yml down"
   },
   "dependencies": {
+    "@nest-modules/mailer": "1.3.22",
     "@nestjs/common": "^7.0.0",
     "@nestjs/core": "^7.0.0",
     "@nestjs/graphql": "^7.3.7",
@@ -27,10 +28,15 @@
     "@nestjs/mongoose": "^6.4.0",
     "@nestjs/platform-express": "^7.0.9",
     "@spryrocks/config-node": "1.0.2",
+    "@spryrocks/file-storage": "^0.0.1-alpha.3",
+    "@types/app-root-path": "^1.2.4",
     "@types/mongoose": "5.7.15",
     "@types/morgan": "^1.9.0",
+    "@types/nodemailer": "^6.4.0",
     "apollo-server-express": "^2.13.0",
+    "app-root-path": "3.0.0",
     "bcrypt": "^4.0.1",
+    "bson": "4.0.4",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
     "dotenv": "^8.2.0",
@@ -40,16 +46,15 @@
     "graphql-subscriptions": "^1.1.0",
     "graphql-tools": "^5.0.0",
     "graphql-type-json": "^0.3.1",
+    "mongodb": "^3.5.9",
     "mongoose": "^5.9.12",
     "morgan": "^1.10.0",
     "multer": "^1.4.2",
+    "nodemailer": "^6.4.11",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.0.0-beta.2",
-    "uuid": "^8.0.0",
-    "@spryrocks/file-storage": "^0.0.1-alpha.3",
-    "mongodb": "^3.5.9",
-    "bson": "4.0.4"
+    "uuid": "^8.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.0.0",

@@ -19,6 +19,7 @@ import AppType from 'entities/AppType';
 import {Platform} from 'entities/Platform';
 import User from 'entities/User';
 import SessionInfo from 'entities/SessionInfo';
+import INotificationService from 'services/notifications/INotificationService';
 
 @Injectable()
 export default class AuthManager extends IAuthManager {
@@ -27,6 +28,7 @@ export default class AuthManager extends IAuthManager {
     private readonly loginStore: ILoginStore,
     private readonly sessionStore: ISessionStore,
     private readonly jwtService: IJwtService,
+    private readonly notificationService: INotificationService,
   ) {
     super();
   }
@@ -66,6 +68,7 @@ export default class AuthManager extends IAuthManager {
       referrer: referrer ? referrer.id : undefined,
     });
     const login = await this.createLocalLogin(user, email, password);
+    await this.notificationService.sendRegistrationMessage(name, email);
     return this.createSession(login.user, appType, platform);
   }
 
@@ -231,7 +234,7 @@ export default class AuthManager extends IAuthManager {
     return generatePassword({
       length: 10,
       numbers: true,
-      symbols: true,
+      symbols: false,
       uppercase: true,
     });
   }
@@ -250,10 +253,9 @@ export default class AuthManager extends IAuthManager {
       {email},
       AvikastErrorType.RestorePasswordFailed,
     );
-
     const password = AuthManager.generateNewPassword();
-
-    this.updatePassword(login, password);
+    await this.updatePassword(login, password);
+    await this.notificationService.sendNewPassword(login.user.id, password);
   }
 
   async updatePassword(login: LocalLogin, password: string) {
