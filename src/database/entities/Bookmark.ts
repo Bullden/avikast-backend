@@ -1,8 +1,7 @@
-import {ID} from './Common';
 import User from './User';
 
 export default interface Bookmark {
-  id: ID;
+  id: string;
   date: Date;
   topic: string;
   text: string;

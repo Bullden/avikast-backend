@@ -1,4 +1,4 @@
-import {Query, Resolver} from '@nestjs/graphql';
+import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
 import {UseGuards} from '@nestjs/common';
 import AuthGuard from '../../enhancers/guards/AuthGuard';
 import CurrentSession from '../../enhancers/decorators/CurrentSession';
@@ -16,5 +16,14 @@ export class BookmarkResolver {
   @Query(() => [Bookmark])
   async bookmarks(@CurrentSession() {userId}: SessionInfo) {
     return mapBookmarksToGQL(await this.bookmarksManager.getBookmarks(userId));
+  }
+
+  @Mutation(() => [Boolean])
+  async addBookmark(
+    @CurrentSession() {userId}: SessionInfo,
+    @Args('text') text: string,
+    @Args('roomId') roomId: string,
+  ) {
+    return this.bookmarksManager.addBookmark(text, userId, roomId);
   }
 }
