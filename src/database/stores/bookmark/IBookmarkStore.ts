@@ -1,5 +1,4 @@
 import Bookmark from 'database/entities/Bookmark';
-import User from 'database/entities/User';
 
 export default abstract class IBookmarkStore {
   abstract getBookmarks(userId: string): Promise<Bookmark[]>;

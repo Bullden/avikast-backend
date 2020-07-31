@@ -3,7 +3,6 @@ import {Model, QueryPopulateOptions} from 'mongoose';
 import IBookmarkStore from './IBookmarkStore';
 import BookmarkModel, {BookmarkSchema} from '../../models/BookmarkModel';
 import {mapBookmarkFromModel, mapBookmarksFromModel} from '../../models/Mappers';
-import User from 'database/entities/User';
 
 export default class BookmarkStore extends IBookmarkStore {
   constructor(
@@ -18,7 +17,6 @@ export default class BookmarkStore extends IBookmarkStore {
   ];
 
   async getBookmarks(userId: string) {
-    console.log(userId);
     return mapBookmarksFromModel(
       await this.bookmarkModel.find({user: userId}).populate(this.populateBookmark),
     );
@@ -38,7 +36,6 @@ export default class BookmarkStore extends IBookmarkStore {
     text: string;
     user: string;
   }) {
-    console.log(bookmark.user);
     await this.bookmarkModel.create(bookmark);
     return true;
   }
