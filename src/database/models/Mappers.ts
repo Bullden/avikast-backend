@@ -8,7 +8,6 @@ import AppType from '../../entities/AppType';
 import {Platform} from 'entities/Platform';
 import RoomModel from 'database/models/RoomModel';
 import Room from 'database/entities/Room';
-import {Document} from 'mongoose';
 import BookmarkModel from './BookmarkModel';
 import Bookmark from '../entities/Bookmark';
 import ParticipantModel from 'database/models/ParticipantModel';
@@ -21,8 +20,10 @@ import FileModel from 'database/models/FileModel';
 import File from 'database/entities/File';
 import RecordModel from 'database/models/RecordModel';
 import Record from 'database/entities/Record';
+import {ObjectId} from 'bson';
 
-export const extractIdFromModel = (model: Document): string => model._id.toString();
+export const extractIdFromModel = (model: {_id: ObjectId}): string =>
+  model._id.toString();
 
 export const mapUserFromModel = (user: UserModel): User => {
   if (user.referrer && typeof user.referrer !== 'object')
@@ -166,22 +167,24 @@ export const mapParticipantFromModel = (participant: ParticipantModel): Particip
     media: participant.media,
     webinarOptions: participant.webinarOptions,
     raiseHand: participant.raiseHand,
+    kicked: participant.kicked,
+    muted: participant.muted,
   };
 };
 
-export const mapWebinarOwnerFromModel = (participant: ParticipantModel): Participant => {
-  if (typeof participant.user !== 'object') throw new Error('User should be object');
-  if (typeof participant.room !== 'object') throw new Error('Room should be object');
-  return {
-    id: extractIdFromModel(participant),
-    room: mapRoomFromModel(participant.room),
-    user: mapUserFromModel(participant.user),
-    role: participant.role,
-    media: participant.media,
-    webinarOptions: participant.webinarOptions,
-    raiseHand: participant.raiseHand,
-  };
-};
+// export const mapWebinarOwnerFromModel = (participant: ParticipantModel): Participant => {
+//   if (typeof participant.user !== 'object') throw new Error('User should be object');
+//   if (typeof participant.room !== 'object') throw new Error('Room should be object');
+//   return {
+//     id: extractIdFromModel(participant),
+//     room: mapRoomFromModel(participant.room),
+//     user: mapUserFromModel(participant.user),
+//     role: participant.role,
+//     media: participant.media,
+//     webinarOptions: participant.webinarOptions,
+//     raiseHand: participant.raiseHand,
+//   };
+// };
 
 export const mapParticipantsFromModel = (
   participants: ParticipantModel[],

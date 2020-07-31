@@ -83,6 +83,8 @@ export const mapParticipantFromDB = (participant: ParticipantDB): Participant =>
   media: participant.media,
   webinarOptions: participant.webinarOptions,
   raiseHand: participant.raiseHand ?? undefined,
+  kicked: participant.kicked,
+  muted: participant.muted,
 });
 
 export const mapParticipantTrackFromDB = (

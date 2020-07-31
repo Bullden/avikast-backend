@@ -14,6 +14,8 @@ export const ParticipantSchema = createSchema('participant', {
   role: {type: ParticipantRole, enum: ParticipantRole, required: true},
   media: {type: Object, required: true},
   raiseHand: {type: Boolean},
+  kicked: {type: Boolean},
+  muted: {type: Boolean},
 });
 
 export default interface ParticipantModel extends Document {
@@ -28,6 +30,8 @@ export default interface ParticipantModel extends Document {
     screen: ParticipantTrackOptions;
   };
   raiseHand?: boolean;
+  kicked: boolean;
+  muted: boolean;
 }
 
 export interface CreateParticipantModel {
@@ -36,4 +40,6 @@ export interface CreateParticipantModel {
   role: ParticipantRole;
   media: ParticipantMedia;
   raiseHand: boolean;
+  kicked: boolean;
+  muted: boolean;
 }

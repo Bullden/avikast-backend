@@ -94,7 +94,7 @@ export default class UserStore implements IUserStore {
     if (data.tags !== undefined) updateObject.tags = data.tags;
     if (data.skills !== undefined) updateObject.skills = data.skills;
     if (data.referralCode !== undefined) updateObject.referralCode = data.referralCode;
-    await this.userModel.update({_id: userId}, updateObject);
+    await this.userModel.updateOne({_id: userId}, updateObject);
   }
 
   async findUserByIdOrThrow(id: string) {

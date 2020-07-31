@@ -1,4 +1,5 @@
 import Room from 'database/entities/Room';
+import RoomEntity from '../../entities/Room';
 import {
   ParticipantMedia,
   ParticipantRole,
@@ -70,7 +71,9 @@ export default abstract class IRoomStore {
 
   abstract createRecordId(roomId: string, recordId: string): Promise<void>;
 
-  abstract watchParticipantCreated(): Observable<ParticipantMedia[]>;
+  // abstract watchParticipantCreated(): Observable<ParticipantMedia[]>;
+
+  abstract watchRoom(): Observable<RoomEntity>;
 
   abstract mute(
     action: MuteAction,
@@ -96,6 +99,12 @@ export default abstract class IRoomStore {
   abstract muteScreen(
     action: MuteAction,
     source: MuteSource,
+    userId: string,
+    roomId: string,
+  ): Promise<boolean>;
+
+  abstract kick(
+    roomOwnerUserId: string,
     userId: string,
     roomId: string,
   ): Promise<boolean>;

@@ -90,6 +90,8 @@ export const mapParticipantToGQL = (participant: Participant): GQLParticipant =>
   role: participant.role,
   media: mapParticipantsTrackToGQL(participant.media),
   raiseHand: participant.raiseHand,
+  kicked: participant.kicked,
+  muted: participant.muted,
 });
 
 export const mapParticipantsToGQL = (participants: Participant[]): GQLParticipant[] =>

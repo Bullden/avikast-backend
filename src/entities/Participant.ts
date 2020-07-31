@@ -30,6 +30,8 @@ export default interface Participant {
   media: ParticipantMedia;
   webinarOptions: WebinarOptions | undefined;
   raiseHand: boolean | undefined;
+  kicked: boolean;
+  muted: boolean;
 }
 
 export interface WebinarOwner {

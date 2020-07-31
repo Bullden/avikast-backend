@@ -13,12 +13,16 @@ export default class Participant {
     role: ParticipantRole,
     media: ParticipantMedia,
     raiseHand: boolean | undefined,
+    kicked: boolean,
+    muted: boolean,
   ) {
     this.id = id;
     this.user = user;
     this.role = role;
     this.media = media;
     this.raiseHand = raiseHand;
+    this.kicked = kicked;
+    this.muted = muted;
   }
 
   @Field(() => ID)
@@ -35,4 +39,10 @@ export default class Participant {
 
   @Field(() => Boolean, {nullable: true})
   raiseHand: boolean | undefined;
+
+  @Field(() => Boolean)
+  kicked: boolean;
+
+  @Field(() => Boolean)
+  muted: boolean;
 }

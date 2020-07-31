@@ -1,4 +1,12 @@
-import {Args, Mutation, Query, Resolver, Subscription} from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+  Subscription,
+} from '@nestjs/graphql';
 import IRoomManager from '../../managers/room/IRoomManager';
 import CurrentSession from 'enhancers/decorators/CurrentSession';
 import {MuteAction, MuteSource, RoomType} from 'entities/Room';
@@ -17,9 +25,9 @@ import SessionInfo from 'entities/SessionInfo';
 import Ignore from 'enhancers/decorators/Ignore';
 import {Subscription as RxSubscription} from 'rxjs/dist/types/internal/Subscription';
 
-const EVENT_NEW_PARTICIPANT_TRACK = 'NEW_PARTICIPANT_TRACK';
+const EVENT_ROOM_UPDATED = 'EVENT_ROOM_UPDATED';
 
-@Resolver()
+@Resolver(() => Room)
 export default class RoomResolver {
   constructor(
     private readonly roomManager: IRoomManager,
@@ -79,11 +87,25 @@ export default class RoomResolver {
 
   @Query(() => Room, {nullable: true})
   async room(@CurrentSession() session: SessionInfo) {
+    console.log('room resolver');
     const roomFromManager = await this.roomManager.getRoomByUserId(session.userId);
     if (roomFromManager === undefined) {
       return undefined;
     }
     return mapRoomToGQL(roomFromManager);
+  }
+
+  @ResolveField(() => [Participant], {name: 'participants', nullable: true})
+  async participantsResolveField(
+    @Parent() room: Room,
+    @CurrentSession() session: SessionInfo,
+  ) {
+    const participants = await this.roomManager.getParticipants(
+      'session.userId',
+      room.id,
+    );
+    console.log('participantsRoomChildren', participants);
+    return mapParticipantsToGQL(participants);
   }
 
   @Query(() => [Participant])
@@ -144,34 +166,32 @@ export default class RoomResolver {
     return this.roomManager.closeRoom(roomId);
   }
 
-  private trackCreatedSubscription: RxSubscription | undefined;
+  private roomUpdatedSubscription: RxSubscription | undefined;
 
-  // SUB
+  // RoomSub
   @Ignore('AppType', 'Platform')
-  @Subscription(() => [ParticipantMedia], {
-    resolve: (participantTracks: ParticipantMedia[]) => participantTracks,
+  @Subscription(() => Room, {
+    resolve: (room: Room) => room,
   })
-  async participantsTracksSub(
+  async roomSub(
     @Args({
       name: 'roomId',
       type: () => String,
     })
     _roomId: string,
-    @Args({
-      name: 'userId',
-      type: () => String,
-    })
-    _userId: string,
   ) {
-    if (!this.trackCreatedSubscription) {
-      this.trackCreatedSubscription = this.roomManager
-        .participantsTracksObservable()
-        .subscribe(async (participantTrack) => {
-          return this.pubSub.publish(EVENT_NEW_PARTICIPANT_TRACK, participantTrack);
+    if (!this.roomUpdatedSubscription) {
+      console.log('RoomSub resolver', 1111111);
+      this.roomUpdatedSubscription = this.roomManager
+        .roomObservable()
+        .subscribe(async (room) => {
+          return this.pubSub.publish(EVENT_ROOM_UPDATED, room);
         });
     }
-    return this.pubSub.asyncIterator(EVENT_NEW_PARTICIPANT_TRACK);
+    return this.pubSub.asyncIterator(EVENT_ROOM_UPDATED);
   }
+
+  // endregion
 
   @Mutation(() => Boolean)
   async mute(
@@ -190,5 +210,14 @@ export default class RoomResolver {
       roomId,
       producerId,
     );
+  }
+
+  @Mutation(() => Boolean)
+  async kick(
+    @CurrentSession() session: SessionInfo,
+    @Args('userId') userId: string,
+    @Args('roomId') roomId: string,
+  ) {
+    return this.roomManager.kick(session.userId, userId, roomId);
   }
 }

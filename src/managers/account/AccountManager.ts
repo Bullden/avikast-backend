@@ -27,6 +27,7 @@ export default class AccountManager implements IAccountManager {
       referralCode: string | undefined;
     },
   ) {
+    console.log('UPDATE USER', user);
     await this.userStore.updateUser(myUserId, user);
     const dbUser = await this.userStore.getUser(myUserId);
     if (!dbUser) throw new AvikastError('User is not found');

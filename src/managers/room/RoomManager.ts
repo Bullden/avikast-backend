@@ -2,7 +2,7 @@ import IRoomManager from './IRoomManager';
 import IMediasoupService from '../../services/mediasoup/IMediasoupService';
 import {Injectable} from '@nestjs/common';
 import IRoomStore from 'database/stores/room/IRoomStore';
-import {MuteAction, MuteSource, RoomType} from 'entities/Room';
+import Room, {MuteAction, MuteSource, RoomType} from 'entities/Room';
 import {ParticipantMedia, ParticipantRole} from 'entities/Participant';
 import {
   mapParticipantFromDB,
@@ -88,7 +88,7 @@ export default class RoomManager extends IRoomManager {
     const dbRoom = await this.roomStore.findRoomByCode(inviteLink);
     const userName = await this.userStore.getUserName(userId);
     if (!dbRoom) throw new Error('inviteLink is not valid');
-    if (dbRoom.user.id === userId) throw new Error('Room creator cannot join his room');
+    // if (dbRoom.user.id === userId) throw new Error('Room creator cannot join his room');
     if (dbRoom.passwordProtected && dbRoom.password !== password)
       throw new Error('Password is not valid');
 
@@ -189,8 +189,8 @@ export default class RoomManager extends IRoomManager {
   }
 
   async getParticipants(userId: string, roomId: string) {
-    if (!(await this.roomStore.findParticipant(roomId, userId)))
-      throw new Error("You don't belong to this room");
+    // if (!(await this.roomStore.findParticipant(roomId, userId)))
+    //   throw new Error("You don't belong to this room"); //TODO fix and remove braces
     return mapParticipantsFromDB(await this.roomStore.getParticipants(roomId));
   }
 
@@ -239,6 +239,10 @@ export default class RoomManager extends IRoomManager {
   //   return this.roomStore.updateRoomIsActive(roomId, status);
   // }
 
+  async kick(roomOwnerUserId: string, userId: string, roomId: string) {
+    return this.roomStore.kick(roomOwnerUserId, userId, roomId);
+  }
+
   async mute(
     action: MuteAction,
     source: MuteSource,
@@ -260,9 +264,8 @@ export default class RoomManager extends IRoomManager {
     return response;
   }
 
-  participantsTracksObservable(): Observable<ParticipantMedia[]> {
-    return this.roomStore
-      .watchParticipantCreated()
-      .pipe(map(mapParticipantsTracksFromDB));
+  roomObservable(): Observable<Room> {
+    console.log('roomObservable');
+    return this.roomStore.watchRoom().pipe(map(mapRoomFromDB));
   }
 }

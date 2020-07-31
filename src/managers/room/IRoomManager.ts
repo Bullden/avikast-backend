@@ -48,7 +48,13 @@ export default abstract class IRoomManager {
 
   abstract closeRoom(roomId: string): Promise<boolean>;
 
-  abstract participantsTracksObservable(): Observable<ParticipantMedia[]>;
+  abstract roomObservable(): Observable<Room>;
+
+  abstract kick(
+    roomOwnerUserId: string,
+    userId: string,
+    roomId: string,
+  ): Promise<boolean>;
 
   abstract mute(
     action: MuteAction,
