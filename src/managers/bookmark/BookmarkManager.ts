@@ -18,7 +18,7 @@ export default class BookmarkManager extends IBookmarkManager {
 
   async getBookmarks(userId: string) {
     const bookmarks = await this.bookmarkStore.getBookmarks(userId);
-
+    console.log('get bookmarks manager', bookmarks);
     return mapBookmarksFromDB(bookmarks);
   }
 

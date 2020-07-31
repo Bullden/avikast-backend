@@ -17,6 +17,11 @@ export async function initApplication() {
   if (globalPrefix) {
     app.setGlobalPrefix(globalPrefix);
   }
-  app.use(httpLogger()).enableCors();
+  app.use(httpLogger());
+
+  const logsEnabled = configService.getBoolean('LOGS_ENABLED', true);
+  if (logsEnabled) {
+    app.enableCors();
+  }
   await app.listen(httpPort);
 }

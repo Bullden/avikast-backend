@@ -17,6 +17,7 @@ export default class BookmarkStore extends IBookmarkStore {
   ];
 
   async getBookmarks(userId: string) {
+    console.log('get bookmarks store');
     return mapBookmarksFromModel(
       await this.bookmarkModel.find({user: userId}).populate(this.populateBookmark),
     );
