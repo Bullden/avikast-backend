@@ -1,4 +1,5 @@
 import Bookmark from 'database/entities/Bookmark';
+import User from 'database/entities/User';
 
 export default abstract class IBookmarkStore {
   abstract getBookmarks(userId: string): Promise<Bookmark[]>;
@@ -8,6 +9,6 @@ export default abstract class IBookmarkStore {
     date: Date;
     topic: string;
     text: string;
-    userId: string;
+    user: string;
   }): Promise<boolean>;
 }

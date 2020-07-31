@@ -1,8 +1,9 @@
 import {InjectModel} from '@nestjs/mongoose';
-import {Model} from 'mongoose';
+import {Model, QueryPopulateOptions} from 'mongoose';
 import IBookmarkStore from './IBookmarkStore';
 import BookmarkModel, {BookmarkSchema} from '../../models/BookmarkModel';
 import {mapBookmarkFromModel, mapBookmarksFromModel} from '../../models/Mappers';
+import User from 'database/entities/User';
 
 export default class BookmarkStore extends IBookmarkStore {
   constructor(
@@ -11,9 +12,15 @@ export default class BookmarkStore extends IBookmarkStore {
     super();
   }
 
+  private readonly populateBookmark: QueryPopulateOptions[] = [
+    {path: 'bookmarks'},
+    {path: 'user'},
+  ];
+
   async getBookmarks(userId: string) {
+    console.log(userId);
     return mapBookmarksFromModel(
-      await this.bookmarkModel.find({user: userId}).populate('user'),
+      await this.bookmarkModel.find({user: userId}).populate(this.populateBookmark),
     );
   }
 
@@ -29,13 +36,10 @@ export default class BookmarkStore extends IBookmarkStore {
     date: Date;
     topic: string;
     text: string;
-    userId: string;
+    user: string;
   }) {
-    const oldBookmark = await this.findBookmarkByText(bookmark.text);
-    if (!oldBookmark) {
-      await this.bookmarkModel.create(bookmark);
-      return true;
-    }
-    return false;
+    console.log(bookmark.user);
+    await this.bookmarkModel.create(bookmark);
+    return true;
   }
 }

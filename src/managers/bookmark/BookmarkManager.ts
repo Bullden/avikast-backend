@@ -29,7 +29,7 @@ export default class BookmarkManager extends IBookmarkManager {
       date: new Date(),
       topic: room.name,
       text,
-      userId,
+      user: userId,
     });
   }
 }
