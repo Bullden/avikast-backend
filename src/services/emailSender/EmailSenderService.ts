@@ -18,7 +18,7 @@ export class EmailSenderService implements IEmailSenderService {
     } catch (e) {
       // eslint-disable-next-line no-console
       console.log(e);
-      throw e;
+      // throw e;
     }
   }
 }
