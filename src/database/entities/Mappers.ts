@@ -106,6 +106,7 @@ export const mapAvikastFileFromDB = (avikastFile: AvikastFileDB): AvikastFile =>
   name: avikastFile.name,
   type: avikastFile.type,
   user: mapUserFromDb(avikastFile.user),
+  fileId: avikastFile.file ? avikastFile.file.id : undefined,
 });
 
 export const mapAvikastFilesFromDB = (avikastFiles: AvikastFileDB[]): AvikastFile[] =>

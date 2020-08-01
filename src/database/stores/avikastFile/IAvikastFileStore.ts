@@ -13,4 +13,6 @@ export default abstract class IAvikastFileStore {
     fileId: string | undefined,
     parent: string | undefined,
   ): Promise<AvikastFile>;
+
+  abstract deleteFile(id: string): Promise<void>;
 }

@@ -100,6 +100,7 @@ export const mapAvikastFileToGQL = (avikastFile: AvikastFile): GQLAvikastFile =>
   name: avikastFile.name,
   type: avikastFile.type,
   user: mapUserToGQL(avikastFile.user),
+  fileId: avikastFile.fileId,
 });
 
 export const mapAvikastFilesToGQL = (avikastFiles: AvikastFile[]): GQLAvikastFile[] =>

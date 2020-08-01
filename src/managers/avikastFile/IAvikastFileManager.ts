@@ -15,4 +15,8 @@ export default abstract class IAvikastFileManager {
     name: string,
     parent: string | undefined,
   ): Promise<AvikastFile>;
+
+  abstract deleteFile(userId: string, id: string): Promise<void>;
+
+  abstract deleteDirectory(userId: string, id: string): Promise<void>;
 }

@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common';
-import {mapAvikastFilesFromDB} from 'database/entities/Mappers';
+import {mapAvikastFileFromDB, mapAvikastFilesFromDB} from 'database/entities/Mappers';
 import IAvikastFileManager from './IAvikastFileManager';
 import IAvikastFileStore from '../../database/stores/avikastFile/IAvikastFileStore';
 import {AvikastFileType} from 'entities/AvikastFile';
@@ -20,22 +20,39 @@ export default class AvikastFileManager extends IAvikastFileManager {
     fileId: string,
     parent: string | undefined,
   ) {
-    return this.avikastFileStore.createFile(
-      userId,
-      name,
-      AvikastFileType.File,
-      fileId,
-      parent,
+    return mapAvikastFileFromDB(
+      await this.avikastFileStore.createFile(
+        userId,
+        name,
+        AvikastFileType.File,
+        fileId,
+        parent,
+      ),
     );
   }
 
   async createDirectory(userId: string, name: string, parent: string | undefined) {
-    return this.avikastFileStore.createFile(
-      userId,
-      name,
-      AvikastFileType.Directory,
-      undefined,
-      parent,
+    return mapAvikastFileFromDB(
+      await this.avikastFileStore.createFile(
+        userId,
+        name,
+        AvikastFileType.Directory,
+        undefined,
+        parent,
+      ),
     );
+  }
+
+  async deleteFile(userId: string, id: string) {
+    const file = await this.avikastFileStore.findFileByIdOrThrow(id);
+    if (file.type !== AvikastFileType.File) throw new Error('This is not a file');
+    await this.avikastFileStore.deleteFile(file.id);
+  }
+
+  async deleteDirectory(userId: string, id: string) {
+    const file = await this.avikastFileStore.findFileByIdOrThrow(id);
+    if (file.type !== AvikastFileType.Directory)
+      throw new Error('This is not a directory');
+    await this.avikastFileStore.deleteFile(file.id);
   }
 }

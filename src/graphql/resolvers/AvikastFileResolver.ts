@@ -46,4 +46,22 @@ export class AvikastFileResolver {
       await this.avikastFilesManager.createDirectory(userId, name, parent),
     );
   }
+
+  @Mutation(() => Boolean)
+  async deleteAvikastFile(
+    @CurrentSession() {userId}: SessionInfo,
+    @Args('id') id: string,
+  ) {
+    await this.avikastFilesManager.deleteFile(userId, id);
+    return true;
+  }
+
+  @Mutation(() => Boolean)
+  async deleteAvikastDirectory(
+    @CurrentSession() {userId}: SessionInfo,
+    @Args('id') id: string,
+  ) {
+    await this.avikastFilesManager.deleteDirectory(userId, id);
+    return true;
+  }
 }

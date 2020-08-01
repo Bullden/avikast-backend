@@ -10,4 +10,5 @@ export interface AvikastFile {
   name: string;
   type: AvikastFileType;
   user: User;
+  fileId: string | undefined;
 }

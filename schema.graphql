@@ -132,6 +132,7 @@ type AvikastFile {
   name: String!
   user: User!
   type: AvikastFileType!
+  fileId: String
 }
 
 enum AvikastFileType {
@@ -182,6 +183,8 @@ type Mutation {
   createMessage(receiverId: String, messageBody: String!, roomId: String!): Message!
   addAvikastFile(parent: String, fileId: String!, name: String!): AvikastFile!
   createAvikastDirectory(parent: String, name: String!): AvikastFile!
+  deleteAvikastFile(id: String!): Boolean!
+  deleteAvikastDirectory(id: String!): Boolean!
 }
 
 input UserUpdateRequest {

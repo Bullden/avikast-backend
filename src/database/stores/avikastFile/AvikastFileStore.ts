@@ -60,4 +60,8 @@ export default class AvikastFileStore extends IAvikastFileStore {
       await file.populate(this.populateAvikastFile).execPopulate(),
     );
   }
+
+  async deleteFile(id: string) {
+    await this.avikastFileModel.deleteOne({_id: id});
+  }
 }

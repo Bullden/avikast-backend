@@ -1,6 +1,6 @@
 import {Field, ID, ObjectType, registerEnumType} from '@nestjs/graphql';
 import User from '../user/User';
-import {AvikastFileType} from '../../../entities/AvikastFile';
+import {AvikastFileType} from 'entities/AvikastFile';
 
 registerEnumType(AvikastFileType, {name: 'AvikastFileType'});
 
@@ -24,4 +24,7 @@ export default class AvikastFile {
 
   @Field(() => AvikastFileType)
   type: AvikastFileType;
+
+  @Field(() => String, {nullable: true})
+  fileId: string | undefined;
 }
