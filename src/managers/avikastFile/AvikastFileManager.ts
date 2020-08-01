@@ -10,9 +10,8 @@ export default class AvikastFileManager extends IAvikastFileManager {
     super();
   }
 
-  async getFiles(userId: string) {
-    const files = await this.avikastFileStore.getFiles(userId);
-    return mapAvikastFilesFromDB(files);
+  async getFiles(userId: string, parent: string | undefined) {
+    return mapAvikastFilesFromDB(await this.avikastFileStore.getFiles(userId, parent));
   }
 
   async addFile(

@@ -4,7 +4,7 @@ import {AvikastFileType} from 'entities/AvikastFile';
 export default abstract class IAvikastFileStore {
   abstract findFileByIdOrThrow(id: string): Promise<AvikastFile>;
 
-  abstract getFiles(userId: string): Promise<AvikastFile[]>;
+  abstract getFiles(userId: string, parent: string | undefined): Promise<AvikastFile[]>;
 
   abstract createFile(
     userId: string,

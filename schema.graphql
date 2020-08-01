@@ -158,7 +158,7 @@ type Query {
   messagesByRoom(roomId: String!): [Message!]!
   messageById(messageId: String!): Message!
   records: [Record!]!
-  avikastFiles: [AvikastFile!]!
+  avikastFiles(parent: String): [AvikastFile!]!
 }
 
 type Mutation {

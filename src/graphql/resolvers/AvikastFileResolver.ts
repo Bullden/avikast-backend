@@ -14,8 +14,12 @@ export class AvikastFileResolver {
   constructor(private readonly avikastFilesManager: IAvikastFilesManager) {}
 
   @Query(() => [AvikastFile])
-  async avikastFiles(@CurrentSession() {userId}: SessionInfo) {
-    return mapAvikastFilesToGQL(await this.avikastFilesManager.getFiles(userId));
+  async avikastFiles(
+    @CurrentSession() {userId}: SessionInfo,
+    @Args('parent', {type: () => String, nullable: true})
+    parent: string | undefined,
+  ) {
+    return mapAvikastFilesToGQL(await this.avikastFilesManager.getFiles(userId, parent));
   }
 
   @Mutation(() => AvikastFile)
