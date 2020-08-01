@@ -158,7 +158,7 @@ type Query {
   messagesByRoom(roomId: String!): [Message!]!
   messageById(messageId: String!): Message!
   records: [Record!]!
-  AvikastFiles: [AvikastFile!]!
+  avikastFiles: [AvikastFile!]!
 }
 
 type Mutation {
@@ -180,6 +180,8 @@ type Mutation {
   createConsumer(clientId: String!, rtpCapabilities: JSON!, roomId: String!, producerId: String!): ConsumerOptions!
   addBookmark(roomId: String!, text: String!): [Boolean!]!
   createMessage(receiverId: String, messageBody: String!, roomId: String!): Message!
+  addAvikastFile(parent: String, fileId: String!, name: String!): AvikastFile!
+  createAvikastDirectory(parent: String, name: String!): AvikastFile!
 }
 
 input UserUpdateRequest {

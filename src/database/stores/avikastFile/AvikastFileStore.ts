@@ -1,8 +1,12 @@
 import {InjectModel} from '@nestjs/mongoose';
-import {Model} from 'mongoose';
+import {Model, QueryPopulateOptions} from 'mongoose';
 import IAvikastFileStore from './IAvikastFileStore';
-import {mapAvikastFilesFromModel} from '../../models/Mappers';
-import AvikastFileModel, {AvikastFileSchema} from '../../models/AvikastFileModel';
+import {mapAvikastFileFromModel, mapAvikastFilesFromModel} from '../../models/Mappers';
+import AvikastFileModel, {
+  AvikastFileSchema,
+  CreateAvikastFileModel,
+} from '../../models/AvikastFileModel';
+import {AvikastFileType} from 'entities/AvikastFile';
 
 export default class AvikastFileStore extends IAvikastFileStore {
   constructor(
@@ -12,10 +16,46 @@ export default class AvikastFileStore extends IAvikastFileStore {
     super();
   }
 
-  async getAvikastFiles(userId: string) {
-    const files = mapAvikastFilesFromModel(
-      await this.avikastFileModel.find({user: userId}).populate('user'),
+  private readonly populateAvikastFile: QueryPopulateOptions[] = [
+    {
+      path: 'user',
+    },
+    {
+      path: 'file',
+    },
+  ];
+
+  async findFileByIdOrThrow(id: string) {
+    const file = await this.avikastFileModel
+      .findById(id)
+      .populate(this.populateAvikastFile);
+    if (!file) throw new Error('file is not exists');
+    return mapAvikastFileFromModel(file);
+  }
+
+  async getFiles(userId: string) {
+    return mapAvikastFilesFromModel(
+      await this.avikastFileModel.find({user: userId}).populate(this.populateAvikastFile),
     );
-    return files;
+  }
+
+  async createFile(
+    userId: string,
+    name: string,
+    type: AvikastFileType,
+    fileId: string | undefined,
+    parent: string | undefined,
+  ) {
+    const model: CreateAvikastFileModel = {
+      name,
+      type,
+      user: userId,
+      file: fileId,
+      parent,
+    };
+    const file = await this.avikastFileModel.create(model);
+    return mapAvikastFileFromModel(
+      await file.populate(this.populateAvikastFile).execPopulate(),
+    );
   }
 }

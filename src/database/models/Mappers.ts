@@ -187,25 +187,31 @@ export const mapParticipantsFromModel = (
   participants: ParticipantModel[],
 ): Participant[] => participants.map(mapParticipantFromModel);
 
-export const mapAvikastFileFromModel = (file: AvikastFileModel): AvikastFile => {
-  if (typeof file.user !== 'object') throw new Error('User should be object');
-  return {
-    id: extractIdFromModel(file),
-    name: file.name,
-    type: file.type,
-    user: mapUserFromModel(file.user),
-  };
-};
-
-export const mapAvikastFilesFromModel = (files: AvikastFileModel[]): AvikastFile[] =>
-  files.map(mapAvikastFileFromModel);
-
 export const mapFileFromModel = (file: FileModel): File => ({
   id: extractIdFromModel(file),
   mediaLink: file.mediaLink,
   name: file.name,
   mimeType: file.mimeType,
 });
+
+export const mapAvikastFileFromModel = (file: AvikastFileModel): AvikastFile => {
+  if (typeof file.user !== 'object') throw new Error('User should be object');
+  let mappedFile: File | undefined;
+  if (file.file) {
+    if (typeof file.file !== 'object') throw new Error('File should be object');
+    mappedFile = mapFileFromModel(file.file);
+  }
+  return {
+    id: extractIdFromModel(file),
+    name: file.name,
+    type: file.type,
+    user: mapUserFromModel(file.user),
+    file: mappedFile,
+  };
+};
+
+export const mapAvikastFilesFromModel = (files: AvikastFileModel[]): AvikastFile[] =>
+  files.map(mapAvikastFileFromModel);
 
 export const mapRecordFromModel = (record: RecordModel): Record => {
   if (typeof record.user !== 'object') throw new Error('User should be object');
