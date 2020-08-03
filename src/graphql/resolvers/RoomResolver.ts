@@ -87,7 +87,6 @@ export default class RoomResolver {
 
   @Query(() => Room, {nullable: true})
   async room(@CurrentSession() session: SessionInfo) {
-    console.log('room resolver');
     const roomFromManager = await this.roomManager.getRoomByUserId(session.userId);
     if (roomFromManager === undefined) {
       return undefined;
@@ -100,11 +99,7 @@ export default class RoomResolver {
     @Parent() room: Room,
     @CurrentSession() session: SessionInfo,
   ) {
-    const participants = await this.roomManager.getParticipants(
-      'session.userId',
-      room.id,
-    );
-    console.log('participantsRoomChildren', participants);
+    const participants = await this.roomManager.getParticipants(session.userId, room.id);
     return mapParticipantsToGQL(participants);
   }
 
@@ -181,7 +176,6 @@ export default class RoomResolver {
     _roomId: string,
   ) {
     if (!this.roomUpdatedSubscription) {
-      console.log('RoomSub resolver', 1111111);
       this.roomUpdatedSubscription = this.roomManager
         .roomObservable()
         .subscribe(async (room) => {

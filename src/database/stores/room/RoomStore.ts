@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import IRoomStore from 'database/stores/room/IRoomStore';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model, QueryPopulateOptions} from 'mongoose';
@@ -256,9 +257,7 @@ export default class RoomStore extends IRoomStore {
   private roomSubject: Subject<Room> | undefined;
 
   private watchInternal() {
-    console.log(1111111, 'watchInternal', 1111111);
     if (!this.changeStream) {
-      console.log(1111111, 'watchInternal', 1111111);
       const changeRoom = this.roomModel.watch();
       changeRoom.on('change', this.onChangeEventReceived.bind(this));
       this.changeStream = changeRoom;
@@ -279,10 +278,7 @@ export default class RoomStore extends IRoomStore {
   }
 
   private async onChangeEventReceived(doc: ChangeEvent) {
-    console.log(1111111, 'onChangeEventReceived', 1111111, doc.operationType);
     if (doc.operationType === 'insert') {
-      console.log(doc, 'doc.operationType === insert');
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       const room = await this.findRoomByIdOrThrow(doc.fullDocument._id);
       if (!room) {
@@ -299,7 +295,6 @@ export default class RoomStore extends IRoomStore {
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       const room = await this.findRoomByIdOrThrow(participant.room);
-      console.log(room);
       if (!room) {
         throw new Error('participantTracks does not exist');
       }
@@ -312,7 +307,6 @@ export default class RoomStore extends IRoomStore {
   // endregion
 
   watchRoom() {
-    console.log('watchRoom');
     const room = this.watchInternal();
     return room;
   }
@@ -430,57 +424,3 @@ export default class RoomStore extends IRoomStore {
     return true;
   }
 }
-
-//
-//
-// private watchInternal() {
-//   if (!this.changeStream) {
-//     const changeStream = this.participantModel.watch();
-//     changeStream.on('change', this.onChangeEventReceived.bind(this));
-//     this.changeStream = changeStream;
-//   }
-//   let participantTracks: Subject<ParticipantMedia[]>;
-//   if (this.participantTracksSubject) {
-//     participantTracks = this.participantTracksSubject;
-//   } else {
-//     participantTracks = new Subject<ParticipantMedia[]>();
-//     this.participantTracksSubject = participantTracks;
-//   }
-//
-//   return {participantTracks};
-// }
-//
-// private async onChangeEventReceived(doc: ChangeEvent) {
-//   if (doc.operationType === 'insert') {
-//     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-//     // @ts-ignore
-//     const participantTracks = await this.getParticipantsTracks(doc.fullDocument.room);
-//     if (!participantTracks) {
-//       throw new Error('Message does not exist');
-//     }
-//     if (this.participantTracksSubject !== undefined) {
-//       this.participantTracksSubject.next(participantTracks);
-//     }
-//   }
-//   if (doc.operationType === 'update') {
-//     const room = await this.participantModel
-//         .findOne({_id: doc.documentKey})
-//         .populate(this.populateRoom);
-//     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-//     // @ts-ignore
-//     const participantTracks = await this.getParticipantsTracks(room.room);
-//     if (!participantTracks) {
-//       throw new Error('participantTracks does not exist');
-//     }
-//     if (this.participantTracksSubject !== undefined) {
-//       this.participantTracksSubject.next(participantTracks);
-//     }
-//   }
-// }
-//
-// // endregion
-//
-// watchParticipantCreated() {
-//   const {participantTracks} = this.watchInternal();
-//   return participantTracks;
-// }

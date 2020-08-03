@@ -7,7 +7,6 @@ import {ParticipantMedia, ParticipantRole} from 'entities/Participant';
 import {
   mapParticipantFromDB,
   mapParticipantsFromDB,
-  mapParticipantsTracksFromDB,
   mapRoomFromDB,
   mapRoomsFromDB,
 } from 'database/entities/Mappers';
@@ -265,7 +264,6 @@ export default class RoomManager extends IRoomManager {
   }
 
   roomObservable(): Observable<Room> {
-    console.log('roomObservable');
     return this.roomStore.watchRoom().pipe(map(mapRoomFromDB));
   }
 }
