@@ -42,12 +42,7 @@ export default class LoginStore extends ILoginStore {
   }
 
   async updateLocalLoginPassword(user: {id: string}, passwordHash: string) {
-    await this.localLoginModel.update(
-      {user: user.id},
-      {
-        passwordHash,
-      },
-    );
+    await this.localLoginModel.updateOne({_id: user.id}, {$set: {passwordHash}});
   }
 
   async findLocalLoginByEmail(email: string) {
