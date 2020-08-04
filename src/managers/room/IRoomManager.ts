@@ -1,6 +1,7 @@
 import Room, {MuteAction, MuteSource, RoomType} from 'entities/Room';
 import Participant, {ParticipantMedia} from 'entities/Participant';
 import {Observable} from 'rxjs';
+import {PlayingType} from 'entities/Mediasoup';
 
 export default abstract class IRoomManager {
   abstract createRoom(
@@ -71,4 +72,11 @@ export default abstract class IRoomManager {
     owner: string,
     roomId: string,
   ): Promise<boolean>;
+
+  abstract playPauseMedia(
+    media: PlayingType,
+    status: boolean,
+    roomId: string,
+    userId: string,
+  ): Promise<void>;
 }

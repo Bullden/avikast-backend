@@ -8,6 +8,7 @@ import {
 import Participant from 'database/entities/Participant';
 import {MuteAction, MuteSource, RoomType} from 'entities/Room';
 import {Observable} from 'rxjs';
+import {PlayingType} from 'entities/Mediasoup';
 
 export default abstract class IRoomStore {
   abstract createRoom(room: {
@@ -110,4 +111,11 @@ export default abstract class IRoomStore {
     userId: string,
     roomId: string,
   ): Promise<boolean>;
+
+  abstract playPauseMedia(
+    media: PlayingType,
+    status: boolean,
+    roomId: string,
+    userId: string,
+  ): Promise<void>;
 }

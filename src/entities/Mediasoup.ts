@@ -8,6 +8,12 @@ export enum MediaType {
   screenShare = 'screenShare',
 }
 
+export enum PlayingType {
+  Audio = 'audio',
+  Video = 'video',
+  Screen = 'screen',
+}
+
 export type Direction = 'send' | 'receive';
 
 export interface ConsumerOptions {

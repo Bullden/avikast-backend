@@ -6,14 +6,18 @@ import ConsumerOptions from '../entities/mediasoup/ConsumerOptions';
 import RouterOptions from 'graphql/entities/mediasoup/RouterOptions';
 import ProducerOptions from 'graphql/entities/mediasoup/ProducerOptions';
 import IMediasoupManager from 'managers/mediasoup/IMediasoupManager';
-import {Direction, MediaKind, MediaType} from 'entities/Mediasoup';
+import {Direction, MediaKind, MediaType, PlayingType} from 'entities/Mediasoup';
 import {mapProducersToGQL, mapProducerToGQL} from 'graphql/entities/Mappers';
 import {PubSub} from 'graphql-subscriptions';
 import SessionInfo from 'entities/SessionInfo';
+import IRoomManager from 'managers/room/IRoomManager';
 
 @Resolver()
 export default class MediasoupResolver {
-  constructor(private readonly mediasoupManager: IMediasoupManager) {}
+  constructor(
+    private readonly mediasoupManager: IMediasoupManager,
+    private readonly roomManager: IRoomManager,
+  ) {}
 
   @Mutation(() => TransportOptions)
   async createTransport(
@@ -143,5 +147,15 @@ export default class MediasoupResolver {
       producerId,
       audioProducerId,
     );
+  }
+
+  @Mutation(() => Boolean)
+  async playPauseMedia(
+    @Args('media') media: PlayingType,
+    @Args('status') status: boolean,
+    @Args('roomId') roomId: string,
+    @CurrentSession() session: SessionInfo,
+  ): Promise<void> {
+    return this.roomManager.playPauseMedia(media, status, roomId, session.userId);
   }
 }

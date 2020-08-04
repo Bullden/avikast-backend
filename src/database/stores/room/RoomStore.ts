@@ -23,6 +23,7 @@ import UserModel, {UserSchema} from 'database/models/UserModel';
 import {ChangeEvent, ChangeStream} from 'mongodb';
 import {Subject} from 'rxjs';
 import Room from 'database/entities/Room';
+import {PlayingType} from 'entities/Mediasoup';
 
 export default class RoomStore extends IRoomStore {
   constructor(
@@ -449,5 +450,74 @@ export default class RoomStore extends IRoomStore {
     updateObject.media = update;
     await this.participantModel.update({_id: userId, room: roomId}, {updateObject});
     return true;
+  }
+
+  async playPauseMedia(
+    media: PlayingType,
+    status: boolean,
+    roomId: string,
+    userId: string,
+  ) {
+    const participant = await this.findParticipant(roomId, userId);
+    console.log(status);
+    console.log(media);
+    console.log(roomId, userId);
+    const updateObject: Partial<ParticipantModel> = {};
+    if (!participant) throw new Error('now participant');
+    if (media === PlayingType.Audio) {
+      console.log('update audio');
+      updateObject.media = {
+        userName: participant.user.name,
+        audio: {
+          enabled: status,
+          muted: participant.media.audio.muted,
+          clientId: participant.media.audio.clientId,
+          userId: participant.media.audio.userId,
+          producerOptions: participant.media.audio.producerOptions,
+          mediaKind: participant.media.audio.mediaKind,
+          mediaType: participant.media.audio.mediaType,
+        },
+        video: participant.media.video,
+        screen: participant.media.screen,
+      };
+    }
+    if (media === PlayingType.Video) {
+      console.log('update video');
+      updateObject.media = {
+        userName: participant.user.name,
+        audio: participant.media.audio,
+        video: {
+          enabled: status,
+          muted: participant.media.video.muted,
+          clientId: participant.media.video.clientId,
+          userId: participant.media.video.userId,
+          producerOptions: participant.media.video.producerOptions,
+          mediaKind: participant.media.video.mediaKind,
+          mediaType: participant.media.video.mediaType,
+        },
+        screen: participant.media.screen,
+      };
+    }
+    if (media === PlayingType.Screen) {
+      console.log('update screen');
+      updateObject.media = {
+        userName: participant.user.name,
+        audio: participant.media.audio,
+        video: participant.media.video,
+        screen: {
+          enabled: status,
+          muted: participant.media.screen.muted,
+          clientId: participant.media.screen.clientId,
+          userId: participant.media.screen.userId,
+          producerOptions: participant.media.screen.producerOptions,
+          mediaKind: participant.media.screen.mediaKind,
+          mediaType: participant.media.screen.mediaType,
+        },
+      };
+    }
+    await this.participantModel.update({user: userId, room: roomId}, {updateObject});
+
+    const participant2 = await this.findParticipant(roomId, userId);
+    console.log(participant2);
   }
 }

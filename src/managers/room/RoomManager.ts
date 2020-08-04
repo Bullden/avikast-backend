@@ -14,6 +14,7 @@ import {generate as generatePassword} from 'generate-password';
 import IUserStore from 'database/stores/user/IUserStore';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {PlayingType} from 'entities/Mediasoup';
 
 @Injectable()
 export default class RoomManager extends IRoomManager {
@@ -267,6 +268,15 @@ export default class RoomManager extends IRoomManager {
     const room = await this.roomStore.findRoomByIdOrThrow(roomId);
     const response = await this.roomStore.muteAll(action, userId, room.id);
     return response;
+  }
+
+  async playPauseMedia(
+    media: PlayingType,
+    status: boolean,
+    roomId: string,
+    userId: string,
+  ) {
+    return this.roomStore.playPauseMedia(media, status, roomId, userId);
   }
 
   roomObservable(): Observable<Room> {

@@ -184,6 +184,7 @@ type Mutation {
   connectTransport(clientId: String!, direction: String!, dtlsParameters: JSON!, roomId: String!): Boolean!
   createProducer(mediaType: MediaType!, mediaKind: MediaKind!, rtpParameters: JSON!, clientId: String!, roomId: String!, transportId: String!): ProducerOptions!
   createConsumer(clientId: String!, rtpCapabilities: JSON!, roomId: String!, producerId: String!): ConsumerOptions!
+  playPauseMedia(roomId: String!, status: Boolean!, media: String!): Boolean!
   addBookmark(roomId: String!, text: String!): [Boolean!]!
   createMessage(receiverId: String, messageBody: String!, roomId: String!): Message!
   addAvikastFile(parent: String, fileId: String!, name: String!): AvikastFile!
