@@ -234,12 +234,12 @@ export default class RoomStore extends IRoomStore {
       await this.closeRoom(roomId);
       return true;
     }
+    const updateObject: Partial<RoomModel> = {};
     const newParticipantsSubject = participants.filter(
       (element) => element.user.id !== userId,
     );
-    await this.participantModel
-      .update({room: roomId}, newParticipantsSubject)
-      .populate(this.populateParticipant);
+    updateObject.participants = newParticipantsSubject;
+    await this.roomModel.update({_id: roomId}, updateObject);
     return true;
   }
 
@@ -314,26 +314,11 @@ export default class RoomStore extends IRoomStore {
   // endregion
 
   async kick(roomOwnerUserId: string, userId: string, roomId: string) {
-    const room = await this.findRoomByIdOrThrow(roomId);
-    if (room.user.id !== roomOwnerUserId) {
-      return false;
-    }
-    const participants = await this.getParticipants(roomId);
-    if (participants.length <= 1) {
-      return false;
-    }
     const participant = await this.findParticipant(roomId, userId);
+    const updateObject: Partial<ParticipantModel> = {};
     if (!participant) throw new Error('no participant');
-    const update = {
-      room: participant.room.id,
-      user: participant.user.id,
-      role: participant.role,
-      media: {audio: undefined, video: undefined, screen: undefined},
-      raiseHand: false,
-      kicked: true,
-      muted: false,
-    };
-    await this.participantModel.update({_id: userId, room: roomId}, {update});
+    updateObject.kicked = true;
+    await this.participantModel.update({_id: userId, room: roomId}, {updateObject});
     return true;
   }
 
@@ -459,13 +444,9 @@ export default class RoomStore extends IRoomStore {
     userId: string,
   ) {
     const participant = await this.findParticipant(roomId, userId);
-    console.log(status);
-    console.log(media);
-    console.log(roomId, userId);
     const updateObject: Partial<ParticipantModel> = {};
     if (!participant) throw new Error('now participant');
     if (media === PlayingType.Audio) {
-      console.log('update audio');
       updateObject.media = {
         userName: participant.user.name,
         audio: {
@@ -482,7 +463,6 @@ export default class RoomStore extends IRoomStore {
       };
     }
     if (media === PlayingType.Video) {
-      console.log('update video');
       updateObject.media = {
         userName: participant.user.name,
         audio: participant.media.audio,
@@ -499,7 +479,6 @@ export default class RoomStore extends IRoomStore {
       };
     }
     if (media === PlayingType.Screen) {
-      console.log('update screen');
       updateObject.media = {
         userName: participant.user.name,
         audio: participant.media.audio,
@@ -516,8 +495,5 @@ export default class RoomStore extends IRoomStore {
       };
     }
     await this.participantModel.update({user: userId, room: roomId}, {updateObject});
-
-    const participant2 = await this.findParticipant(roomId, userId);
-    console.log(participant2);
   }
 }

@@ -2,6 +2,7 @@ import {Document} from 'mongoose';
 import {createSchema} from './Common';
 import UserModel, {UserSchema} from './UserModel';
 import {RoomType} from 'entities/Room';
+import Participant from 'database/entities/Participant';
 
 export const RoomSchema = createSchema('room', {
   name: {type: String, required: true},
@@ -23,6 +24,7 @@ export default interface RoomModel extends Document {
   password: string | undefined;
   inviteLink: string;
   recordingId: string | undefined;
+  participants: Participant[];
 }
 
 export interface CreateRoomModel {

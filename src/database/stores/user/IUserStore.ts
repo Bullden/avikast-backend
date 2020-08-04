@@ -19,7 +19,6 @@ export default abstract class IUserStore {
     userId: ID,
     data: {
       name: string | undefined;
-      email: string | undefined;
       country: string | undefined;
       city: string | undefined;
       dateOfBirth: Date | undefined;

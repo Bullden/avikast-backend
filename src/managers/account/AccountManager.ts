@@ -18,7 +18,6 @@ export default class AccountManager implements IAccountManager {
     myUserId: string,
     user: {
       name: string | undefined;
-      email: string | undefined;
       country: string | undefined;
       city: string | undefined;
       dateOfBirth: Date | undefined;

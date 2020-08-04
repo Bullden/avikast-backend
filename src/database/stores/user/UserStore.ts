@@ -76,7 +76,6 @@ export default class UserStore implements IUserStore {
     userId: string,
     data: {
       name: string | undefined;
-      email: string | undefined;
       country: string | undefined;
       city: string | undefined;
       dateOfBirth: Date | undefined;
@@ -87,7 +86,6 @@ export default class UserStore implements IUserStore {
   ) {
     const updateObject: Partial<UserModel> = {};
     if (data.name !== undefined) updateObject.name = data.name;
-    if (data.email !== undefined) updateObject.email = data.email;
     if (data.country !== undefined) updateObject.country = data.country;
     if (data.city !== undefined) updateObject.city = data.city;
     if (data.dateOfBirth !== undefined) updateObject.dateOfBirth = data.dateOfBirth;
