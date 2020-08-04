@@ -94,12 +94,15 @@ export default class RoomResolver {
     return mapRoomToGQL(roomFromManager);
   }
 
-  @ResolveField(() => [Participant], {name: 'participants', nullable: true})
+  @ResolveField(() => [Participant], {name: 'participants'})
   async participantsResolveField(
+    // @Parent() createRoom: Room,
     @Parent() room: Room,
-    @CurrentSession() session: SessionInfo,
   ) {
-    const participants = await this.roomManager.getParticipants(session.userId, room.id);
+    const participants = await this.roomManager.getParticipants(
+      'session.userId',
+      room.id,
+    );
     return mapParticipantsToGQL(participants);
   }
 
@@ -204,6 +207,16 @@ export default class RoomResolver {
       roomId,
       producerId,
     );
+  }
+
+  @Mutation(() => Boolean)
+  async muteAll(
+    @CurrentSession() session: SessionInfo,
+    @Args('action') action: MuteAction,
+    @Args('userId') userId: string,
+    @Args('roomId') roomId: string,
+  ) {
+    return this.roomManager.muteAll(action, userId, session.userId, roomId);
   }
 
   @Mutation(() => Boolean)

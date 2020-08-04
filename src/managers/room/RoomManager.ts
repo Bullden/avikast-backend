@@ -263,6 +263,12 @@ export default class RoomManager extends IRoomManager {
     return response;
   }
 
+  async muteAll(action: MuteAction, userId: string, owner: string, roomId: string) {
+    const room = await this.roomStore.findRoomByIdOrThrow(roomId);
+    const response = await this.roomStore.muteAll(action, userId, room.id);
+    return response;
+  }
+
   roomObservable(): Observable<Room> {
     return this.roomStore.watchRoom().pipe(map(mapRoomFromDB));
   }

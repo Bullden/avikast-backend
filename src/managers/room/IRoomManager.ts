@@ -64,4 +64,11 @@ export default abstract class IRoomManager {
     roomId: string,
     producerId: string,
   ): Promise<boolean>;
+
+  abstract muteAll(
+    action: MuteAction,
+    userId: string,
+    owner: string,
+    roomId: string,
+  ): Promise<boolean>;
 }

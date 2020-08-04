@@ -321,9 +321,18 @@ export default class RoomStore extends IRoomStore {
     if (participants.length <= 1) {
       return false;
     }
-    participants.filter((element) => {
-      return element.user.id !== userId;
-    });
+    const participant = await this.findParticipant(roomId, userId);
+    if (!participant) throw new Error('no participant');
+    const update = {
+      room: participant.room.id,
+      user: participant.user.id,
+      role: participant.role,
+      media: {audio: undefined, video: undefined, screen: undefined},
+      raiseHand: false,
+      kicked: true,
+      muted: false,
+    };
+    await this.participantModel.update({_id: userId, room: roomId}, {update});
     return true;
   }
 
@@ -337,6 +346,24 @@ export default class RoomStore extends IRoomStore {
     if (source === MuteSource.Screen) {
       return this.muteScreen(action, source, userId, roomId);
     }
+    return false;
+  }
+
+  async muteAll(action: MuteAction, userId: string, roomId: string) {
+    const participant = await this.findParticipant(roomId, userId);
+    if (!participant) throw new Error('no participant');
+    // const updateObject: Partial<ParticipantModel> = {};
+    const update = {
+      room: participant.room.id,
+      user: participant.user.id,
+      role: participant.role,
+      media: {audio: undefined, video: undefined, screen: undefined},
+      raiseHand: false,
+      kicked: action === MuteAction.Mute,
+      muted: true,
+    };
+    // updateObject.media = update;
+    await this.participantModel.update({_id: userId, room: roomId}, {update});
     return false;
   }
 

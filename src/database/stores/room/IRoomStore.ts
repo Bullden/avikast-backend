@@ -82,6 +82,8 @@ export default abstract class IRoomStore {
     roomId: string,
   ): Promise<boolean>;
 
+  abstract muteAll(action: MuteAction, userId: string, roomId: string): Promise<boolean>;
+
   abstract muteAudio(
     action: MuteAction,
     source: MuteSource,
