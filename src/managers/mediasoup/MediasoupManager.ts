@@ -26,6 +26,10 @@ export default class MediasoupManager extends IMediasoupManager {
     direction: Direction,
     clientId: string,
   ) {
+    // const participant = this.roomStore.findParticipant(roomId, userId);
+    // if (direction === 'send') {
+    //   await this.roomStore.updateEmptyParticipant(roomId, userId, clientId);
+    // }
     return this.mediasoupService.createTransport(roomId, userId, direction, clientId);
   }
 

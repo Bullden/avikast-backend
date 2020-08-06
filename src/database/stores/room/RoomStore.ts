@@ -80,7 +80,9 @@ export default class RoomStore extends IRoomStore {
   }
 
   async findRoomByUser(userId: string) {
-    const room = await this.roomModel.findOne({user: userId}).populate(this.populateRoom);
+    const room = await this.roomModel
+      .findOne({user: userId, closed: undefined})
+      .populate(this.populateRoom);
     return room ? mapRoomFromModel(room) : null;
   }
 
@@ -171,6 +173,31 @@ export default class RoomStore extends IRoomStore {
 
     if (!webinarOwner || webinarOwner === null) throw new Error('Webinar does not exist');
     return mapParticipantFromModel(webinarOwner);
+  }
+
+  async updateEmptyParticipant(roomId: string, clientId: string, userId: string) {
+    const participant = await this.findParticipant(roomId, userId);
+
+    const updateObject: Partial<ParticipantModel> = {};
+    if (!participant || !participant.media)
+      throw new Error('participant or participant.media doesnt exist');
+    const mediaUpdate = {
+      enabled: false,
+      muted: participant.muted,
+      clientId,
+      userId,
+      producerOptions: undefined,
+      mediaKind: undefined,
+      mediaType: undefined,
+    };
+
+    updateObject.media = {
+      userName: participant.media.userName,
+      audio: mediaUpdate,
+      video: mediaUpdate,
+      screen: mediaUpdate,
+    };
+    await this.participantModel.update({room: roomId, user: userId}, updateObject);
   }
 
   async updateParticipantMedia(

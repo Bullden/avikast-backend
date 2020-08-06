@@ -58,6 +58,12 @@ export default abstract class IRoomStore {
     renewParticipantMedia: ParticipantTrackOptions,
   ): Promise<boolean>;
 
+  abstract updateEmptyParticipant(
+    roomId: string,
+    clientId: string,
+    userId: string,
+  ): Promise<void>;
+
   abstract getInviteLink(roomId: string): Promise<string>;
 
   abstract updateRaiseHand(

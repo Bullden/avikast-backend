@@ -231,8 +231,9 @@ export default class RoomManager extends IRoomManager {
   }
 
   async closeRoom(roomId: string) {
+    const res = await this.roomStore.closeRoom(roomId);
     await this.mediasoupService.closeRoom(roomId);
-    return this.roomStore.closeRoom(roomId);
+    return res;
   }
   //
   // async updateRoomIsActive(roomId: string, status: boolean) {
