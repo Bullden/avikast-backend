@@ -15,6 +15,7 @@ import IUserStore from 'database/stores/user/IUserStore';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {PlayingType} from 'entities/Mediasoup';
+import ILogger from '../../utils/ILogger';
 
 @Injectable()
 export default class RoomManager extends IRoomManager {
@@ -22,6 +23,7 @@ export default class RoomManager extends IRoomManager {
     private readonly roomStore: IRoomStore,
     private readonly mediasoupService: IMediasoupService,
     private readonly userStore: IUserStore,
+    private readonly logger: ILogger,
   ) {
     super();
   }
@@ -138,6 +140,7 @@ export default class RoomManager extends IRoomManager {
 
   // for guard
   async getRoom(userId: string) {
+    this.logger.logger('getRoom userId', userId);
     const roomAsOwner = await this.roomStore.findRoomAsRoomOwnerByUserId(userId);
     if (roomAsOwner) return roomAsOwner.id;
     if (!roomAsOwner) {
@@ -222,15 +225,18 @@ export default class RoomManager extends IRoomManager {
   }
 
   async raiseHand(roomId: string, userId: string, raiseHand: boolean) {
+    this.logger.logger('raiseHand roomId', roomId);
     return this.roomStore.updateRaiseHand(roomId, userId, raiseHand);
   }
 
   async leaveRoom(roomId: string, userId: string) {
+    this.logger.logger('leaveRoom roomId', roomId);
     await this.mediasoupService.leaveRoom(roomId, userId);
     return this.roomStore.leaveRoom(roomId, userId);
   }
 
   async closeRoom(roomId: string) {
+    this.logger.logger('closeRoom roomId', roomId);
     const res = await this.roomStore.closeRoom(roomId);
     await this.mediasoupService.closeRoom(roomId);
     return res;
@@ -241,6 +247,7 @@ export default class RoomManager extends IRoomManager {
   // }
 
   async kick(roomOwnerUserId: string, userId: string, roomId: string) {
+    this.logger.logger('kick roomId', roomId);
     return this.roomStore.kick(roomOwnerUserId, userId, roomId);
   }
 
@@ -252,6 +259,7 @@ export default class RoomManager extends IRoomManager {
     roomId: string,
     producerId: string,
   ) {
+    this.logger.logger('mute roomId', roomId);
     const room = await this.roomStore.findRoomByIdOrThrow(roomId);
     // if (room.user.id !== owner) return false;
     const mediasoupResponse = await this.mediasoupService.mute(
@@ -266,6 +274,7 @@ export default class RoomManager extends IRoomManager {
   }
 
   async muteAll(action: MuteAction, userId: string, owner: string, roomId: string) {
+    this.logger.logger('muteAll roomId', roomId);
     const room = await this.roomStore.findRoomByIdOrThrow(roomId);
     const response = await this.roomStore.muteAll(action, userId, room.id);
     return response;
@@ -277,6 +286,7 @@ export default class RoomManager extends IRoomManager {
     roomId: string,
     userId: string,
   ) {
+    this.logger.logger('playPauseMedia roomId', roomId);
     return this.roomStore.playPauseMedia(media, status, roomId, userId);
   }
 

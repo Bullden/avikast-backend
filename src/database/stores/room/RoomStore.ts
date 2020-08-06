@@ -341,11 +341,10 @@ export default class RoomStore extends IRoomStore {
   // endregion
 
   async kick(roomOwnerUserId: string, userId: string, roomId: string) {
-    const participant = await this.findParticipant(roomId, userId);
     const updateObject: Partial<ParticipantModel> = {};
-    if (!participant) throw new Error('no participant');
-    updateObject.kicked = true;
-    await this.participantModel.update({_id: userId, room: roomId}, {updateObject});
+    const kicked = true;
+    updateObject.kicked = kicked;
+    await this.participantModel.update({room: roomId, user: userId}, {kicked});
     return true;
   }
 
@@ -365,18 +364,10 @@ export default class RoomStore extends IRoomStore {
   async muteAll(action: MuteAction, userId: string, roomId: string) {
     const participant = await this.findParticipant(roomId, userId);
     if (!participant) throw new Error('no participant');
-    // const updateObject: Partial<ParticipantModel> = {};
-    const update = {
-      room: participant.room.id,
-      user: participant.user.id,
-      role: participant.role,
-      media: {audio: undefined, video: undefined, screen: undefined},
-      raiseHand: false,
-      kicked: action === MuteAction.Mute,
-      muted: true,
-    };
-    // updateObject.media = update;
-    await this.participantModel.update({_id: userId, room: roomId}, {update});
+    const updateObject: Partial<ParticipantModel> = {};
+    const muted = action === MuteAction.Mute;
+    updateObject.muted = muted;
+    await this.participantModel.update({room: roomId, user: userId}, {muted});
     return false;
   }
 
@@ -521,6 +512,6 @@ export default class RoomStore extends IRoomStore {
         },
       };
     }
-    await this.participantModel.update({user: userId, room: roomId}, {updateObject});
+    await this.participantModel.updateOne({user: userId, room: roomId}, {updateObject});
   }
 }

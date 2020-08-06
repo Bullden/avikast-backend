@@ -18,6 +18,8 @@ import IRecordManager from 'managers/record/IRecordManager';
 import RecordManager from 'managers/record/RecordManager';
 import IFileManager from './file/IFileManager';
 import FileManager from './file/FileManager';
+import ILogger from 'utils/ILogger';
+import Logger from 'utils/Logger';
 
 @Module({
   imports: [
@@ -63,6 +65,10 @@ import FileManager from './file/FileManager';
       provide: IFileManager,
       useClass: FileManager,
     },
+    {
+      provide: ILogger,
+      useClass: Logger,
+    },
   ],
   exports: [
     //
@@ -75,6 +81,7 @@ import FileManager from './file/FileManager';
     IMessageManager,
     IRecordManager,
     IFileManager,
+    ILogger,
   ],
 })
 export class ManagerModule {}
