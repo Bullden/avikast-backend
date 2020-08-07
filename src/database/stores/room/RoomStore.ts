@@ -177,11 +177,30 @@ export default class RoomStore extends IRoomStore {
 
   async updateEmptyParticipant(roomId: string, clientId: string, userId: string) {
     const participant = await this.findParticipant(roomId, userId);
-    console.log(roomId, userId);
     const updateObject: Partial<ParticipantModel> = {};
     if (!participant) throw new Error('participant or participant.media doesnt exist');
-    const mediaUpdate = {
-      enabled: false,
+    const mediaAudioUpdate = {
+      enabled: participant.media.audio.enabled,
+      muted: participant.muted,
+      clientId,
+      userId,
+      producerOptions: undefined,
+      mediaKind: undefined,
+      mediaType: undefined,
+    };
+
+    const mediaVideoUpdate = {
+      enabled: participant.media.video.enabled,
+      muted: participant.muted,
+      clientId,
+      userId,
+      producerOptions: undefined,
+      mediaKind: undefined,
+      mediaType: undefined,
+    };
+
+    const mediaScreenUpdate = {
+      enabled: participant.media.screen.enabled,
       muted: participant.muted,
       clientId,
       userId,
@@ -192,9 +211,9 @@ export default class RoomStore extends IRoomStore {
 
     updateObject.media = {
       userName: participant.media.userName,
-      audio: mediaUpdate,
-      video: mediaUpdate,
-      screen: mediaUpdate,
+      audio: mediaAudioUpdate,
+      video: mediaVideoUpdate,
+      screen: mediaScreenUpdate,
     };
     await this.participantModel.update({room: roomId, user: userId}, updateObject);
   }
