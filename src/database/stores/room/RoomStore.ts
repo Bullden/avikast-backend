@@ -177,10 +177,9 @@ export default class RoomStore extends IRoomStore {
 
   async updateEmptyParticipant(roomId: string, clientId: string, userId: string) {
     const participant = await this.findParticipant(roomId, userId);
-
+    console.log(roomId, userId);
     const updateObject: Partial<ParticipantModel> = {};
-    if (!participant || !participant.media)
-      throw new Error('participant or participant.media doesnt exist');
+    if (!participant) throw new Error('participant or participant.media doesnt exist');
     const mediaUpdate = {
       enabled: false,
       muted: participant.muted,
@@ -512,6 +511,6 @@ export default class RoomStore extends IRoomStore {
         },
       };
     }
-    await this.participantModel.updateOne({user: userId, room: roomId}, {updateObject});
+    await this.participantModel.updateOne({user: userId, room: roomId}, updateObject);
   }
 }
