@@ -7,7 +7,7 @@ export default class User {
     email: string,
     country: string,
     city: string,
-    dateOfBirth: Date,
+    dateOfBirth: Date | null,
     avatarUrl: string,
     tags: string[],
     skills: string[],
@@ -41,7 +41,7 @@ export default class User {
 
   city: string;
 
-  dateOfBirth: Date;
+  dateOfBirth: Date | null;
 
   avatarUrl: string;
 

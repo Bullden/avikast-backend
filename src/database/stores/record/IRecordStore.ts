@@ -9,4 +9,8 @@ export default abstract class IRecordStore {
   ): Promise<void>;
 
   abstract getRecords(userId: string): Promise<Record[]>;
+
+  abstract findRecordByIdOrThrow(id: string): Promise<Record>;
+
+  abstract deleteRecord(id: string): Promise<void>;
 }

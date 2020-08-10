@@ -4,7 +4,7 @@ export default interface User {
   email: string;
   country: string;
   city: string;
-  dateOfBirth: Date;
+  dateOfBirth: Date | null;
   avatarUrl: string;
   tags: string[];
   skills: string[];

@@ -13,4 +13,9 @@ export default class RecordManager extends IRecordManager {
     const records = await this.recordStore.getRecords(userId);
     return mapRecordsFromDb(records);
   }
+
+  async deleteRecord(userId: string, id: string) {
+    const record = await this.recordStore.findRecordByIdOrThrow(id);
+    await this.recordStore.deleteRecord(record.id);
+  }
 }

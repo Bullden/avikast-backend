@@ -2,7 +2,7 @@ import IRecordStore from 'database/stores/record/IRecordStore';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model, QueryPopulateOptions} from 'mongoose';
 import RecordModel, {CreateRecordModel, RecordSchema} from 'database/models/RecordModel';
-import {mapRecordsFromModel} from 'database/models/Mappers';
+import {mapRecordFromModel, mapRecordsFromModel} from 'database/models/Mappers';
 
 export default class RecordStore extends IRecordStore {
   constructor(
@@ -36,5 +36,15 @@ export default class RecordStore extends IRecordStore {
   async getRecords(userId: string) {
     const rec = await this.recordModel.find({user: userId}).populate(this.populateRecord);
     return mapRecordsFromModel(rec);
+  }
+
+  async findRecordByIdOrThrow(id: string) {
+    const record = await this.recordModel.findById(id).populate(this.populateRecord);
+    if (!record) throw new Error('file is not exists');
+    return mapRecordFromModel(record);
+  }
+
+  async deleteRecord(id: string) {
+    await this.recordModel.deleteOne({_id: id});
   }
 }

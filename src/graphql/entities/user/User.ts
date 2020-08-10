@@ -8,7 +8,7 @@ export default class User {
     email: string,
     country: string,
     city: string,
-    dateOfBirth: Date,
+    dateOfBirth: Date | null,
     avatarUrl: string,
     tags: string[],
     skills: string[],
@@ -45,8 +45,8 @@ export default class User {
   @Field(() => String)
   city: string;
 
-  @Field(() => String)
-  dateOfBirth: Date;
+  @Field(() => String, {nullable: true})
+  dateOfBirth: Date | null;
 
   @Field(() => String)
   avatarUrl: string;
