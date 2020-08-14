@@ -55,8 +55,8 @@ export default abstract class IMediasoupManager {
   ): Promise<boolean>;
 
   abstract stopRecording(
-    roomId: string,
     userId: string,
+    roomId?: string,
     producerId?: string,
     audioProducerId?: string,
   ): Promise<boolean>;

@@ -138,13 +138,14 @@ export default class MediasoupManager extends IMediasoupManager {
     );
   }
 
-  async stopRecording(
-    roomId: string,
-    userId: string,
-    producerId?: string,
-    audioProducerId?: string,
-  ) {
-    const room = await this.roomStore.findRoomByIdOrThrow(roomId);
+  async stopRecording(userId: string, roomId: string) {
+    let room;
+    if (!roomId) {
+      room = await this.roomStore.findRoomByUser(userId);
+    } else {
+      room = await this.roomStore.findRoomByIdOrThrow(roomId);
+    }
+    if (!room) throw new Error(' stop record: cannot find room');
     const recordName = getNameAsDate();
     if (room.recordingId) {
       const file = await this.fileStore.addFile(
@@ -154,11 +155,6 @@ export default class MediasoupManager extends IMediasoupManager {
       );
       await this.recordStore.createRecord(userId, recordName, room.recordingId, file.id);
     }
-    return this.mediasoupService.stopRecording(
-      roomId,
-      userId,
-      producerId,
-      audioProducerId,
-    );
+    return this.mediasoupService.stopRecording(roomId, userId);
   }
 }

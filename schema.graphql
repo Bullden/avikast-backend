@@ -157,7 +157,7 @@ type Query {
   getProducer(roomId: String!): ProducerOptions!
   getProducers(roomId: String!): [ProducerOptions!]!
   startRecording(audioProducerId: String, producerId: String, roomId: String!): Boolean!
-  stopRecording(audioProducerId: String, producerId: String, roomId: String!): Boolean!
+  stopRecording(audioProducerId: String, producerId: String, roomId: String): Boolean!
   bookmarks: [Bookmark!]!
   messagesByRoom(roomId: String!): [Message!]!
   messageById(messageId: String!): Message!
