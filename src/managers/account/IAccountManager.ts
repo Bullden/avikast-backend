@@ -18,6 +18,8 @@ export default abstract class IAccountManager {
     },
   ): Promise<Account>;
 
+  abstract updateUserImage(myUserId: string, fileId: string): Promise<boolean>;
+
   abstract getUsers(): Promise<User[]>;
 
   abstract deleteUsers(userIds: string[]): Promise<void>;

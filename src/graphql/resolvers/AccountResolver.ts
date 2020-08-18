@@ -38,12 +38,19 @@ export class AccountResolver {
   }
 
   @Mutation(() => Boolean)
+  async updateUserImage(
+    @CurrentSession() {userId}: SessionInfo,
+    @Args('fileId') fileId: string,
+  ) {
+    return this.accountManager.updateUserImage(userId, fileId);
+  }
+
+  @Mutation(() => Boolean)
   async banUsersTemporary(
     @Args({name: 'userIds', type: () => [String]}) userIds: string[],
     @Args({name: 'untilDate', type: () => String}) untilDate: string,
   ) {
     await this.accountManager.banUsersTemporary(userIds, untilDate);
-
     return true;
   }
 

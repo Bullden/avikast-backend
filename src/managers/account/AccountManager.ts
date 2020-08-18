@@ -32,6 +32,10 @@ export default class AccountManager implements IAccountManager {
     return mapAccountFromDB(dbUser);
   }
 
+  async updateUserImage(myUserId: string, fileId: string) {
+    return this.userStore.updateUserImage(myUserId, fileId);
+  }
+
   async getUsers() {
     const users = await this.userStore.getUsers();
 
