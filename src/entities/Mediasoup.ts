@@ -38,3 +38,8 @@ export interface TransportOptions {
   iceParameters: object;
   dtlsParameters: object;
 }
+
+export enum Quality {
+  Low = 'Low',
+  High = 'High',
+}

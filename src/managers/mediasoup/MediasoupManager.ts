@@ -1,7 +1,7 @@
 import IMediasoupManager from './IMediasoupManager';
 import IMediasoupService from 'services/mediasoup/IMediasoupService';
 import {Injectable} from '@nestjs/common';
-import {Direction, MediaKind, MediaType} from 'entities/Mediasoup';
+import {Direction, MediaKind, MediaType, Quality} from 'entities/Mediasoup';
 import IRoomStore from 'database/stores/room/IRoomStore';
 import {ParticipantTrackOptions} from 'entities/Participant';
 import IFileStore from 'database/stores/file/IFileStore';
@@ -37,12 +37,14 @@ export default class MediasoupManager extends IMediasoupManager {
     dtlsParameters: object,
     direction: Direction,
     clientId: string,
+    quality: Quality,
   ) {
     await this.mediasoupService.connectTransport(
       roomId,
       dtlsParameters,
       direction,
       clientId,
+      quality,
     );
   }
 

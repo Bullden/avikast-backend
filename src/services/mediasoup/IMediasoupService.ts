@@ -4,6 +4,7 @@ import {
   MediaKind,
   MediaType,
   ProducerOptions,
+  Quality,
   RouterOptions,
   TransportOptions,
 } from 'entities/Mediasoup';
@@ -24,6 +25,7 @@ export default abstract class IMediasoupService {
     dtlsParameters: object,
     direction: Direction,
     clientId: string,
+    quality: Quality,
   ): Promise<void>;
 
   abstract createProducer(

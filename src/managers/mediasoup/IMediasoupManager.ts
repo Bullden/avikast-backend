@@ -6,6 +6,7 @@ import {
   Direction,
   MediaKind,
   MediaType,
+  Quality,
 } from 'entities/Mediasoup';
 
 export default abstract class IMediasoupManager {
@@ -21,6 +22,7 @@ export default abstract class IMediasoupManager {
     dtlsParameters: object,
     direction: Direction,
     clientId: string,
+    quality: Quality,
   ): Promise<void>;
 
   abstract createProducer(

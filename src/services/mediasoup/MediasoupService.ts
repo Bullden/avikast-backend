@@ -31,7 +31,7 @@ import {
   // UnMuteRequest,
   // UnMuteResponse,
 } from './entities';
-import {Direction, MediaKind, MediaType} from 'entities/Mediasoup';
+import {Direction, MediaKind, MediaType, Quality} from 'entities/Mediasoup';
 import {
   CloseRouterRequest,
   CloseRouterResponse,
@@ -75,10 +75,11 @@ export default class MediasoupService extends IMediasoupService {
     dtlsParameters: object,
     direction: string,
     clientId: string,
+    quality: Quality,
   ) {
     await this.sendAsync<ConnectTransportRequest, ConnectTransportResponse>(
       {area: 'transport', action: 'connect'},
-      {roomId, dtlsParameters, direction, clientId},
+      {roomId, dtlsParameters, direction, clientId, quality},
     );
   }
 

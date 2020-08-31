@@ -182,7 +182,7 @@ type Mutation {
   muteAll(roomId: String!, userId: String!, action: String!): Boolean!
   kick(roomId: String!, userId: String!): Boolean!
   createTransport(clientId: String!, direction: String!, roomId: String!): TransportOptions!
-  connectTransport(clientId: String!, direction: String!, dtlsParameters: JSON!, roomId: String!): Boolean!
+  connectTransport(quality: String!, clientId: String!, direction: String!, dtlsParameters: JSON!, roomId: String!): Boolean!
   createProducer(mediaType: MediaType!, mediaKind: MediaKind!, rtpParameters: JSON!, clientId: String!, roomId: String!, transportId: String!): ProducerOptions!
   createConsumer(clientId: String!, rtpCapabilities: JSON!, roomId: String!, producerId: String!): ConsumerOptions!
   playPauseMedia(roomId: String!, status: Boolean!, media: String!): Boolean!

@@ -6,7 +6,7 @@ import ConsumerOptions from '../entities/mediasoup/ConsumerOptions';
 import RouterOptions from 'graphql/entities/mediasoup/RouterOptions';
 import ProducerOptions from 'graphql/entities/mediasoup/ProducerOptions';
 import IMediasoupManager from 'managers/mediasoup/IMediasoupManager';
-import {Direction, MediaKind, MediaType, PlayingType} from 'entities/Mediasoup';
+import {Direction, MediaKind, MediaType, PlayingType, Quality} from 'entities/Mediasoup';
 import {mapProducersToGQL, mapProducerToGQL} from 'graphql/entities/Mappers';
 import {PubSub} from 'graphql-subscriptions';
 import SessionInfo from 'entities/SessionInfo';
@@ -41,12 +41,14 @@ export default class MediasoupResolver {
     @Args({name: 'dtlsParameters', type: () => graphqlTypeJson}) dtlsParameters: object,
     @Args('direction') direction: string,
     @Args('clientId') clientId: string,
+    @Args('quality') quality: Quality,
   ): Promise<boolean> {
     await this.mediasoupManager.connectTransport(
       roomId,
       dtlsParameters,
       direction as Direction,
       clientId,
+      quality,
     );
     return true;
   }
