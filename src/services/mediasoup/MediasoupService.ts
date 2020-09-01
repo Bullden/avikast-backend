@@ -125,6 +125,7 @@ export default class MediasoupService extends IMediasoupService {
       id: response.id,
       producerId: response.producerId,
       rtpParameters: response.rtpParameters,
+      appData: response.appData,
     };
   }
 

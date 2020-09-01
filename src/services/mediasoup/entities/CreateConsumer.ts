@@ -15,4 +15,5 @@ export interface CreateConsumerResponse {
   id: string;
   producerId: string;
   rtpParameters: object;
+  appData: object;
 }

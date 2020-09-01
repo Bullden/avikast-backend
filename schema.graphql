@@ -94,6 +94,7 @@ type ConsumerOptions {
   id: String!
   producerId: String!
   rtpParameters: JSON!
+  appData: JSON!
 }
 
 type RouterOptions {
@@ -104,6 +105,7 @@ type ProducerOptions {
   id: String!
   kind: String!
   rtpParameters: JSON!
+  appData: JSON!
 }
 
 type Bookmark {

@@ -124,6 +124,7 @@ export const mapProducerToGQL = (producer: ProducerOptions): GQLProducerOptions 
   id: producer.id,
   kind: producer.kind,
   rtpParameters: producer.rtpParameters,
+  appData: producer.appData,
 });
 
 export const mapProducersToGQL = (producers: ProducerOptions[]): GQLProducerOptions[] =>
