@@ -46,6 +46,8 @@ export default abstract class IRoomStore {
 
   abstract getRooms(): Promise<Room[]>;
 
+  abstract getUserRooms(userId: string): Promise<Room[]>;
+
   abstract deleteRooms(roomIds: string[]): Promise<void>;
 
   abstract getWebinarOwner(userId: string, roomId: string): Promise<Participant>;

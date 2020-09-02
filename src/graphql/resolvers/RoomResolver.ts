@@ -94,6 +94,11 @@ export default class RoomResolver {
     return mapRoomToGQL(roomFromManager);
   }
 
+  @Query(() => Room, {nullable: true})
+  async userRooms(@CurrentSession() session: SessionInfo) {
+    return mapRoomsToGQL(await this.roomManager.getUserRooms(session.userId));
+  }
+
   @ResolveField(() => [Participant], {name: 'participants'})
   async participantsResolveField(
     // @Parent() createRoom: Room,

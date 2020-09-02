@@ -150,6 +150,12 @@ export default class RoomStore extends IRoomStore {
     return mapRoomsFromModel(await this.roomModel.find().populate(this.populateRoom));
   }
 
+  async getUserRooms(userId: string) {
+    return mapRoomsFromModel(
+      await this.roomModel.find({user: userId}).populate(this.populateRoom),
+    );
+  }
+
   async deleteRooms(roomIds: string[]) {
     await this.roomModel.deleteMany({_id: {$in: roomIds}});
   }

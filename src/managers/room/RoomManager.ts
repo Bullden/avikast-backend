@@ -174,7 +174,11 @@ export default class RoomManager extends IRoomManager {
 
   async getRooms() {
     const rooms = await this.roomStore.getRooms();
+    return mapRoomsFromDB(rooms);
+  }
 
+  async getUserRooms(userId: string) {
+    const rooms = await this.roomStore.getUserRooms(userId);
     return mapRoomsFromDB(rooms);
   }
 
