@@ -29,4 +29,6 @@ export default abstract class IAccountManager {
   abstract banUsersPermanently(userIds: string[]): Promise<void>;
 
   abstract restoreUsers(userIds: string[]): Promise<void>;
+
+  abstract referrersByUserId(userId: string): Promise<User[]>;
 }

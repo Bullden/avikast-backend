@@ -26,7 +26,7 @@ export const extractIdFromModel = (model: {_id: ObjectId}): string =>
   model._id.toString();
 
 export const mapUserFromModel = (user: UserModel): User => {
-  if (user.referrer && typeof user.referrer !== 'object')
+  if (!user.referrer && typeof user.referrer !== 'object')
     throw new Error('referrer should be an object');
   return {
     id: extractIdFromModel(user),

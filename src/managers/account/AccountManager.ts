@@ -3,6 +3,7 @@ import IUserStore from '../../database/stores/user/IUserStore';
 import IAccountManager from './IAccountManager';
 import {mapAccountFromDB, mapUsersFromDB} from 'database/entities/Mappers';
 import AvikastError from '../../AvikastError';
+import User from 'entities/User';
 
 @Injectable()
 export default class AccountManager implements IAccountManager {
@@ -56,5 +57,12 @@ export default class AccountManager implements IAccountManager {
 
   async restoreUsers(userIds: string[]) {
     await this.userStore.restoreUsers(userIds);
+  }
+
+  async referrersByUserId(userId: string): Promise<User[]> {
+    const user = await this.userStore.getUser(userId);
+    if (!user) throw new AvikastError('User is not found');
+    const referrers = await this.userStore.getReferrersByUserId(user.id);
+    return mapUsersFromDB(referrers);
   }
 }

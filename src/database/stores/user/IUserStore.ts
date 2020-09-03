@@ -47,4 +47,6 @@ export default abstract class IUserStore {
   abstract getUserName(userId: ID): Promise<string>;
 
   abstract findUserByIdOrThrow(userId: string): Promise<User>;
+
+  abstract getReferrersByUserId(id: ID): Promise<User[]>;
 }

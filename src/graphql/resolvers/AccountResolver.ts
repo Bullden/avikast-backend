@@ -5,9 +5,10 @@ import {UseGuards, ValidationPipe} from '@nestjs/common';
 import AuthGuard from '../../enhancers/guards/AuthGuard';
 import CurrentSession from '../../enhancers/decorators/CurrentSession';
 import UserUpdateRequest from '../entities/user/UserUpdateRequest';
-import {mapAccountToGQL, mapUsersToGQL} from '../entities/Mappers';
+import {mapAccountToGQL, mapRoomToGQL, mapUsersToGQL} from '../entities/Mappers';
 import SessionInfo from 'entities/SessionInfo';
 import User from 'graphql/entities/user/User';
+import Room from 'graphql/entities/room/Room';
 
 @Resolver()
 @UseGuards(AuthGuard)
@@ -82,5 +83,11 @@ export class AccountResolver {
     await this.accountManager.deleteUsers(userIds);
 
     return true;
+  }
+
+  @Query(() => [User])
+  async referrersByUserId(@Args({name: 'userId', type: () => String}) userId: string) {
+    const test = await this.accountManager.referrersByUserId(userId);
+    return mapUsersToGQL(test);
   }
 }

@@ -148,6 +148,7 @@ enum AvikastFileType {
 type Query {
   myAccount: Account!
   users: [User!]!
+  referrersByUserId(userId: String!): [User!]!
   rooms: [Room!]!
   roomById(roomId: String!): Room!
   room: Room

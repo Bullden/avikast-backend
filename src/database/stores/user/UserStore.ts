@@ -118,4 +118,9 @@ export default class UserStore implements IUserStore {
     const user = await this.userModel.findOne({referralCode}).populate(this.populate);
     return user ? mapUserFromModel(user) : undefined;
   }
+
+  async getReferrersByUserId(id: string) {
+    const referrers = await this.userModel.find({referrer: id}).populate(this.populate);
+    return mapUsersFromModel(referrers);
+  }
 }
