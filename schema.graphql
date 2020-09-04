@@ -151,7 +151,7 @@ type Query {
   rooms: [Room!]!
   roomById(roomId: String!): Room!
   room: Room
-  userRooms: Room
+  userRooms: [Room!]
   participants(roomId: String!): [Participant!]!
   participantsTracks(roomId: String!): [ParticipantMedia!]!
   webinarOwner(roomId: String!): Participant!
