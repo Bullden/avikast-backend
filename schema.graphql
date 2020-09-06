@@ -15,6 +15,7 @@ type User {
   referralCode: String!
   banUntilDate: DateTime
   banForever: Boolean
+  referrer: User
 }
 
 """

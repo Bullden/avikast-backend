@@ -34,6 +34,7 @@ export const mapUserToGQL = (user: User): GQLUser => {
     referralCode: user.referralCode,
     banUntilDate: user.banUntilDate,
     banForever: user.banForever,
+    referrer: user.referrer ? mapUserToGQL(user.referrer) : undefined,
   };
 };
 

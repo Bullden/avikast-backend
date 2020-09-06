@@ -15,6 +15,7 @@ export default class User {
     referralCode: string,
     banUntilDate: Date | undefined,
     banForever: boolean | undefined,
+    referrer: User | undefined,
   ) {
     this.id = id;
     this.name = name;
@@ -28,6 +29,7 @@ export default class User {
     this.referralCode = referralCode;
     this.banUntilDate = banUntilDate;
     this.banForever = banForever;
+    this.referrer = referrer;
   }
 
   @Field(() => ID)
@@ -65,4 +67,7 @@ export default class User {
 
   @Field(() => Boolean, {nullable: true})
   banForever?: Boolean;
+
+  @Field(() => User, {nullable: true})
+  referrer?: User;
 }
