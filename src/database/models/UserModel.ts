@@ -30,7 +30,7 @@ export default interface UserModel extends Document {
   skills: string[];
   allowNotifications: boolean;
   referralCode: string;
-  referrer: UserModel | string;
+  referrer: UserModel | string | undefined;
   banUntilDate: Date;
   banForever: boolean;
 }

@@ -8,7 +8,7 @@ export default interface User {
   avatarUrl: string;
   tags: string[];
   skills: string[];
-  allowNotifications: boolean;
+  allowNotifications?: boolean | undefined;
   referralCode: string;
   referrer: User | undefined;
   banUntilDate: Date | undefined;

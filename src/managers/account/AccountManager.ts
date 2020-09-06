@@ -62,7 +62,22 @@ export default class AccountManager implements IAccountManager {
   async referrersByUserId(userId: string): Promise<User[]> {
     const user = await this.userStore.getUser(userId);
     if (!user) throw new AvikastError('User is not found');
-    const referrers = await this.userStore.getReferrersByUserId(user.id);
-    return mapUsersFromDB(referrers);
+    const userRefs: User[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    const getReferrers = async (user: User, userArr: User[] = []) => {
+      const referrers = await this.userStore.getReferrersByUserId(user.id);
+      referrers.forEach((ref) => {
+        userArr.push(ref);
+        if (ref.referrer?.referrer) {
+          return getReferrers(ref.referrer, userArr);
+        }
+      });
+      return userArr;
+    };
+
+    await getReferrers(user, userRefs);
+
+    return mapUsersFromDB(userRefs);
   }
 }
