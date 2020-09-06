@@ -5,10 +5,9 @@ import {UseGuards, ValidationPipe} from '@nestjs/common';
 import AuthGuard from '../../enhancers/guards/AuthGuard';
 import CurrentSession from '../../enhancers/decorators/CurrentSession';
 import UserUpdateRequest from '../entities/user/UserUpdateRequest';
-import {mapAccountToGQL, mapRoomToGQL, mapUsersToGQL} from '../entities/Mappers';
+import {mapAccountToGQL, mapUsersToGQL} from '../entities/Mappers';
 import SessionInfo from 'entities/SessionInfo';
 import User from 'graphql/entities/user/User';
-import Room from 'graphql/entities/room/Room';
 
 @Resolver()
 @UseGuards(AuthGuard)
