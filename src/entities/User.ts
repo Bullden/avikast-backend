@@ -15,6 +15,8 @@ export default class User {
     referrer: User | undefined,
     banUntilDate: Date | undefined,
     banForever: boolean | undefined,
+    logoUrl: string | undefined,
+    backgroundUrl: string | undefined,
   ) {
     this.id = id;
     this.name = name;
@@ -29,6 +31,8 @@ export default class User {
     this.referrer = referrer;
     this.banUntilDate = banUntilDate;
     this.banForever = banForever;
+    this.logoUrl = logoUrl;
+    this.backgroundUrl = backgroundUrl;
   }
 
   id: ID;
@@ -56,4 +60,8 @@ export default class User {
   banUntilDate: Date | undefined;
 
   banForever: boolean | undefined;
+
+  logoUrl: string | undefined;
+
+  backgroundUrl: string | undefined;
 }

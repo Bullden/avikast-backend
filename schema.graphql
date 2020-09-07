@@ -16,6 +16,8 @@ type User {
   banUntilDate: DateTime
   banForever: Boolean
   referrer: User
+  logoUrl: String
+  backgroundUrl: String
 }
 
 """
@@ -173,6 +175,8 @@ type Query {
 type Mutation {
   updateMyAccount(user: UserUpdateRequest!): Account!
   updateUserImage(fileId: String!): Boolean!
+  updateUserLogoImage(fileId: String!): Boolean!
+  updateUserBackgroundImage(fileId: String!): Boolean!
   banUsersTemporary(untilDate: String!, userIds: [String!]!): Boolean!
   banUsersPermanently(userIds: [String!]!): Boolean!
   restoreUsers(userIds: [String!]!): Boolean!

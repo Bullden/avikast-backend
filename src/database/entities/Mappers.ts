@@ -29,6 +29,8 @@ export const mapUserFromDb = (user: DbUser): User => ({
   referrer: user.referrer ? mapUserFromDb(user.referrer) : undefined,
   banUntilDate: user.banUntilDate,
   banForever: user.banForever,
+  logoUrl: user.logoUrl,
+  backgroundUrl: user.backgroundUrl,
 });
 
 export const mapUsersFromDB = (users: DbUser[]): User[] => users.map(mapUserFromDb);

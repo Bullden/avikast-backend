@@ -17,6 +17,8 @@ export const UserSchema = createSchema(schemaName, {
   referrer: {type: String, ref: schemaName},
   banUntilDate: {type: Date, required: false},
   banForever: {type: Boolean, required: false},
+  logoUrl: {type: String, required: false},
+  backgroundUrl: {type: String, required: false},
 });
 
 export default interface UserModel extends Document {
@@ -33,4 +35,6 @@ export default interface UserModel extends Document {
   referrer: UserModel | string | undefined;
   banUntilDate: Date;
   banForever: boolean;
+  logoUrl: string;
+  backgroundUrl: string;
 }

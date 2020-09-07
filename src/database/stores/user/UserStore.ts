@@ -102,6 +102,20 @@ export default class UserStore implements IUserStore {
     return true;
   }
 
+  async updateUserLogoImage(myUserId: string, fileId: string) {
+    const updateObject: Partial<UserModel> = {};
+    updateObject.logoUrl = fileId;
+    await this.userModel.updateOne({_id: myUserId}, updateObject);
+    return true;
+  }
+
+  async updateUserBackgroundImage(myUserId: string, fileId: string) {
+    const updateObject: Partial<UserModel> = {};
+    updateObject.backgroundUrl = fileId;
+    await this.userModel.updateOne({_id: myUserId}, updateObject);
+    return true;
+  }
+
   async findUserByIdOrThrow(id: string) {
     const user = await this.userModel.findById(id).populate(this.populate);
     if (!user) throw new Error('User not found');

@@ -16,6 +16,8 @@ export default class User {
     banUntilDate: Date | undefined,
     banForever: boolean | undefined,
     referrer: User | undefined,
+    logoUrl: string | undefined,
+    backgroundUrl: string | undefined,
   ) {
     this.id = id;
     this.name = name;
@@ -30,6 +32,8 @@ export default class User {
     this.banUntilDate = banUntilDate;
     this.banForever = banForever;
     this.referrer = referrer;
+    this.logoUrl = logoUrl;
+    this.backgroundUrl = backgroundUrl;
   }
 
   @Field(() => ID)
@@ -70,4 +74,10 @@ export default class User {
 
   @Field(() => User, {nullable: true})
   referrer?: User;
+
+  @Field(() => String, {nullable: true})
+  logoUrl?: string;
+
+  @Field(() => String, {nullable: true})
+  backgroundUrl?: string;
 }

@@ -13,4 +13,6 @@ export default interface User {
   referrer: User | undefined;
   banUntilDate: Date | undefined;
   banForever: boolean | undefined;
+  logoUrl: string | undefined;
+  backgroundUrl: string | undefined;
 }

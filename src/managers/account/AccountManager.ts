@@ -37,6 +37,14 @@ export default class AccountManager implements IAccountManager {
     return this.userStore.updateUserImage(myUserId, fileId);
   }
 
+  async updateUserLogoImage(myUserId: string, fileId: string) {
+    return this.userStore.updateUserLogoImage(myUserId, fileId);
+  }
+
+  async updateUserBackgroundImage(myUserId: string, fileId: string) {
+    return this.userStore.updateUserBackgroundImage(myUserId, fileId);
+  }
+
   async getUsers() {
     const users = await this.userStore.getUsers();
 

@@ -46,6 +46,22 @@ export class AccountResolver {
   }
 
   @Mutation(() => Boolean)
+  async updateUserLogoImage(
+    @CurrentSession() {userId}: SessionInfo,
+    @Args('fileId') fileId: string,
+  ) {
+    return this.accountManager.updateUserLogoImage(userId, fileId);
+  }
+
+  @Mutation(() => Boolean)
+  async updateUserBackgroundImage(
+    @CurrentSession() {userId}: SessionInfo,
+    @Args('fileId') fileId: string,
+  ) {
+    return this.accountManager.updateUserBackgroundImage(userId, fileId);
+  }
+
+  @Mutation(() => Boolean)
   async banUsersTemporary(
     @Args({name: 'userIds', type: () => [String]}) userIds: string[],
     @Args({name: 'untilDate', type: () => String}) untilDate: string,

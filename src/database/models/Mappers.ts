@@ -47,6 +47,8 @@ export const mapUserFromModel = (user: UserModel): User => {
     referrer: user.referrer ? mapUserFromModel(user.referrer as UserModel) : undefined,
     banUntilDate: user.banUntilDate,
     banForever: user.banForever,
+    logoUrl: user.logoUrl,
+    backgroundUrl: user.backgroundUrl,
   };
 };
 
