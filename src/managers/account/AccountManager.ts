@@ -3,15 +3,17 @@ import IUserStore from '../../database/stores/user/IUserStore';
 import IAccountManager from './IAccountManager';
 import {mapAccountFromDB, mapUsersFromDB} from 'database/entities/Mappers';
 import AvikastError from '../../AvikastError';
+import Resume from 'entities/Resume';
+import IResumeStore from 'database/stores/resume/IResumeStore';
 import User from 'entities/User';
 
 @Injectable()
 export default class AccountManager implements IAccountManager {
-  constructor(private userStore: IUserStore) {}
+  constructor(private userStore: IUserStore, private resumeStore: IResumeStore) {}
 
   async getMyAccount(myUserId: string) {
     const dbUser = await this.userStore.getUser(myUserId);
-    if (!dbUser) throw new AvikastError('User is not found');
+    if (!dbUser) throw new AvikastError('Resume is not found');
     return mapAccountFromDB(dbUser);
   }
 
@@ -29,7 +31,7 @@ export default class AccountManager implements IAccountManager {
   ) {
     await this.userStore.updateUser(myUserId, user);
     const dbUser = await this.userStore.getUser(myUserId);
-    if (!dbUser) throw new AvikastError('User is not found');
+    if (!dbUser) throw new AvikastError('Resume is not found');
     return mapAccountFromDB(dbUser);
   }
 
@@ -65,6 +67,14 @@ export default class AccountManager implements IAccountManager {
 
   async restoreUsers(userIds: string[]) {
     await this.userStore.restoreUsers(userIds);
+  }
+
+  async saveResume(userId: string, resume: Resume) {
+    await this.resumeStore.createResume(userId, resume);
+  }
+
+  async getResume(userId: string) {
+    return this.resumeStore.findResumeByUserId(userId);
   }
 
   async referrersByUserId(userId: string): Promise<User[]> {

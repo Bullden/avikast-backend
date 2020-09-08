@@ -118,7 +118,7 @@ export default class UserStore implements IUserStore {
 
   async findUserByIdOrThrow(id: string) {
     const user = await this.userModel.findById(id).populate(this.populate);
-    if (!user) throw new Error('User not found');
+    if (!user) throw new Error('Resume not found');
     return mapUserFromModel(user);
   }
 

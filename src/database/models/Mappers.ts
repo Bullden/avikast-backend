@@ -21,6 +21,8 @@ import File from 'database/entities/File';
 import RecordModel from 'database/models/RecordModel';
 import Record from 'database/entities/Record';
 import {ObjectId} from 'bson';
+import ResumeModel from 'database/models/ResumeModel';
+import Resume from 'entities/Resume';
 
 export const extractIdFromModel = (model: {_id: ObjectId}): string =>
   model._id.toString();
@@ -73,7 +75,7 @@ export const mapLocalLoginFromModel = (
 ): LocalLogin => {
   let user = overrideUser;
   if (!user) {
-    if (!localLogin.user) throw new Error('User should be provided');
+    if (!localLogin.user) throw new Error('Resume should be provided');
     user = mapUserFromModel(localLogin.user as UserModel);
   }
   return {
@@ -104,7 +106,7 @@ export const mapSessionFromModel = (
 ): Session => {
   let user = overrideUser;
   if (!user) {
-    if (!session.user) throw new Error('User should be provided');
+    if (!session.user) throw new Error('Resume should be provided');
     user = mapUserFromModel(session.user);
   }
   return {
@@ -131,7 +133,7 @@ export const mapMessagesFromModel = (messages: MessageModel[]): Message[] =>
   messages.map(mapMessageFromModel);
 
 export const mapRoomFromModel = (room: RoomModel): Room => {
-  if (typeof room.user !== 'object') throw new Error('User should be object');
+  if (typeof room.user !== 'object') throw new Error('Resume should be object');
   return {
     id: extractIdFromModel(room),
     closed: room.closed,
@@ -163,7 +165,7 @@ export const mapBookmarksFromModel = (bookmarks: BookmarkModel[]): Bookmark[] =>
   bookmarks.map(mapBookmarkFromModel);
 
 export const mapParticipantFromModel = (participant: ParticipantModel): Participant => {
-  if (typeof participant.user !== 'object') throw new Error('User should be object');
+  if (typeof participant.user !== 'object') throw new Error('Resume should be object');
   if (typeof participant.room !== 'object') throw new Error('Room should be object');
   return {
     id: extractIdFromModel(participant),
@@ -179,7 +181,7 @@ export const mapParticipantFromModel = (participant: ParticipantModel): Particip
 };
 
 // export const mapWebinarOwnerFromModel = (participant: ParticipantModel): Participant => {
-//   if (typeof participant.user !== 'object') throw new Error('User should be object');
+//   if (typeof participant.user !== 'object') throw new Error('Resume should be object');
 //   if (typeof participant.room !== 'object') throw new Error('Room should be object');
 //   return {
 //     id: extractIdFromModel(participant),
@@ -204,7 +206,7 @@ export const mapFileFromModel = (file: FileModel): File => ({
 });
 
 export const mapAvikastFileFromModel = (file: AvikastFileModel): AvikastFile => {
-  if (typeof file.user !== 'object') throw new Error('User should be object');
+  if (typeof file.user !== 'object') throw new Error('Resume should be object');
   let mappedFile: File | undefined;
   if (file.file) {
     if (typeof file.file !== 'object') throw new Error('File should be object');
@@ -223,7 +225,7 @@ export const mapAvikastFilesFromModel = (files: AvikastFileModel[]): AvikastFile
   files.map(mapAvikastFileFromModel);
 
 export const mapRecordFromModel = (record: RecordModel): Record => {
-  if (typeof record.user !== 'object') throw new Error('User should be object');
+  if (typeof record.user !== 'object') throw new Error('Resume should be object');
   if (typeof record.file !== 'object') throw new Error('File should be object');
   return {
     id: extractIdFromModel(record),
@@ -236,3 +238,13 @@ export const mapRecordFromModel = (record: RecordModel): Record => {
 
 export const mapRecordsFromModel = (record: RecordModel[]): Record[] =>
   record.map(mapRecordFromModel);
+
+export const mapResumeFromModel = (resume: ResumeModel): Resume => {
+  // if (typeof record.user !== 'object') throw new Error('Resume should be object');
+  return {
+    summary: resume.summary,
+    experience: resume.experience,
+    education: resume.education,
+    awards: resume.awards,
+  };
+};

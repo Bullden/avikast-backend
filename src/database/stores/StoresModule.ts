@@ -18,6 +18,8 @@ import IRecordStore from 'database/stores/record/IRecordStore';
 import RecordStore from 'database/stores/record/RecordStore';
 import IFileStore from 'database/stores/file/IFileStore';
 import FileStore from 'database/stores/file/FileStore';
+import IResumeStore from 'database/stores/resume/IResumeStore';
+import ResumeStore from 'database/stores/resume/ResumeStore';
 
 @Module({
   imports: [
@@ -61,6 +63,10 @@ import FileStore from 'database/stores/file/FileStore';
       provide: IFileStore,
       useClass: FileStore,
     },
+    {
+      provide: IResumeStore,
+      useClass: ResumeStore,
+    },
   ],
   exports: [
     //
@@ -73,6 +79,7 @@ import FileStore from 'database/stores/file/FileStore';
     IMessageStore,
     IRecordStore,
     IFileStore,
+    IResumeStore,
   ],
 })
 export class StoresModule {}

@@ -42,7 +42,7 @@ export default class AuthManager extends IAuthManager {
     referralCode: string,
   ): Promise<AuthResponse> {
     // if (await this.loginStore.findLocalLoginByEmail(email)) {
-    //   throw new AvikastError('User with the same email already exists');
+    //   throw new AvikastError('Resume with the same email already exists');
     // }
 
     let referrer: User | undefined;
@@ -223,7 +223,7 @@ export default class AuthManager extends IAuthManager {
     if (!dbSession)
       throw new AvikastAuthError('Session not found', AvikastErrorType.AuthFailed);
     if (dbSession.user.id !== session.userId)
-      throw new AvikastAuthError('User malformed', AvikastErrorType.AuthFailed);
+      throw new AvikastAuthError('Resume malformed', AvikastErrorType.AuthFailed);
     if (dbSession.appType !== session.appType)
       throw new AvikastAuthError('appType malformed', AvikastErrorType.AuthFailed);
 
