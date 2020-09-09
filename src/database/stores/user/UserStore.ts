@@ -61,10 +61,15 @@ export default class UserStore implements IUserStore {
     email: string;
     country: string;
     city: string;
+    position: string;
+    telephone: string;
     dateOfBirth: Date;
     avatarUrl: string;
     tags: string[];
     skills: string[];
+    mission: string[];
+    vision: string[];
+    interests: string[];
     referralCode: string;
     referrer: string | undefined;
   }) {
@@ -78,9 +83,14 @@ export default class UserStore implements IUserStore {
       name: string | undefined;
       country: string | undefined;
       city: string | undefined;
+      position: string | undefined;
+      telephone: string | undefined;
       dateOfBirth: Date | undefined;
       tags: string[] | undefined;
       skills: string[] | undefined;
+      mission: string[] | undefined;
+      vision: string[] | undefined;
+      interests: string[] | undefined;
       referralCode: string | undefined;
     },
   ) {
@@ -88,9 +98,14 @@ export default class UserStore implements IUserStore {
     if (data.name !== undefined) updateObject.name = data.name;
     if (data.country !== undefined) updateObject.country = data.country;
     if (data.city !== undefined) updateObject.city = data.city;
+    if (data.position !== undefined) updateObject.position = data.position;
+    if (data.telephone !== undefined) updateObject.telephone = data.telephone;
     if (data.dateOfBirth !== undefined) updateObject.dateOfBirth = data.dateOfBirth;
     if (data.tags !== undefined) updateObject.tags = data.tags;
     if (data.skills !== undefined) updateObject.skills = data.skills;
+    if (data.mission !== undefined) updateObject.mission = data.mission;
+    if (data.vision !== undefined) updateObject.vision = data.vision;
+    if (data.interests !== undefined) updateObject.interests = data.interests;
     if (data.referralCode !== undefined) updateObject.referralCode = data.referralCode;
     await this.userModel.updateOne({_id: userId}, updateObject);
   }

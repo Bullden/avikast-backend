@@ -8,10 +8,15 @@ export default class User {
     email: string,
     country: string,
     city: string,
+    position: string,
+    telephone: string,
     dateOfBirth: Date | null,
     avatarUrl: string,
     tags: string[],
     skills: string[],
+    vision: string[],
+    mission: string[],
+    interests: string[],
     referralCode: string,
     banUntilDate: Date | undefined,
     banForever: boolean | undefined,
@@ -24,10 +29,15 @@ export default class User {
     this.email = email;
     this.country = country;
     this.city = city;
+    this.position = position;
+    this.telephone = telephone;
     this.dateOfBirth = dateOfBirth;
     this.avatarUrl = avatarUrl;
     this.tags = tags;
     this.skills = skills;
+    this.vision = vision;
+    this.mission = mission;
+    this.interests = interests;
     this.referralCode = referralCode;
     this.banUntilDate = banUntilDate;
     this.banForever = banForever;
@@ -51,6 +61,12 @@ export default class User {
   @Field(() => String)
   city: string;
 
+  @Field(() => String)
+  position: string;
+
+  @Field(() => String)
+  telephone: string;
+
   @Field(() => String, {nullable: true})
   dateOfBirth: Date | null;
 
@@ -62,6 +78,15 @@ export default class User {
 
   @Field(() => [String])
   skills: string[];
+
+  @Field(() => [String])
+  mission: string[];
+
+  @Field(() => [String])
+  vision: string[];
+
+  @Field(() => [String])
+  interests: string[];
 
   @Field(() => String)
   referralCode: string;

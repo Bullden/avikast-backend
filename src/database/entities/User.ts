@@ -4,10 +4,15 @@ export default interface User {
   email: string;
   country: string;
   city: string;
+  position: string;
+  telephone: string;
   dateOfBirth: Date | null;
   avatarUrl: string;
   tags: string[];
   skills: string[];
+  vision: string[];
+  mission: string[];
+  interests: string[];
   allowNotifications?: boolean | undefined;
   referralCode: string;
   referrer: User | undefined;

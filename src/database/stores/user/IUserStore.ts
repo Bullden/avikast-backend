@@ -7,10 +7,15 @@ export default abstract class IUserStore {
     email: string;
     country: string;
     city: string;
+    position: string;
+    telephone: string;
     dateOfBirth: Date;
     avatarUrl: string;
     tags: string[];
     skills: string[];
+    mission: string[];
+    vision: string[];
+    interests: string[];
     referralCode: string;
     referrer: string | undefined;
   }): Promise<User>;
@@ -21,9 +26,14 @@ export default abstract class IUserStore {
       name: string | undefined;
       country: string | undefined;
       city: string | undefined;
+      position: string | undefined;
+      telephone: string | undefined;
       dateOfBirth: Date | undefined;
       tags: string[] | undefined;
       skills: string[] | undefined;
+      mission: string[] | undefined;
+      vision: string[] | undefined;
+      interests: string[] | undefined;
       referralCode: string | undefined;
     },
   ): Promise<void>;

@@ -12,9 +12,14 @@ export default abstract class IAccountManager {
       name: string | undefined;
       country: string | undefined;
       city: string | undefined;
+      position: string | undefined;
+      telephone: string | undefined;
       dateOfBirth: Date | undefined;
       tags: string[] | undefined;
       skills: string[] | undefined;
+      mission: string[] | undefined;
+      vision: string[] | undefined;
+      interests: string[] | undefined;
       referralCode: string | undefined;
     },
   ): Promise<Account>;

@@ -8,10 +8,15 @@ type User {
   email: String!
   country: String!
   city: String!
+  position: String!
+  telephone: String!
   dateOfBirth: String
   avatarUrl: String!
   tags: [String!]!
   skills: [String!]!
+  mission: [String!]!
+  vision: [String!]!
+  interests: [String!]!
   referralCode: String!
   banUntilDate: DateTime
   banForever: Boolean
@@ -218,9 +223,14 @@ input UserUpdateRequest {
   email: String
   country: String
   city: String
+  position: String
+  telephone: String
   dateOfBirth: DateTime
   tags: [String!]
   skills: [String!]
+  mission: [String!]
+  vision: [String!]
+  interests: [String!]
   referralCode: String
 }
 
