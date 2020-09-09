@@ -3,6 +3,8 @@ import {AvikastFile} from 'entities/AvikastFile';
 export default abstract class IAvikastFileManager {
   abstract getFiles(userId: string, parent: string | undefined): Promise<AvikastFile[]>;
 
+  abstract getImages(userId: string): Promise<AvikastFile[]>;
+
   abstract addFile(
     userId: string,
     name: string,

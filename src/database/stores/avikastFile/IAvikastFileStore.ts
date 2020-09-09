@@ -6,6 +6,8 @@ export default abstract class IAvikastFileStore {
 
   abstract getFiles(userId: string, parent: string | undefined): Promise<AvikastFile[]>;
 
+  abstract getImages(userId: string): Promise<AvikastFile[]>;
+
   abstract createFile(
     userId: string,
     name: string,

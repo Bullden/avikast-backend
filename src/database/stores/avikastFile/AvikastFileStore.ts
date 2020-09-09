@@ -41,6 +41,13 @@ export default class AvikastFileStore extends IAvikastFileStore {
     );
   }
 
+  async getImages(userId: string) {
+    const files = await this.avikastFileModel
+      .find({user: userId})
+      .populate(this.populateAvikastFile);
+    return mapAvikastFilesFromModel(files);
+  }
+
   async createFile(
     userId: string,
     name: string,

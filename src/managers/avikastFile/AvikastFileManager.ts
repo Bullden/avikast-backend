@@ -1,8 +1,9 @@
+/* eslint-disable */
 import {Injectable} from '@nestjs/common';
 import {mapAvikastFileFromDB, mapAvikastFilesFromDB} from 'database/entities/Mappers';
 import IAvikastFileManager from './IAvikastFileManager';
 import IAvikastFileStore from '../../database/stores/avikastFile/IAvikastFileStore';
-import {AvikastFileType} from 'entities/AvikastFile';
+import {AvikastFile, AvikastFileType} from 'entities/AvikastFile';
 
 @Injectable()
 export default class AvikastFileManager extends IAvikastFileManager {
@@ -12,6 +13,18 @@ export default class AvikastFileManager extends IAvikastFileManager {
 
   async getFiles(userId: string, parent: string | undefined) {
     return mapAvikastFilesFromDB(await this.avikastFileStore.getFiles(userId, parent));
+  }
+
+  async getImages(userId: string) {
+    const files = mapAvikastFilesFromDB(await this.avikastFileStore.getImages(userId));
+    const images: AvikastFile[] = [];
+    files.map((el) => {
+      const fileType = el.name.substring(el.name.length - 3, el.name.length);
+      if (fileType === 'jpg' || fileType === 'png') { //TODO adapt to jpeg?
+        images.push(el);
+      }
+    });
+    return images;
   }
 
   async addFile(

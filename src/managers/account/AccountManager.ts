@@ -79,7 +79,8 @@ export default class AccountManager implements IAccountManager {
   }
 
   async getResume(userId: string) {
-    return this.resumeStore.findResumeByUserId(userId);
+    const resume = await this.resumeStore.findResumeByUserId(userId);
+    return resume;
   }
 
   async referrersByUserId(userId: string): Promise<User[]> {

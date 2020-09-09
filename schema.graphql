@@ -183,6 +183,7 @@ type Query {
   messageById(messageId: String!): Message!
   records: [Record!]!
   avikastFiles(parent: String): [AvikastFile!]!
+  getImages: [AvikastFile!]!
 }
 
 type Mutation {

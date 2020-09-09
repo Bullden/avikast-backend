@@ -22,6 +22,11 @@ export class AvikastFileResolver {
     return mapAvikastFilesToGQL(await this.avikastFilesManager.getFiles(userId, parent));
   }
 
+  @Query(() => [AvikastFile])
+  async getImages(@CurrentSession() {userId}: SessionInfo) {
+    return mapAvikastFilesToGQL(await this.avikastFilesManager.getImages(userId));
+  }
+
   @Mutation(() => AvikastFile)
   async addAvikastFile(
     @CurrentSession() {userId}: SessionInfo,
