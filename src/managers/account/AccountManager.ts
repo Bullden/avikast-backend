@@ -3,7 +3,6 @@ import IUserStore from '../../database/stores/user/IUserStore';
 import IAccountManager from './IAccountManager';
 import {mapAccountFromDB, mapUsersFromDB} from 'database/entities/Mappers';
 import AvikastError from '../../AvikastError';
-import Resume from 'entities/Resume';
 import IResumeStore from 'database/stores/resume/IResumeStore';
 import User from 'entities/User';
 import {IPdfService} from '../../services/pdf/IPdfService';
@@ -83,8 +82,6 @@ export default class AccountManager implements IAccountManager {
     const user = await this.userStore.getUser(userId);
     if (!user) throw new AvikastError('User is not found');
     const userRefs: User[] = [];
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/ban-ts-ignore
-    // @ts-ignore
     const getReferrers = async (user: User, userArr: User[] = []) => {
       const referrers = await this.userStore.getReferrersByUserId(user.id);
       referrers.forEach((ref) => {

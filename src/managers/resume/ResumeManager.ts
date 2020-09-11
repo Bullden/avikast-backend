@@ -46,8 +46,9 @@ export default class ResumeManager extends IResumeManager {
   }
 
   async getResumeLink(userId: string) {
-    const user = await this.userStore.findUserByIdOrThrow(userId)
-    const file = await this.fileStore.getResumeLink(user)
-    return file;
+    const user = await this.userStore.findUserByIdOrThrow(userId);
+    const file = await this.fileStore.getResumeLink(user);
+    const avikastFile = await this.avikastFileStore.findFileByIdOrThrow(file);
+    return avikastFile.id;
   }
 }

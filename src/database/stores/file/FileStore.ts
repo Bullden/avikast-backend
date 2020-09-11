@@ -32,20 +32,14 @@ export default class FileStore implements IFileStore {
   }
 
   async addResume(name: string, mimeType: string, mediaLink: string) {
-    const oldResume = await this.fileModel.findOne({name});
     const newFile: CreateFileModel = {
       mediaLink,
       name,
       mimeType,
     };
-    // if (!oldResume) {
-    //   console.log('update old resume');
-    //   await this.fileModel.findOneAndUpdate({name}, {newFile});
-    //   return;
-    // }
-    console.log('create new file');
-
-    return mapFileFromModel(await this.fileModel.create(newFile));
+    const updateResume = await this.fileModel.findOneAndUpdate({name}, {newFile});
+    if (!updateResume) return mapFileFromModel(await this.fileModel.create(newFile));
+    return mapFileFromModel(updateResume);
   }
 
   async getResumeLink(user: User) {
@@ -54,7 +48,6 @@ export default class FileStore implements IFileStore {
       mimeType: 'pdf',
     });
     const mapedFile = mapFileFromModel(await this.fileModel.create(link));
-    console.log('filestore link', mapedFile.mediaLink);
     return mapedFile.mediaLink;
   }
 }

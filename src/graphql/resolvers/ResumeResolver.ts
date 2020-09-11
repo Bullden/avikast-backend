@@ -29,7 +29,6 @@ export class ResumeResolver {
   @Query(() => String, {nullable: true})
   async getResumeLink(@CurrentSession() {userId}: SessionInfo) {
     const link = await this.resumeManager.getResumeLink(userId);
-    console.log(link, 'resolver link');
     return link;
   }
 }
