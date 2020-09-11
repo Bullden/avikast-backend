@@ -10,6 +10,7 @@ export const ResumeSchema = createSchema(schemaName, {
   education: {type: String, required: false},
   awards: {type: String, required: false},
   user: {type: String, ref: UserSchema.name},
+  fileName: {type: String, required: false},
 });
 
 export default interface ResumeModel extends Document {
@@ -18,6 +19,7 @@ export default interface ResumeModel extends Document {
   education: string;
   awards: string;
   user: UserModel | string;
+  fileName: string;
 }
 export interface CreateResumeModel {
   summary: string;
@@ -25,4 +27,5 @@ export interface CreateResumeModel {
   education: string;
   awards: string;
   userId: string;
+  fileName: string;
 }

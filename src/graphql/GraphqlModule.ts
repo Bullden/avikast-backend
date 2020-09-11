@@ -12,6 +12,7 @@ import MessageResolver from './resolvers/MessageResolver';
 import {PubSub, PubSubEngine} from 'graphql-subscriptions';
 import {RecordResolver} from 'graphql/resolvers/RecordResolver';
 import {AvikastFileResolver} from 'graphql/resolvers/AvikastFileResolver';
+import {ResumeResolver} from './resolvers/ResumeResolver';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import {AvikastFileResolver} from 'graphql/resolvers/AvikastFileResolver';
     BookmarkResolver,
     MessageResolver,
     RecordResolver,
+    ResumeResolver,
   ],
 })
 export class GraphqlModule {}

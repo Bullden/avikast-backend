@@ -39,13 +39,6 @@ type Account {
   preferences: Preferences!
 }
 
-type ResumeOutput {
-  summary: String!
-  experience: String!
-  education: String!
-  awards: String!
-}
-
 type Room {
   id: ID!
   closed: DateTime
@@ -160,11 +153,17 @@ enum AvikastFileType {
   Directory
 }
 
+type ResumeOutput {
+  summary: String!
+  experience: String!
+  education: String!
+  awards: String!
+}
+
 type Query {
   myAccount: Account!
   users: [User!]!
   referrersByUserId(userId: String!): [User!]!
-  getResume: ResumeOutput
   rooms: [Room!]!
   roomById(roomId: String!): Room!
   room: Room
@@ -184,6 +183,8 @@ type Query {
   records: [Record!]!
   avikastFiles(parent: String): [AvikastFile!]!
   getImages: [AvikastFile!]!
+  getResume: ResumeOutput
+  getResumeLink: String
 }
 
 type Mutation {
@@ -195,7 +196,6 @@ type Mutation {
   banUsersPermanently(userIds: [String!]!): Boolean!
   restoreUsers(userIds: [String!]!): Boolean!
   deleteUsers(userIds: [String!]!): Boolean!
-  saveResume(resume: ResumeInput!): Boolean!
   createRoom(password: String, passwordProtected: Boolean!, type: RoomType!, name: String!): Room!
   deleteRooms(roomIds: [String!]!): Boolean!
   joinRoom(password: String, inviteLink: String!): Room!
@@ -217,6 +217,7 @@ type Mutation {
   createAvikastDirectory(parent: String, name: String!): AvikastFile!
   deleteAvikastFile(id: String!): Boolean!
   deleteAvikastDirectory(id: String!): Boolean!
+  saveResume(resume: ResumeInput!): Boolean!
 }
 
 input UserUpdateRequest {
@@ -235,13 +236,6 @@ input UserUpdateRequest {
   referralCode: String
 }
 
-input ResumeInput {
-  summary: String!
-  experience: String!
-  education: String!
-  awards: String!
-}
-
 enum MediaType {
   userMedia
   screenShare
@@ -250,6 +244,13 @@ enum MediaType {
 enum MediaKind {
   audio
   video
+}
+
+input ResumeInput {
+  summary: String!
+  experience: String!
+  education: String!
+  awards: String!
 }
 
 type Subscription {

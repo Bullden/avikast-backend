@@ -20,6 +20,8 @@ import IFileManager from './file/IFileManager';
 import FileManager from './file/FileManager';
 import ILogger from 'utils/ILogger';
 import Logger from 'utils/Logger';
+import IResumeManager from './resume/IResumeManager';
+import ResumeManager from './resume/ResumeManager';
 
 @Module({
   imports: [
@@ -66,6 +68,10 @@ import Logger from 'utils/Logger';
       useClass: FileManager,
     },
     {
+      provide: IResumeManager,
+      useClass: ResumeManager,
+    },
+    {
       provide: ILogger,
       useClass: Logger,
     },
@@ -82,6 +88,7 @@ import Logger from 'utils/Logger';
     IRecordManager,
     IFileManager,
     ILogger,
+    IResumeManager,
   ],
 })
 export class ManagerModule {}

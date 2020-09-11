@@ -6,10 +6,15 @@ import AvikastError from '../../AvikastError';
 import Resume from 'entities/Resume';
 import IResumeStore from 'database/stores/resume/IResumeStore';
 import User from 'entities/User';
+import {IPdfService} from '../../services/pdf/IPdfService';
 
 @Injectable()
 export default class AccountManager implements IAccountManager {
-  constructor(private userStore: IUserStore, private resumeStore: IResumeStore) {}
+  constructor(
+    private userStore: IUserStore,
+    private resumeStore: IResumeStore,
+    private pdfService: IPdfService,
+  ) {}
 
   async getMyAccount(myUserId: string) {
     const dbUser = await this.userStore.getUser(myUserId);
@@ -72,15 +77,6 @@ export default class AccountManager implements IAccountManager {
 
   async restoreUsers(userIds: string[]) {
     await this.userStore.restoreUsers(userIds);
-  }
-
-  async saveResume(userId: string, resume: Resume) {
-    await this.resumeStore.createResume(userId, resume);
-  }
-
-  async getResume(userId: string) {
-    const resume = await this.resumeStore.findResumeByUserId(userId);
-    return resume;
   }
 
   async referrersByUserId(userId: string): Promise<User[]> {

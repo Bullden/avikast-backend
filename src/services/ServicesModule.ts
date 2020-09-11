@@ -4,6 +4,7 @@ import {MediasoupModule} from './mediasoup/MediasoupModule';
 import {StorageModule} from 'services/storage/StorageModule';
 import {EmailSenderModule} from 'services/emailSender/EmailSenderModule';
 import {NotificationModule} from 'services/notifications/NotificationModule';
+import {PdfModule} from './pdf/PdfModule';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import {NotificationModule} from 'services/notifications/NotificationModule';
     StorageModule,
     EmailSenderModule,
     NotificationModule,
+    PdfModule,
   ],
   providers: [],
   exports: [
@@ -22,6 +24,7 @@ import {NotificationModule} from 'services/notifications/NotificationModule';
     StorageModule,
     EmailSenderModule,
     NotificationModule,
+    PdfModule,
   ],
 })
 export class ServicesModule {}

@@ -15,13 +15,14 @@ export default class ResumeStore extends IResumeStore {
     {path: 'user'},
   ];
 
-  async createResume(userId: string, resume: Resume) {
+  async createResume(userId: string, resume: Resume, fileName: string) {
     const newResume = {
       user: userId,
       summary: resume.summary,
       experience: resume.experience,
       education: resume.education,
       awards: resume.awards,
+      fileName,
     };
     const oldResume = await this.resumeModel.findOne({user: userId});
     if (oldResume) {
