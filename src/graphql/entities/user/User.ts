@@ -23,6 +23,7 @@ export default class User {
     referrer: User | undefined,
     logoUrl: string | undefined,
     backgroundUrl: string | undefined,
+    resumeUrl: string | undefined,
   ) {
     this.id = id;
     this.name = name;
@@ -44,6 +45,7 @@ export default class User {
     this.referrer = referrer;
     this.logoUrl = logoUrl;
     this.backgroundUrl = backgroundUrl;
+    this.resumeUrl = resumeUrl;
   }
 
   @Field(() => ID)
@@ -105,4 +107,7 @@ export default class User {
 
   @Field(() => String, {nullable: true})
   backgroundUrl?: string;
+
+  @Field(() => String, {nullable: true})
+  resumeUrl?: string;
 }

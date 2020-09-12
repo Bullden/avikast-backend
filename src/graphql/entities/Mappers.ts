@@ -42,6 +42,7 @@ export const mapUserToGQL = (user: User): GQLUser => {
     referrer: user.referrer ? mapUserToGQL(user.referrer) : undefined,
     logoUrl: user.logoUrl,
     backgroundUrl: user.backgroundUrl,
+    resumeUrl: user.resumeUrl,
   };
 };
 

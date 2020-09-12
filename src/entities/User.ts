@@ -22,6 +22,7 @@ export default class User {
     banForever: boolean | undefined,
     logoUrl: string | undefined,
     backgroundUrl: string | undefined,
+    resumeUrl: string | undefined,
   ) {
     this.id = id;
     this.name = name;
@@ -43,6 +44,7 @@ export default class User {
     this.banForever = banForever;
     this.logoUrl = logoUrl;
     this.backgroundUrl = backgroundUrl;
+    this.resumeUrl = resumeUrl;
   }
 
   id: ID;
@@ -84,4 +86,6 @@ export default class User {
   logoUrl: string | undefined;
 
   backgroundUrl: string | undefined;
+
+  resumeUrl: string | undefined;
 }

@@ -44,6 +44,8 @@ export default abstract class IUserStore {
 
   abstract updateUserBackgroundImage(myUserId: string, fileId: string): Promise<boolean>;
 
+  abstract updateUserResumeUrl(myUserId: string, fileId: string): Promise<boolean>;
+
   abstract getUser(userId: ID): Promise<User | undefined>;
 
   abstract getUsers(): Promise<User[]>;

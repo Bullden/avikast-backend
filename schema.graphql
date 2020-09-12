@@ -23,6 +23,7 @@ type User {
   referrer: User
   logoUrl: String
   backgroundUrl: String
+  resumeUrl: String
 }
 
 """

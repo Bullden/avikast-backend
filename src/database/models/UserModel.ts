@@ -24,6 +24,7 @@ export const UserSchema = createSchema(schemaName, {
   banForever: {type: Boolean, required: false},
   logoUrl: {type: String, required: false},
   backgroundUrl: {type: String, required: false},
+  resumeUrl: {type: String, required: false},
 });
 
 export default interface UserModel extends Document {
@@ -47,4 +48,5 @@ export default interface UserModel extends Document {
   banForever: boolean;
   logoUrl: string;
   backgroundUrl: string;
+  resumeUrl: string;
 }

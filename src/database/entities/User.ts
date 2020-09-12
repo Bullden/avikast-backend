@@ -20,4 +20,5 @@ export default interface User {
   banForever: boolean | undefined;
   logoUrl: string | undefined;
   backgroundUrl: string | undefined;
+  resumeUrl: string | undefined;
 }

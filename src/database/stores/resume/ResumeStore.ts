@@ -26,7 +26,7 @@ export default class ResumeStore extends IResumeStore {
     };
     const oldResume = await this.resumeModel.findOne({user: userId});
     if (oldResume) {
-      await this.resumeModel.findOneAndUpdate({user: userId}, newResume, {
+      await this.resumeModel.updateOne({user: userId}, newResume, {
         new: true,
       });
     } else await this.resumeModel.create(newResume);

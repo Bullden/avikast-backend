@@ -4,7 +4,6 @@ import {Model, QueryPopulateOptions} from 'mongoose';
 import FileModel, {CreateFileModel, FileSchema} from 'database/models/FileModel';
 import {InjectModel} from '@nestjs/mongoose';
 import {mapFileFromModel} from 'database/models/Mappers';
-import User from '../../entities/User';
 
 @Injectable()
 export default class FileStore implements IFileStore {
@@ -40,14 +39,5 @@ export default class FileStore implements IFileStore {
     const updateResume = await this.fileModel.findOneAndUpdate({name}, {newFile});
     if (!updateResume) return mapFileFromModel(await this.fileModel.create(newFile));
     return mapFileFromModel(updateResume);
-  }
-
-  async getResumeLink(user: User) {
-    const link = await this.fileModel.findOne({
-      name: `${user.name}-resume`,
-      mimeType: 'pdf',
-    });
-    const mapedFile = mapFileFromModel(await this.fileModel.create(link));
-    return mapedFile.mediaLink;
   }
 }

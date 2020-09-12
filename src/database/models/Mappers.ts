@@ -56,6 +56,7 @@ export const mapUserFromModel = (user: UserModel): User => {
     banForever: user.banForever,
     logoUrl: user.logoUrl,
     backgroundUrl: user.backgroundUrl,
+    resumeUrl: user.resumeUrl,
   };
 };
 

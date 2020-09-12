@@ -37,6 +37,7 @@ export default class ResumeManager extends IResumeManager {
       file.id,
       undefined,
     );
+    await this.userStore.updateUserResumeUrl(userId, file.id);
     await this.resumeStore.createResume(userId, resume, pdfName);
   }
 
@@ -47,8 +48,7 @@ export default class ResumeManager extends IResumeManager {
 
   async getResumeLink(userId: string) {
     const user = await this.userStore.findUserByIdOrThrow(userId);
-    const file = await this.fileStore.getResumeLink(user);
-    const avikastFile = await this.avikastFileStore.findFileByIdOrThrow(file);
-    return avikastFile.id;
+    if (!user.resumeUrl) throw new Error('no resume by this userId');
+    return user.resumeUrl;
   }
 }

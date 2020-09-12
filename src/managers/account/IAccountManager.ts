@@ -29,6 +29,8 @@ export default abstract class IAccountManager {
 
   abstract updateUserBackgroundImage(myUserId: string, fileId: string): Promise<boolean>;
 
+  abstract updateUserResumeUrl(myUserId: string, fileId: string): Promise<boolean>;
+
   abstract getUsers(): Promise<User[]>;
 
   abstract deleteUsers(userIds: string[]): Promise<void>;

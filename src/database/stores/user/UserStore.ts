@@ -131,6 +131,13 @@ export default class UserStore implements IUserStore {
     return true;
   }
 
+  async updateUserResumeUrl(myUserId: string, fileId: string) {
+    const updateObject: Partial<UserModel> = {};
+    updateObject.resumeUrl = fileId;
+    await this.userModel.updateOne({_id: myUserId}, updateObject);
+    return true;
+  }
+
   async findUserByIdOrThrow(id: string) {
     const user = await this.userModel.findById(id).populate(this.populate);
     if (!user) throw new Error('Resume not found');

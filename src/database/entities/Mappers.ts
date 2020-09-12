@@ -36,6 +36,7 @@ export const mapUserFromDb = (user: DbUser): User => ({
   banForever: user.banForever,
   logoUrl: user.logoUrl,
   backgroundUrl: user.backgroundUrl,
+  resumeUrl: user.resumeUrl,
 });
 
 export const mapUsersFromDB = (users: DbUser[]): User[] => users.map(mapUserFromDb);
