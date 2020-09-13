@@ -1,7 +1,7 @@
 import {Injectable} from '@nestjs/common';
 import IUserStore from '../../database/stores/user/IUserStore';
 import IAccountManager from './IAccountManager';
-import {mapAccountFromDB, mapUsersFromDB} from 'database/entities/Mappers';
+import {mapAccountFromDB, mapUserFromDb, mapUsersFromDB} from 'database/entities/Mappers';
 import AvikastError from '../../AvikastError';
 import IResumeStore from 'database/stores/resume/IResumeStore';
 import User from 'entities/User';
@@ -100,5 +100,13 @@ export default class AccountManager implements IAccountManager {
     await getReferrers(user, userRefs);
 
     return mapUsersFromDB(userRefs);
+  }
+
+  async getUserById(userId: string) {
+    const user = await this.userStore.getUser(userId);
+    if (!user) {
+      throw new Error(`User with id: ${userId} does not exist`);
+    }
+    return mapUserFromDb(user);
   }
 }
