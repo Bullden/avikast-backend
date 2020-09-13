@@ -8,7 +8,6 @@ import UserUpdateRequest from '../entities/user/UserUpdateRequest';
 import {mapAccountToGQL, mapUsersToGQL, mapUserToGQL} from '../entities/Mappers';
 import SessionInfo from 'entities/SessionInfo';
 import User from 'graphql/entities/user/User';
-import {ResumeInput, ResumeOutput} from 'graphql/entities/resume/Resume';
 
 @Resolver()
 @UseGuards(AuthGuard)
@@ -110,21 +109,6 @@ export class AccountResolver {
   async referrersByUserId(@Args({name: 'userId', type: () => String}) userId: string) {
     const test = await this.accountManager.referrersByUserId(userId);
     return mapUsersToGQL(test);
-  }
-
-  @Mutation(() => Boolean)
-  async saveResume(
-    @CurrentSession() {userId}: SessionInfo,
-    @Args('resume') resume: ResumeInput,
-  ): Promise<Boolean> {
-    await this.accountManager.saveResume(userId, resume);
-    return true;
-  }
-
-  @Query(() => ResumeOutput, {nullable: true})
-  async getResume(@CurrentSession() {userId}: SessionInfo) {
-    const resume = await this.accountManager.getResume(userId);
-    return resume;
   }
 
   @Query(() => User)

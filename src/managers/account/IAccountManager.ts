@@ -1,7 +1,6 @@
 import Account from '../../entities/Account';
 import {ID} from 'entities/Common';
 import User from 'entities/User';
-import Resume from 'entities/Resume';
 
 export default abstract class IAccountManager {
   abstract getMyAccount(myUserId: string): Promise<Account>;
@@ -43,10 +42,6 @@ export default abstract class IAccountManager {
   abstract restoreUsers(userIds: string[]): Promise<void>;
 
   abstract referrersByUserId(userId: string): Promise<User[]>;
-
-  abstract saveResume(userId: string, resume: Resume): Promise<void>;
-
-  abstract getResume(userId: string): Promise<Resume | undefined>;
 
   abstract getUserById(userId: string): Promise<User>;
 }
