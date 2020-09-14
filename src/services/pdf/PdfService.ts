@@ -26,7 +26,7 @@ export class PdfService implements IPdfService {
           text: 'Avikast Resume',
           style: 'watermark',
         },
-        {text: `${user.name}`, style: 'header'},
+        {text: `${user.name} Resume`, style: 'header'},
 
         {text: `Summary`, style: 'subheader'},
         {text: `${resume.summary}`, style: 'text'},
@@ -48,22 +48,29 @@ export class PdfService implements IPdfService {
         watermark: {
           fontSize: 12,
           color: '#C82FC6',
+          alignment: 'right',
         },
         header: {
           fontSize: 30,
           bold: true,
           color: 'blue',
+          alignment: 'center',
+          marginBottom: 25,
         },
         subheader: {
           fontSize: 24,
           bold: true,
           color: 'black',
+          marginLeft: 20,
         },
         text: {
           fontSize: 18,
+          marginBottom: 50,
         },
       },
     };
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
     const pdfDoc = printer.createPdfKitDocument(docDefinition);
     pdfDoc.end();
     const fileName = uuidv4();

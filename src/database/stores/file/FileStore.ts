@@ -36,8 +36,14 @@ export default class FileStore implements IFileStore {
       name,
       mimeType,
     };
-    const updateResume = await this.fileModel.findOneAndUpdate({name}, {newFile});
-    if (!updateResume) return mapFileFromModel(await this.fileModel.create(newFile));
+    const updateResume = await this.fileModel.findOneAndUpdate(
+      {name, mimeType},
+      {newFile},
+    );
+    if (!updateResume) {
+      return mapFileFromModel(await this.fileModel.create(newFile));
+    }
+
     return mapFileFromModel(updateResume);
   }
 }

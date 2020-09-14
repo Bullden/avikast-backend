@@ -25,11 +25,7 @@ export default class ResumeManager extends IResumeManager {
     const user = await this.userStore.findUserByIdOrThrow(userId);
     const mediaLink = uuidv4();
     const pdfName = await this.pdfService.createPdfResume(user, resume, mediaLink);
-    const file = await this.fileStore.addResume(
-      `${user.name}-resume.pdf`,
-      'pdf',
-      mediaLink,
-    );
+    const file = await this.fileStore.addResume(pdfName, 'pdf', mediaLink);
     await this.avikastFileStore.createFile(
       userId,
       `${user.name}-resume`,

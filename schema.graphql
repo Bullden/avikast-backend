@@ -40,13 +40,6 @@ type Account {
   preferences: Preferences!
 }
 
-type ResumeOutput {
-  summary: String!
-  experience: String!
-  education: String!
-  awards: String!
-}
-
 type Room {
   id: ID!
   closed: DateTime
@@ -172,7 +165,6 @@ type Query {
   myAccount: Account!
   users: [User!]!
   referrersByUserId(userId: String!): [User!]!
-  getResume: ResumeOutput
   userById(userId: String!): User!
   rooms: [Room!]!
   roomById(roomId: String!): Room!
