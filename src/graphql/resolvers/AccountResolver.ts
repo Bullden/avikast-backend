@@ -111,6 +111,14 @@ export class AccountResolver {
     return mapUsersToGQL(test);
   }
 
+  @Mutation(() => Boolean)
+  async uploadResume(
+    @CurrentSession() {userId}: SessionInfo,
+    @Args('fileId') fileId: string,
+  ) {
+    return this.accountManager.uploadResume(userId, fileId);
+  }
+
   @Query(() => User)
   async userById(@Args({name: 'userId', type: () => String}) userId: string) {
     return mapUserToGQL(await this.accountManager.getUserById(userId));

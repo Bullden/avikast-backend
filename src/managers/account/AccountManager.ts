@@ -109,4 +109,8 @@ export default class AccountManager implements IAccountManager {
     }
     return mapUserFromDb(user);
   }
+
+  async uploadResume(myUserId: string, fileId: string) {
+    return this.userStore.updateUserResumeUrl(myUserId, fileId);
+  }
 }

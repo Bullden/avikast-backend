@@ -44,4 +44,6 @@ export default abstract class IAccountManager {
   abstract referrersByUserId(userId: string): Promise<User[]>;
 
   abstract getUserById(userId: string): Promise<User>;
+
+  abstract uploadResume(myUserId: string, fileId: string): Promise<boolean>;
 }

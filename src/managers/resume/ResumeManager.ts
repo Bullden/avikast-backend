@@ -37,6 +37,7 @@ export default class ResumeManager extends IResumeManager {
       file.id,
       undefined,
     );
+
     await this.userStore.updateUserResumeUrl(userId, file.id);
     await this.resumeStore.createResume(userId, resume, pdfName);
   }
